@@ -65,3 +65,4 @@ SRC +=  ui/ui.c \
 		ui/fonts/ui_font_Futura24.c \
 
 
+QUANTUM_PAINTER_LVGL_USE_CUSTOM_CONF = yes

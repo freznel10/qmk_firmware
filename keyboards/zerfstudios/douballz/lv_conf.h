@@ -15,6 +15,7 @@
 
 #include_next <lv_conf.h>
 
+
 #if QUANTUM_PAINTER_LVGL_USE_CUSTOM_CONF
 
 #ifndef LV_CONF_H

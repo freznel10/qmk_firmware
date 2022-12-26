@@ -18,6 +18,9 @@
 #include "freznel.h"
 #include "pointing_device.h"
 
+#include "autocorrect_data.h"
+
+
 #include <math.h>
 #include <stdio.h>
 #include "ctype.h"
