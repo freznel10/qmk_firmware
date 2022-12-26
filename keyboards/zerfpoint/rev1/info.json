@@ -1,0 +1,24 @@
+{
+    "processor": "STM32F411",
+    "board": "BLACKPILL_STM32_F411",
+    "bootloader": "stm32-dfu",
+    "diode_direction": "COL2ROW",
+    "matrix_pins": {
+        "cols": ["B7", "B9", "B8", "B4", "B3", "A15"],
+        "rows": ["B5", "C13"]
+    },
+    "usb": {
+        "vid": "0x9678",
+        "pid": "0x0978",
+        "device_version": "0.0.1"
+    },
+    "features": {
+        "bootmagic": true,
+        "command": true,
+        "console": true,
+        "extrakey": true,
+        "mousekey": true,
+        "nkro": true,
+    },
+}
+
