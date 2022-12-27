@@ -24,7 +24,7 @@ DEFERRED_EXEC_ENABLE  = yes
 QUANTUM_PAINTER_ENABLE = yes
 QUANTUM_PAINTER_DRIVERS = gc9a01_spi
 
-SRC += select_word.c
+# SRC += select_word.c
 
 AUDIO_DRIVER  = pwm_hardware
 BACKLIGHT_DRIVER = pwm

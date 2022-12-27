@@ -17,7 +17,7 @@
 
 #include "freznel.h"
 #include "pointing_device.h"
-#include "select_word.h"
+// #include "select_word.h"
 #include "print.h"
 #include <math.h>
 #include <stdio.h>
@@ -67,7 +67,6 @@ enum custom_keycodes {
   ST_MACRO_4,
   ST_MACRO_5,
   ST_MACRO_6,
-  SELWORD,
 };
 
 
@@ -449,7 +448,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     uprintf("KL: kc: %u, col: %u, row: %u, pressed: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed);
 #endif
     process_record_painter(keycode, record);
-    if(!process_select_word(keycode, record, SELWORD)) { return false; }
+    // if(!process_select_word(keycode, record, SELWORD)) { return false; }
   switch (keycode) {
     case ST_MACRO_0:
     if (record->event.pressed) {

@@ -249,6 +249,9 @@ void ui_active_layer_change(lv_event_t * e) {
                 case _MEDIA:
                     lv_img_set_src(ui_Image1, &ui_img_emblem_80_png);
                     break;
+                default:
+                    lv_img_set_src(ui_Image1, &ui_img_numpad_80_png);
+                    break;
 
             }
     }
@@ -418,7 +421,7 @@ void ui_Screen1_screen_init(void) {
 
     ui_Image1 = lv_img_create(ui_Main1);
     lv_obj_add_event_cb(ui_Image1, ui_active_layer_change, USER_EVENT_ACTIVE_LAYER_CHANGE, NULL);
-    // lv_img_set_src(ui_Image1, &ui_img_emblem_80_png);
+    lv_img_set_src(ui_Image1, &ui_img_emblem_80_png);
     lv_obj_set_width(ui_Image1, LV_SIZE_CONTENT);   /// 81
     lv_obj_set_height(ui_Image1, LV_SIZE_CONTENT);    /// 55
     lv_obj_set_x(ui_Image1, 0);

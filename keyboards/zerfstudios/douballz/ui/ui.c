@@ -362,7 +362,7 @@ void ui_render_rgbmode(lv_event_t * e) {
 void ui_active_layer_change(lv_event_t * e) {
     lv_event_code_t event_code = lv_event_get_code(e);
     if(event_code == USER_EVENT_ACTIVE_LAYER_CHANGE) {
-        switch (get_highest_layer(layer_state)) {
+        switch (get_highest_layer(layer_state | default_layer_state )) {
             case _COLEMAK_DH:
                 lv_img_set_src(ui_Layer_Indicator, &ui_img_emblem_80_png);
                 break;
