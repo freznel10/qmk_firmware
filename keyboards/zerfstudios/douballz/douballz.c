@@ -94,7 +94,6 @@ typedef union {
         uint8_t pointer_sniping_dpi : 2;  // 4 steps available.
         bool    is_dragscroll_enabled : 1;
         bool    is_sniping_enabled : 1;
-        bool    is_auto_mouse_enabled : 1;
     } __attribute__((packed));
 } charybdis_config_t;
 
@@ -112,7 +111,6 @@ static void read_charybdis_config_from_eeprom(charybdis_config_t* config) {
     config->raw                   = eeconfig_read_kb() & 0xff;
     config->is_dragscroll_enabled = false;
     config->is_sniping_enabled    = false;
-    config->is_auto_mouse_enabled  = false;
 }
 
 /**
@@ -198,13 +196,6 @@ void charybdis_set_pointer_dragscroll_enabled(bool enable) {
     maybe_update_pointing_device_cpi(&g_charybdis_config);
 }
 
-bool charybdis_get_auto_mouse_enabled(void) { return g_charybdis_config.is_auto_mouse_enabled; }
-
-void charybdis_set_auto_mouse_enabled(bool enable) {
-    g_charybdis_config.is_auto_mouse_enabled = enable;
-    maybe_update_pointing_device_cpi(&g_charybdis_config);
-}
-
 void pointing_device_init_kb(void) { maybe_update_pointing_device_cpi(&g_charybdis_config); }
 
 #    ifndef CONSTRAIN_HID
@@ -248,40 +239,6 @@ void pointing_device_init_kb(void) { maybe_update_pointing_device_cpi(&g_charybd
 #    endif
 
 
-// static void pointing_device_task_charybdis(report_mouse_t* left_report, report_mouse_t* right_report) {
-//     static int16_t scroll_buffer_x        = 0;
-//     static int16_t scroll_buffer_y        = 0;
-//     if (g_charybdis_config.is_dragscroll_enabled) {
-// #    ifdef CHARYBDIS_DRAGSCROLL_REVERSE_X
-//         scroll_buffer_x -= left_report->x;
-// #    else
-//         scroll_buffer_x += left_report->x;
-// #    endif  // CHARYBDIS_DRAGSCROLL_REVERSE_X
-// #    ifdef CHARYBDIS_DRAGSCROLL_REVERSE_Y
-//         scroll_buffer_y -= left_report->y;
-// #    else
-//         scroll_buffer_y += left_report->y;
-// #    endif  // CHARYBDIS_DRAGSCROLL_REVERSE_Y
-//         left_report->x = 0;
-//         left_report->y = 0;
-//         if (abs(scroll_buffer_x) > CHARYBDIS_DRAGSCROLL_BUFFER_SIZE) {
-//             left_report->h = scroll_buffer_x > 0 ? 1 : -1;
-//             scroll_buffer_x = 0;
-//         }
-//         if (abs(scroll_buffer_y) > CHARYBDIS_DRAGSCROLL_BUFFER_SIZE) {
-//             left_report->v = scroll_buffer_y > 0 ? 1 : -1;
-//             scroll_buffer_y = 0;
-//         }
-//     } else if (!g_charybdis_config.is_sniping_enabled) {
-//         left_report->x = DISPLACEMENT_WITH_ACCELERATION(left_report->x);
-//         left_report->y = DISPLACEMENT_WITH_ACCELERATION(left_report->y);
-//     }
-// }
-
-// report_mouse_t pointing_device_task_combined_kb (report_mouse_t left_report, report_mouse_t right_report) {
-//     pointing_device_task_charybdis(&left_report, &right_report);
-//     return pointing_device_task_combined_user(left_report, right_report);
-// }
 
 #    if defined(POINTING_DEVICE_ENABLE) && !defined(NO_CHARYBDIS_KEYCODES)
 /** \brief Whether SHIFT mod is enabled. */
@@ -428,11 +385,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
         case SNIPING_MODE_TOGGLE:
             if (record->event.pressed) {
                 charybdis_set_pointer_sniping_enabled(!charybdis_get_pointer_sniping_enabled());
-            }
-            break;
-        case AUTO_MOUSE_LAYER_TOGGLE:
-            if (record->event.pressed) {
-                charybdis_set_auto_mouse_enabled(!charybdis_get_auto_mouse_enabled());
             }
             break;
         case DRAGSCROLL_MODE:

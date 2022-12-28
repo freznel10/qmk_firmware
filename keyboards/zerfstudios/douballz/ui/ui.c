@@ -10,6 +10,8 @@
 #include <ctype.h>
 #include "../douballz/douballz.h"
 #include "quantum.h"
+#include "./quantum/pointing_device/pointing_device_modes.h"
+#include "os_detection.h"
 
 
 // #include "menu.h"
@@ -19,19 +21,23 @@
 // #include "widgets/bpm.h"
 // #include "settings/screensaver/screensaver.h"
 
+extern user_runtime_config_t user_state;
 
 // ///////////////////// VARIABLES ////////////////////
-// extern uint8_t scroll_mode;
+// extern uint8_t scroll_mode;i
 lv_obj_t * ui_Screen1;
 lv_obj_t * ui_Screen1_Image1;
 lv_obj_t * ui_Screen1_Label_CPI;
 lv_obj_t * ui_Screen1_Label_RGB;
 lv_obj_t * ui_Screen1_Label_WPM;
+lv_obj_t * ui_Screen1_Label_OS;
 lv_obj_t * ui_Screen2;
 lv_obj_t * ui_Screen2_Image2;
 lv_obj_t * ui_Screen2_deflayer;
 lv_obj_t * ui_Screen2_deflayer_list;
 lv_obj_t * ui_Layer_Indicator;
+lv_obj_t * ui_Screen2_Label_PM_mode;
+
 
 // lv_obj_t * ui_Main1;
 // lv_obj_t * ui_Image1;
@@ -59,6 +65,9 @@ lv_obj_t * ui_Layer_Indicator;
 lv_obj_t * mbox1;
 lv_obj_t * mbox1_title;
 lv_obj_t * mbox1_text;
+lv_obj_t * mbox2;
+lv_obj_t * mbox2_title;
+lv_obj_t * mbox2_text;
 // lv_obj_t * mbox2;
 // lv_obj_t * mbox2_title;
 // lv_obj_t * mbox2_text;
@@ -126,6 +135,7 @@ uint32_t USER_EVENT_ACTIVE_LAYER_CHANGE = 3;
 uint32_t USER_EVENT_PANEL_CHANGE = 4;
 uint32_t USER_EVENT_RGBMODE_UPDATE = 5;
 uint32_t USER_EVENT_CAPS_WORD_UPDATE = 6;
+uint32_t USER_EVENT_PM_STATE_CHANGE = 7;
 
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
@@ -189,6 +199,25 @@ void lv_msgbox_1(void) {
     lv_obj_center(mbox1_text);
 }
 
+void lv_msgbox_pm_mode(void) {
+    mbox2 = lv_msgbox_create(ui_Screen2, "DRAGSCROLL", "ACTIVE", NULL, false);
+    mbox2_title = lv_msgbox_get_title(mbox2);
+    mbox2_text = lv_msgbox_get_text(mbox2);
+    lv_obj_set_style_text_font(mbox2_title, &ui_font_Futura18, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(mbox2_text, &ui_font_Futura18, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_x(mbox2_title, 0);
+    lv_obj_set_style_text_align(mbox2_title, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_set_x(mbox2_text, 0);
+    lv_obj_set_style_text_align(mbox2_text, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_set_style_text_color(mbox2_text, lv_palette_main(LV_PALETTE_RED), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_center(mbox2);
+    lv_obj_center(mbox2_title);
+    lv_obj_center(mbox2_text);
+
+}
+
+
+
 #if defined(AUTOCORRECT_ENABLE) && defined(AUDIO_ENABLE)
 #    ifdef USER_SONG_LIST
 
@@ -212,6 +241,18 @@ void caps_word_set_user(bool active) {
         lv_msgbox_close(mbox1);
     }
 }
+
+
+void dragscroll_tracker (void) {
+    if (get_pointing_mode_id() == 1) {
+        PLAY_SONG(autocorrect_song);
+        lv_msgbox_pm_mode();
+    } else {
+        PLAY_SONG(violin_song);// Do something when Caps Word deactivates.
+        lv_msgbox_close(mbox2);
+    }
+}
+
 #endif
 
 
@@ -266,6 +307,111 @@ void ui_render_wpm(lv_event_t * e) {
         set_wpm_text_value(ui_Screen1_Label_WPM);
     }
 }
+
+
+//user_state.split_pointing_mode)
+/*OS RENDER*/
+void set_OS_text_value(lv_obj_t* lbl) {
+    if (lv_obj_is_valid(lbl)) {
+        char buf[12];
+        const char *detected_os = "-----";
+        switch (detected_host_os()) {
+             case 0:
+                detected_os = "UNSURE";
+                break;
+            case 1:
+                detected_os = "LINUX";
+                break;
+            case 2:
+                detected_os = "WINDOWS";
+                break;
+            case 3:
+                detected_os = "MACOS";
+                break;
+            case 4:
+                detected_os = "IOS";
+                break;
+        }
+        snprintf(buf, sizeof(buf), "OS: %s", detected_os);
+        lv_label_set_text(lbl, buf);
+    }
+}
+
+//user_state.split_pointing_mode)
+/*PM RENDER*/
+void set_pm_text_value(lv_obj_t* lbl) {
+    if (lv_obj_is_valid(lbl)) {
+        char buf[32];
+        const char *pm_name = "-----";
+        switch (user_state.split_pointing_mode) {
+            case 1:
+                pm_name = "DRAGSCROLL";
+                break;
+            case 2:
+                pm_name = "PRECISION";
+                break;
+            case 3:
+                pm_name = "CARET";
+                break;
+            case 4:
+                pm_name = "HISTORY";
+                break;
+            case 5:
+                pm_name = "VOLUME";
+                break;
+            case 6:
+                pm_name = "BROWSER";
+                break;
+            case 7:
+                pm_name = "RGB_VAL";
+                break;
+            case 8:
+                pm_name = "RGB_SAT";
+                break;
+            case 9:
+                pm_name = "RGB_SPEED";
+                break;
+            case 10:
+                pm_name = "WINDOW";
+                break;
+            case 11:
+                pm_name = "WINDOW"; //STILL DECIDING
+                break;
+            case 12:
+                pm_name = "WIP"; //STILL DECIDING
+                break;
+            case 13:
+                pm_name = "WIP"; //STILL DECIDING
+                break;
+            case 14:
+                pm_name = "WIP"; //STILL DECIDING
+                break;
+            case 15:
+                pm_name = "WIP"; //STILL DECIDING
+                break;
+            case 16:
+                pm_name = "ACCELL";
+                break;
+            case 17:
+                pm_name = "SWITCHER";
+                break;
+            default:
+                pm_name = " ";
+                break;
+
+        }
+        snprintf(buf, sizeof(buf), "%s", pm_name);
+        lv_label_set_text(lbl, buf);
+    }
+}
+
+void ui_pm_state_change(lv_event_t * e) {
+    lv_event_code_t event_code = lv_event_get_code(e);
+    if(event_code == USER_EVENT_PM_STATE_CHANGE) {
+        set_pm_text_value(ui_Screen2_Label_PM_mode);
+    }
+}
+
 
 /*DF LAYER RENDER*/
 void ui_event_dflayer_dropdown(lv_event_t * e) {
@@ -1092,6 +1238,14 @@ void ui_Screen1_screen_init(void)
     #endif
     lv_label_set_text(ui_Screen1_Label_WPM, "WPM");
 
+    ui_Screen1_Label_OS = lv_label_create(ui_Screen1);
+    lv_obj_set_width(ui_Screen1_Label_OS, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Screen1_Label_OS, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Screen1_Label_OS, 9);
+    lv_obj_set_y(ui_Screen1_Label_OS, 174);
+    set_OS_text_value(ui_Screen1_Label_OS);
+    lv_obj_set_style_text_font(ui_Screen1_Label_OS, &ui_font_Futura24, LV_PART_MAIN | LV_STATE_DEFAULT);
+
 
     lv_obj_add_event_cb(ui_Screen1_Label_CPI, ui_render_cpi, USER_EVENT_CPI_UPDATE, NULL);
     lv_obj_add_event_cb(ui_Screen1_Label_RGB, ui_render_rgbmode, USER_EVENT_RGBMODE_UPDATE, NULL);
@@ -1150,7 +1304,7 @@ void ui_Screen2_screen_init(void)
         lv_obj_set_width(ui_Screen2_deflayer, 73);
         lv_obj_set_height(ui_Screen2_deflayer, 33);
         lv_obj_set_x(ui_Screen2_deflayer, 1);
-        lv_obj_set_y(ui_Screen2_deflayer, 20);
+        lv_obj_set_y(ui_Screen2_deflayer, 25);
         lv_obj_set_align(ui_Screen2_deflayer, LV_ALIGN_CENTER);
         lv_obj_add_flag(ui_Screen2_deflayer, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
         lv_obj_set_style_text_align(ui_Screen2_deflayer, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -1173,8 +1327,17 @@ void ui_Screen2_screen_init(void)
         lv_obj_set_style_text_font(ui_Screen2_deflayer, &ui_font_Futura24, LV_PART_INDICATOR | LV_STATE_DEFAULT);
     #endif
 
-    lv_obj_add_event_cb(ui_Screen2_deflayer, ui_event_dflayer_dropdown, LV_EVENT_ALL, NULL);
+    ui_Screen2_Label_PM_mode = lv_label_create(ui_Screen2);
+    lv_obj_set_width(ui_Screen2_Label_PM_mode, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Screen2_Label_PM_mode, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Screen2_Label_PM_mode, 0);
+    lv_obj_set_y(ui_Screen2_Label_PM_mode, -125);
+    lv_obj_set_align(ui_Screen2_Label_PM_mode, LV_ALIGN_CENTER);
+    lv_obj_set_style_text_font(ui_Screen2_Label_PM_mode, &ui_font_Futura24, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_label_set_text(ui_Screen2_Label_PM_mode, " ");
 
+    lv_obj_add_event_cb(ui_Screen2_deflayer, ui_event_dflayer_dropdown, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_Screen2_Label_PM_mode, ui_pm_state_change, USER_EVENT_PM_STATE_CHANGE, NULL);
 
 //     lv_obj_add_event_cb(ui_dflayer_dropdown, ui_event_dflayer_dropdown, LV_EVENT_ALL, NULL);
 //     lv_obj_add_event_cb(ui_StatusPanel, ui_event_StatusPanel, USER_EVENT_PANEL_CHANGE, NULL);
@@ -1233,14 +1396,15 @@ void lvgl_event_triggers(void) {
     if (layer_state_redraw) {
         lv_event_send(ui_Layer_Indicator, USER_EVENT_ACTIVE_LAYER_CHANGE, NULL);
     }
-
-
-//     bool            scroll_state_redraw = false;
-//     static uint8_t last_scroll_state   = 0;
-//     if (last_scroll_state != get_scroll_mode()) {
-//         last_scroll_state  = get_scroll_mode();
-//         scroll_state_redraw = true;
-//     }
+    bool            pm_state_redraw = false;
+    static uint8_t last_pm_state   = 0;
+    if (last_pm_state != user_state.split_pointing_mode) {
+        last_pm_state  = user_state.split_pointing_mode;
+        pm_state_redraw = true;
+    }
+    if (pm_state_redraw ) {
+        lv_event_send(ui_Screen2_Label_PM_mode, USER_EVENT_PM_STATE_CHANGE, NULL);
+    }
 //     bool            sniping_state_redraw = false;
 //     static uint8_t last_sniping_state   = 0;
 //     if (last_sniping_state != emblem_get_pointer_sniping_enabled()) {

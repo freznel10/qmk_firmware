@@ -16,25 +16,21 @@
  */
 
 #include "freznel.h"
-#include "pointing_device.h"
-
 #include "autocorrect_data.h"
-
-
 #include <math.h>
 #include <stdio.h>
 #include "ctype.h"
 #include "color.h"
 #include <qp.h>
+#include "os_detection.h"
 #    include "pointing_device_modes.h"
+#include "pointing_device.h"
 #ifdef HAPTIC_ENABLE
-//#include "keyboards/zerf9/mx_track/haptic_utils.h"
 #include "drivers/haptic/DRV2605L.h"
 #endif
 
 #define DRAGSCROLL_PADDING 6
 #define DQT QK_DEBUG_TOGGLE
-
 
 #define DYN_000 DYN_MACRO_KEY00
 #define DYN_001 DYN_MACRO_KEY01
@@ -43,7 +39,13 @@ enum keymap_pointing_device_modes {
     PM_BROW = PM_SAFE_RANGE, // BROWSER TAB Manipulation            [mode id 6]
     PM_RGB_MODE_VAL,         // RGB Control for mode and Brightness [mode id 7]
     PM_RGB_HUE_SAT,          // RGB Control for HUE and Saturation  [mode id 8]
-    PM_RGB_SPEED             // RGB Control for Speed               [mode id 9]
+    PM_RGB_SPEED,            // RGB Control for Speed               [mode id 9]
+    PM_WINDOW,             // Window Control                        [mode id 10]
+    PM_WIP,             // RGB Control for Speed                    [mode id 11]
+    PM_WIP2,             // RGB Control for Speed                   [mode id 12]
+    PM_WIP3,           // RGB Control for Speed                     [mode id 13]
+    PM_WIP4,            // RGB Control for Speed                    [mode id 14]
+    PM_WIP5,           // RGB Control for Speed                     [mode id 15]
 };
 
 const uint16_t pointing_device_mode_maps[][4] = {
@@ -70,6 +72,38 @@ const uint16_t pointing_device_mode_maps[][4] = {
                 KC_NO,
         RGB_SPD,        RGB_SPI,
                 KC_NO
+    ),
+    // PM_WINDOW
+    [4] = POINTING_MODE_LAYOUT(
+                G(KC_UP),
+        G(KC_LEFT),      G(KC_RIGHT),
+                G(KC_DOWN)
+    ),
+    // PM_WINDOW
+    [5] = POINTING_MODE_LAYOUT(
+                G(KC_UP),
+        G(KC_LEFT),      G(KC_RIGHT),
+                G(KC_DOWN)
+    ),
+    [6] = POINTING_MODE_LAYOUT(
+                KC_NO,
+        RGB_SPD,        RGB_SPI,
+                KC_NO
+    ),
+    [7] = POINTING_MODE_LAYOUT(
+                KC_NO,
+        RGB_SPD,        RGB_SPI,
+                KC_NO
+    ),
+    [8] = POINTING_MODE_LAYOUT(
+                KC_NO,
+        RGB_SPD,        RGB_SPI,
+                KC_NO
+    ),
+    [9] = POINTING_MODE_LAYOUT(
+                KC_NO,
+        RGB_SPD,        RGB_SPI,
+                KC_NO
     )
 };
 
@@ -79,11 +113,9 @@ uint8_t get_pointing_mode_divisor_user(uint8_t mode_id, uint8_t direction) {
         case PM_BROW:
             // half speed for vertical axis
             return direction < PD_LEFT ? 128 : 64;
-
         case PM_RGB_MODE_VAL:
             // half speed for horizontal axis
             return direction < PD_LEFT ? 64 : 128;
-
         case PM_RGB_HUE_SAT:
             // example of unique divisor for each mode (not actually recommended for this mode (64 would be a good divisor here))
             switch(direction) {
@@ -96,8 +128,31 @@ uint8_t get_pointing_mode_divisor_user(uint8_t mode_id, uint8_t direction) {
                 case PD_RIGHT:
                     return 128;
             }
-
         case PM_RGB_SPEED:
+            return 64; // could skip adding this if default if POINTING_DEFAULT_DIVISOR is 64
+        case PM_WINDOW:
+            // half speed for vertical axis
+            return direction < PD_LEFT ? 128 : 64;
+        case PM_WIP:
+            // half speed for horizontal axis
+            return direction < PD_LEFT ? 64 : 128;
+        case PM_WIP2:
+            // example of unique divisor for each mode (not actually recommended for this mode (64 would be a good divisor here))
+            switch(direction) {
+                case PD_DOWN:
+                    return 32;
+                case PD_UP:
+                    return 64;
+                case PD_LEFT:
+                    return 16;
+                case PD_RIGHT:
+                    return 128;
+            }
+        case PM_WIP3:
+            return 64; // could skip adding this if default if POINTING_DEFAULT_DIVISOR is 64
+        case PM_WIP4:
+            return 64; // could skip adding this if default if POINTING_DEFAULT_DIVISOR is 64
+        case PM_WIP5:
             return 64; // could skip adding this if default if POINTING_DEFAULT_DIVISOR is 64
     }
 
@@ -112,7 +167,7 @@ enum custom_keycodes {
   ST_MACRO_3,
   ST_MACRO_4,
   ST_MACRO_5,
-  ST_MACRO_6,
+  ST_MACRO_6
 };
 
 // clang-format off
@@ -125,7 +180,7 @@ enum custom_keycodes {
 ) \
     LAYOUT_douballz_wrapper( \
     KC_MINUS,  ________________NUMBER_LEFT________________,                                                                  ________________NUMBER_RIGHT_______________, KC_EQUAL,\
-    KB_MO_APP,         K01,         K02,          K03,           K04,        K05,                                            K06,     K07,     K08,     K09,     K0A,   BSP_KEY, \
+    PM_MO(3),         K01,         K02,          K03,           K04,        K05,                                            K06,     K07,     K08,     K09,     K0A,   BSP_KEY, \
     CTLGRVE, LGUI_T(K11), LALT_T(K12),  LCTL_T(K13),   LSFT_T(K14),         K15,                                            K16,     RSFT_T(K17),     RCTL_T(K18),     RALT_T(K19),     RGUI_T(K1A),     RALT_T(K1B), \
     LALT_T(KC_DEL), LCTL_T(K21),  K22,          K23,            K24,        K25,        PM_SWITCH,          ALT_TAB,        K26,     K27,     K28,     K29, RCTL_T(K2A), KC_BSLS, \
                                                             TAB_RSE,        SPC_LSH,    ENT_LWR,            ESC_LWR,        BSP_KEY,    DEL_RSE,\
@@ -163,7 +218,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_MOUSE] = LAYOUT_douballz(
         _______,        KC_E,       KC_WH_L,    KC_WH_R,    _______,    _______,                                                    _______,    _______,    _______,    _______,    _______,    _______,
         _______,        S(KC_M),    KC_WH_D,    KC_WH_U,    KC_ESC,     KC_POSR,                                                    _______,    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
-        _______,        KC_WH_L,    KC_BTN2,    KC_BTN1,    KC_BTN3,    KC_WH_R,                                                    KC_WH_L,    KC_BTN2,    KC_BTN1,    KC_BTN3,    KC_WH_R,    _______,
+        _______,        KC_WH_L,    KC_BTN2,    KC_BTN1,    KC_BTN3,    PM_MO(10),                                                    KC_WH_L,    KC_BTN2,    KC_BTN1,    KC_BTN3,    KC_WH_R,    _______,
         _______,        KC_INTR,    TD_PMD1,    TD_DRGS,    NX_TAB,     PM_MO(6),  _______,                              _______,    PM_BROW,    BK_TAB,     TD_DRGS,    NX_TAB,     KC_INTR,    _______,
                                                                         _______,    _______,    _______,    _______,    _______,    _______,
                                                                                     _______,    _______,    _______,    _______,

@@ -22,6 +22,7 @@ typedef union {
         uint8_t unicode_typing_mode  :3;
         bool    is_oled_enabled      :1;
         bool    is_caps_word_on      :1;
+        uint8_t split_pointing_mode  :4;
     };
 } user_runtime_config_t;
 

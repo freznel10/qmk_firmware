@@ -30,14 +30,13 @@ extern lv_obj_t * ui_Screen1;
 extern lv_obj_t * ui_Screen1_Label_CPI;
 extern lv_obj_t * ui_Screen1_Label_RGB;
 extern lv_obj_t * ui_Screen1_Label_WPM;
+extern lv_obj_t * ui_Screen1_Label_OS;
 extern lv_obj_t * ui_Screen1_Image1;
 extern lv_obj_t * ui_Layer_Indicator;
 extern lv_obj_t * ui_Screen2;
 extern lv_obj_t * ui_Screen2_Image2;
 extern lv_obj_t * ui_Screen2_deflayer;
-
-
-
+extern lv_obj_t * ui_Screen2_Label_PM_mode;
 
 // extern lv_obj_t * ui_Screen1;
 // extern lv_obj_t * ui_Main1;
@@ -59,26 +58,30 @@ extern lv_obj_t * ui_Screen2_deflayer;
 // extern lv_obj_t * ui_Status_Dragscroll;
 // extern lv_obj_t * ui_Status_Caret;
 // extern lv_obj_t * ui_Status_Volume;
-// extern lv_obj_t * ui_Status_Audio;
+// extern lv_obj_t * ui_Status_Audio;N
 // extern lv_obj_t * ui_Status_Clicky;
 // extern lv_obj_t * ui_Status_Autocorrect;
 // extern lv_obj_t * meter;
 extern lv_obj_t * mbox1;
+extern lv_obj_t * mbox2;
 // extern lv_meter_indicator_t * indic3;
 // void screen_loader(lv_event_t * e);
 // void ui_event_StatusPanel(lv_event_t * e);
 // void screen_loader_2(lv_event_t * e);
 void set_cpi_text_value(lv_obj_t* lbl);
 void set_wpm_text_value(lv_obj_t* lbl);
+void set_pm_text_value(lv_obj_t* lbl);
 void ui_df_layer_change(lv_event_t * e);
 void ui_event_dflayer_dropdown(lv_event_t * e);
 void ui_active_layer_change(lv_event_t * e);
+void ui_pm_state_change(lv_event_t * e);
 void ui_render_cpi(lv_event_t * e);
 void ui_render_wpm(lv_event_t * e);
 void ui_render_rgbmode(lv_event_t * e);
 void ui_render_caps_word(lv_event_t * e);
 void lvgl_event_triggers(void);
 void lv_anim_2 (lv_obj_t * TargetObject);
+
 // void lvgl_control_led_indicators(void);
 // void ui_event_Settings1(lv_event_t * e);
 // void ui_event_SettingsAux(lv_event_t * e);

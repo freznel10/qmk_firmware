@@ -168,16 +168,6 @@ bool charybdis_get_pointer_dragscroll_enabled(void);
  */
 void charybdis_set_pointer_dragscroll_enabled(bool enable);
 
-/** \brief Whether auto mouse layer switchting is enabled. */
-bool charybdis_get_auto_mouse_enabled(void);
-
-/**
- * \brief Enable/disable auto mouse layer switchting
- *
- * Default timeout is 650 ms.
- *
- */
-void charybdis_set_auto_mouse_enabled(bool enable);
 #endif  // POINTING_DEVICE_ENABLE
 
 /**

@@ -92,12 +92,13 @@ void user_transport_update(void) {
 #endif
         user_state.is_caps_word_on =  is_caps_word_on();
         user_state.host_driver_disabled = host_driver_disabled;
-
+        user_state.split_pointing_mode = get_pointing_mode_id();
         transport_user_state = user_state.raw;
     } else {
         keymap_config.raw    = transport_keymap_config;
         userspace_config.raw = transport_userspace_config;
         user_state.raw       = transport_user_state;
+
 #ifdef UNICODE_COMMON_ENABLE
         unicode_config.input_mode = user_state.unicode_mode;
         unicode_typing_mode       = user_state.unicode_typing_mode;
