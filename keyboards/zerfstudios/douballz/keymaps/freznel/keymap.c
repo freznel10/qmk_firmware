@@ -35,13 +35,15 @@
 #define DYN_000 DYN_MACRO_KEY00
 #define DYN_001 DYN_MACRO_KEY01
 
+// static bool SWT_ALT;
+
 enum keymap_pointing_device_modes {
     PM_BROW = PM_SAFE_RANGE, // BROWSER TAB Manipulation            [mode id 6]
     PM_RGB_MODE_VAL,         // RGB Control for mode and Brightness [mode id 7]
     PM_RGB_HUE_SAT,          // RGB Control for HUE and Saturation  [mode id 8]
     PM_RGB_SPEED,            // RGB Control for Speed               [mode id 9]
     PM_WINDOW,             // Window Control                        [mode id 10]
-    PM_WIP,             // RGB Control for Speed                    [mode id 11]
+    PM_SWITCHER,             // RGB Control for Speed                    [mode id 11]
     PM_WIP2,             // RGB Control for Speed                   [mode id 12]
     PM_WIP3,           // RGB Control for Speed                     [mode id 13]
     PM_WIP4,            // RGB Control for Speed                    [mode id 14]
@@ -79,7 +81,7 @@ const uint16_t pointing_device_mode_maps[][4] = {
         G(KC_LEFT),      G(KC_RIGHT),
                 G(KC_DOWN)
     ),
-    // PM_WINDOW
+    // PM_SWITCHER
     [5] = POINTING_MODE_LAYOUT(
                 G(KC_UP),
         G(KC_LEFT),      G(KC_RIGHT),
@@ -133,9 +135,9 @@ uint8_t get_pointing_mode_divisor_user(uint8_t mode_id, uint8_t direction) {
         case PM_WINDOW:
             // half speed for vertical axis
             return direction < PD_LEFT ? 128 : 64;
-        case PM_WIP:
+        case PM_SWITCHER:
             // half speed for horizontal axis
-            return direction < PD_LEFT ? 64 : 128;
+            return 64;
         case PM_WIP2:
             // example of unique divisor for each mode (not actually recommended for this mode (64 would be a good divisor here))
             switch(direction) {

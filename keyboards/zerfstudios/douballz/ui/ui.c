@@ -392,7 +392,7 @@ void set_pm_text_value(lv_obj_t* lbl) {
             case 16:
                 pm_name = "ACCELL";
                 break;
-            case 17:
+            case 32:
                 pm_name = "SWITCHER";
                 break;
             default:
