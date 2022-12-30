@@ -685,7 +685,7 @@ void keyboard_post_init_kb(void) {
             lv_indev_set_group(cur_drv, g);
         }
     }
-    wait_ms(100);
+    wait_ms(50);
     keyboard_post_init_user();
     ui_init();
 }
