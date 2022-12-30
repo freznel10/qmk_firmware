@@ -39,7 +39,8 @@ extern lv_obj_t * ui_Screen2_deflayer;
 extern lv_obj_t * ui_Screen2_Label_PM_mode;
 extern lv_obj_t * ui_Screen2_Panel_Layer;
 extern lv_obj_t * ui_Screen2_Label_Layer;
-
+extern lv_obj_t * ui_Screen2_Panel_Pointing_Mode;
+extern lv_obj_t * ui_Screen2_Label_Pointing_Mode;
 // extern lv_obj_t * ui_Screen1;
 // extern lv_obj_t * ui_Main1;
 // extern lv_obj_t * ui_Image1;
