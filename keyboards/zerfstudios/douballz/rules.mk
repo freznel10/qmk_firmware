@@ -50,6 +50,8 @@ ifeq ($(strip $(USE_VL91022)), yes)
    USE_VL91022_LRA := yes
 endif
 
+I2C_SCANNER_ENABLE = yes
+
 SRC +=  ui/ui.c \
 		ui/assets/ui_img_2120736529.c \
 		ui/assets/ui_img_logo_test_png.c \

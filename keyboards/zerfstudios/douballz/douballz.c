@@ -29,21 +29,6 @@
 
 #include <qp.h>
 #include <qp_lvgl.h>
-// #include <qp_comms.h>
-
-// #include "qp_st77xx_opcodes.h"
-// #ifdef QUANTUM_PAINTER_DRIVERS_ST7735_SPI
-// #include "qp_st7735_opcodes.h"
-// #endif // QUANTUM_PAINTER_DRIVERS_ST7735_SPI
-// #ifdef QUANTUM_PAINTER_DRIVERS_ST7789_SPI
-// #include "qp_st7789_opcodes.h"
-// #endif // QUANTUM_PAINTER_DRIVERS_ST7789_SPI
-
-
-
-//#include "serial.h"
-// __attribute__((weak)) void ui_init(void) {}
-// __attribute__((weak)) void ui_task(void) {}
 
 #ifdef QUANTUM_PAINTER_ENABLE
 
@@ -99,6 +84,8 @@ typedef union {
 
 static charybdis_config_t g_charybdis_config = {0};
 
+extern user_runtime_config_t user_state;
+
 /**
  * \brief Set the value of `config` from EEPROM.
  *
@@ -131,16 +118,41 @@ static uint16_t get_pointer_sniping_dpi(charybdis_config_t* config) { return (ui
 
 /** \brief Set the appropriate DPI for the input config. */
 static void maybe_update_pointing_device_cpi(charybdis_config_t* config) {
-    if (config->is_dragscroll_enabled) {
-        pointing_device_set_cpi_on_side(true, CHARYBDIS_DRAGSCROLL_DPI);
-    } else if (config->is_sniping_enabled) {
-        pointing_device_set_cpi_on_side(true,get_pointer_sniping_dpi(config));
-        pointing_device_set_cpi_on_side(false,get_pointer_sniping_dpi(config));
+    if (is_keyboard_left()) {
+        if (user_state.split_pointing_mode == 1) {
+            pointing_device_set_cpi_on_side(true, CHARYBDIS_DRAGSCROLL_DPI);
+            pointing_device_set_cpi_on_side(false, CHARYBDIS_DRAGSCROLL_DPI);
+        } else if (user_state.split_pointing_mode == 2) {
+            pointing_device_set_cpi_on_side(true,get_pointer_sniping_dpi(config));
+            pointing_device_set_cpi_on_side(false,get_pointer_sniping_dpi(config));
+            dprintf("testing");
+        } else {
+            pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
+            pointing_device_set_cpi_on_side(false, get_pointer_default_dpi(config));
+        }
     } else {
-        pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
-        pointing_device_set_cpi_on_side(false, get_pointer_default_dpi(config));
+        if (user_state.split_pointing_mode == 1) {
+            pointing_device_set_cpi_on_side(true, CHARYBDIS_DRAGSCROLL_DPI);
+            pointing_device_set_cpi(CHARYBDIS_DRAGSCROLL_DPI);
+        } else if (user_state.split_pointing_mode == 2) {
+            pointing_device_set_cpi_on_side(true,get_pointer_sniping_dpi(config));
+            pointing_device_set_cpi(get_pointer_sniping_dpi(config));
+        } else {
+            pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
+            pointing_device_set_cpi(get_pointer_default_dpi(config));
+        }
     }
 }
+
+// static void maybe_update_pointing_device_cpi(charybdis_config_t* config) {
+//     if (config->is_dragscroll_enabled) {
+//         pointing_device_set_cpi(CHARYBDIS_DRAGSCROLL_DPI);
+//     } else if (config->is_sniping_enabled) {
+//         pointing_device_set_cpi(get_pointer_sniping_dpi(config));;
+//     } else {
+//         pointing_device_set_cpi(get_pointer_default_dpi(config));
+//     }
+// }
 
 /**
  * \brief Update the pointer's default DPI to the next or previous step.
@@ -238,8 +250,6 @@ void pointing_device_init_kb(void) { maybe_update_pointing_device_cpi(&g_charybd
 #        define TAP_CHECK TAPPING_TERM
 #    endif
 
-
-
 #    if defined(POINTING_DEVICE_ENABLE) && !defined(NO_CHARYBDIS_KEYCODES)
 /** \brief Whether SHIFT mod is enabled. */
 static bool has_shift_mod(void) {
@@ -291,7 +301,7 @@ enum my_kb_pointing_modes {
     KB_PM_SAFE_RANGE
 };
 
-// in <keyboard>.c
+
 // define keybaord level divisors
 uint8_t get_pointing_mode_divisor_kb(uint8_t mode_id, uint8_t direction) {
     switch(mode_id) {
@@ -518,14 +528,12 @@ void rgb_matrix_increase_flags(void)
 #ifdef QUANTUM_PAINTER_ENABLE
 void kb_state_update(void) {
     if (is_keyboard_master()) {
-        // Modify allowed current limits
+
         // Turn off the LCD if there's been no matrix activity
         kb_state.lcd_power = (last_input_activity_elapsed() < 30000) ? 1 : 0;
     }
 }
-#endif
 
-#ifdef QUANTUM_PAINTER_ENABLE
 void kb_state_sync_slave(uint8_t initiator2target_buffer_size, const void* initiator2target_buffer, uint8_t target2initiator_buffer_size, void* target2initiator_buffer) {
     if (initiator2target_buffer_size == sizeof(kb_runtime_config)) {
         memcpy(&kb_state, initiator2target_buffer, sizeof(kb_runtime_config));
@@ -615,8 +623,8 @@ void keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data){
 }
 
 
-
 void keyboard_post_init_kb(void) {
+    maybe_update_pointing_device_cpi(&g_charybdis_config);
     transaction_register_rpc(RPC_ID_KB_CONFIG_SYNC, charybdis_config_sync_handler);
     #ifdef QUANTUM_PAINTER_ENABLE
     transaction_register_rpc(RPC_ID_SYNC_STATE_KB, kb_state_sync_slave);
@@ -679,7 +687,6 @@ void keyboard_post_init_kb(void) {
     }
     wait_ms(50);
     keyboard_post_init_user();
-
     ui_init();
 }
 
@@ -729,12 +736,6 @@ void housekeeping_task_kb(void) {
     static bool lcd_on = false;
     if (lcd_on != (bool)kb_state.lcd_power) {
         lcd_on = (bool)kb_state.lcd_power;
-        // if (is_keyboard_left()) {
-        //     qp_power(qp_display, lcd_on);
-        // }
-        // if (!is_keyboard_left()) {
-        //     qp_power(qp_display_right, lcd_on);
-        // }
         qp_power(qp_display, lcd_on);
     }
     if (kb_state.lcd_power) {

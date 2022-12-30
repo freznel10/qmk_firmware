@@ -5,6 +5,7 @@
 #include "transport_sync.h"
 #include "transactions.h"
 #include <string.h>
+#include "os_detection.h"
 
 #ifdef UNICODE_COMMON_ENABLE
 #    include "process_unicode_common.h"
@@ -28,6 +29,7 @@ extern bool swap_hands;
 
 extern userspace_config_t userspace_config;
 extern bool               host_driver_disabled;
+
 
 uint16_t transport_keymap_config    = 0;
 uint32_t transport_userspace_config = 0, transport_user_state = 0;

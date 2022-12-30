@@ -14,8 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "freznel.h"
 #include "bindings.h"
 #include "../../douballz.h"
+
+extern user_runtime_config_t user_state;
 
 uint8_t qmk_lv_get_bpm(void) {
     uint8_t wpm = 0;
@@ -98,9 +101,6 @@ uint8_t qmk_lv_active_layer(void) {
 
 uint16_t qmk_lv_get_cpi(void) {
     uint16_t cpi = 0;
-    cpi = charybdis_get_pointer_sniping_enabled() ? charybdis_get_pointer_sniping_dpi() : charybdis_get_pointer_default_dpi();
+    cpi = user_state.split_pointing_mode == 2 ? charybdis_get_pointer_sniping_dpi() : charybdis_get_pointer_default_dpi();
     return cpi;
 }
-
-
-

@@ -37,6 +37,8 @@ extern lv_obj_t * ui_Screen2;
 extern lv_obj_t * ui_Screen2_Image2;
 extern lv_obj_t * ui_Screen2_deflayer;
 extern lv_obj_t * ui_Screen2_Label_PM_mode;
+extern lv_obj_t * ui_Screen2_Panel_Layer;
+extern lv_obj_t * ui_Screen2_Label_Layer;
 
 // extern lv_obj_t * ui_Screen1;
 // extern lv_obj_t * ui_Main1;
@@ -78,9 +80,12 @@ void ui_pm_state_change(lv_event_t * e);
 void ui_render_cpi(lv_event_t * e);
 void ui_render_wpm(lv_event_t * e);
 void ui_render_rgbmode(lv_event_t * e);
+void ui_render_rgbhue_redraw(lv_event_t * e);
 void ui_render_caps_word(lv_event_t * e);
 void lvgl_event_triggers(void);
 void lv_anim_2 (lv_obj_t * TargetObject);
+
+lv_color_t * cwf;
 
 // void lvgl_control_led_indicators(void);
 // void ui_event_Settings1(lv_event_t * e);

@@ -134,7 +134,7 @@ uint8_t get_pointing_mode_divisor_user(uint8_t mode_id, uint8_t direction) {
             return 64; // could skip adding this if default if POINTING_DEFAULT_DIVISOR is 64
         case PM_WINDOW:
             // half speed for vertical axis
-            return direction < PD_LEFT ? 128 : 64;
+            return 128;
         case PM_SWITCHER:
             // half speed for horizontal axis
             return 64;
