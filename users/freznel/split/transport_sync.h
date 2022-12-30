@@ -23,6 +23,7 @@ typedef union {
         bool    is_oled_enabled      :1;
         bool    is_caps_word_on      :1;
         uint8_t split_pointing_mode  :4;
+        uint8_t detected_os          :3;
     };
 } user_runtime_config_t;
 

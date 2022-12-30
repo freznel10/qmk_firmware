@@ -329,7 +329,7 @@ void set_OS_text_value(lv_obj_t* lbl) {
     if (lv_obj_is_valid(lbl)) {
         char buf[12];
         const char *detected_os = "-----";
-        switch (detected_host_os()) {
+        switch (is_keyboard_left() ? detected_host_os() : user_state.detected_os) {
              case 0:
                 detected_os = "UNSURE";
                 break;

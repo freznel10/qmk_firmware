@@ -95,6 +95,7 @@ void user_transport_update(void) {
         user_state.is_caps_word_on =  is_caps_word_on();
         user_state.host_driver_disabled = host_driver_disabled;
         user_state.split_pointing_mode = get_pointing_mode_id();
+        user_state.detected_os = detected_host_os();
         transport_user_state = user_state.raw;
     } else {
         keymap_config.raw    = transport_keymap_config;
