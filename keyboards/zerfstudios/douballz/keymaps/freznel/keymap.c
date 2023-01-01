@@ -22,7 +22,10 @@
 #include "ctype.h"
 #include "color.h"
 #include <qp.h>
+#ifdef OS_DETECTION_ENABLE
 #include "os_detection.h"
+#endif
+
 #    include "pointing_device_modes.h"
 #include "pointing_device.h"
 #ifdef HAPTIC_ENABLE
@@ -302,6 +305,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 #ifdef CONSOLE_ENABLE
     uprintf("KL: kc: %u, col: %u, row: %u, pressed: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed);
 #endif
+    process_record_painter(keycode, record);
   switch (keycode) {
     case ST_MACRO_0:
     if (record->event.pressed) {

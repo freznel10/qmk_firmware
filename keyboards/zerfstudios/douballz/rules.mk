@@ -12,12 +12,13 @@ RGBLIGHT_ENABLE = no      # Enable keyboard RGB underglow
 # ENCODER_ENABLE = yes        # Enable rotary encoder support
 AUDIO_ENABLE = no          # Audio output
 KEYBOARD_SHARED_EP = yes   # Free up some extra endpoints - needed if console+mouse+extra
-OS_DETECTION_ENABLE = yes
+OS_DETECTION_ENABLE = no
 
 POINTING_DEVICE_ENABLE = yes
 POINTING_DEVICE_DRIVER = pmw3360
 MOUSE_SHARED_EP    = yes
 AUDIO_DRIVER  = pwm_hardware
+
 
 SWAP_HANDS_ENABLE = no
 EEPROM_DRIVER = i2c
@@ -50,7 +51,7 @@ ifeq ($(strip $(USE_VL91022)), yes)
    USE_VL91022_LRA := yes
 endif
 
-I2C_SCANNER_ENABLE = yes
+I2C_SCANNER_ENABLE = no
 
 SRC +=  ui/ui.c \
 		ui/assets/ui_img_2120736529.c \
@@ -65,7 +66,11 @@ SRC +=  ui/ui.c \
 		ui/bindings/bindings.c \
 		ui/fonts/ui_font_Futura12.c \
 		ui/fonts/ui_font_Futura18.c \
+		ui/fonts/ui_font_Futura20.c \
+		ui/fonts/ui_font_Futura22.c \
 		ui/fonts/ui_font_Futura24.c \
 
 
 QUANTUM_PAINTER_LVGL_USE_CUSTOM_CONF = yes
+CIE1931_CURVE = yes
+CUSTOM_KEYLOGGER = no

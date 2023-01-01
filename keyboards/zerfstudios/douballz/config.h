@@ -76,6 +76,7 @@
 
 #define EEPROM_I2C_MB85RC256V
 
+
 #ifdef HAPTIC_ENABLE
 #if defined(USE_VL91022_LRA)
 	#define FB_ERM_LRA 1
@@ -107,7 +108,9 @@
     #define DRV_MODE_DEFAULT   sharp_tick1
 	// #define NO_HAPTIC_NUMERIC
 	// #define NO_HAPTIC_NAV
+#define SPLIT_HAPTIC_ENABLE
 #endif
+
 
 /* Pointing device configuration. */
 

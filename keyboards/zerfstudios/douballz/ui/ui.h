@@ -5,6 +5,7 @@
 
 #ifndef _SQUARELINE_PROJECT_UI_H
 #define _SQUARELINE_PROJECT_UI_H
+#include "freznel.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -30,17 +31,24 @@ extern lv_obj_t * ui_Screen1;
 extern lv_obj_t * ui_Screen1_Label_CPI;
 extern lv_obj_t * ui_Screen1_Label_RGB;
 extern lv_obj_t * ui_Screen1_Label_WPM;
+#ifdef OS_DETECTION_ENABLE
 extern lv_obj_t * ui_Screen1_Label_OS;
+#endif
+extern lv_obj_t * ui_Screen1_Label_KL;
 extern lv_obj_t * ui_Screen1_Image1;
 extern lv_obj_t * ui_Layer_Indicator;
 extern lv_obj_t * ui_Screen2;
 extern lv_obj_t * ui_Screen2_Image2;
 extern lv_obj_t * ui_Screen2_deflayer;
 extern lv_obj_t * ui_Screen2_Label_PM_mode;
+extern lv_obj_t * ui_Screen2_Label_PM_side;
 extern lv_obj_t * ui_Screen2_Panel_Layer;
 extern lv_obj_t * ui_Screen2_Label_Layer;
 extern lv_obj_t * ui_Screen2_Panel_Pointing_Mode;
 extern lv_obj_t * ui_Screen2_Label_Pointing_Mode;
+extern lv_obj_t * ui_Screen2_led1;
+extern lv_obj_t * ui_Screen2_led2;
+
 // extern lv_obj_t * ui_Screen1;
 // extern lv_obj_t * ui_Main1;
 // extern lv_obj_t * ui_Image1;
@@ -86,7 +94,6 @@ void ui_render_caps_word(lv_event_t * e);
 void lvgl_event_triggers(void);
 void lv_anim_2 (lv_obj_t * TargetObject);
 
-lv_color_t * cwf;
 
 // void lvgl_control_led_indicators(void);
 // void ui_event_Settings1(lv_event_t * e);
@@ -109,6 +116,8 @@ lv_color_t * cwf;
 
 LV_FONT_DECLARE(ui_font_Futura12);
 LV_FONT_DECLARE(ui_font_Futura18);
+LV_FONT_DECLARE(ui_font_Futura20);
+LV_FONT_DECLARE(ui_font_Futura22);
 LV_FONT_DECLARE(ui_font_Futura24);
 
 LV_IMG_DECLARE(ui_img_2120736529);
@@ -120,6 +129,7 @@ LV_IMG_DECLARE(ui_img_toolbox_80_png);
 LV_IMG_DECLARE(ui_img_lower_80_png);
 LV_IMG_DECLARE(ui_img_raise_80_png);
 LV_IMG_DECLARE(ui_img_numpad_80_png);
+
 
 // //////////////////////////////////////////////////////////////
 // // User Defines
@@ -135,6 +145,8 @@ LV_IMG_DECLARE(ui_img_numpad_80_png);
 
 
 void ui_init(void);
+
+
 
 #ifdef __cplusplus
 } /*extern "C"*/

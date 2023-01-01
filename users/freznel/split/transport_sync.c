@@ -52,10 +52,10 @@ void user_config_sync(uint8_t initiator2target_buffer_size, const void* initiato
     }
 }
 
-#ifdef CUSTOM_OLED_DRIVER
+#ifdef CUSTOM_KEYLOGGER
 #    include "oled/oled_stuff.h"
 void keylogger_string_sync(uint8_t initiator2target_buffer_size, const void* initiator2target_buffer, uint8_t target2initiator_buffer_size, void* target2initiator_buffer) {
-    if (initiator2target_buffer_size == OLED_KEYLOGGER_LENGTH) {
+    if (initiator2target_buffer_size == KEYLOGGER_LENGTH) {
         memcpy(&keylog_str, initiator2target_buffer, initiator2target_buffer_size);
     }
 }
@@ -66,7 +66,7 @@ void keyboard_post_init_transport_sync(void) {
     transaction_register_rpc(RPC_ID_USER_STATE_SYNC, user_state_sync);
     transaction_register_rpc(RPC_ID_USER_KEYMAP_SYNC, user_keymap_sync);
     transaction_register_rpc(RPC_ID_USER_CONFIG_SYNC, user_config_sync);
-#ifdef CUSTOM_OLED_DRIVER
+#ifdef CUSTOM_KEYLOGGER
     transaction_register_rpc(RPC_ID_USER_KEYLOG_STR, keylogger_string_sync);
 #endif
 }
@@ -95,7 +95,10 @@ void user_transport_update(void) {
         user_state.is_caps_word_on =  is_caps_word_on();
         user_state.host_driver_disabled = host_driver_disabled;
         user_state.split_pointing_mode = get_pointing_mode_id();
+        user_state.pointing_side = is_pointing_mode_on_left();
+#ifdef OS_DETECTION_ENABLE
         user_state.detected_os = detected_host_os();
+#endif
         transport_user_state = user_state.raw;
     } else {
         keymap_config.raw    = transport_keymap_config;
@@ -127,8 +130,8 @@ void user_transport_sync(void) {
         static uint16_t last_keymap = 0;
         static uint32_t last_config = 0, last_sync[4], last_user_state = 0;
         bool            needs_sync = false;
-#ifdef CUSTOM_OLED_DRIVER
-        static char keylog_temp[OLED_KEYLOGGER_LENGTH] = {0};
+#ifdef CUSTOM_KEYLOGGER
+        static char keylog_temp[KEYLOGGER_LENGTH] = {0};
 #endif
 
         // Check if the state values are different
@@ -187,11 +190,11 @@ void user_transport_sync(void) {
             needs_sync = false;
         }
 
-#ifdef CUSTOM_OLED_DRIVER
+#ifdef CUSTOM_KEYLOGGER
         // Check if the state values are different
-        if (memcmp(&keylog_str, &keylog_temp, OLED_KEYLOGGER_LENGTH)) {
+        if (memcmp(&keylog_str, &keylog_temp, KEYLOGGER_LENGTH)) {
             needs_sync = true;
-            memcpy(&keylog_temp, &keylog_str, OLED_KEYLOGGER_LENGTH);
+            memcpy(&keylog_temp, &keylog_str, KEYLOGGER_LENGTH);
         }
         if (timer_elapsed32(last_sync[3]) > 250) {
             needs_sync = true;
@@ -199,7 +202,7 @@ void user_transport_sync(void) {
 
         // Perform the sync if requested
         if (needs_sync) {
-            if (transaction_rpc_send(RPC_ID_USER_KEYLOG_STR, OLED_KEYLOGGER_LENGTH, &keylog_str)) {
+            if (transaction_rpc_send(RPC_ID_USER_KEYLOG_STR, KEYLOGGER_LENGTH, &keylog_str)) {
                 last_sync[3] = timer_read32();
             }
             needs_sync = false;

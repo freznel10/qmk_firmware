@@ -144,4 +144,6 @@ ifeq ($(strip $(CUSTOM_DYNAMIC_MACROS_ENABLE)), yes)
     OPT_DEFS += -DCUSTOM_DYNAMIC_MACROS_ENABLE
 endif
 
+CUSTOM_KEYLOGGER ?= no
+
 SRC += keyrecords/select_word.c
