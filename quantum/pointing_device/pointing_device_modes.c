@@ -20,12 +20,12 @@
 
 /* initialize static functions */
 
-/* local inline functions from pointing_device.c */
-static inline int8_t pointing_device_hv_clamp(int16_t value) {
-    if (value < INT8_MIN) {
-        return INT8_MIN;
-    } else if (value > INT8_MAX) {
-        return INT8_MAX;
+/* local inline functions from pointing_device.c with int16_t input */
+static inline mouse_hv_report_t pointing_device_hv_clamp(int16_t value) {
+    if (value < HV_REPORT_MIN) {
+        return HV_REPORT_MIN;
+    } else if (value > HV_REPORT_MAX) {
+        return HV_REPORT_MAX;
     } else {
         return value;
     }
