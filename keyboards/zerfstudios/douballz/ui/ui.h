@@ -28,13 +28,15 @@ extern "C" {
 
 extern lv_obj_t * ui_Screen1;
 // extern lv_obj_t * ui_Screen1_Image2;
-extern lv_obj_t * ui_Screen1_Label_CPI;
+
 extern lv_obj_t * ui_Screen1_Label_RGB;
 extern lv_obj_t * ui_Screen1_Label_WPM;
 #ifdef OS_DETECTION_ENABLE
 extern lv_obj_t * ui_Screen1_Label_OS;
 #endif
+#ifdef CUSTOM_KEYLOGGER
 extern lv_obj_t * ui_Screen1_Label_KL;
+#endif
 extern lv_obj_t * ui_Screen1_Image1;
 extern lv_obj_t * ui_Layer_Indicator;
 extern lv_obj_t * ui_Screen2;
@@ -46,6 +48,7 @@ extern lv_obj_t * ui_Screen2_Panel_Layer;
 extern lv_obj_t * ui_Screen2_Label_Layer;
 extern lv_obj_t * ui_Screen2_Panel_Pointing_Mode;
 extern lv_obj_t * ui_Screen2_Label_Pointing_Mode;
+extern lv_obj_t * ui_Screen2_Label_CPI;
 extern lv_obj_t * ui_Screen2_led1;
 extern lv_obj_t * ui_Screen2_led2;
 

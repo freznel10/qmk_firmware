@@ -37,6 +37,8 @@ const uint16_t PROGMEM mouselayer_r_combo[] = { RALT_T(KC_I), RGUI_T(KC_O), COMB
 const uint16_t PROGMEM navup_combo[] = { KC_F, KC_P, COMBO_END};
 const uint16_t PROGMEM navdn_combo[] = { KC_W, KC_F, COMBO_END};
 const uint16_t PROGMEM alttab_combo[] = { KC_M, RSFT_T(KC_N), COMBO_END};
+const uint16_t PROGMEM history_combo[] = {KC_X, KC_D, COMBO_END};
+const uint16_t PROGMEM browser_control_combo[] = {KC_X, KC_V, COMBO_END};
 
 
 combo_t key_combos[] = {
@@ -74,6 +76,8 @@ combo_t key_combos[] = {
   [NAVUP] = COMBO(navup_combo, KC_PGUP),
   [NAVDN] = COMBO(navdn_combo, KC_PGDN),
   [APP_SWITCHER_2] = COMBO(alttab_combo, ALT_TAB),
+  [HISTORY_COMB] = COMBO(history_combo, PM_MO(4)),
+  [BROWSER_CONTROL] = COMBO(browser_control_combo, PM_MO(11))
 
 };
 

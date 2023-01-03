@@ -291,73 +291,28 @@ static int8_t rotations = 0;
 bool lvgl_encoder = false;
 static lv_group_t *g;
 static uint32_t act_key = 0;
-static bool APP_ALT;
 
-enum my_kb_pointing_modes {
-    // start at the end of basic range
-    PM_APP_2 = PM_SAFE_RANGE_ADV, // [mode id: 16]
-    PM_CUR_ACCEL,                //  [mode id: 17]
-    // good practice to allow users to expand further
-    KB_PM_SAFE_RANGE
-};
+// enum my_kb_pointing_modes {
+//     // start at the end of basic range
+//     PM_APP_2 = PM_SAFE_RANGE_ADV, // [mode id: 16]
+//     PM_CUR_ACCEL,                //  [mode id: 17]
+//     // good practice to allow users to expand further
+//     KB_PM_SAFE_RANGE
+// };
 
 
 // define keybaord level divisors
-uint8_t get_pointing_mode_divisor_kb(uint8_t mode_id, uint8_t direction) {
-    switch(mode_id) {
-        case PM_CUR_ACCEL:
-            return 8;
-        case PM_APP_2:
-            return 64;
-    }
-    return 0; // continue processing
-}
+// uint8_t get_pointing_mode_divisor_kb(uint8_t mode_id, uint8_t direction) {
+//     switch(mode_id) {
+//         case PM_CUR_ACCEL:
+//             return 8;
+//         case PM_APP_2:
+//             return 64;
+//     }
+//     return 0; // continue processing
+// }
 
-#define CONSTRAIN_XY(amt) ((amt) < XY_REPORT_MIN ? XY_REPORT_MIN : ((amt) > XY_REPORT_MAX ? XY_REPORT_MAX : (amt)))
 
-bool process_pointing_mode_kb(pointing_mode_t pointing_mode, report_mouse_t* mouse_report) {
-    switch(pointing_mode.id){
-        /** Manipulate browser tabs (win/linux) (switch to left tab, move tab left, move tab right, switch to right tab)
-         *  Note that this mode could be put in a mode map but is here as an example of going past the bottom support 10 modes
-         *  without overwriting any built in modes
-         */
-        // Manipulating pointing_mode & mouse_report (cursor speed boost mode example)
-        case PM_CUR_ACCEL:
-            // reset mouse_report note tha mouse_report is a pointer in this function's context
-            *mouse_report = pointing_device_get_report();
-#ifdef POINTING_DEVICE_INVERT_H
-            // add linear boost to cursor x speed
-            mouse_report->x = CONSTRAIN_XY(mouse_report->x - pointing_mode.x / pointing_mode.divisor);
-#else
-            mouse_report->x = CONSTRAIN_XY(mouse_report->x + pointing_mode.x / pointing_mode.divisor);
-#endif
-            // collect residuals
-            pointing_mode.x = 0;
-            // add linear boost to cursor y speed
-#ifdef POINTING_DEVICE_INVERT_V
-            mouse_report->y = CONSTRAIN_XY(mouse_report->y - pointing_mode.y / pointing_mode.divisor);
-#else
-            mouse_report->y = CONSTRAIN_XY(mouse_report->y + pointing_mode.y / pointing_mode.divisor);
-#endif
-            // collect residuals
-            pointing_mode.y = 0;
-            // update pointing_mode with residual stored x & y
-            set_pointing_mode(pointing_mode);
-            // NOTE: mouse_report does not need to be set or sent here as it will be carried forward
-            return false; // stop pointing mode processing
-
-        // Alternative method for app scrolling that only toggles ALT key when there is movement and holds until key release
-        case PM_APP_2:
-            // activate alt key if greater/equal to divisor and set flag
-            if((abs(pointing_mode.x)) >= pointing_mode.divisor && !APP_ALT) {
-                register_code(KC_LALT);
-                APP_ALT = true;
-            }
-            pointing_tap_codes(S(KC_TAB), KC_NO, KC_NO, KC_TAB);
-            return false;
-    }
-    return true;
-}
 
 bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
     if (!process_record_user(keycode, record)) {
@@ -483,17 +438,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
             }
             break;
         }
-        case KB_TG_ACCEL:
-            pointing_mode_key_toggle(PM_CUR_ACCEL, record);
-            return true; // continue key record processing
-        case KB_MO_APP:
-            // toggle Alt key off on key release and reset flag
-            if(!record->event.pressed && APP_ALT) {
-                unregister_code(KC_LALT);
-                APP_ALT = false;
-            }
-            pointing_mode_key_momentary(PM_APP_2, record);
-            return true;
     }
 #    endif
     return true;

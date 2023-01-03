@@ -35,5 +35,7 @@ enum combo_events {
   NAVUP,
   NAVDN,
   APP_SWITCHER_2,
+  HISTORY_COMB,
+  BROWSER_CONTROL,
   COMBO_LENGTH
 };
