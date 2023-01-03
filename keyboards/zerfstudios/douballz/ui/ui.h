@@ -23,7 +23,7 @@ extern "C" {
 #include "lvgl.h"
 #endif
 
-// #include "fonts/extra_symbols.h"
+#include "fonts/eleganticons.h"
 // #include "fonts/fonts.h"
 
 extern lv_obj_t * ui_Screen1;
@@ -38,6 +38,15 @@ extern lv_obj_t * ui_Screen1_Label_OS;
 extern lv_obj_t * ui_Screen1_Label_KL;
 #endif
 extern lv_obj_t * ui_Screen1_Image1;
+extern lv_obj_t * ui_Screen1_Panel_Status;
+extern lv_obj_t * ui_Screen1_Label_H;
+extern lv_obj_t * ui_Screen1_Label_S;
+extern lv_obj_t * ui_Screen1_Label_V;
+extern lv_obj_t * ui_Screen1_Panel_HSV;
+extern lv_obj_t * ui_Screen1_Label_CTRL;
+extern lv_obj_t * ui_Screen1_Label_ALT;
+extern lv_obj_t * ui_Screen1_Label_GUI;
+extern lv_obj_t * ui_Screen1_Label_SHIFT;
 extern lv_obj_t * ui_Layer_Indicator;
 extern lv_obj_t * ui_Screen2;
 extern lv_obj_t * ui_Screen2_Image2;
@@ -51,6 +60,7 @@ extern lv_obj_t * ui_Screen2_Label_Pointing_Mode;
 extern lv_obj_t * ui_Screen2_Label_CPI;
 extern lv_obj_t * ui_Screen2_led1;
 extern lv_obj_t * ui_Screen2_led2;
+
 
 // extern lv_obj_t * ui_Screen1;
 // extern lv_obj_t * ui_Main1;
@@ -93,6 +103,8 @@ void ui_render_cpi(lv_event_t * e);
 void ui_render_wpm(lv_event_t * e);
 void ui_render_rgbmode(lv_event_t * e);
 void ui_render_rgbhue_redraw(lv_event_t * e);
+void ui_render_rgbval_redraw(lv_event_t * e);
+void ui_render_rgbsat_redraw(lv_event_t * e);
 void ui_render_caps_word(lv_event_t * e);
 void lvgl_event_triggers(void);
 void lv_anim_2 (lv_obj_t * TargetObject);
@@ -122,6 +134,7 @@ LV_FONT_DECLARE(ui_font_Futura18);
 LV_FONT_DECLARE(ui_font_Futura20);
 LV_FONT_DECLARE(ui_font_Futura22);
 LV_FONT_DECLARE(ui_font_Futura24);
+LV_FONT_DECLARE(eleganticons);
 
 LV_IMG_DECLARE(ui_img_2120736529);
 LV_IMG_DECLARE(ui_img_logo_test_png);
@@ -132,7 +145,6 @@ LV_IMG_DECLARE(ui_img_toolbox_80_png);
 LV_IMG_DECLARE(ui_img_lower_80_png);
 LV_IMG_DECLARE(ui_img_raise_80_png);
 LV_IMG_DECLARE(ui_img_numpad_80_png);
-
 
 // //////////////////////////////////////////////////////////////
 // // User Defines

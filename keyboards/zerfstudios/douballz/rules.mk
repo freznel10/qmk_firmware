@@ -54,6 +54,7 @@ endif
 I2C_SCANNER_ENABLE = no
 
 SRC +=  ui/ui.c \
+		ui/ui_helpers.c \
 		ui/assets/ui_img_2120736529.c \
 		ui/assets/ui_img_logo_test_png.c \
 		ui/assets/ui_img_city_png.c \
@@ -69,6 +70,7 @@ SRC +=  ui/ui.c \
 		ui/fonts/ui_font_Futura20.c \
 		ui/fonts/ui_font_Futura22.c \
 		ui/fonts/ui_font_Futura24.c \
+		ui/fonts/eleganticons.c \
 
 
 QUANTUM_PAINTER_LVGL_USE_CUSTOM_CONF = yes
