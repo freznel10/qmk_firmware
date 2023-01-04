@@ -3,7 +3,8 @@
 /*COMBOS*/
 
 uint16_t COMBO_LEN = COMBO_LENGTH; // remove the COMBO_COUNT define and use this instead!
-const uint16_t PROGMEM raise_combo[] = {RSFT_T(KC_N), RCTL_T(KC_E), COMBO_END};
+// const uint16_t PROGMEM raise_combo[] = {RSFT_T(KC_N), RCTL_T(KC_E), COMBO_END};
+// const uint16_t PROGMEM raise_combo[] = {KC_H, KC_COMM, COMBO_END};
 const uint16_t PROGMEM clear_line_combo[] = {KC_K, KC_COMMA, COMBO_END};
 const uint16_t PROGMEM backspace_combo[] = {KC_L, KC_U, COMBO_END};
 const uint16_t PROGMEM undo_combo[] = {LCTL_T(KC_Z), KC_X, COMBO_END};
@@ -13,7 +14,7 @@ const uint16_t PROGMEM cut_combo[] = {KC_X, KC_C, COMBO_END};
 const uint16_t PROGMEM copy_combo[] = {LCTL_T(KC_Z), KC_C, COMBO_END};
 const uint16_t PROGMEM paste_combo[] = {KC_C, KC_D, COMBO_END};
 const uint16_t PROGMEM keypad_combo[] = {LGUI_T(KC_A), LALT_T(KC_R), COMBO_END};
-const uint16_t PROGMEM lower_combo[] = {RCTL_T(KC_E), RALT_T(KC_I), COMBO_END};
+const uint16_t PROGMEM lower_combo[] = {KC_COMM, KC_DOT, COMBO_END};
 const uint16_t PROGMEM lparen_combo[] = {KC_G, KC_V, COMBO_END};
 const uint16_t PROGMEM rparen_combo[] = {KC_M, KC_K, COMBO_END};
 const uint16_t PROGMEM wback_combo[] = {KC_J, KC_L, COMBO_END};
@@ -33,7 +34,7 @@ const uint16_t PROGMEM numzero_combo[] = { KC_SCLN, RGUI_T(KC_O), COMBO_END};
 const uint16_t PROGMEM dragscroll_combo[] = { KC_BTN1, KC_BTN2, COMBO_END};
 const uint16_t PROGMEM sniping_combo[] = { KC_BTN2, KC_BTN3, COMBO_END};
 const uint16_t PROGMEM mouselayer_combo[] = { LALT_T(KC_R), LCTL_T(KC_S), COMBO_END};
-const uint16_t PROGMEM mouselayer_r_combo[] = { RALT_T(KC_I), RGUI_T(KC_O), COMBO_END};
+const uint16_t PROGMEM mouselayer_r_combo[] = { KC_DOT, KC_SLSH, COMBO_END};
 const uint16_t PROGMEM navup_combo[] = { KC_F, KC_P, COMBO_END};
 const uint16_t PROGMEM navdn_combo[] = { KC_W, KC_F, COMBO_END};
 const uint16_t PROGMEM pbupl_combo[] = { PB_1, KC_MUTE, COMBO_END};

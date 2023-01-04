@@ -15,11 +15,6 @@
 #include "os_detection.h"
 #endif
 
-#define MODS_SHIFT ((get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT)
-#define MODS_CTRL  ((get_mods() | get_oneshot_mods()) & MOD_MASK_CTRL)
-#define MODS_ALT   ((get_mods() | get_oneshot_mods()) & MOD_MASK_ALT)
-#define MODS_GUI   ((get_mods() | get_oneshot_mods()) & MOD_MASK_GUI)
-
 
 // #include "menu.h"
 // #include "dial_menu/dial_menu.h"

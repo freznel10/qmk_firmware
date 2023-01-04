@@ -77,6 +77,11 @@ enum userspace_layers {
 #define DEFAULT_LAYER_3_RGB RGB_MAGENTA
 #define DEFAULT_LAYER_4_RGB RGB_GOLDENROD
 
+#define MODS_SHIFT ((get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT)
+#define MODS_CTRL  ((get_mods() | get_oneshot_mods()) & MOD_MASK_CTRL)
+#define MODS_ALT   ((get_mods() | get_oneshot_mods()) & MOD_MASK_ALT)
+#define MODS_GUI   ((get_mods() | get_oneshot_mods()) & MOD_MASK_GUI)
+
 bool mod_key_press_timer(uint16_t code, uint16_t mod_code, bool pressed);
 bool mod_key_press(uint16_t code, uint16_t mod_code, bool pressed, uint16_t this_timer);
 bool hasAllBitsInMask(uint8_t value, uint8_t mask);

@@ -132,24 +132,21 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                 rgb_matrix_layer_helper(HSV_RED, 1, rgb_matrix_config.speed, LED_FLAG_UNDERGLOW, led_min, led_max);
                 break;
             case _KEYPAD:
-                rgb_matrix_layer_helper(HSV_RED, 0, rgb_matrix_config.speed, LED_FLAG_KEYLIGHT, led_min, led_max);
-                rgb_matrix_layer_helper(HSV_RED, 0, rgb_matrix_config.speed, LED_FLAG_MODIFIER, led_min, led_max);
+                rgb_matrix_layer_helper(HSV_ORANGE, 0, rgb_matrix_config.speed, LED_FLAG_KEYLIGHT, led_min, led_max);
+                rgb_matrix_layer_helper(HSV_ORANGE, 0, rgb_matrix_config.speed, LED_FLAG_MODIFIER, led_min, led_max);
                 break;
             default:
                 if (layer_state_is(_MOUSE)) {
                     rgb_matrix_layer_helper(HSV_PURPLE, 0, rgb_matrix_config.speed, LED_FLAG_KEYLIGHT, led_min, led_max);
+                }
+                else if (host_keyboard_led_state().caps_lock)  {
+                    rgb_matrix_layer_helper(HSV_RED, 1, rgb_matrix_config.speed * 8, LED_FLAG_KEYLIGHT, led_min, led_max);
+                    rgb_matrix_layer_helper(HSV_RED, 1, rgb_matrix_config.speed * 8, LED_FLAG_UNDERGLOW, led_min, led_max);
                 } else {
                     switch (get_highest_layer(default_layer_state)) {
                         case _DEFAULT_LAYER_1:
-                            if (host_keyboard_led_state().caps_lock) {
-                                rgb_matrix_layer_helper(HSV_RED, 1, rgb_matrix_config.speed * 8, LED_FLAG_UNDERGLOW, led_min, led_max);
-                                rgb_matrix_layer_helper(DEFAULT_LAYER_1_HSV, 0, rgb_matrix_config.speed, LED_FLAG_MODIFIER, led_min, led_max);
-                                rgb_matrix_layer_helper(DEFAULT_LAYER_1_HSV, 0, rgb_matrix_config.speed, LED_FLAG_KEYLIGHT, led_min, led_max);
-                            }  else {
-                                rgb_matrix_layer_helper(DEFAULT_LAYER_1_HSV, 0, rgb_matrix_config.speed, LED_FLAG_MODIFIER, led_min, led_max);
-                                rgb_matrix_layer_helper(DEFAULT_LAYER_1_HSV, 0, rgb_matrix_config.speed, LED_FLAG_KEYLIGHT, led_min, led_max);
-                                rgb_matrix_layer_helper(DEFAULT_LAYER_1_HSV, 0, rgb_matrix_config.speed, LED_FLAG_UNDERGLOW, led_min, led_max);
-                            };
+                            rgb_matrix_layer_helper(DEFAULT_LAYER_1_HSV, 0, rgb_matrix_config.speed, LED_FLAG_KEYLIGHT, led_min, led_max);
+                            rgb_matrix_layer_helper(DEFAULT_LAYER_1_HSV, 0, rgb_matrix_config.speed, LED_FLAG_UNDERGLOW, led_min, led_max);
                             break;
                         case _DEFAULT_LAYER_2:
                             rgb_matrix_layer_helper(DEFAULT_LAYER_2_HSV, 0, rgb_matrix_config.speed, LED_FLAG_MODIFIER, led_min, led_max);

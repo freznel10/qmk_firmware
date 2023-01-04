@@ -37,5 +37,6 @@ enum combo_events {
   APP_SWITCHER_2,
   HISTORY_COMB,
   BROWSER_CONTROL,
+  PM_ACCEL_COMBO,
   COMBO_LENGTH
 };
