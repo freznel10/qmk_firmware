@@ -40,7 +40,7 @@ const uint16_t PROGMEM mouselayer_r_combo[] = { KC_DOT, KC_SLSH, COMBO_END};
 const uint16_t PROGMEM navup_combo[] = { KC_F, KC_P, COMBO_END};
 const uint16_t PROGMEM navdn_combo[] = { KC_W, KC_F, COMBO_END};
 const uint16_t PROGMEM alttab_combo[] = { KC_M, RSFT_T(KC_N), COMBO_END};
-const   uint16_t PROGMEM history_combo[] = {KC_X, KC_D, COMBO_END};
+const uint16_t PROGMEM history_combo[] = {KC_X, KC_D, COMBO_END};
 const uint16_t PROGMEM browser_control_combo[] = {KC_X, KC_V, COMBO_END};
 const uint16_t PROGMEM pm_accel_combo[] = {LCTL_T(KC_S), LSFT_T(KC_T), COMBO_END};
 
