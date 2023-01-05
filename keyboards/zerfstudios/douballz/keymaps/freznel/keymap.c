@@ -284,7 +284,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_LOWER] = LAYOUT_douballz_wrapper(
-        KC_F12,         _________________FUNC_LEFT_________________,                                                    _________________FUNC_RIGHT________________,     KC_F11,
+        UC(0x30C4),         _________________FUNC_LEFT_________________,                                                    _________________FUNC_RIGHT________________,     KC_F11,
         KC_CAPS,        _________________LOWER_L1__________________,                                                    _________________LOWER_R1__________________,    _______,
         _______,        _________________LOWER_L2__________________,                                                    _________________LOWER_R2__________________,    KC_PIPE,
         _______,        _________________LOWER_L3__________________,    _______,                            _______,    _________________LOWER_R3__________________,    _______,
@@ -314,10 +314,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                             _______,    _______,                            _______,    _______
     ),
     [_KEYPAD] = LAYOUT_douballz_wrapper(
-        QK_MAKE,        _________________FUNC_LEFT_________________,                                                    _________________FUNC_RIGHT________________,    KC_WIDE,
-        EE_CLR,         ________________NUMPAD1_LEFT_______________,                                                     _________________ADJUST_R1_________________,   KC_NOMODE,
-        KC_SCROLL_LOCK, ________________NUMPAD2_LEFT_______________,                                                    _________________ADJUST_R2_________________,    UC_SHRG,
-        UC_MOD,         ________________NUMPAD3_LEFT_______________,    LVGL_ENCODER_BUTTON,       LVGL_ENCODER_BUTTON, _________________ADJUST_R3_________________,    KC_MPLY,
+        QK_MAKE,        _________________UNICO_L1__________________,                                                   _________________UNICO_R1__________________,    KC_WIDE,
+        EE_CLR,         ________________NUMPAD1_LEFT_______________,                                                     _________________ADJUST_R1_________________,   UC_TABL,
+        KC_NUM_LOCK,    ________________NUMPAD2_LEFT_______________,                                                    _________________ADJUST_R2_________________,    UC_SHRG,
+        UC(0x1dfc),     ________________NUMPAD3_LEFT_______________,    LVGL_ENCODER_BUTTON,       LVGL_ENCODER_BUTTON, _________________ADJUST_R3_________________,    KC_MPLY,
                                                             KC_BSPC,    DPI_MOD,    DPI_RMOD,   DRGSCRL,        DQT,    _______,
                                                                         _______,    _______,    _______,    _______,
                                                             _______,    _______,    _______,    _______,    _______,    _______,

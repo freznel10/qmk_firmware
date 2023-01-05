@@ -38,6 +38,13 @@ extern lv_obj_t * ui_Screen1_Label_OS;
 extern lv_obj_t * ui_Screen1_Label_KL;
 #endif
 extern lv_obj_t * ui_Screen1_Image1;
+extern lv_obj_t * ui_Screen1_Panel_KB_Status;
+extern lv_obj_t * ui_Screen1_Label_CAPS;
+extern lv_obj_t * ui_Screen1_Label_SCLK;
+extern lv_obj_t * ui_Screen1_Label_NMLK;
+extern lv_obj_t * ui_Screen1_Label_AUDIO;
+extern lv_obj_t * ui_Screen1_Label_CLICKY;
+extern lv_obj_t * ui_Screen1_Label_ACRT;
 extern lv_obj_t * ui_Screen1_Panel_Status;
 extern lv_obj_t * ui_Screen1_Label_H;
 extern lv_obj_t * ui_Screen1_Label_S;
@@ -47,6 +54,7 @@ extern lv_obj_t * ui_Screen1_Label_CTRL;
 extern lv_obj_t * ui_Screen1_Label_ALT;
 extern lv_obj_t * ui_Screen1_Label_GUI;
 extern lv_obj_t * ui_Screen1_Label_SHIFT;
+
 extern lv_obj_t * ui_Layer_Indicator;
 extern lv_obj_t * ui_Screen2;
 extern lv_obj_t * ui_Screen2_Image2;

@@ -263,8 +263,8 @@ NOTE: These are all the same length.  If you do a search/replace
 #define _________________RAISE_R2__________________       KC_CAPS, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
 #define _________________RAISE_R3__________________       SELWORD, KC_HOME, KC_PGDN, KC_PGUP, KC_END
 
-#define _________________UNICO_L1__________________       KC_WIDE,KC_AUSSIE,KC_SCRIPT,KC_ZALGO,KC_NOMODE
-
+#define _________________UNICO_L1__________________       KC_WIDE, KC_AUSSIE, KC_SCRIPT, KC_ZALGO, KC_NOMODE
+#define _________________UNICO_R1__________________       KC_COMIC, KC_SUPER, UC(0x263a), UC(0x2639), UC(0x2763)
 
 #define _________________ADJUST_L1_________________       RGB_MOD, RGB_HUI, RGB_SAI, RGB_VAI, RGB_IDL
 #define _________________ADJUST_L2_________________       MU_TOG , CK_TOGG, AU_ON,   AU_OFF,  CG_NORM
