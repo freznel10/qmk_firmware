@@ -41,7 +41,7 @@ endif
 
 CUSTOM_UNICODE_ENABLE ?= yes
 ifeq ($(strip $(CUSTOM_UNICODE_ENABLE)), yes)
-    UNICODE_ENABLE        := yes
+    UNICODE_ENABLE        := no
     UNICODEMAP_ENABLE     := no
     UCIS_ENABLE           := no
     UNICODE_COMMON        := yes
