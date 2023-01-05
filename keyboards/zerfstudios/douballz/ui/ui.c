@@ -329,12 +329,16 @@ void ui_render_rgbhue_redraw(lv_event_t * e) {
     static lv_color_t trial_2;
     static lv_color_t trial_3;
     static lv_color_t trial_4;
+    static lv_color_t trial_5;
+    static lv_color_t trial_6;
     static uint16_t trial_hue;
     trial_hue = ((rgb_matrix_get_hue() * 360) >> 8);
     trial = lv_color_hsv_to_rgb(trial_hue, 100, 100);
     trial_2 = lv_color_hsv_to_rgb((trial_hue + 8), 100, 100);
     trial_3 = lv_color_hsv_to_rgb((trial_hue + 14), 100, 100);
     trial_4 = lv_color_hsv_to_rgb((trial_hue + 34), 100, 100);
+    trial_5 = lv_color_hsv_to_rgb((trial_hue + 44), 100, 100);
+    trial_6 = lv_color_hsv_to_rgb((trial_hue + 54), 100, 100);
     if(event_code == USER_EVENT_RGBHUE_UPDATE) {
         if(target == ui_Screen2_Panel_Layer) {
             lv_obj_set_style_outline_color(ui_Screen2_Panel_Layer, trial_3, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -354,8 +358,8 @@ void ui_render_rgbhue_redraw(lv_event_t * e) {
             lv_obj_set_style_text_color(ui_Screen1_Label_NMLK, trial, LV_PART_MAIN | LV_STATE_FOCUSED);
             lv_obj_set_style_text_color(ui_Screen1_Label_SCLK, trial, LV_PART_MAIN | LV_STATE_FOCUSED);
             lv_obj_set_style_text_color(ui_Screen1_Label_AUDIO, trial_4, LV_PART_MAIN | LV_STATE_FOCUSED);
-            lv_obj_set_style_text_color(ui_Screen1_Label_CLICKY, trial_4, LV_PART_MAIN | LV_STATE_FOCUSED);
-            lv_obj_set_style_text_color(ui_Screen1_Label_ACRT, trial_4, LV_PART_MAIN | LV_STATE_FOCUSED);
+            lv_obj_set_style_text_color(ui_Screen1_Label_CLICKY, trial_5, LV_PART_MAIN | LV_STATE_FOCUSED);
+            lv_obj_set_style_text_color(ui_Screen1_Label_ACRT, trial_6, LV_PART_MAIN | LV_STATE_FOCUSED);
         }
         if(target == ui_Screen1_Label_H) {
             char buf[6];
