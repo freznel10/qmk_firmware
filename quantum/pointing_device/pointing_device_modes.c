@@ -91,7 +91,7 @@ void set_pointing_mode(pointing_mode_t pointing_mode) {
     // skip if same
     if (!memcmp(&pointing_mode_context.mode, &pointing_mode, sizeof(pointing_mode_t))) return;
     memcpy(&pointing_mode_context.mode, &pointing_mode, sizeof(pointing_mode_t));
-    dprintf("PM status saved!");
+    dprintf("PM status saved!\n");
     // Prevent zero divisor
     if (!pointing_mode_context.mode.divisor) {
         pointing_mode_context.mode.divisor = POINTING_DEFAULT_DIVISOR;
@@ -362,6 +362,11 @@ static report_mouse_t process_pointing_mode(pointing_mode_t pointing_mode, repor
     switch (pointing_mode.id) {
         // drag scroll mode (sets mouse axes to mouse_report h & v with divisor)
         case PM_DRAG:
+#    ifdef MOUSE_WHEEL_HIRES_ENABLE
+            if (resolution_multiplier & 1 << 0) pointing_mode.y *= MAX(MOUSE_WHEEL_MULTIPLIER/pointing_mode.divisor, 1);
+            if (resolution_multiplier & 1 << 2) pointing_mode.x *= MAX(MOUSE_WHEEL_MULTIPLIER/pointing_mode.divisor, 1);
+            if (resolution_multiplier) pointing_mode.divisor = 1;
+#    endif
             mouse_report.h = pointing_device_hv_clamp(pointing_mode.x / (int16_t)pointing_mode.divisor);
             mouse_report.v = pointing_device_hv_clamp(pointing_mode.y / (int16_t)pointing_mode.divisor);
             pointing_mode.x -= (int16_t)mouse_report.h * (int16_t)pointing_mode.divisor;
