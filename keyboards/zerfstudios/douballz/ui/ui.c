@@ -16,6 +16,7 @@
 #endif
 
 
+
 // #include "menu.h"
 // #include "dial_menu/dial_menu.h"
 // #include "settings/appr/appr.h"
@@ -25,6 +26,7 @@
 
 extern user_runtime_config_t user_state;
 extern userspace_config_t userspace_config;
+extern unicode_config_t unicode_config;
 
 // ///////////////////// VARIABLES ////////////////////
 // extern uint8_t scroll_mode;i
@@ -67,6 +69,8 @@ lv_obj_t * ui_Screen2_Panel_Pointing_Mode;
 lv_obj_t * ui_Screen2_Label_Pointing_Mode;
 lv_obj_t * ui_Screen2_led1;
 lv_obj_t * ui_Screen2_led2;
+lv_obj_t * ui_Screen2_Label_Unicode_Mode;
+
 
 // lv_obj_t * ui_Main1;
 // lv_obj_t * ui_Image1;
@@ -166,6 +170,7 @@ uint32_t USER_EVENT_RGBHUE_UPDATE = 9;
 uint32_t USER_EVENT_RGBSAT_UPDATE = 10;
 uint32_t USER_EVENT_RGBVAL_UPDATE = 11;
 uint32_t USER_EVENT_KEYLOG_UPDATE = 12;
+uint32_t USER_EVENT_UNICODE_MODE_UPDATE = 13;
 
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
@@ -398,7 +403,6 @@ void ui_render_rgbsat_redraw(lv_event_t * e) {
 /*OS RENDER*/
 #ifdef OS_DETECTION_ENABLE
 void set_OS_text_value(lv_obj_t* lbl) {
-
     if (lv_obj_is_valid(lbl)) {
         char buf[12];
         const char *detected_os = "-----";
@@ -421,6 +425,60 @@ void set_OS_text_value(lv_obj_t* lbl) {
         }
         snprintf(buf, sizeof(buf), "OS: %s", detected_os);
         lv_label_set_text(lbl, buf);
+    }
+}
+#endif
+extern const char unicode_mode_str;
+
+#ifdef CUSTOM_UNICODE_ENABLE
+void set_unicode_mode_text_value(lv_obj_t* lbl) {
+    if (lv_obj_is_valid(lbl)) {
+        char buf[32];
+        const char *unicode_mode_display = "-----";
+        switch (user_state.unicode_typing_mode) {
+             case 0:
+                unicode_mode_display = "NO MODE";
+                break;
+            case 1:
+                unicode_mode_display = "WIDE";
+                break;
+            case 2:
+                unicode_mode_display = "SCRIPT";
+                break;
+            case 3:
+                unicode_mode_display = "BLOCKS";
+                break;
+            case 4:
+                unicode_mode_display = "REGIONAL";
+                break;
+            case 5:
+                unicode_mode_display = "AUSSIE";
+                break;
+            case 6:
+                unicode_mode_display = "ZALGO";
+                break;
+            case 7:
+                unicode_mode_display = "SUPER";
+                break;
+            case 8:
+                unicode_mode_display = "COMIC";
+                break;
+            default:
+                unicode_mode_display = " ";
+                break;
+        }
+        snprintf(buf, sizeof(buf), "UM: %s", unicode_mode_display);
+        lv_label_set_text(lbl, buf);
+    }
+}
+
+void ui_unicode_mode_change(lv_event_t * e) {
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == USER_EVENT_UNICODE_MODE_UPDATE ) {
+        if (target == ui_Screen2_Label_Unicode_Mode) {
+            set_unicode_mode_text_value(ui_Screen2_Label_Unicode_Mode);
+        }
     }
 }
 #endif
@@ -1628,6 +1686,22 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_style_shadow_width(ui_Screen2_Panel_Layer, 20, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_spread(ui_Screen2_Panel_Layer, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    ui_Screen2_Label_Unicode_Mode = lv_label_create(ui_Screen2_Panel_Layer);
+    lv_obj_set_width(ui_Screen2_Label_Unicode_Mode, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Screen2_Label_Unicode_Mode, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Screen2_Label_Unicode_Mode, LV_ALIGN_CENTER);
+    #if (defined(KEYBOARD_zerfstudios_douballz_rev1))
+        lv_obj_set_x(ui_Screen2_Label_Unicode_Mode, 5);
+        lv_obj_set_y(ui_Screen2_Label_Unicode_Mode, 33);
+        lv_obj_set_style_text_font(ui_Screen2_Label_Unicode_Mode, &ui_font_Futura18, LV_PART_MAIN | LV_STATE_DEFAULT);
+    #elif (defined(KEYBOARD_zerfstudios_douballz_rev2))
+        lv_obj_set_x(ui_Screen2_Label_Unicode_Mode, 0);
+        lv_obj_set_y(ui_Screen2_Label_Unicode_Mode, -48);
+        lv_obj_set_style_text_font(ui_Screen2_Label_Unicode_Mode, &ui_font_Futura18, LV_PART_MAIN | LV_STATE_DEFAULT);
+    #endif
+    lv_label_set_text(ui_Screen2_Label_Unicode_Mode, " ");
+
+
     ui_Screen2_Label_Layer = lv_label_create(ui_Screen2_Panel_Layer);
     lv_obj_set_width(ui_Screen2_Label_Layer, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Screen2_Label_Layer, LV_SIZE_CONTENT);    /// 1
@@ -1780,6 +1854,8 @@ void ui_Screen2_screen_init(void)
     lv_obj_add_event_cb(ui_Screen2_Label_PM_mode, ui_pm_state_change, USER_EVENT_PM_STATE_CHANGE, NULL);
     lv_obj_add_event_cb(ui_Screen2_led1, ui_pm_state_change, USER_EVENT_PM_SIDE_CHANGE, NULL);
     lv_obj_add_event_cb(ui_Screen2_led2, ui_pm_state_change, USER_EVENT_PM_SIDE_CHANGE, NULL);
+    lv_obj_add_event_cb(ui_Screen2_Label_Unicode_Mode, ui_unicode_mode_change, USER_EVENT_UNICODE_MODE_UPDATE, NULL);
+
     // lv_obj_add_event_cb(ui_Screen2_Panel_Layer, ui_render_rgbhue_redraw, USER_EVENT_RGBHUE_UPDATE, NULL);
     // lv_obj_add_event_cb(ui_Screen2_Panel_Pointing_Mode, ui_render_rgbhue_redraw, USER_EVENT_RGBHUE_UPDATE, NULL);
 }
@@ -1934,6 +2010,7 @@ void lvgl_event_triggers(void) {
         } else {
             _ui_state_modify(ui_Screen1_Label_SCLK, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
         }
+    }
     static bool user_state_redraw = false;
     static user_runtime_config_t last_user_state = {0};
     if (last_user_state.raw != user_state.raw) {
@@ -1956,8 +2033,15 @@ void lvgl_event_triggers(void) {
         // } else {
         //     _ui_state_modify(ui_Screen1_Label_SCLK, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
         // }
-     }
-
+    }
+    static bool unicode_mode_redraw = false;
+    static uint8_t last_unicode_mode = {0};
+    if (last_unicode_mode != user_state.unicode_typing_mode) {
+        last_unicode_mode  = user_state.unicode_typing_mode;
+        unicode_mode_redraw = true;
+    }
+    if (unicode_mode_redraw) {
+        lv_event_send(ui_Screen2_Label_Unicode_Mode, USER_EVENT_UNICODE_MODE_UPDATE, NULL);
     }
 }
 

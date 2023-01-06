@@ -68,6 +68,7 @@ extern lv_obj_t * ui_Screen2_Label_Pointing_Mode;
 extern lv_obj_t * ui_Screen2_Label_CPI;
 extern lv_obj_t * ui_Screen2_led1;
 extern lv_obj_t * ui_Screen2_led2;
+extern lv_obj_t * ui_Screen2_Label_Unicode_Mode;
 
 
 // extern lv_obj_t * ui_Screen1;
@@ -103,10 +104,12 @@ extern lv_obj_t * mbox2;
 void set_cpi_text_value(lv_obj_t* lbl);
 void set_wpm_text_value(lv_obj_t* lbl);
 void set_pm_text_value(lv_obj_t* lbl);
+void set_unicode_mode_text_value(lv_obj_t* lbl);
 void ui_df_layer_change(lv_event_t * e);
 void ui_event_dflayer_dropdown(lv_event_t * e);
 void ui_active_layer_change(lv_event_t * e);
 void ui_pm_state_change(lv_event_t * e);
+void ui_unicode_mode_change(lv_event_t * e);
 void ui_render_cpi(lv_event_t * e);
 void ui_render_wpm(lv_event_t * e);
 void ui_render_rgbmode(lv_event_t * e);

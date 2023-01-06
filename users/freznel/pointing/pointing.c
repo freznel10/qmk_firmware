@@ -7,6 +7,7 @@
 #ifdef HAPTIC_ENABLE
 #include "drivers/haptic/DRV2605L.h"
 #endif
+#include "pointing_device_modes.h"
 
 static uint16_t mouse_debounce_timer = 0;
 bool            is_drag_mom = false, scrolling_mode = false, is_media = false, enable_acceleration = false;
@@ -34,24 +35,171 @@ __attribute__((weak)) report_mouse_t pointing_device_task_keymap(report_mouse_t 
     return mouse_report;
 }
 
-// report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-//     mouse_xy_report_t x = mouse_report.x, y = mouse_report.y;
-//     mouse_report.x = 0;
-//     mouse_report.y = 0;
+static bool APP_ALT;
 
-//     if (x != 0 && y != 0 && (timer_elapsed(mouse_debounce_timer) > TAP_CHECK)) {
-// #ifdef OLED_ENABLE
-//         oled_timer_reset();
-// #endif
-//         if (enable_acceleration) {
-//             x = (mouse_xy_report_t)(x > 0 ? x * x / 16 + x : -x * x / 16 + x);
-//             y = (mouse_xy_report_t)(y > 0 ? y * y / 16 + y : -y * y / 16 + y);
-//         }
-//         mouse_report.x = x;
-//         mouse_report.y = y;
-//     }
-//     return pointing_device_task_keymap(mouse_report);
-// }
+enum keymap_pointing_device_modes {
+    PM_BROW = PM_SAFE_RANGE, // BROWSER TAB Manipulation            [mode id 6]
+    PM_RGB_MODE_VAL,         // RGB Control for mode and Brightness [mode id 7]
+    PM_RGB_HUE_SAT,          // RGB Control for HUE and Saturation  [mode id 8]
+    PM_RGB_SPEED,            // RGB Control for Speed               [mode id 9]
+    PM_WINDOW,             // Window Control                        [mode id 10]
+    PM_SWITCHER,             // RGB Control for Speed               [mode id 11]
+    PM_APP_2,             // RGB Control for Speed                  [mode id 12]
+    PM_CUR_ACCEL,           // RGB Control for Speed                [mode id 13]
+    PM_BROWSER_CONTROL,     // RGB Control for Speed                [mode id 14]
+    PM_WIP5,           // RGB Control for Speed                     [mode id 15]
+};
+
+const uint16_t pointing_device_mode_maps[][4] = {
+    // PM_BROW
+    [0] = POINTING_MODE_LAYOUT(
+                C(S(KC_PGUP)),
+        C(S(KC_TAB)),       C(KC_TAB),
+                C(S(KC_PGDN))
+    ),
+    // PM_RGB_MODE_VAL
+    [1] = POINTING_MODE_LAYOUT(
+                RGB_VAI,
+        RGB_RMOD,        RGB_MOD,
+                RGB_VAD
+    ),
+    // PM_RGB_HUE_SAT
+    [2] = POINTING_MODE_LAYOUT(
+                RGB_SAI,
+        RGB_HUD,        RGB_HUI,
+                RGB_SAD
+    ),
+    // PM_RGB_SPEED
+    [3] = POINTING_MODE_LAYOUT(
+                KC_NO,
+        RGB_SPD,        RGB_SPI,
+                KC_NO
+    ),
+    // PM_WINDOW
+    [4] = POINTING_MODE_LAYOUT(
+                G(KC_UP),
+        G(KC_LEFT),      G(KC_RIGHT),
+                G(KC_DOWN)
+    ),
+    // PM_SWITCHER
+    [5] = POINTING_MODE_LAYOUT(
+                G(KC_UP),
+        G(KC_LEFT),      G(KC_RIGHT),
+                G(KC_DOWN)
+    ),
+    // APP_2
+    [6] = POINTING_MODE_LAYOUT(
+                KC_NO,
+        KC_NO,        KC_NO,
+                KC_NO
+    ),
+    // ACCEL
+    [7] = POINTING_MODE_LAYOUT(
+                KC_NO,
+        KC_NO,        KC_NO,
+                KC_NO
+    ),
+    // Browser Control
+    [8] = POINTING_MODE_LAYOUT(
+                KC_NO,
+        KC_WBAK,        KC_WFWD,
+                KC_NO
+    ),
+    [9] = POINTING_MODE_LAYOUT(
+                KC_NO,
+        KC_NO,        KC_NO,
+                KC_NO
+    )
+};
+
+uint8_t get_pointing_mode_divisor_user(uint8_t mode_id, uint8_t direction) {
+    switch(mode_id) {
+        case PM_BROW:
+            // half speed for vertical axis
+            return direction < PD_LEFT ? 128 : 64;
+        case PM_RGB_MODE_VAL:
+            // half speed for horizontal axis
+            return direction < PD_LEFT ? 64 : 128;
+        case PM_RGB_HUE_SAT:
+            // example of unique divisor for each mode (not actually recommended for this mode (64 would be a good divisor here))
+            switch(direction) {
+                case PD_DOWN:
+                    return 32;
+                case PD_UP:
+                    return 64;
+                case PD_LEFT:
+                    return 16;
+                case PD_RIGHT:
+                    return 128;
+            }
+        case PM_RGB_SPEED:
+            return 64; // could skip adding this if default if POINTING_DEFAULT_DIVISOR is 64
+        case PM_WINDOW:
+            // half speed for vertical axis
+            return 128;
+        case PM_SWITCHER:
+            // half speed for horizontal axis
+            return 64;
+        case PM_CUR_ACCEL:
+            return 8;
+        case PM_APP_2:
+            return 64;
+        case PM_BROWSER_CONTROL:
+            return 64;
+        case PM_WIP5:
+            return 64; // could skip adding this if default if POINTING_DEFAULT_DIVISOR is 64
+    }
+
+    return 0; // returning 0 to let processing of divisors continue
+}
+
+
+#define CONSTRAIN_XY(amt) ((amt) < XY_REPORT_MIN ? XY_REPORT_MIN : ((amt) > XY_REPORT_MAX ? XY_REPORT_MAX : (amt)))
+
+bool process_pointing_mode_user(pointing_mode_t pointing_mode, report_mouse_t* mouse_report) {
+    switch(pointing_mode.id){
+        /** Manipulate browser tabs (win/linux) (switch to left tab, move tab left, move tab right, switch to right tab)
+         *  Note that this mode could be put in a mode map but is here as an example of going past the bottom support 10 modes
+         *  without overwriting any built in modes
+         */
+        // Manipulating pointing_mode & mouse_report (cursor speed boost mode example)
+        case PM_CUR_ACCEL:
+            // reset mouse_report note tha mouse_report is a pointer in this function's context
+            *mouse_report = pointing_device_get_report();
+#ifdef POINTING_DEVICE_INVERT_H
+            // add linear boost to cursor x speed
+            mouse_report->x = CONSTRAIN_XY(mouse_report->x - pointing_mode.x / pointing_mode.divisor);
+#else
+            mouse_report->x = CONSTRAIN_XY(mouse_report->x + pointing_mode.x / pointing_mode.divisor);
+#endif
+            // collect residuals
+            pointing_mode.x = 0;
+            // add linear boost to cursor y speed
+#ifdef POINTING_DEVICE_INVERT_V
+            mouse_report->y = CONSTRAIN_XY(mouse_report->y - pointing_mode.y / pointing_mode.divisor);
+#else
+            mouse_report->y = CONSTRAIN_XY(mouse_report->y + pointing_mode.y / pointing_mode.divisor);
+#endif
+            // collect residuals
+            pointing_mode.y = 0;
+            // update pointing_mode with residual stored x & y
+            set_pointing_mode(pointing_mode);
+            // NOTE: mouse_report does not need to be set or sent here as it will be carried forward
+            return false; // stop pointing mode processing
+
+        // Alternative method for app scrolling that only toggles ALT key when there is movement and holds until key release
+        case PM_APP_2:
+            // activate alt key if greater/equal to divisor and set flag
+            if((abs(pointing_mode.x)) >= pointing_mode.divisor && !APP_ALT) {
+                register_code(KC_LALT);
+                APP_ALT = true;
+            }
+            pointing_tap_codes(S(KC_TAB), KC_NO, KC_NO, KC_TAB);
+            return false;
+    }
+    return true;
+}
+
 
 bool process_record_pointing(uint16_t keycode, keyrecord_t* record) {
     switch (keycode) {
@@ -66,6 +214,17 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t* record) {
             DRV_pulse(medium_click1);
             break;
 #endif
+        case KB_MO_APP:
+        // toggle Alt key off on key release and reset flag
+            if(!record->event.pressed && APP_ALT) {
+                unregister_code(KC_LALT);
+                APP_ALT = false;
+            }
+            pointing_mode_key_momentary(PM_APP_2, record);
+        break;
+        case KB_TG_ACCEL:
+            pointing_mode_key_toggle(PM_CUR_ACCEL, record);
+        break; // continue key record processing
         default:
             mouse_debounce_timer = timer_read();
             break;
@@ -96,3 +255,4 @@ bool is_mouse_record_user(uint16_t keycode, keyrecord_t* record) {
     return false;
 }
 #endif
+

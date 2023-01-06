@@ -312,6 +312,7 @@ static uint32_t act_key = 0;
 //     return 0; // continue processing
 // }
 
+float pm_song[][2] = SONG(VIOLIN_SOUND);
 
 
 bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
@@ -377,6 +378,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
         case PM_SWITCH:
             if (record->event.pressed) {
                 pointing_mode_switch_hands();
+                PLAY_SONG(pm_song);
             }
         break;
         case LVGL_CLOCKWISE:

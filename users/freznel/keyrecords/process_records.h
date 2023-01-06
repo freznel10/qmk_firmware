@@ -68,6 +68,9 @@ enum userspace_custom_keycodes {
 
     SELWORD,
 
+    KB_TG_ACCEL,
+    KB_MO_APP,
+
     DYN_MACRO_PROG,
     DYN_MACRO_KEY00,
     DYN_MACRO_KEY01,
