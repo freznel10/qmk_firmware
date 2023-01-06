@@ -48,22 +48,11 @@ typedef union {
     };
 } keyboard_config_t;
 
-typedef union {
-    uint32_t raw;
-    struct {
-        uint16_t device_cpi;
-    };
-} kb_config_data_t;
-
+extern kb_runtime_config kb_state;
+_Static_assert(sizeof(kb_runtime_config) == 1, "Invalid data transfer size for keyboard sync data");
 #pragma pack(pop)
 
-#ifdef QUANTUM_PAINTER_ENABLE
-_Static_assert(sizeof(kb_runtime_config) == 1, "Invalid data transfer size for keyboard sync data");
-extern kb_runtime_config kb_state;
-#endif
-
 extern keyboard_config_t keyboard_config;
-extern kb_config_data_t kb_config_data;
 
 enum duoballz_keycodes {
     //DPI_CONFIG = SAFE_RANGE,

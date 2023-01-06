@@ -292,26 +292,6 @@ bool lvgl_encoder = false;
 static lv_group_t *g;
 static uint32_t act_key = 0;
 
-// enum my_kb_pointing_modes {
-//     // start at the end of basic range
-//     PM_APP_2 = PM_SAFE_RANGE_ADV, // [mode id: 16]
-//     PM_CUR_ACCEL,                //  [mode id: 17]
-//     // good practice to allow users to expand further
-//     KB_PM_SAFE_RANGE
-// };
-
-
-// define keybaord level divisors
-// uint8_t get_pointing_mode_divisor_kb(uint8_t mode_id, uint8_t direction) {
-//     switch(mode_id) {
-//         case PM_CUR_ACCEL:
-//             return 8;
-//         case PM_APP_2:
-//             return 64;
-//     }
-//     return 0; // continue processing
-// }
-
 float pm_song[][2] = SONG(VIOLIN_SOUND);
 
 

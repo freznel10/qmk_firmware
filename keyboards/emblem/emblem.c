@@ -461,12 +461,9 @@ void eeconfig_init_kb(void) {
 
 void matrix_power_up(void) { pointing_device_task(); }
 
-
-
 // LVGL Encoder Control
 lv_indev_t * indev_encoder;
 lv_indev_t * indev_keypad;
-
 
 void encoder_read_2(lv_indev_drv_t *drv, lv_indev_data_t *data) {
     data->enc_diff = rotations;

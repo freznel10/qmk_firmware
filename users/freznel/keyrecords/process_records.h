@@ -6,7 +6,7 @@
 
 #if defined(KEYBOARD_zerf9) && defined(POINTING_DEVICE_ENABLE)
 #    define PLACEHOLDER_SAFE_RANGE KEYMAP_SAFE_RANGE
-#elif defined(KEYBOARD_zerfstudios)
+#elif defined(KEYBOARD_zerfstudios_douballz)
 #    define PLACEHOLDER_SAFE_RANGE KEYMAP_SAFE_RANGE
 #elif defined(KEYBOARD_bastardkb_charybdis)
 #    define PLACEHOLDER_SAFE_RANGE CHARYBDIS_SAFE_RANGE
@@ -16,8 +16,8 @@
 #    define PLACEHOLDER_SAFE_RANGE UNICHUNKY_SAFE_RANGE
 #elif defined(KEYBOARD_chunkx)
 #    define PLACEHOLDER_SAFE_RANGE CHARYBDIS_SAFE_RANGE
-#elif defined(KEYBOARD_emblem)
-#    define PLACEHOLDER_SAFE_RANGE EMBLEM_SAFE_RANGE
+#elif defined(KEYBOARD_zerfstudios_emblem)
+#    define PLACEHOLDER_SAFE_RANGE KEYMAP_SAFE_RANGE
 #else
 #    define PLACEHOLDER_SAFE_RANGE SAFE_RANGE
 #endif
