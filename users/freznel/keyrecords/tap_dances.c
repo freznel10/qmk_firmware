@@ -129,11 +129,11 @@ void DRG_SNP_finished(tap_dance_state_t *state, void *user_data) {
             #if defined(KEYBOARD_unichunky)
                 unichunky_set_pointer_dragscroll_enabled(!unichunky_get_pointer_dragscroll_enabled());
             #endif
-            #if defined(KEYBOARD_zerfstudios)
+            #if defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)
                 toggle_pointing_mode_id(PM_DRAG);
             #endif
             // #if defined(KEYBOARD_zerf9)
-            //     charybdis_set_pointer_dragscroll_enabled(!charybdis_get_pointer_dragscroll_enabled());
+            //     charybdis_set_pointer_dragscroll_enabled(!charybdis_get_pointer_dragscroll_enabled());|
             // #endif
             #if defined(KEYBOARD_zerf9)
                 toggle_pointing_mode_id(PM_DRAG);
@@ -146,7 +146,7 @@ void DRG_SNP_finished(tap_dance_state_t *state, void *user_data) {
             #if defined(KEYBOARD_unichunky)
                 unichunky_set_pointer_dragscroll_enabled(1);
             #endif
-            #if defined(KEYBOARD_zerfstudios)
+            #if defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)
                 set_pointing_mode_id(PM_DRAG);
             #endif
             // #if defined(KEYBOARD_zerf9)
@@ -166,7 +166,7 @@ void DRG_SNP_finished(tap_dance_state_t *state, void *user_data) {
             #if defined(KEYBOARD_zerf9)
                 toggle_pointing_mode_id(PM_PRECISION);
             #endif
-            #if defined(KEYBOARD_zerfstudios)
+            #if defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)
                 toggle_pointing_mode_id(PM_PRECISION);
             #endif
             break;
@@ -180,7 +180,7 @@ void DRG_SNP_finished(tap_dance_state_t *state, void *user_data) {
             #if defined(KEYBOARD_zerf9)
                 set_pointing_mode_id(PM_PRECISION);
             #endif
-            #if defined(KEYBOARD_zerfstudios)
+            #if defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)
                 set_pointing_mode_id(PM_PRECISION);
             #endif
             break;
@@ -206,7 +206,7 @@ void DRG_SNP_reset(tap_dance_state_t *state, void *user_data) {
             #if defined(KEYBOARD_zerf9)
                 set_pointing_mode_id(PM_NONE);
             #endif
-            #if defined(KEYBOARD_zerfstudios)
+            #if defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)
                 set_pointing_mode_id(PM_NONE);
             #endif
             break;
@@ -222,7 +222,7 @@ void DRG_SNP_reset(tap_dance_state_t *state, void *user_data) {
             #if defined(KEYBOARD_zerf9)
                 toggle_pointing_mode_id(PM_NONE);
             #endif
-            #if defined(KEYBOARD_zerfstudios)
+            #if defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)
                  toggle_pointing_mode_id(PM_NONE);
             #endif
             break;
