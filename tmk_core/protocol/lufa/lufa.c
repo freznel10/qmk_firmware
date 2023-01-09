@@ -75,8 +75,11 @@ extern keymap_config_t keymap_config;
 
 uint8_t keyboard_idle = 0;
 /* 0: Boot Protocol, 1: Report Protocol(default) */
-uint8_t        keyboard_protocol  = 1;
-static uint8_t keyboard_led_state = 0;
+uint8_t        keyboard_protocol     = 1;
+static uint8_t keyboard_led_state    = 0;
+#ifdef MOUSE_SCROLL_HIRES_ENABLE
+uint8_t        resolution_multiplier = 0;
+#endif
 
 static report_keyboard_t keyboard_report_sent;
 
@@ -88,7 +91,7 @@ static void    send_extra(report_extra_t *report);
 host_driver_t  lufa_driver = {keyboard_leds, send_keyboard, send_mouse, send_extra};
 
 void send_report(uint8_t endpoint, void *report, size_t size) {
-    uint8_t timeout = 255;
+    uint8_t timeout = 255; 
 
     if (USB_DeviceState != DEVICE_STATE_Configured) return;
 
@@ -265,7 +268,7 @@ void EVENT_USB_Device_Connect(void) {
         USB_Disable();
         USB_Init();
         USB_Device_EnableSOFEvents();
-    }
+    }   
 }
 
 /** \brief Event USB Device Connect
@@ -292,6 +295,9 @@ void EVENT_USB_Device_Disconnect(void) {
 void EVENT_USB_Device_Reset(void) {
     print("[R]");
     usb_device_state_set_reset();
+#ifdef MOUSE_SCROLL_HIRES_ENABLE
+    resolution_multiplier = 0;
+#endif
 }
 
 /** \brief Event USB Device Connect
@@ -451,8 +457,19 @@ void EVENT_USB_Device_ControlRequest(void) {
                         ReportData = (uint8_t *)&keyboard_report_sent;
                         ReportSize = sizeof(keyboard_report_sent);
                         break;
+#if defined(SHARED_EP_ENABLE) && defined(MOUSE_SHARED_EP)
+                    case SHARED_INTERFACE:
+#else
+                    case MOUSE_INTERFACE:
+#endif
+#    ifdef MOUSE_SCROLL_HIRES_ENABLE
+                        if (USB_ControlRequest.wValue == (0x0300 | REPORT_ID_MULTIPLIER)) {
+                            ReportData = &resolution_multiplier;
+                            ReportSize = sizeof(resolution_multiplier);
+                        }
+#    endif
+                        break;
                 }
-
                 /* Write the report data to the control endpoint */
                 Endpoint_Write_Control_Stream_LE(ReportData, ReportSize);
                 Endpoint_ClearOUT();
@@ -465,7 +482,7 @@ void EVENT_USB_Device_ControlRequest(void) {
                 switch (USB_ControlRequest.wIndex) {
                     case KEYBOARD_INTERFACE:
 #if defined(SHARED_EP_ENABLE) && !defined(KEYBOARD_SHARED_EP)
-                    case SHARED_INTERFACE:
+                    case SHARED_INTERFACE: 
 #endif
                         Endpoint_ClearSETUP();
 
@@ -473,14 +490,21 @@ void EVENT_USB_Device_ControlRequest(void) {
                             if (USB_DeviceState == DEVICE_STATE_Unattached) return;
                         }
 
-                        if (Endpoint_BytesInEndpoint() == 2) {
-                            uint8_t report_id = Endpoint_Read_8();
-
-                            if (report_id == REPORT_ID_KEYBOARD || report_id == REPORT_ID_NKRO) {
+                        uint8_t report_id = USB_ControlRequest.wValue & 0xFF;
+                        // Discard report ID byte as we already have it from wValue
+                        if (USB_ControlRequest.wLength == 2) {
+                            Endpoint_Discard_8();
+                        }
+                        switch(report_id) {
+                            case REPORT_ID_KEYBOARD:
+                            case REPORT_ID_NKRO:
                                 keyboard_led_state = Endpoint_Read_8();
-                            }
-                        } else {
-                            keyboard_led_state = Endpoint_Read_8();
+                                break;
+#ifdef MOUSE_SCROLL_HIRES_ENABLE
+                            case REPORT_ID_MULTIPLIER:
+                                resolution_multiplier = Endpoint_Read_8();
+                                break;
+#endif
                         }
 
                         Endpoint_ClearOUT();
@@ -534,7 +558,6 @@ void EVENT_USB_Device_ControlRequest(void) {
                 Endpoint_ClearIN();
                 Endpoint_ClearStatusStage();
             }
-
             break;
     }
 

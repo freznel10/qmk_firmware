@@ -286,6 +286,9 @@ void           pointing_device_driver_set_cpi(uint16_t cpi) {}
 | Setting                                        | Description                                                                                                                      | Default       |
 | ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------- |
 | `MOUSE_EXTENDED_REPORT`                        | (Optional) Enables support for extended mouse reports. (-32767 to 32767, instead of just -127 to 127).                           | _not defined_ |
+| `MOUSE_SCROLL_EXTENDED_REPORT`                 | (Optional) Enables support for extended mouse wheel reports. (-32767 to 32767, instead of just -127 to 127).                     | _not defined_ |
+| `MOUSE_SCROLL_HIRES_ENABLE`                    | (Optional) Enables support for high resolution scrolling. (see notes).                                                           | _not defined_ |
+| `MOUSE_SCROLL_MULTIPLIER`                      | (Optional) Resolution multiplier for high resolution scrolling. (Requires `MOUSE_SCROLL_HIRES_ENABLE` and must be 1 - 120).      | 120           |
 | `POINTING_DEVICE_ROTATION_90`                  | (Optional) Rotates the X and Y data by  90 degrees.                                                                              | _not defined_ |
 | `POINTING_DEVICE_ROTATION_180`                 | (Optional) Rotates the X and Y data by 180 degrees.                                                                              | _not defined_ |
 | `POINTING_DEVICE_ROTATION_270`                 | (Optional) Rotates the X and Y data by 270 degrees.                                                                              | _not defined_ |
@@ -300,6 +303,12 @@ void           pointing_device_driver_set_cpi(uint16_t cpi) {}
 | `POINTING_DEVICE_SDIO_PIN`                     | (Optional) Provides a default SDIO pin, useful for supporting multiple sensor configs.                                           | _not defined_ |
 | `POINTING_DEVICE_SCLK_PIN`                     | (Optional) Provides a default SCLK pin, useful for supporting multiple sensor configs.                                           | _not defined_ |
 
+!> `MOUSE_SCROLL_HIRES_ENABLE` will change scrolling behavior on OS's that support high resolution scrolling (currently Linux 5.15+, and Windows Vista+) this will allow for sub line scrolling in some applications that support the feature. **Scrolling sensitivity will need to be adjusted based on `MOUSE_SCROLL_MULTIPLIER` when high resolution scrolling is active** (Drag scroll mode in pointing device modes does this automatically). Note that high resolution scrolling is activated by the OS during USB initialization so to test if high resolution scrolling is active the global variable `resolution_multiplier` will have the **first** and **third** bits set to `1` for active high resolution scrolling on vertical and horizontal axes respectively.
+
+Most modern widely adopted applications (firefox, Chrome, discord, etc.) fully support high resolution scrolling, and applications that let the OS handle v/h axis inputs and compensate for the expected higher tick count will behave normally just without any benefit from this feature.  However, a few applications that handle scroll input separately from the OS can result in increased sensitivity if they have not updated to handle high resolution scrolling (GIMP, LibreOffice, etc.). 
+
+It is recommended to use the pointing device modes feature for drag scroll along with high resolution scrolling as it will automatically adjust to accommodate once it detects it is active. 
+ 
 !> When using `SPLIT_POINTING_ENABLE` the `POINTING_DEVICE_MOTION_PIN` functionality is not supported and `POINTING_DEVICE_TASK_THROTTLE_MS` will default to `1`. Increasing this value will increase transport performance at the cost of possible mouse responsiveness.
 
 The `POINTING_DEVICE_CS_PIN`, `POINTING_DEVICE_SDIO_PIN`, and `POINTING_DEVICE_SCLK_PIN` provide a convenient way to define a single pin that can be used for an interchangeable sensor config.  This allows you to have a single config, without defining each device.  Each sensor allows for this to be overridden with their own defines. 

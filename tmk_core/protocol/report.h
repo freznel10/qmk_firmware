@@ -32,7 +32,8 @@ enum hid_report_ids {
     REPORT_ID_PROGRAMMABLE_BUTTON,
     REPORT_ID_NKRO,
     REPORT_ID_JOYSTICK,
-    REPORT_ID_DIGITIZER
+    REPORT_ID_DIGITIZER,
+    REPORT_ID_MULTIPLIER
 };
 
 /* Mouse buttons */
@@ -207,8 +208,23 @@ typedef int16_t mouse_xy_report_t;
 typedef int8_t mouse_xy_report_t;
 #endif
 
+#ifdef MOUSE_SCROLL_EXTENDED_REPORT
+typedef int16_t mouse_hv_report_t;
+#else
+typedef int8_t mouse_hv_report_t;
+#endif
+
+#ifdef MOUSE_SCROLL_HIRES_ENABLE
+#    ifndef MOUSE_SCROLL_MULTIPLIER
+#        define MOUSE_SCROLL_MULTIPLIER 120
+#    elif (MOUSE_SCROLL_MULTIPLIER >= 120 || MOUSE_SCROLL_MULTIPLIER < 1)
+#        error "MOUSE_SCROLL_MULTIPLIER out of bounds must be in range of 1-120"
+#    endif
+extern uint8_t resolution_multiplier;
+#endif
+
 typedef struct {
-#ifdef MOUSE_SHARED_EP
+#if (defined(MOUSE_SHARED_EP) || defined(MOUSE_SCROLL_HIRES_ENABLE))
     uint8_t report_id;
 #endif
     uint8_t buttons;
@@ -218,8 +234,8 @@ typedef struct {
 #endif
     mouse_xy_report_t x;
     mouse_xy_report_t y;
-    int8_t            v;
-    int8_t            h;
+    mouse_hv_report_t v;
+    mouse_hv_report_t h;
 } __attribute__((packed)) report_mouse_t;
 
 typedef struct {
