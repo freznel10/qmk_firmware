@@ -619,7 +619,7 @@ static void set_led_transfer_cb(USBDriver *usbp) {
 #ifdef MOUSE_SCROLL_HIRES_ENABLE
 static void set_multiplier_cb(USBDriver *usbp) {
     if (usbp->setup[6] == 2 && set_report_buf[0] == REPORT_ID_MULTIPLIER) {
-        resolution_multiplier = set_report_buf[1]
+        resolution_multiplier = set_report_buf[1];
     }
 }
 #endif
