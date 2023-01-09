@@ -247,9 +247,11 @@ bool is_mouse_record_user(uint16_t keycode, keyrecord_t* record) {
 #    endif
         case KC_ACCEL:
         case TD_DRGS:
+        case TD_DRGR:
         case BK_TAB:
         case NX_TAB:
         case TD_PMD1:
+        case ST_MACRO_6:
         return true;
     }
     return false;

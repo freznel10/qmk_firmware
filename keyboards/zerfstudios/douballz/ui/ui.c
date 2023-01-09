@@ -46,7 +46,9 @@ lv_obj_t * ui_Screen1_Label_S;
 lv_obj_t * ui_Screen1_Label_V;
 lv_obj_t * ui_Screen2_Label_CPI;
 lv_obj_t * ui_Screen1_Label_RGB;
+#ifdef UI_RENDER_WPM
 lv_obj_t * ui_Screen1_Label_WPM;
+#endif
 lv_obj_t * ui_Screen1_Label_OS;
 lv_obj_t * ui_Screen1_Label_CTRL;
 lv_obj_t * ui_Screen1_Label_ALT;
@@ -312,6 +314,7 @@ void lv_anim_2(lv_obj_t * TargetObject) {
 }
 
 /////////////////////// FUNCTIONS ////////////////////
+#ifdef UI_RENDER_WPM
 /*WPM RENDER*/
 void set_wpm_text_value(lv_obj_t* lbl) {
     if (lv_obj_is_valid(lbl)) {
@@ -326,6 +329,7 @@ void ui_render_wpm(lv_event_t * e) {
         set_wpm_text_value(ui_Screen1_Label_WPM);
     }
 }
+#endif
 
 /*HUE REDRAW*/
 void ui_render_rgbhue_redraw(lv_event_t * e) {
@@ -1353,7 +1357,7 @@ void ui_Screen1_screen_init(void)
     lv_label_set_text(ui_Screen1_Label_RGB, "RGB");
 
     // lv_label_set_long_mode(ui_Screen1_Label_RGB, LV_LABEL_LONG_SCROLL);
-
+#ifdef UI_RENDER_WPM
     ui_Screen1_Label_WPM = lv_label_create(ui_Screen1);
     lv_obj_set_width(ui_Screen1_Label_WPM, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Screen1_Label_WPM, LV_SIZE_CONTENT);    /// 1
@@ -1367,7 +1371,7 @@ void ui_Screen1_screen_init(void)
         lv_obj_set_style_text_font(ui_Screen1_Label_WPM, &ui_font_Futura24, LV_PART_MAIN | LV_STATE_DEFAULT);
     #endif
     lv_label_set_text(ui_Screen1_Label_WPM, "WPM");
-
+#endif
 #ifdef OS_DETECTION_ENABLE
     ui_Screen1_Label_OS = lv_label_create(ui_Screen1);
     lv_obj_set_width(ui_Screen1_Label_OS, LV_SIZE_CONTENT);   /// 1
@@ -1663,7 +1667,9 @@ void ui_Screen1_screen_init(void)
     lv_obj_add_event_cb(ui_Screen1_Label_S, ui_render_rgbsat_redraw, USER_EVENT_RGBSAT_UPDATE, NULL);
     lv_obj_add_event_cb(ui_Screen1_Label_V, ui_render_rgbval_redraw, USER_EVENT_RGBVAL_UPDATE, NULL);
     lv_obj_add_event_cb(ui_Screen1_Label_RGB, ui_render_rgbmode, USER_EVENT_RGBMODE_UPDATE, NULL);
+#ifdef UI_RENDER_WPM
     lv_obj_add_event_cb(ui_Screen1_Label_WPM, ui_render_wpm, USER_EVENT_WPM_UPDATE, NULL);
+#endif
 }
 
 void render_panel_layer (lv_obj_t *scr, lv_align_t align, lv_coord_t x, lv_coord_t y, const lv_font_t * label_font,
@@ -1862,15 +1868,17 @@ void lvgl_event_triggers(void) {
     if (cpi_redraw) {
         lv_event_send(ui_Screen2_Label_CPI, USER_EVENT_CPI_UPDATE, NULL);
     }
+#ifdef UI_RENDER_WPM
     bool            wpm_redraw      = false;
     static uint32_t last_wpm_update = 0;
-    if (timer_elapsed32(last_wpm_update) > 125) {
+    if (timer_elapsed32(last_wpm_update) > 500) {
         last_wpm_update = timer_read32();
         wpm_redraw      = true;
     }
     if (wpm_redraw) {
         lv_event_send(ui_Screen1_Label_WPM, USER_EVENT_WPM_UPDATE, NULL);
     }
+#endif
     bool            rgb_effect_redraw = false;
     static uint16_t last_effect       = 0xFFFF;
     uint8_t         curr_effect       = rgb_matrix_config.mode;

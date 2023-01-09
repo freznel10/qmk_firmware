@@ -40,6 +40,10 @@ const uint16_t PROGMEM alttab_combo[] = { KC_M, RSFT_T(KC_N), COMBO_END};
 const uint16_t PROGMEM history_combo[] = {KC_X, KC_D, COMBO_END};
 const uint16_t PROGMEM browser_control_combo[] = {KC_X, KC_V, COMBO_END};
 const uint16_t PROGMEM pm_accel_combo[] = {LCTL_T(KC_S), LSFT_T(KC_T), COMBO_END};
+const uint16_t PROGMEM word_A8_combo[] = {A(KC_4), A(KC_5), COMBO_END};
+const uint16_t PROGMEM word_A9_combo[] = {A(KC_6), A(KC_7), COMBO_END};
+const uint16_t PROGMEM esc_combo[] = {KC_Q, KC_W, COMBO_END};
+const uint16_t PROGMEM find_combo[] = {KC_F, LCTL_T(KC_S), COMBO_END};
 // const uint16_t PROGMEM mouselayer_r_combo[] = { RALT_T(KC_I), RGUI_T(KC_O), COMBO_END};
 // const uint16_t PROGMEM mouselayer_combo[] = { LALT_T(KC_R), LCTL_T(KC_S), COMBO_END};
 
@@ -80,7 +84,11 @@ combo_t key_combos[] = {
   [APP_SWITCHER_2] = COMBO(alttab_combo, ALT_TAB),
   [HISTORY_COMB] = COMBO(history_combo, PM_MO(4)),
   [BROWSER_CONTROL] = COMBO(browser_control_combo, PM_MO(11)),
-  [PM_ACCEL_COMBO] = COMBO(pm_accel_combo, PM_MO(13))
+  [PM_ACCEL_COMBO] = COMBO(pm_accel_combo, PM_MO(13)),
+  [A8_COMBO] = COMBO(word_A8_combo, A(KC_8)),
+  [A9_COMBO] = COMBO(word_A9_combo, A(KC_9)),
+  [ESC_COMBO] = COMBO(esc_combo, KC_ESC)
+  [FIND_COMBO ] = COMBO(find_combo, C(KC_F))
 
 };
 

@@ -1551,7 +1551,6 @@ void matrix_output_unselect_delay(uint8_t line, bool key_pressed) {
     }
 }
 
-
 void matrix_init_custom(void) {
     // SPI Matrix
     setPinOutput(SPI_MATRIX_CHIP_SELECT_PIN);
@@ -1578,8 +1577,4 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     }
     return changed;
 }
-
-// bool auto_mouse_activation(report_mouse_t left_report, report_mouse_t right_report)  {
-//     return left_report.x != 0 || left_report.y != 0 || left_report.h != 0 || left_report.v != 0 || right_report.x != 0 || right_report.y != 0 || right_report.h != 0 || right_report.v != 0 || mouse_report.buttons;
-// }
 

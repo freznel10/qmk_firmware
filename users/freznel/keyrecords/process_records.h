@@ -71,6 +71,24 @@ enum userspace_custom_keycodes {
     KB_TG_ACCEL,
     KB_MO_APP,
 
+    RAISE_TOGGLE, //combos
+    BSPC_LSFT_CLEAR,
+    BACKLU,
+    UNDO,
+    REDO,
+    ENTER,
+    CUT,
+    COPY,
+    PASTE,
+    KEYPAD,
+    LOWER_TOGGLE,
+    LPAREN,
+    RPAREN,
+    WBACK,
+    WFWD,
+    NEXTSEN,
+    NEGATIVEPASTE,
+
     DYN_MACRO_PROG,
     DYN_MACRO_KEY00,
     DYN_MACRO_KEY01,
@@ -88,6 +106,7 @@ enum userspace_custom_keycodes {
     DYN_MACRO_KEY13,
     DYN_MACRO_KEY14,
     DYN_MACRO_KEY15,
+    ST_MACRO_6,
 
     NEW_SAFE_RANGE // use "NEWPLACEHOLDER for keymap specific codes
 };

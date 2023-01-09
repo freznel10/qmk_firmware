@@ -25,6 +25,7 @@
 #ifdef OS_DETECTION_ENABLE
 #include "os_detection.h"
 #endif
+#include  "g/keymap_combo.h"
 
 #    include "pointing_device_modes.h"
 #include "pointing_device.h"
@@ -46,8 +47,6 @@ enum custom_keycodes {
     ST_MACRO_3,
     ST_MACRO_4,
     ST_MACRO_5,
-    ST_MACRO_6,
-
 };
 
 // clang-format off
@@ -64,7 +63,7 @@ enum custom_keycodes {
     CTLGRVE, LGUI_T(K11), LALT_T(K12),  LCTL_T(K13),   LSFT_T(K14),         K15,                                            K16,     RSFT_T(K17),     RCTL_T(K18),     RALT_T(K19),     RGUI_T(K1A),     RALT_T(K1B), \
     LALT_T(KC_DEL), LCTL_T(K21),  K22,          K23,            K24,        K25,        PM_SWITCH,          ALT_TAB,        K26,     K27,     K28,     K29, RCTL_T(K2A), KC_BSLS, \
                                                             TAB_RSE,        SPC_LSH,    ENT_LWR,            ESC_LWR,        BSP_KEY,    DEL_RSE,\
-                                                                            KC_BTN1,    KC_BTN2,            KC_BTN2,        KC_BTN1,\
+                                                                            A(KC_4),    A(KC_5),            A(KC_6),        A(KC_7),\
                                                             DPI_RMOD,       RGB_TOG1,   DPI_MOD,            RGB_RMOD,       KC_RGB_T,    RGB_MOD,\
                                                             KC_TRNS,       KC_TRNS,                                       KC_TRNS,   KC_TRNS\
     )
@@ -96,9 +95,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_MOUSE] = LAYOUT_douballz(
         _______,        KC_E,       KC_WH_L,    KC_WH_R,    _______,    _______,                                                    _______,    _______,    _______,    _______,    _______,    _______,
-        _______,        S(KC_M),    KC_WH_D,    KC_WH_U,    KC_ESC,     PM_MO(4),                                                    PM_MO(4),    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
+        _______,        S(KC_M),    KC_WH_D,    KC_WH_U,    KC_ESC,     ST_MACRO_6,                                                  ST_MACRO_6,    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
         _______,        KC_WH_L,    KC_BTN2,    KC_BTN1,    KC_BTN3,    PM_MO(10),                                                   PM_MO(10),  KC_BTN2,    KC_BTN1,    KC_BTN3,    KC_WH_R,    _______,
-        _______,        PM_MO(14),  TD_PMD1,    TD_DRGS,    NX_TAB,     PM_MO(6),  _______,                              _______,    PM_MO(6),    BK_TAB,     TD_DRGS,    NX_TAB,     PM_MO(14),    _______,
+        _______,        PM_MO(14),  TD_PMD1,    TD_DRGS,    NX_TAB,     PM_MO(6),  _______,                              _______,    PM_MO(6),    BK_TAB,     TD_DRGR,    NX_TAB,     PM_MO(14),    _______,
                                                                         _______,    _______,    _______,    _______,    _______,    _______,
                                                                                     _______,    _______,    _______,    _______,
                                                                         _______,    _______,    _______,    _______,    _______,    _______,
@@ -117,7 +116,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_LOWER] = LAYOUT_douballz_wrapper(
-        UC(0x30C4),         _________________FUNC_LEFT_________________,                                                    _________________FUNC_RIGHT________________,     KC_F11,
+        UC(0x30C4),         _________________FUNC_LEFT_________________,                                                _________________FUNC_RIGHT________________,     KC_F11,
         KC_CAPS,        _________________LOWER_L1__________________,                                                    _________________LOWER_R1__________________,    _______,
         _______,        _________________LOWER_L2__________________,                                                    _________________LOWER_R2__________________,    KC_PIPE,
         _______,        _________________LOWER_L3__________________,    _______,                            _______,    _________________LOWER_R3__________________,    _______,
@@ -196,7 +195,6 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     case ST_MACRO_2:
     if (record->event.pressed) {
       SEND_STRING(SS_TAP(X_BTN1) SS_TAP(X_END) SS_DELAY(100) SS_LCTL(SS_LSFT (SS_TAP(X_LEFT) SS_TAP(X_LEFT))) SS_DELAY(100) SS_LCTL("c"));
-
     }
     break;
     case ST_MACRO_3:
@@ -212,15 +210,13 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     }
     break;
     case ST_MACRO_5:
-    if (record->event.pressed) {
-      SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_RIGHT))));
-
-    }
+        if (record->event.pressed) {
+            SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_RIGHT))));
+        }
     break;
     case ST_MACRO_6:
     if (record->event.pressed) {
-      SEND_STRING(SS_TAP(X_Y));
-
+        SEND_STRING(SS_TAP(X_BTN1) SS_DELAY(50)  SS_LSFT(SS_TAP(X_HOME)) SS_DELAY(50) SS_TAP(X_DEL));
     }
     break;
   }
@@ -394,7 +390,7 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
     return state;
 }
 
-#include "combos.c"
+// #include "combos.c"
 
 void matrix_io_delay(void) {
     __asm__ volatile("nop\nnop\nnop\n");

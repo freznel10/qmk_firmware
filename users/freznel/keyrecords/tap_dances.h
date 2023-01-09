@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 enum {
     TD_LSPO_CAPS,  // Tap once for (, hold once for LSFT, tap twice for CAPS
     TD_DRG_SNP,  // Tap once for drag scroll (toggle PM Mode 1), hold for drag scroll (momentary activation of PM Mode 1), double tap and hold for sniping (momentary and toggel respectively
+    TD_DRG_SNP_R,
     TD_PM_MODES, //
     TD_ESC_DEL,    // Tap once for KC_ESC, twice for KC_DEL
 };
@@ -36,8 +37,9 @@ enum {
 // Rename tap dances for keymap with shortcuts
 #define TD_LSPC TD(TD_LSPO_CAPS)
 #define TD_DRGS TD(TD_DRG_SNP)
+#define TD_DRGR TD(TD_DRG_SNP_R)
 #define TD_PMD1 TD(TD_PM_MODES)
-#define TD_ED TD(TD_ESC_DEL)
+#define TD_ED   TD(TD_ESC_DEL)
 
 // + ----------- +
 // + KEY PRESSES |
@@ -71,6 +73,9 @@ void LSPO_CAPS_reset(tap_dance_state_t *state, void *user_data);
 
 void DRG_SNP_finished(tap_dance_state_t *state, void *user_data);
 void DRG_SNP_reset(tap_dance_state_t *state, void *user_data);
+
+void DRG_SNP_R_finished(tap_dance_state_t *state, void *user_data);
+void DRG_SNP_R_reset(tap_dance_state_t *state, void *user_data);
 
 void PM_MOD1_finished(tap_dance_state_t *state, void *user_data);
 void PM_MOD1_reset(tap_dance_state_t *state, void *user_data);

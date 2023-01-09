@@ -457,26 +457,23 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     case ST_MACRO_4:
     if (record->event.pressed) {
       SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_UP))));
-
     }
     break;
     case ST_MACRO_5:
     if (record->event.pressed) {
-      SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_RIGHT))));
-
+      SEND_STRING(SS_TAP(X_BTN1) SS_DELAY(100) SS_LSFT(SS_TAP(X_HOME)) SS_DELAY(100) SS_TAP(X_DEL));
     }
     break;
     case ST_MACRO_6:
     if (record->event.pressed) {
       SEND_STRING(SS_TAP(X_Y));
-
     }
+    break;
     case KC_C:
     if (record->event.pressed) {
         DRV_pulse(pulsing_sharp);
     }
     break;
-    return false;
   }
   return true;
 }

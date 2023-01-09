@@ -224,6 +224,96 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 DRV_pulse(medium_click1);
             }
             break;
+        case RAISE_TOGGLE:
+            if (record->event.pressed) {
+                layer_invert(_RAISE);
+            }
+        break;
+        case BSPC_LSFT_CLEAR:
+            if (record->event.pressed) {
+                tap_code16(KC_END);
+                tap_code16(C(KC_LEFT));
+                tap_code_delay(KC_BSPC, 5);
+            }
+        break;
+        case BACKLU:
+            if (record->event.pressed) {
+                tap_code16(C(S(KC_LEFT)));
+                tap_code16(KC_BSPC);
+            }
+        break;
+        case UNDO:
+            if (record->event.pressed) {
+                tap_code16(LCTL(KC_Z));
+            }
+        break;
+        case REDO:
+            if (record->event.pressed) {
+                tap_code16(LCTL(KC_Y));
+            }
+        break;
+        case ENTER:
+        if (record->event.pressed) {
+                tap_code16(KC_ENTER);
+            }
+        break;
+        case CUT:
+            if (record->event.pressed) {
+                tap_code16(C(KC_X));
+            }
+        break;
+        case COPY:
+            if (record->event.pressed) {
+                tap_code16(C(KC_C));
+            }
+        break;
+        case PASTE:
+            if (record->event.pressed) {
+                tap_code16(C(KC_V));
+            }
+        break;
+        case KEYPAD:
+            if (record->event.pressed) {
+                layer_invert(_KEYPAD);
+            }
+            break;
+        case LOWER_TOGGLE:
+            if (record->event.pressed) {
+                layer_invert(_LOWER);
+            }
+        break;
+        case LPAREN:
+            if (record->event.pressed) {
+                tap_code16(KC_LPRN);
+            }
+        break;
+        case RPAREN:
+            if (record->event.pressed) {
+                tap_code16(KC_RPRN);
+            }
+        break;
+        case WBACK:
+            if (record->event.pressed) {
+                tap_code16(KC_WBAK);
+            }
+        break;
+        case WFWD:
+        if (record->event.pressed) {
+                tap_code16(KC_WFWD);
+            }
+        break;
+        case NEXTSEN:
+            if (record->event.pressed) {
+            SEND_STRING(". ");
+            add_oneshot_mods(MOD_BIT(KC_LSFT));  // Set one-shot mod for shift.
+            }
+        break;
+        case NEGATIVEPASTE:
+            if (record->event.pressed) {
+            SEND_STRING("-");
+            tap_code16(C(KC_V));
+            }
+        break;
     }
     return true;
 }
