@@ -9,7 +9,7 @@
 #endif
 #include "pointing_device_modes.h"
 
-static uint16_t mouse_debounce_timer = 0;
+// static uint16_t mouse_debounce_timer = 0;
 bool            is_drag_mom = false, scrolling_mode = false, is_media = false, enable_acceleration = false;
 
 #ifdef TAPPING_TERM_PER_KEY
@@ -196,8 +196,7 @@ bool process_pointing_mode_user(pointing_mode_t pointing_mode, report_mouse_t* m
             pointing_tap_codes(S(KC_TAB), KC_NO, KC_NO, KC_TAB);
             return false;
         case PM_WIN_POS:
-            // activate alt key if greater/equal to divisor and set flag
-            if((abs(pointing_mode.x)) >= 5 && !APP_WIN) {
+            if((abs(pointing_mode.x)) >= pointing_mode.divisor && !APP_WIN) {
                 register_code(KC_LGUI);
                 APP_WIN = true;
             }
@@ -240,7 +239,6 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t* record) {
             pointing_mode_key_momentary(PM_WIN_POS, record);
         break;
         default:
-            mouse_debounce_timer = timer_read();
         break;
 
 
@@ -268,6 +266,7 @@ bool is_mouse_record_user(uint16_t keycode, keyrecord_t* record) {
         case NX_TAB:
         case TD_PMD1:
         case ST_MACRO_6:
+        case KB_MO_WINDOW:
         return true;
     }
     return false;
