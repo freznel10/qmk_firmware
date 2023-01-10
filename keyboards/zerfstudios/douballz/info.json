@@ -37,7 +37,7 @@
         "encoder": {
             "right": {
                 "rotary": [
-                    { "pin_a": "GP16", "pin_b": "GP17", "resolution": 2 }
+                    { "pin_a": "GP16", "pin_b": "GP17", "resolution": 1 }
                 ]
             }
         },

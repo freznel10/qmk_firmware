@@ -33,21 +33,47 @@ void matrix_scan_super_alt_tab(void) {
 
 
 bool process_record_super_alt_tab(uint16_t keycode, const keyrecord_t *record) {
-    if (keycode != ALT_TAB) {
-        return true;
+    // if (keycode != ALT_TAB) {
+    // }
+    switch (keycode) {
+        case ALT_TAB:
+            if (record->event.pressed) {
+                if (!is_alt_tab_active) {
+                    is_alt_tab_active = true;
+                    register_code(KC_LALT);
+                }
+                alt_tab_timer = timer_read();
+                register_code(KC_TAB);
+            } else {
+                unregister_code(KC_TAB);
+            }
+        break;
+        case ENC_ALT_TAB:
+            if (record->event.pressed) {
+                if (!is_alt_tab_active) {
+                    is_alt_tab_active = true;
+                    register_code(KC_LALT);
+                }
+                    alt_tab_timer = timer_read();
+                    register_code(KC_TAB);
+                } else {
+                    unregister_code(KC_TAB);
+                }
+        break;
+        case ENC_ALT_TAB_REV:
+            if (record->event.pressed) {
+                if (!is_alt_tab_active) {
+                    is_alt_tab_active = true;
+                    register_code(KC_LALT);
+                }
+                    alt_tab_timer = timer_read();
+                    register_code16(S(KC_TAB));
+                } else {
+                    unregister_code16(S(KC_TAB));
+                }
+        break;
+        default:
+            return true;
     }
-
-    if (record->event.pressed) {
-        if (!is_alt_tab_active) {
-            is_alt_tab_active = true;
-            register_code(KC_LALT);
-        }
-        alt_tab_timer = timer_read();
-        register_code(KC_TAB);
-    }
-    else {
-        unregister_code(KC_TAB);
-    }
-
     return false;
 }

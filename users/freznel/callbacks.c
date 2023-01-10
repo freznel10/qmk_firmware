@@ -124,6 +124,7 @@ void                       matrix_scan_user(void) {
 #ifdef CUSTOM_OLED_DRIVER
     matrix_scan_oled();
 #endif
+    matrix_scan_super_alt_tab();
 
     matrix_scan_keymap();
 }

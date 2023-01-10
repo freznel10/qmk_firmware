@@ -88,6 +88,8 @@ enum userspace_custom_keycodes {
     WFWD,
     NEXTSEN,
     NEGATIVEPASTE,
+    ENC_ALT_TAB,
+    ENC_ALT_TAB_REV,
 
     DYN_MACRO_PROG,
     DYN_MACRO_KEY00,

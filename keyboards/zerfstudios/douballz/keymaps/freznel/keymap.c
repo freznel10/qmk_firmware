@@ -40,6 +40,7 @@
 #define DYN_001 DYN_MACRO_KEY01
 
 
+
 enum custom_keycodes {
     ST_MACRO_0 = NEW_SAFE_RANGE,
     ST_MACRO_1,
@@ -117,8 +118,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_LOWER] = LAYOUT_douballz_wrapper(
         UC(0x30C4),         _________________FUNC_LEFT_________________,                                                _________________FUNC_RIGHT________________,     KC_F11,
-        KC_CAPS,        _________________LOWER_L1__________________,                                                    _________________LOWER_R1__________________,    _______,
-        _______,        _________________LOWER_L2__________________,                                                    _________________LOWER_R2__________________,    KC_PIPE,
+        KC_CAPS,        _________________LOWER_L1__________________,                                                    _________________LOWER_R1_ALT______________,    _______,
+        _______,        _________________LOWER_L2__________________,                                                    _________________LOWER_R2_ALT______________,    KC_PIPE,
         _______,        _________________LOWER_L3__________________,    _______,                            _______,    _________________LOWER_R3__________________,    _______,
                                                             _______,    _______,    _______,    _______,    _______,    _______,
                                                                         _______,    _______,    _______,    _______,
@@ -225,7 +226,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 
 
 
-#define BASE_ENCODERS { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U)}
+#define BASE_ENCODERS { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(ENC_ALT_TAB_REV, ENC_ALT_TAB)}
 #ifdef ENCODER_MAP_ENABLE
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [_DEFAULT_LAYER_1] = BASE_ENCODERS,
