@@ -20,14 +20,17 @@
 #include "split_util.h"
 #include "freznel.h"
 #include <hal.h>
+#include "ui/ui.h"
 #include "spi_master.h"
-//#include "serial.h"
-// __attribute__((weak)) void ui_init(void) {}
-// __attribute__((weak)) void ui_task(void) {}
+
+
+#include <qp.h>
+#include <qp_lvgl.h>
 
 #ifdef QUANTUM_PAINTER_ENABLE
-// #include "qp_ssd1351.h"
-// painter_device_t ssd1351;
+
+painter_device_t qp_display;
+
 kb_runtime_config kb_state;
 __attribute__((weak)) void draw_ui_user(void) {}
 #endif
@@ -73,13 +76,12 @@ typedef union {
         uint8_t pointer_sniping_dpi : 2;  // 4 steps available.
         bool    is_dragscroll_enabled : 1;
         bool    is_sniping_enabled : 1;
-        bool    is_auto_mouse_enabled : 1;
     } __attribute__((packed));
 } charybdis_config_t;
 
 static charybdis_config_t g_charybdis_config = {0};
 
-
+extern user_runtime_config_t user_state;
 
 /**
  * \brief Set the value of `config` from EEPROM.
@@ -93,7 +95,6 @@ static void read_charybdis_config_from_eeprom(charybdis_config_t* config) {
     config->raw                   = eeconfig_read_kb() & 0xff;
     config->is_dragscroll_enabled = false;
     config->is_sniping_enabled    = false;
-    config->is_auto_mouse_enabled    = false;
 }
 
 /**
@@ -114,16 +115,41 @@ static uint16_t get_pointer_sniping_dpi(charybdis_config_t* config) { return (ui
 
 /** \brief Set the appropriate DPI for the input config. */
 static void maybe_update_pointing_device_cpi(charybdis_config_t* config) {
-    if (config->is_dragscroll_enabled) {
-        pointing_device_set_cpi_on_side(true, CHARYBDIS_DRAGSCROLL_DPI);
-    } else if (config->is_sniping_enabled) {
-        pointing_device_set_cpi_on_side(true,get_pointer_sniping_dpi(config));
-        pointing_device_set_cpi_on_side(false,get_pointer_sniping_dpi(config));
+    if (is_keyboard_left()) {
+        if (user_state.split_pointing_mode == 1) {
+            pointing_device_set_cpi_on_side(true, CHARYBDIS_DRAGSCROLL_DPI);
+            pointing_device_set_cpi_on_side(false, CHARYBDIS_DRAGSCROLL_DPI);
+        } else if (user_state.split_pointing_mode == 2) {
+            pointing_device_set_cpi_on_side(true,get_pointer_sniping_dpi(config));
+            pointing_device_set_cpi_on_side(false,get_pointer_sniping_dpi(config));
+            dprintf("testing");
+        } else {
+            pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
+            pointing_device_set_cpi_on_side(false, get_pointer_default_dpi(config));
+        }
     } else {
-        pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
-        pointing_device_set_cpi_on_side(false, get_pointer_default_dpi(config));
+        if (user_state.split_pointing_mode == 1) {
+            pointing_device_set_cpi_on_side(true, CHARYBDIS_DRAGSCROLL_DPI);
+            pointing_device_set_cpi(CHARYBDIS_DRAGSCROLL_DPI);
+        } else if (user_state.split_pointing_mode == 2) {
+            pointing_device_set_cpi_on_side(true,get_pointer_sniping_dpi(config));
+            pointing_device_set_cpi(get_pointer_sniping_dpi(config));
+        } else {
+            pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
+            pointing_device_set_cpi(get_pointer_default_dpi(config));
+        }
     }
 }
+
+// static void maybe_update_pointing_device_cpi(charybdis_config_t* config) {
+//     if (config->is_dragscroll_enabled) {
+//         pointing_device_set_cpi(CHARYBDIS_DRAGSCROLL_DPI);
+//     } else if (config->is_sniping_enabled) {
+//         pointing_device_set_cpi(get_pointer_sniping_dpi(config));;
+//     } else {
+//         pointing_device_set_cpi(get_pointer_default_dpi(config));
+//     }
+// }
 
 /**
  * \brief Update the pointer's default DPI to the next or previous step.
@@ -179,18 +205,11 @@ void charybdis_set_pointer_dragscroll_enabled(bool enable) {
     maybe_update_pointing_device_cpi(&g_charybdis_config);
 }
 
-bool charybdis_get_auto_mouse_enabled(void) { return g_charybdis_config.is_auto_mouse_enabled; }
-
-void charybdis_set_auto_mouse_enabled(bool enable) {
-    g_charybdis_config.is_auto_mouse_enabled = enable;
-    maybe_update_pointing_device_cpi(&g_charybdis_config);
-}
-
 void pointing_device_init_kb(void) { maybe_update_pointing_device_cpi(&g_charybdis_config); }
 
 #    ifndef CONSTRAIN_HID
 #        define CONSTRAIN_HID(value) ((value) < XY_REPORT_MIN ? XY_REPORT_MIN : ((value) > XY_REPORT_MAX ? XY_REPORT_MAX : (value)))
-#    endif // !CONSTRAIN_HIDs
+#    endif // !CONSTRAIN_HID
 
 /**
  * \brief Add optional acceleration effect.
@@ -227,45 +246,6 @@ void pointing_device_init_kb(void) { maybe_update_pointing_device_cpi(&g_charybd
 #        endif
 #        define TAP_CHECK TAPPING_TERM
 #    endif
-
-
-static void pointing_device_task_charybdis(report_mouse_t* left_report, report_mouse_t* right_report) {
-    static int16_t scroll_buffer_x        = 0;
-    static int16_t scroll_buffer_y        = 0;
-    if (g_charybdis_config.is_dragscroll_enabled) {
-#    ifdef CHARYBDIS_DRAGSCROLL_REVERSE_X
-        scroll_buffer_x -= left_report->x;
-#    else
-        scroll_buffer_x += left_report->x;
-#    endif  // CHARYBDIS_DRAGSCROLL_REVERSE_X
-#    ifdef CHARYBDIS_DRAGSCROLL_REVERSE_Y
-        scroll_buffer_y -= left_report->y;
-#    else
-        scroll_buffer_y += left_report->y;
-#    endif  // CHARYBDIS_DRAGSCROLL_REVERSE_Y
-        left_report->x = 0;
-        left_report->y = 0;
-        if (abs(scroll_buffer_x) > CHARYBDIS_DRAGSCROLL_BUFFER_SIZE) {
-            left_report->h = scroll_buffer_x > 0 ? 1 : -1;
-            scroll_buffer_x = 0;
-        }
-        if (abs(scroll_buffer_y) > CHARYBDIS_DRAGSCROLL_BUFFER_SIZE) {
-            left_report->v = scroll_buffer_y > 0 ? 1 : -1;
-            scroll_buffer_y = 0;
-        }
-    } else if (!g_charybdis_config.is_sniping_enabled) {
-        left_report->x = DISPLACEMENT_WITH_ACCELERATION(left_report->x);
-        left_report->y = DISPLACEMENT_WITH_ACCELERATION(left_report->y);
-    }
-}
-
-
-report_mouse_t pointing_device_task_combined_kb (report_mouse_t left_report, report_mouse_t right_report) {
-    pointing_device_task_charybdis(&left_report, &right_report);
-    return pointing_device_task_combined_user(left_report, right_report);
-
-
-}
 
 #    if defined(POINTING_DEVICE_ENABLE) && !defined(NO_CHARYBDIS_KEYCODES)
 /** \brief Whether SHIFT mod is enabled. */
@@ -304,10 +284,14 @@ static bool has_shift_mod(void) {
 // #    endif  // CONSOLE_ENABLE
 // }
 
+static int8_t rotations = 0;
+bool lvgl_encoder = false;
+static lv_group_t *g;
+static uint32_t act_key = 0;
+
 bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
     if (!process_record_user(keycode, record)) {
         return false;
-        // debug_charybdis_config_to_console(&g_charybdis_config);
     }
 #    ifndef NO_CHARYBDIS_KEYCODES
     switch (keycode) {
@@ -343,11 +327,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
                 charybdis_set_pointer_sniping_enabled(!charybdis_get_pointer_sniping_enabled());
             }
             break;
-        case AUTO_MOUSE_LAYER_TOGGLE:
-            if (record->event.pressed) {
-                charybdis_set_auto_mouse_enabled(!charybdis_get_auto_mouse_enabled());
-            }
-            break;
         case DRAGSCROLL_MODE:
             charybdis_set_pointer_dragscroll_enabled(record->event.pressed);
             break;
@@ -357,32 +336,85 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
             }
             break;
         case RGB_TOG1:
-        if (record->event.pressed) {
+            if (record->event.pressed) {
                 rgb_matrix_increase_flags();
             }
             return false;
-                case DRAG_MOM:
+        case DRAG_MOM:
             if (record->event.pressed) {
                 is_drag_mom ^= 1;
             }
             break;
         case DRAG_SCROLL:{
-                scrolling_mode ^= 1;
+            scrolling_mode ^= 1;
+        }
+        break;
+        case PM_SWITCH:
+            if (record->event.pressed) {
+                pointing_mode_switch_hands();
+            }
+        break;
+        case LVGL_CLOCKWISE:
+            if (record->event.pressed) {
+                rotations++;
+                dprintf("Rotations: %d\n", rotations);
             }
             break;
-
+        case LVGL_COUNTER_CLOCKWISE:
+            if (record->event.pressed) {
+                rotations--;
+                dprintf("Rotations: %d\n", rotations);
+            }
+            break;
+        case LVGL_ENCODER_BUTTON: {
+            if (record->event.pressed) {
+                lvgl_encoder = true;
+            } else {
+                lvgl_encoder = false;
+            }
+        }
+        case LVGL_CONTROL_NEXT: {
+            if (record->event.pressed) {
+                act_key = 1;
+            } else {
+                act_key = 0;
+            }
+            break;
+        }
+        case LVGL_CONTROL_PREV: {
+            if (record->event.pressed) {
+                act_key = 2;
+            } else {
+                act_key = 0;
+            }
+            break;
+        }
+        case LVGL_CONTROL_LEFT: {
+            if (record->event.pressed) {
+                act_key = 3;
+            } else {
+                act_key = 0;
+            }
+            break;
+        }
+        case LVGL_CONTROL_RIGHT: {
+            if (record->event.pressed) {
+                act_key = 4;
+            } else {
+                act_key = 0;
+            }
+            break;
+        }
+        case LVGL_CONTROL_ENTER: {
+            if (record->event.pressed) {
+                act_key = 5;
+            } else {
+                act_key = 0;
+            }
+            break;
+        }
     }
-#    endif  // !NO_CHARYBDIS_KEYCODES
-#    ifndef MOUSEKEY_ENABLE
-    // Simulate mouse keys if full support is not enabled (reduces firmware size
-    // while maintaining support for mouse keys).
-    if (IS_MOUSEKEY_BUTTON(keycode)) {
-        report_mouse_t mouse_report = pointing_device_get_report();
-        mouse_report.buttons        = pointing_device_handle_buttons(mouse_report.buttons, record->event.pressed, keycode - KC_MS_BTN1);
-        pointing_device_set_report(mouse_report);
-        pointing_device_send();
-    }
-#    endif  // !MOUSEKEY_ENABLE
+#    endif
     return true;
 }
 
@@ -415,21 +447,18 @@ void rgb_matrix_increase_flags(void)
 #ifdef QUANTUM_PAINTER_ENABLE
 void kb_state_update(void) {
     if (is_keyboard_master()) {
-        // Modify allowed current limits
+
         // Turn off the LCD if there's been no matrix activity
         kb_state.lcd_power = (last_input_activity_elapsed() < 30000) ? 1 : 0;
     }
 }
-#endif
 
-#ifdef QUANTUM_PAINTER_ENABLE
 void kb_state_sync_slave(uint8_t initiator2target_buffer_size, const void* initiator2target_buffer, uint8_t target2initiator_buffer_size, void* target2initiator_buffer) {
     if (initiator2target_buffer_size == sizeof(kb_runtime_config)) {
         memcpy(&kb_state, initiator2target_buffer, sizeof(kb_runtime_config));
     }
 }
 #endif
-
 
 void eeconfig_init_kb(void) {
     g_charybdis_config.raw = 0;
@@ -466,7 +495,55 @@ void charybdis_config_sync_handler(uint8_t initiator2target_buffer_size, const v
     }
 }
 
+// LVGL Encoder Control
+lv_indev_t * indev_encoder;
+lv_indev_t * indev_keypad;
+
+void encoder_read_2(lv_indev_drv_t *drv, lv_indev_data_t *data) {
+    data->enc_diff = rotations;
+    rotations = 0;
+    if (lvgl_encoder) {
+        data->state = LV_INDEV_STATE_PRESSED;
+        dprintf("pressed");
+    } else {
+        data->state = LV_INDEV_STATE_RELEASED;
+    }
+}
+// LVGL Encoder Control
+
+/*Will be called by the library to read the mouse*/
+void keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data){
+    static uint32_t last_key = 0;
+    if(act_key != 0) {
+        data->state = LV_INDEV_STATE_PRESSED;
+        /*Translate the keys to LVGL control characters according to your key definitions*/
+        switch(act_key) {
+        case 1:
+            act_key = LV_KEY_NEXT;
+            break;
+        case 2:
+            act_key = LV_KEY_PREV;
+            break;
+        case 3:
+            act_key = LV_KEY_LEFT;
+            break;
+        case 4:
+            act_key = LV_KEY_RIGHT;
+            break;
+        case 5:
+            act_key = LV_KEY_ENTER;
+            break;
+        }
+        last_key = act_key;
+    } else {
+        data->state = LV_INDEV_STATE_RELEASED;
+    }
+    data->key = last_key;
+}
+
+
 void keyboard_post_init_kb(void) {
+    maybe_update_pointing_device_cpi(&g_charybdis_config);
     transaction_register_rpc(RPC_ID_KB_CONFIG_SYNC, charybdis_config_sync_handler);
     #ifdef QUANTUM_PAINTER_ENABLE
     transaction_register_rpc(RPC_ID_SYNC_STATE_KB, kb_state_sync_slave);
@@ -474,8 +551,38 @@ void keyboard_post_init_kb(void) {
     memset(&kb_state, 0, sizeof(kb_state));
     #endif
     wait_ms(50);
+    qp_display = qp_gc9a01_make_spi_device(240, 240, DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, 8, 0);
+    qp_init(qp_display, QP_ROTATION_0);
+    qp_rect(qp_display, 0, 0, 240, 240, 0, 0, 0, true);
 
+    // #endif
+    qp_lvgl_attach(qp_display);
+
+    // Register Encoder and create default group
+    static lv_indev_drv_t indev_drv;
+    lv_indev_drv_init(&indev_drv);
+    indev_drv.type = LV_INDEV_TYPE_ENCODER;
+    indev_drv.read_cb = encoder_read_2;
+    lv_indev_drv_register(&indev_drv);
+
+    g = lv_group_create();
+    lv_group_set_default(g);
+    lv_indev_t *cur_drv = NULL;
+    for (;;) {
+        cur_drv = lv_indev_get_next(cur_drv);
+        if (!cur_drv) {
+            break;
+        }
+        if (cur_drv->driver->type == LV_INDEV_TYPE_KEYPAD) {
+            lv_indev_set_group(cur_drv, g);
+        }
+        if (cur_drv->driver->type == LV_INDEV_TYPE_ENCODER) {
+            lv_indev_set_group(cur_drv, g);
+        }
+    }
+    wait_ms(50);
     keyboard_post_init_user();
+    ui_init();
 }
 
 void housekeeping_task_kb(void) {
@@ -526,42 +633,15 @@ void housekeeping_task_kb(void) {
         lcd_on = (bool)kb_state.lcd_power;
         qp_power(qp_display, lcd_on);
     }
-    if (kb_state.lcd_power) {
-    draw_ui_user();
-    }
+    // if (kb_state.lcd_power) {
+    //     backlight_level_noeeprom(3);
+    //     rgb_matrix_enable_noeeprom();
+    // } else {
+    //     backlight_level_noeeprom(0);
+    //     rgb_matrix_disable_noeeprom();
+    // }
     #endif
-    #ifdef WFI_ENABLE
-    if (last_input_activity_elapsed() > 3000) {
-        //
-        const pin_t col_pins[] = MATRIX_COL_PINS;
-        const pin_t row_pins[] = MATRIX_ROW_PINS;
-
-
-        // Set up row/col pins and attach callback
-        for (int i = 0; i < sizeof(col_pins) / sizeof(pin_t); ++i) {
-            setPinOutput(col_pins[i]);
-            writePinLow(col_pins[i]);
-        }
-        for (int i = 0; i < sizeof(row_pins) / sizeof(pin_t); ++i) {
-            setPinInputHigh(row_pins[i]);
-            palEnableLineEvent(row_pins[i], PAL_EVENT_MODE_BOTH_EDGES);
-        }
-
-        // Wait for an interrupt
-        __WFI();
-
-        // Now that the interrupt has woken us up, reset all the row/col pins back to defaults
-        for (int i = 0; i < sizeof(row_pins) / sizeof(pin_t); ++i) {
-            palDisableLineEvent(row_pins[i]);
-            setPinInputHigh(row_pins[i]);
-        }
-        for (int i = 0; i < sizeof(col_pins) / sizeof(pin_t); ++i) {
-            writePinHigh(col_pins[i]);
-            setPinInputHigh(col_pins[i]);
-        }
-    }
-    #endif
-
+    lvgl_event_triggers();
     // no need for user function, is called already
 }
 
@@ -582,4 +662,17 @@ void housekeeping_task_kb(void) {
 //     matrix_scan_user();
 // }
 
+// enum via_qmk_caps_word_value{
+//     id_qmk_caps_word_activation   = 1,
+// };
 
+
+// void via_custom_value_command_kb(uint8_t *data, uint8_t length) {
+//     // data = [ command_id, channel_id, value_id, value_data ]
+//     uint8_t *command_id = &(data[0]);
+//     if (*channel_id == id_qmk_caps_word_activation) {
+//         via_qmk_caps_word_command(data, length);
+//         return;
+//     }
+//     *command_id = id_unhandled;
+// }

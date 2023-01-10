@@ -73,6 +73,7 @@ SRC +=  ui/ui.c \
 		ui/fonts/eleganticons.c \
 
 
+
 QUANTUM_PAINTER_LVGL_USE_CUSTOM_CONF = yes
 CIE1931_CURVE = yes
 CUSTOM_KEYLOGGER = no

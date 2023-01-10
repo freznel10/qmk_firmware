@@ -35,11 +35,11 @@ extern painter_device_t qp_display;
 #pragma pack(push)
 #pragma pack(1)
 
-#ifdef QUANTUM_PAINTER_ENABLE
-typedef struct kb_runtime_config {
-    unsigned          lcd_power : 1;
-} kb_runtime_config;
-#endif
+// #ifdef QUANTUM_PAINTER_ENABLE
+// typedef struct kb_runtime_config {
+//     unsigned          lcd_power : 1;
+// } kb_runtime_config;
+// #endif
 
 typedef union {
     uint32_t raw;
@@ -48,9 +48,9 @@ typedef union {
     };
 } keyboard_config_t;
 
-extern kb_runtime_config kb_state;
-_Static_assert(sizeof(kb_runtime_config) == 1, "Invalid data transfer size for keyboard sync data");
-#pragma pack(pop)
+// extern kb_runtime_config kb_state;
+// _Static_assert(sizeof(kb_runtime_config) == 1, "Invalid data transfer size for keyboard sync data");
+// #pragma pack(pop)
 
 extern keyboard_config_t keyboard_config;
 

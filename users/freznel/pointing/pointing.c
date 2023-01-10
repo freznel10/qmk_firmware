@@ -42,12 +42,12 @@ enum keymap_pointing_device_modes {
     PM_RGB_MODE_VAL,         // RGB Control for mode and Brightness [mode id 7]
     PM_RGB_HUE_SAT,          // RGB Control for HUE and Saturation  [mode id 8]
     PM_RGB_SPEED,            // RGB Control for Speed               [mode id 9]
-    PM_WINDOW,             // Window Control                        [mode id 10]
-    PM_SWITCHER,             // RGB Control for Speed               [mode id 11]
-    PM_APP_2,             // RGB Control for Speed                  [mode id 12]
-    PM_CUR_ACCEL,           // RGB Control for Speed                [mode id 13]
-    PM_BROWSER_CONTROL,     // RGB Control for Speed                [mode id 14]
-    PM_WIN_POS,           // RGB Control for Speed                  [mode id 15]
+    PM_WINDOW,                // Window Control                 [mode id 10]
+    PM_SWITCHER,             // RGB Control for Speed           [mode id 11]
+    PM_APP_2,                // ALT_TAB                         [mode id 12]
+    PM_CUR_ACCEL,           // Acceleration                     [mode id 13]
+    PM_BROWSER_CONTROL,     // BROWSER HISTORY                  [mode id 14]
+    PM_WIN_POS,             // WIN_PIS                          [mode id 15]
 };
 
 const uint16_t pointing_device_mode_maps[][4] = {
@@ -81,19 +81,19 @@ const uint16_t pointing_device_mode_maps[][4] = {
         G(KC_LEFT),      G(KC_RIGHT),
                 G(KC_DOWN)
     ),
-    // PM_SWITCHER
+    // PM_SWITCHER : PM 11
     [5] = POINTING_MODE_LAYOUT(
                 G(KC_UP),
         G(KC_LEFT),      G(KC_RIGHT),
                 G(KC_DOWN)
     ),
-    // APP_2
+    // ALT_TAB: PM 12
     [6] = POINTING_MODE_LAYOUT(
                 KC_NO,
         KC_NO,        KC_NO,
                 KC_NO
     ),
-    // ACCEL
+    // ACCEL: PM 13
     [7] = POINTING_MODE_LAYOUT(
                 KC_NO,
         KC_NO,        KC_NO,
@@ -197,7 +197,7 @@ bool process_pointing_mode_user(pointing_mode_t pointing_mode, report_mouse_t* m
             return false;
         case PM_WIN_POS:
             // activate alt key if greater/equal to divisor and set flag
-            if(!APP_WIN) {
+            if((abs(pointing_mode.x)) >= 5 && !APP_WIN) {
                 register_code(KC_LGUI);
                 APP_WIN = true;
             }

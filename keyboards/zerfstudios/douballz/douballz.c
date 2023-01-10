@@ -34,7 +34,7 @@
 
 painter_device_t qp_display;
 
-kb_runtime_config kb_state;
+// kb_runtime_config kb_state;
 __attribute__((weak)) void draw_ui_user(void) {}
 #endif
 
@@ -71,14 +71,16 @@ __attribute__((weak)) void draw_ui_user(void) {}
 #    ifndef CHARYBDIS_POINTER_ACCELERATION_FACTOR
 #        define CHARYBDIS_POINTER_ACCELERATION_FACTOR 24
 #    endif  // !CHARYBDIS_POINTER_ACCELERATION_FACTOR
+#    endif
 
 typedef union {
-    uint8_t raw;
+    uint16_t raw;
     struct {
         uint8_t pointer_default_dpi : 4;  // 16 steps available.
         uint8_t pointer_sniping_dpi : 2;  // 4 steps available.
         bool    is_dragscroll_enabled : 1;
         bool    is_sniping_enabled : 1;
+        unsigned          lcd_power : 1;
     } __attribute__((packed));
 } charybdis_config_t;
 
@@ -98,7 +100,9 @@ static void read_charybdis_config_from_eeprom(charybdis_config_t* config) {
     config->raw                   = eeconfig_read_kb() & 0xff;
     config->is_dragscroll_enabled = false;
     config->is_sniping_enabled    = false;
+    config->lcd_power             = false;
 }
+
 
 /**
  * \brief Save the value of `config` to eeprom.
@@ -456,16 +460,16 @@ void kb_state_update(void) {
     if (is_keyboard_master()) {
 
         // Turn off the LCD if there's been no matrix activity
-        kb_state.lcd_power = (last_input_activity_elapsed() < 30000) ? 1 : 0;
+        g_charybdis_config.lcd_power = (last_input_activity_elapsed() < 30000) ? 1 : 0;
     }
 }
 
-void kb_state_sync_slave(uint8_t initiator2target_buffer_size, const void* initiator2target_buffer, uint8_t target2initiator_buffer_size, void* target2initiator_buffer) {
-    if (initiator2target_buffer_size == sizeof(kb_runtime_config)) {
-        memcpy(&kb_state, initiator2target_buffer, sizeof(kb_runtime_config));
-    }
-}
-#endif
+// void kb_state_sync_slave(uint8_t initiator2target_buffer_size, const void* initiator2target_buffer, uint8_t target2initiator_buffer_size, void* target2initiator_buffer) {
+//     if (initiator2target_buffer_size == sizeof(kb_runtime_config)) {
+//         memcpy(&kb_state, initiator2target_buffer, sizeof(kb_runtime_config));
+//     }
+// }
+// #endif
 
 void eeconfig_init_kb(void) {
     g_charybdis_config.raw = 0;
@@ -553,14 +557,11 @@ void keyboard_post_init_kb(void) {
     maybe_update_pointing_device_cpi(&g_charybdis_config);
     transaction_register_rpc(RPC_ID_KB_CONFIG_SYNC, charybdis_config_sync_handler);
     #ifdef QUANTUM_PAINTER_ENABLE
-    transaction_register_rpc(RPC_ID_SYNC_STATE_KB, kb_state_sync_slave);
+    // transaction_register_rpc(RPC_ID_SYNC_STATE_KB, kb_state_sync_slave);
         // Reset the initial shared data value between master and slave
-    memset(&kb_state, 0, sizeof(kb_state));
+    memset(&g_charybdis_config, 0, sizeof(g_charybdis_config));
     #endif
     wait_ms(50);
-    // iosevka11 = qp_load_font_mem(font_iosevka11);
-    // futurabold = qp_load_font_mem(font_futurabold);
-    // #if (defined(KEYBOARD_zerfstudios_douballz_rev1))
         if (is_keyboard_left()) {
             #if (defined(KEYBOARD_zerfstudios_douballz_rev1))
                 qp_display = qp_st7735_make_spi_device(80, 160, DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, 8, 0);
@@ -632,7 +633,7 @@ void housekeeping_task_kb(void) {
             memcpy(&last_charybdis_config, &g_charybdis_config, sizeof(g_charybdis_config));
         }
         // Send to slave every 500ms regardless of state change
-        if (timer_elapsed32(last_sync) > 500) {
+        if (timer_elapsed32(last_sync) > 500 ) {
             needs_sync = true;
         }
 
@@ -642,29 +643,29 @@ void housekeeping_task_kb(void) {
                 last_sync = timer_read32();
             }
         }
-        #ifdef QUANTUM_PAINTER_ENABLE
-        static kb_runtime_config last_kb_state;
-        // Check if the state values are different
-        if (memcmp(&kb_state, &last_kb_state, sizeof(kb_runtime_config))) {
-            needs_sync = true;
-            memcpy(&last_kb_state, &kb_state, sizeof(kb_runtime_config));
-        }
+        // #ifdef QUANTUM_PAINTER_ENABLE
+        // static kb_runtime_config last_kb_state;
+        // // Check if the state values are different
+        // if (memcmp(&kb_state, &last_kb_state, sizeof(kb_runtime_config))) {
+        //     needs_sync = true;
+        //     memcpy(&last_kb_state, &kb_state, sizeof(kb_runtime_config));
+        // }
 
-        // Perform the sync if requested
-        if (needs_sync) {
-            if (transaction_rpc_send(RPC_ID_SYNC_STATE_KB, sizeof(kb_runtime_config), &kb_state)) {
-                last_sync = timer_read32();
-            }
-        }
-        #endif
+        // // Perform the sync if requested
+        // if (needs_sync) {
+        //     if (transaction_rpc_send(RPC_ID_SYNC_STATE_KB, sizeof(kb_runtime_config), &kb_state)) {
+        //         last_sync = timer_read32();
+        //     }
+        // }
+        // #endif
     }
     #ifdef QUANTUM_PAINTER_ENABLE
     static bool lcd_on = false;
-    if (lcd_on != (bool)kb_state.lcd_power) {
-        lcd_on = (bool)kb_state.lcd_power;
+    if (lcd_on != (bool)g_charybdis_config.lcd_power) {
+        lcd_on = (bool)g_charybdis_config.lcd_power;
         qp_power(qp_display, lcd_on);
     }
-    if (kb_state.lcd_power) {
+    if (g_charybdis_config.lcd_power) {
         backlight_level_noeeprom(3);
         rgb_matrix_enable_noeeprom();
     } else {
