@@ -35,7 +35,7 @@ __attribute__((weak)) report_mouse_t pointing_device_task_keymap(report_mouse_t 
     return mouse_report;
 }
 
-static bool APP_ALT;
+static bool APP_ALT, APP_WIN;
 
 enum keymap_pointing_device_modes {
     PM_BROW = PM_SAFE_RANGE, // BROWSER TAB Manipulation            [mode id 6]
@@ -47,7 +47,7 @@ enum keymap_pointing_device_modes {
     PM_APP_2,             // RGB Control for Speed                  [mode id 12]
     PM_CUR_ACCEL,           // RGB Control for Speed                [mode id 13]
     PM_BROWSER_CONTROL,     // RGB Control for Speed                [mode id 14]
-    PM_WIP5,           // RGB Control for Speed                     [mode id 15]
+    PM_WIN_POS,           // RGB Control for Speed                  [mode id 15]
 };
 
 const uint16_t pointing_device_mode_maps[][4] = {
@@ -99,12 +99,13 @@ const uint16_t pointing_device_mode_maps[][4] = {
         KC_NO,        KC_NO,
                 KC_NO
     ),
-    // Browser Control
+    // Browser Control: PM14
     [8] = POINTING_MODE_LAYOUT(
                 KC_NO,
         KC_WBAK,        KC_WFWD,
                 KC_NO
     ),
+    //Windows Positioning: PM15
     [9] = POINTING_MODE_LAYOUT(
                 KC_NO,
         KC_NO,        KC_NO,
@@ -135,10 +136,8 @@ uint8_t get_pointing_mode_divisor_user(uint8_t mode_id, uint8_t direction) {
         case PM_RGB_SPEED:
             return 64; // could skip adding this if default if POINTING_DEFAULT_DIVISOR is 64
         case PM_WINDOW:
-            // half speed for vertical axis
             return 128;
         case PM_SWITCHER:
-            // half speed for horizontal axis
             return 64;
         case PM_CUR_ACCEL:
             return 8;
@@ -146,8 +145,8 @@ uint8_t get_pointing_mode_divisor_user(uint8_t mode_id, uint8_t direction) {
             return 64;
         case PM_BROWSER_CONTROL:
             return 64;
-        case PM_WIP5:
-            return 64; // could skip adding this if default if POINTING_DEFAULT_DIVISOR is 64
+        case PM_WIN_POS:
+            return 128; // could skip adding this if default if POINTING_DEFAULT_DIVISOR is 64
     }
 
     return 0; // returning 0 to let processing of divisors continue
@@ -196,6 +195,14 @@ bool process_pointing_mode_user(pointing_mode_t pointing_mode, report_mouse_t* m
             }
             pointing_tap_codes(S(KC_TAB), KC_NO, KC_NO, KC_TAB);
             return false;
+        case PM_WIN_POS:
+            // activate alt key if greater/equal to divisor and set flag
+            if((abs(pointing_mode.x)) >= pointing_mode.divisor && !APP_WIN) {
+                register_code(KC_LGUI);
+                APP_WIN = true;
+            }
+            pointing_tap_codes(KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT);
+            return false;
     }
     return true;
 }
@@ -228,6 +235,14 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t* record) {
         default:
             mouse_debounce_timer = timer_read();
             break;
+        case KB_MO_WINDOW:
+        // toggle Alt key off on key release and reset flag
+            if(!record->event.pressed && APP_WIN) {
+                unregister_code(KC_LGUI);
+                APP_WIN = false;
+            }
+            pointing_mode_key_momentary(PM_WIN_POS, record);
+        break;
     }
     return true;
 }

@@ -533,10 +533,10 @@ void set_pm_text_value(lv_obj_t* lbl) {
             case 13:
                 pm_name = "ACCELL";
             case 14:
-                pm_name = "BACK_FWD"; //STILL DECIDING
+                pm_name = "BACK_FWD";
                 break;
             case 15:
-                pm_name = "WIP"; //STILL DECIDING
+                pm_name = "WIN_POS";
                 break;
             case 16:
                 pm_name = "ACCELL";

@@ -97,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_MOUSE] = LAYOUT_douballz(
         _______,        KC_E,       KC_WH_L,    KC_WH_R,    _______,    _______,                                                    _______,    _______,    _______,    _______,    _______,    _______,
         _______,        S(KC_M),    KC_WH_D,    KC_WH_U,    KC_ESC,     ST_MACRO_6,                                                  ST_MACRO_6,    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
-        _______,        KC_WH_L,    KC_BTN2,    KC_BTN1,    KC_BTN3,    PM_MO(10),                                                   PM_MO(10),  KC_BTN2,    KC_BTN1,    KC_BTN3,    KC_WH_R,    _______,
+        _______,        KC_WH_L,    KC_BTN2,    KC_BTN1,    KC_BTN3,    PM_MO(15),                                                   PM_MO(10),  KC_BTN2,    KC_BTN1,    KC_BTN3,    KC_WH_R,    _______,
         _______,        PM_MO(14),  TD_PMD1,    TD_DRGS,    NX_TAB,     PM_MO(6),  _______,                              _______,    PM_MO(6),    BK_TAB,     TD_DRGR,    NX_TAB,     PM_MO(14),    _______,
                                                                         _______,    _______,    _______,    _______,    _______,    _______,
                                                                                     _______,    _______,    _______,    _______,
