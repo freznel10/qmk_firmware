@@ -197,7 +197,7 @@ bool process_pointing_mode_user(pointing_mode_t pointing_mode, report_mouse_t* m
             return false;
         case PM_WIN_POS:
             // activate alt key if greater/equal to divisor and set flag
-            if((abs(pointing_mode.x)) >= pointing_mode.divisor && !APP_WIN) {
+            if(!APP_WIN) {
                 register_code(KC_LGUI);
                 APP_WIN = true;
             }
@@ -232,17 +232,18 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t* record) {
         case KB_TG_ACCEL:
             pointing_mode_key_toggle(PM_CUR_ACCEL, record);
         break; // continue key record processing
-        default:
-            mouse_debounce_timer = timer_read();
-            break;
         case KB_MO_WINDOW:
-        // toggle Alt key off on key release and reset flag
             if(!record->event.pressed && APP_WIN) {
                 unregister_code(KC_LGUI);
                 APP_WIN = false;
             }
             pointing_mode_key_momentary(PM_WIN_POS, record);
         break;
+        default:
+            mouse_debounce_timer = timer_read();
+        break;
+
+
     }
     return true;
 }
