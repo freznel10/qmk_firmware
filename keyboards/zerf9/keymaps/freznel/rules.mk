@@ -14,7 +14,7 @@ ENCODER_MAP_ENABLE           = yes
 LTO_SUPPORTED = yes
 OLED_DRIVER = custom
 
-AUTOCORRECTION_ENABLE = yes
+AUTOCORRECT_ENABLE = yes
 CAPS_WORD_ENABLE = yes
 CUSTOM_UNICODE_ENABLE = yes
 CUSTOM_SPLIT_TRANSPORT_SYNC = yes
@@ -24,5 +24,6 @@ HAPTIC_ENABLE = yes			# Enable Pimoroni Haptic Bzzz LRA (+1192)
 HAPTIC_DRIVER += DRV2605L
 
 DEFERRED_EXEC_ENABLE  = yes
-SRC += select_word.c
 
+
+VPATH += keyboards/gboards

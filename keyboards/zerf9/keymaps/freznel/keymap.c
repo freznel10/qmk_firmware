@@ -16,15 +16,20 @@
  */
 
 #include "freznel.h"
-#include "pointing_device.h"
-#include "select_word.h"
-
+#include "autocorrect_data.h"
 #include <math.h>
 #include <stdio.h>
 #include "ctype.h"
+#include "color.h"
+#include <qp.h>
+#ifdef OS_DETECTION_ENABLE
+#include "os_detection.h"
+#endif
+#include  "g/keymap_combo.h"
 
+#    include "pointing_device_modes.h"
+#include "pointing_device.h"
 #ifdef HAPTIC_ENABLE
-//#include "keyboards/zerf9/mx_track/haptic_utils.h"
 #include "drivers/haptic/DRV2605L.h"
 #endif
 
@@ -50,24 +55,22 @@ enum custom_keycodes {
   ST_MACRO_3,
   ST_MACRO_4,
   ST_MACRO_5,
-  ST_MACRO_6,
-  SELWORD,
 };
 
 // clang-format off
 
 #define LAYOUT_5x8_new_wrapper(...) LAYOUT_5x8_new(__VA_ARGS__)
 #define LAYOUT_5x8_new_base( \
-    K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A, \qmk compile -kb zerf9/chunky2040 -km freznel
+    K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A, \
     K11, K12, K13, K14, K15, K16, K17, K18, K19, K1A, K1B, \
     K21, K22, K23, K24, K25, K26, K27, K28, K29, K2A  \
   ) \
   LAYOUT_5x8_new_wrapper( \
     KC_MINUS,  ________________NUMBER_LEFT________________,                         KC_BTN3,   KC_MUTE,        KC_MUTE,    KC_BTN3,     ________________NUMBER_RIGHT_______________, KC_EQUAL, \
     KC_RGB_T,         K01,         K02,          K03,         K04,         K05,     KC_BTN2,                               KC_BTN2,     K06,     K07,     K08,     K09,     K0A,     EE_CLR, \
-    RGB_TOG1, LGUI_T(K11), LALT_T(K12),  LCTL_T(K13), LSFT_T(K14),         K15,     KC_BTN1,   SM_TG(1),        KC_MUTE,    KC_BTN1,     K16,     RSFT_T(K17),     RCTL_T(K18),     RALT_T(K19),     RGUI_T(K1A),     RALT_T(K1B), \
+    RGB_TOG1, LGUI_T(K11), LALT_T(K12),  LCTL_T(K13), LSFT_T(K14),         K15,     KC_BTN1,   PM_MO(1),        KC_MUTE,    KC_BTN1,     K16,     RSFT_T(K17),     RCTL_T(K18),     RALT_T(K19),     RGUI_T(K1A),     RALT_T(K1B), \
     LALT_T(KC_DEL), LCTL_T(K21),  K22,          K23,          K24,         K25,     TD_DRGS,       C_R,            SELWORD,    ALT_TAB,     K26,     K27,     K28,     K29, RCTL_T(K2A), KC_BSLS, \
-    KC_HOME,        KC_END,      KC_PGDN,   KC_PGUP,                     TAB_RSE, SPC_LSH,   ENT_LWR,        ESC_LWR,    BSP_RSH,     DEL_RSE,          KC_LEFT,  KC_DOWN, KC_UP, KC_RIGHT \
+    KC_HOME,        KC_END,      KC_PGDN,   KC_PGUP,                     TAB_RSE, SPC_LSH,   ENT_LWR,        ESC_LWR,    BSP_KEY,     DEL_RSE,          KC_LEFT,  KC_DOWN, KC_UP, KC_RIGHT \
 )
 #define LAYOUT_base_wrapper(...) LAYOUT_5x8_new_base(__VA_ARGS__)
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -140,7 +143,6 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 #ifdef CONSOLE_ENABLE
     uprintf("KL: kc: %u, col: %u, row: %u, pressed: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed);
 #endif
-if(!process_select_word(keycode, record, SELWORD)) { return false; }
   switch (keycode) {
     case ST_MACRO_0:
     if (record->event.pressed) {
@@ -1363,11 +1365,6 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
     }
     return state;
 }
-
-
-
-#include "combos.c"
-
 
 void matrix_io_delay(void) {
     __asm__ volatile("nop\nnop\nnop\n");
