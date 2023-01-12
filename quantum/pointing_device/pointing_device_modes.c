@@ -363,13 +363,24 @@ static report_mouse_t process_pointing_mode(pointing_mode_t pointing_mode, repor
         // drag scroll mode (sets mouse axes to mouse_report h & v with divisor)
         case PM_DRAG:
 #    ifdef MOUSE_SCROLL_HIRES_ENABLE
-            if (resolution_multiplier & 1 << 0) pointing_mode.y *= MAX(MOUSE_SCROLL_MULTIPLIER / pointing_mode.divisor, 1);
-            if (resolution_multiplier & 1 << 2) pointing_mode.x *= MAX(MOUSE_SCROLL_MULTIPLIER / pointing_mode.divisor, 1);
-            if (resolution_multiplier) pointing_mode.divisor = 1;
+            uint8_t cur_divisor = pointing_mode.divisor;
+            uint8_t drag_multiplier = MAX(MOUSE_SCROLL_MULTIPLIER / cur_divisor, 1);
+            if (resolution_multiplier & 1 << 2) {
+                pointing_mode.x *= drag_multiplier;
+                pointing_mode.divisor = 1;
+            }
 #    endif
             mouse_report.h = pointing_device_hv_clamp(pointing_mode.x / (int16_t)pointing_mode.divisor);
-            mouse_report.v = pointing_device_hv_clamp(pointing_mode.y / (int16_t)pointing_mode.divisor);
             pointing_mode.x -= (int16_t)mouse_report.h * (int16_t)pointing_mode.divisor;
+#    ifdef MOUSE_SCROLL_HIRES_ENABLE
+            if (resolution_multiplier & 1 << 0) {
+                pointing_mode.y *= drag_multiplier;
+                pointing_mode.divisor = 1;
+            } else {
+                pointing_mode.divisor = cur_divisor;
+            }
+#    endif
+            mouse_report.v = pointing_device_hv_clamp(pointing_mode.y / (int16_t)pointing_mode.divisor);
             pointing_mode.y -= (int16_t)mouse_report.v * (int16_t)pointing_mode.divisor;
             set_pointing_mode(pointing_mode);
             break;

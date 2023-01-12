@@ -66,9 +66,7 @@ extern keymap_config_t keymap_config;
 uint8_t keyboard_idle __attribute__((aligned(2)))     = 0;
 uint8_t keyboard_protocol __attribute__((aligned(2))) = 1;
 uint8_t keyboard_led_state                            = 0;
-#ifdef MOUSE_SCROLL_HIRES_ENABLE
-uint8_t resolution_multiplier = 0;
-#endif
+
 volatile uint16_t      keyboard_idle_count = 0;
 static virtual_timer_t keyboard_idle_timer;
 
@@ -560,8 +558,9 @@ static void usb_event_cb(USBDriver *usbp, usbevent_t event) {
                 chSysUnlockFromISR();
             }
 #ifdef MOUSE_SCROLL_HIRES_ENABLE
+            /* Reset multiplier on reset */
             resolution_multiplier = 0;
-#endif
+#endif 
             return;
 
         case USB_EVENT_WAKEUP:
@@ -814,7 +813,7 @@ static const USBConfig usbcfg = {
 /*
  * Initialize the USB driver
  */
-void init_usb_driver(USBDriver *usbp) {
+void init_usb_driver(USBDriver *usbp) {   
     for (int i = 0; i < NUM_USB_DRIVERS; i++) {
 #ifdef USB_ENDPOINTS_ARE_REORDERABLE
         QMKUSBDriver *driver                       = &drivers.array[i].driver;
@@ -999,6 +998,10 @@ void send_mouse(report_mouse_t *report) {
     usbStartTransmitI(&USB_DRIVER, MOUSE_IN_EPNUM, (uint8_t *)report, sizeof(report_mouse_t));
     mouse_report_sent = *report;
     osalSysUnlock();
+    
+#    ifdef MOUSE_HIRES_SCROLL_ENABLE
+    enable_hires_scroll();
+#    endif
 }
 
 #else  /* MOUSE_ENABLE */
