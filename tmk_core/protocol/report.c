@@ -34,6 +34,7 @@ static int8_t cb_count = 0;
 #ifdef MOUSE_SCROLL_HIRES_ENABLE
 static uint8_t prev_resolution_multiplier = 0;
 uint8_t        resolution_multiplier      = 0;
+uint8_t        resolution_multiplier_stored      = 0;
 #endif
 
 /** \brief has_anykey

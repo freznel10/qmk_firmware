@@ -413,7 +413,12 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
             }
             break;
         }
-            // return false;
+        case LO_RES_DOWN: {
+            if (record->event.pressed) {
+                hires_scroll_disable_next(HIRES_BOTH);
+            }
+            break;
+        }
     }
 #    endif  // !NO_EMBLEM_KEYCODES
     return true;

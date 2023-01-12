@@ -40,5 +40,6 @@
         }
     },
 
-    "terminal.integrated.cursorStyle": "line"
+    "terminal.integrated.cursorStyle": "line",
+    "cmake.sourceDirectory": "${workspaceFolder}/lib/googletest"
 }

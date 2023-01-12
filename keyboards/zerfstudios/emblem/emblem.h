@@ -63,6 +63,8 @@ enum emblem_keycodes {
     LVGL_CONTROL_LEFT,
     LVGL_CONTROL_RIGHT,
     LVGL_CONTROL_ENTER,
+    LO_RES_DOWN,
+    LO_RES_UP,
     KEYMAP_SAFE_RANGE,
 };
 #        define EMBLEM_SAFE_RANGE KEYMAP_SAFE_RANGE

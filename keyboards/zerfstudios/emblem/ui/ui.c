@@ -7,7 +7,7 @@
 #include "ui_helpers.h"
 #include "bindings/bindings.h"
 #include "freznel.h"
-#include "../emblem/emblem.h"
+#include "../zerfstudios/emblem/emblem.h"
 #include "./quantum/pointing_device/pointing_device_modes.h"
 
 #include "menu.h"

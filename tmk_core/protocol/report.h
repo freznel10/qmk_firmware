@@ -362,14 +362,14 @@ void clear_keys_from_report(report_keyboard_t* keyboard_report);
 #ifdef MOUSE_ENABLE
 bool has_mouse_report_changed(report_mouse_t* new_report, report_mouse_t* old_report);
 #endif
-    
+
 #ifdef MOUSE_SCROLL_HIRES_ENABLE
 typedef enum {
     HIRES_V = 0,
     HIRES_BOTH,
     HIRES_H = 2
 } hires_axis_t;
-void disable_hires_scroll_on_next(hires_axis_t axis);
+void hires_scroll_disable_next (hires_axis_t axis);
 void hires_scroll_reset(void);
 #endif
 
