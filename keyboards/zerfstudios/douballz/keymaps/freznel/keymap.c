@@ -349,7 +349,7 @@ void init_and_clear(painter_device_t device, painter_rotation_t rotation) {
     qp_rect(device, 0, 0, width, height, 0, 0, 0, true);
 }
 
-layer_state_t layer_state_set_keymap(layer_state_t state) {
+e_t layer_state_set_keymap(layer_state_t state) {
     if (get_toggled_pointing_mode_id() != get_pointing_mode_id()) {
         set_pointing_mode_id(get_toggled_pointing_mode_id());
     }

@@ -140,14 +140,11 @@ void DRG_SNP_finished(tap_dance_state_t *state, void *user_data) {
                     toggle_pointing_mode_id(PM_DRAG);
                 };
             #endif
-            #if defined(KEYBOARD_zerf9)
+            #if defined(KEYBOARD_zerf9) || defined(KEYBOARD_zerfstudios_emblem)
                 toggle_pointing_mode_id(PM_DRAG);
             #endif
             break;
         case TD_SINGLE_HOLD:
-            #if defined(KEYBOARD_emblem)
-                set_pointing_mode_id(PM_DRAG);
-            #endif
             #if defined(KEYBOARD_unichunky)
                 unichunky_set_pointer_dragscroll_enabled(1);
             #endif
@@ -159,21 +156,15 @@ void DRG_SNP_finished(tap_dance_state_t *state, void *user_data) {
                     set_pointing_mode_id(PM_DRAG);
                 }
             #endif
-            // #if defined(KEYBOARD_zerf9)
-            //     charybdis_set_pointer_dragscroll_enabled(1);
-            // #endif
-            #if defined(KEYBOARD_zerf9)
+            #if defined(KEYBOARD_zerf9) || defined(KEYBOARD_zerfstudios_emblem)
                 set_pointing_mode_id(PM_DRAG);
             #endif
             break;
         case TD_DOUBLE_TAP:
-            #if defined(KEYBOARD_emblem)
-                toggle_pointing_mode_id(PM_PRECISION);
-            #endif
             #if defined(KEYBOARD_unichunky)
                 unichunky_set_pointer_sniping_enabled(!unichunky_get_pointer_sniping_enabled());
             #endif
-            #if defined(KEYBOARD_zerf9)
+            #if defined(KEYBOARD_zerf9) || defined(KEYBOARD_zerfstudios_emblem)
                 toggle_pointing_mode_id(PM_PRECISION);
             #endif
             #if (defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)) && defined(SPLIT_POINTING_ENABLE) && defined(POINTING_DEVICE_COMBINED)
@@ -186,13 +177,10 @@ void DRG_SNP_finished(tap_dance_state_t *state, void *user_data) {
             #endif
             break;
         case TD_DOUBLE_HOLD:
-            #if defined(KEYBOARD_emblem)
-                set_pointing_mode_id(PM_PRECISION);
-            #endif
             #if defined(KEYBOARD_unichunky)
                 set_pointing_mode_id(PM_PRECISION);
             #endif
-            #if defined(KEYBOARD_zerf9)
+            #if defined(KEYBOARD_zerf9) || defined(KEYBOARD_zerfstudios_emblem)
                 set_pointing_mode_id(PM_PRECISION);
             #endif
             #if (defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)) && defined(SPLIT_POINTING_ENABLE) && defined(POINTING_DEVICE_COMBINED)
@@ -214,35 +202,20 @@ void DRG_SNP_reset(tap_dance_state_t *state, void *user_data) {
         case TD_SINGLE_TAP:
             break;
         case TD_SINGLE_HOLD:
-            #if defined(KEYBOARD_emblem)
-                set_pointing_mode_id(PM_NONE);
-            #endif
             #if defined(KEYBOARD_unichunky)
                 unichunky_set_pointer_dragscroll_enabled(0);
             #endif
-            // #if defined(KEYBOARD_zerf9)
-            //     charybdis_set_pointer_dragscroll_enabled(0);
-            // #endif
-            #if defined(KEYBOARD_zerf9)
-                set_pointing_mode_id(PM_NONE);
-            #endif
-            #if defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)
+            #if defined(KEYBOARD_zerf9) || defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)
                 set_pointing_mode_id(PM_NONE);
             #endif
             break;
         case TD_DOUBLE_TAP:
             break;
         case TD_DOUBLE_HOLD:
-            #if defined(KEYBOARD_emblem)
-                toggle_pointing_mode_id(PM_NONE);
-            #endif
             #if defined(KEYBOARD_unichunky)
                 unichunky_set_pointer_sniping_enabled(0);
             #endif
-            #if defined(KEYBOARD_zerf9)
-                toggle_pointing_mode_id(PM_NONE);
-            #endif
-            #if defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)
+            #if defined(KEYBOARD_zerf9) || defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)
                  toggle_pointing_mode_id(PM_NONE);
             #endif
             break;
@@ -274,14 +247,11 @@ void DRG_SNP_R_finished(tap_dance_state_t *state, void *user_data) {
                     toggle_pointing_mode_id(PM_DRAG);
                 }
             #endif
-            #if defined(KEYBOARD_zerf9)
+            #if defined(KEYBOARD_zerf9) || defined(KEYBOARD_zerfstudios_emblem)
                 toggle_pointing_mode_id(PM_DRAG);
             #endif
             break;
         case TD_SINGLE_HOLD:
-            #if defined(KEYBOARD_emblem)
-                set_pointing_mode_id(PM_DRAG);
-            #endif
             #if defined(KEYBOARD_unichunky)
                 unichunky_set_pointer_dragscroll_enabled(1);
             #endif
@@ -293,18 +263,15 @@ void DRG_SNP_R_finished(tap_dance_state_t *state, void *user_data) {
                     set_pointing_mode_id(PM_DRAG);
                 }
             #endif
-            #if defined(KEYBOARD_zerf9)
+            #if defined(KEYBOARD_zerf9) || defined(KEYBOARD_zerfstudios_emblem)
                 set_pointing_mode_id(PM_DRAG);
             #endif
             break;
         case TD_DOUBLE_TAP:
-            #if defined(KEYBOARD_emblem)
-                toggle_pointing_mode_id(PM_PRECISION);
-            #endif
             #if defined(KEYBOARD_unichunky)
                 unichunky_set_pointer_sniping_enabled(!unichunky_get_pointer_sniping_enabled());
             #endif
-            #if defined(KEYBOARD_zerf9)
+            #if defined(KEYBOARD_zerf9) || defined(KEYBOARD_zerfstudios_emblem)
                 toggle_pointing_mode_id(PM_PRECISION);
             #endif
             #if (defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)) && defined(SPLIT_POINTING_ENABLE) && defined(POINTING_DEVICE_COMBINED)
@@ -317,13 +284,10 @@ void DRG_SNP_R_finished(tap_dance_state_t *state, void *user_data) {
             #endif
             break;
         case TD_DOUBLE_HOLD:
-            #if defined(KEYBOARD_emblem)
-                set_pointing_mode_id(PM_PRECISION);
-            #endif
             #if defined(KEYBOARD_unichunky)
                 set_pointing_mode_id(PM_PRECISION);
             #endif
-            #if defined(KEYBOARD_zerf9)
+            #if defined(KEYBOARD_zerf9) || defined(KEYBOARD_zerfstudios_emblem)
                 set_pointing_mode_id(PM_PRECISION);
             #endif
             #if (defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)) && defined(SPLIT_POINTING_ENABLE) && defined(POINTING_DEVICE_COMBINED)
@@ -345,13 +309,10 @@ void DRG_SNP_R_reset(tap_dance_state_t *state, void *user_data) {
         case TD_SINGLE_TAP:
             break;
         case TD_SINGLE_HOLD:
-            #if defined(KEYBOARD_emblem)
-                set_pointing_mode_id(PM_NONE);
-            #endif
             #if defined(KEYBOARD_unichunky)
                 unichunky_set_pointer_dragscroll_enabled(0);
             #endif
-            #if defined(KEYBOARD_zerf9)
+            #if defined(KEYBOARD_zerf9) || defined(KEYBOARD_zerfstudios_emblem)
                 set_pointing_mode_id(PM_NONE);
             #endif
             #if defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)
@@ -361,13 +322,10 @@ void DRG_SNP_R_reset(tap_dance_state_t *state, void *user_data) {
         case TD_DOUBLE_TAP:
             break;
         case TD_DOUBLE_HOLD:
-            #if defined(KEYBOARD_emblem)
-                toggle_pointing_mode_id(PM_NONE);
-            #endif
             #if defined(KEYBOARD_unichunky)
                 unichunky_set_pointer_sniping_enabled(0);
             #endif
-            #if defined(KEYBOARD_zerf9)
+            #if defined(KEYBOARD_zerf9) || defined(KEYBOARD_zerfstudios_emblem)
                 toggle_pointing_mode_id(PM_NONE);
             #endif
             #if defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)
@@ -382,7 +340,7 @@ void DRG_SNP_R_reset(tap_dance_state_t *state, void *user_data) {
 
 
 // + -------------------------------------------------- +
-// +BROWSER, CARET in one button |
+// BROWSER, CARET in one button |
 // + -------------------------------------------------- +
 
 // Create an instance of 'td_tap_t' for the 'DRG_SNP' tap dance.

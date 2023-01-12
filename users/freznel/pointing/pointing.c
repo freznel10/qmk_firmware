@@ -10,7 +10,9 @@
 #include "pointing_device_modes.h"
 
 // static uint16_t mouse_debounce_timer = 0;
-bool            is_drag_mom = false, scrolling_mode = false, is_media = false, enable_acceleration = false;
+bool            enable_acceleration = false;
+static bool     APP_ALT, APP_WIN;
+
 
 #ifdef TAPPING_TERM_PER_KEY
 #    define TAP_CHECK get_tapping_term(KC_BTN1, NULL)
@@ -34,8 +36,6 @@ void pointing_device_init_user(void) {
 __attribute__((weak)) report_mouse_t pointing_device_task_keymap(report_mouse_t mouse_report) {
     return mouse_report;
 }
-
-static bool APP_ALT, APP_WIN;
 
 enum keymap_pointing_device_modes {
     PM_BROW = PM_SAFE_RANGE, // BROWSER TAB Manipulation            [mode id 6]
@@ -267,6 +267,7 @@ bool is_mouse_record_user(uint16_t keycode, keyrecord_t* record) {
         case TD_PMD1:
         case ST_MACRO_6:
         case KB_MO_WINDOW:
+        case KB_MO_APP:
         return true;
     }
     return false;

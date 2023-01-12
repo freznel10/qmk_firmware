@@ -1,5 +1,7 @@
 {
+    "manufacturer": "Freznel B. Sta. Ana",
     "keyboard_name": "emblem",
+    "maintainer": "freznel10",
     "bootloader": "rp2040",
     "diode_direction": "COL2ROW",
     "features": {
@@ -17,7 +19,7 @@
         "audio": true
     },
     "KEYBOARD_SHARED_EP": false,
-    "MOUSE_SHARED_EP": false,
+    "MOUSE_SHARED_EP": true,
     "CAPS_WORD_ENABLE":true,
     "RGB_MATRIX_DRIVER": "WS2812",
     "matrix_pins": {

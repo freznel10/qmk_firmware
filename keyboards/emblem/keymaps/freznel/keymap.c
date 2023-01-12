@@ -27,7 +27,7 @@
 // #include "qp_gc9a01.h"
 
 
-
+#include  "g/keymap_combo.h"
 #include <hal.h>
 #ifdef HAPTIC_ENABLE
 //#include "keyboards/zerf9/mx_track/haptic_utils.h"
@@ -65,8 +65,7 @@ enum custom_keycodes {
   ST_MACRO_2,
   ST_MACRO_3,
   ST_MACRO_4,
-  ST_MACRO_5,
-  ST_MACRO_6,
+  ST_MACRO_5
 };
 
 
@@ -79,7 +78,7 @@ enum custom_keycodes {
     K21, K22, K23, K24, K25, K26, K27, K28, K29, K2A  \
   ) \
   LAYOUT_emblem_wrapper( \
-    KC_MINUS,                           ________________NUMBER_LEFT________________,           PM_MO(10),                                                                       DYN_MACRO_PROG,                                            ________________NUMBER_RIGHT_______________,            KC_EQUAL, \
+    KC_MINUS,                           ________________NUMBER_LEFT________________,           KB_MO_WINDOW,                                                                      DYN_MACRO_PROG,                                            ________________NUMBER_RIGHT_______________,            KC_EQUAL, \
     DYN_000,           K01,            K02,            K03,            K04,        K05,        SELWORD,                                                                         KC_RGB_T,        K06,            K07,                K08,                K09,                K0A,            KC_BSPC, \
     DYN_001,   LGUI_T(K11),    LALT_T(K12),    LCTL_T(K13),    LSFT_T(K14),        K15,        PM_MO(11),                                                                       RGB_TOG1,        K16,    RSFT_T(K17),        RCTL_T(K18),        RALT_T(K19),        RGUI_T(K1A),        RALT_T(K1B), \
     ALT_DEL,    LCTL_T(K21),            K22,            K23,            K24,        K25,        KC_NUHS,        TD_DRGS,                        KC_BTN1,                        ALT_TAB,        C_R,            K26,                K27,                K28,                K29,         RCTL_T(K2A),   KC_BSLS, \
@@ -114,9 +113,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_MOUSE] = LAYOUT_emblem(
         _______, KC_E, KC_WH_D, KC_WH_U, _______, _______, _______,                                                 _______, _______, _______, _______, _______, _______, _______,
-        _______, S(KC_M), KC_WH_D, KC_WH_U, KC_ESC, _______, _______,                                              _______, _______, KC_ESC, KC_WH_U,  KC_WH_D, S(KC_M), _______,
-        _______, KC_POSR, KC_BTN2, KC_BTN1, KC_BTN3, _______, _______,                                              _______, _______, KC_BTN2, KC_BTN1, KC_BTN3, KC_POSR, _______,
-        _______, KC_INTR, BK_TAB, TD_DRGS, NX_TAB,   _______, _______, _______,          _______,          _______, _______, _______, BK_TAB, TD_DRGS, NX_TAB, KC_INTR, _______,
+        _______, S(KC_M), KC_WH_D, KC_WH_U, KC_ESC, PM_MO(4), _______,                                              _______, PM_MO(4), KC_ESC, KC_WH_U,  KC_WH_D, S(KC_M), _______,
+        _______, KC_POSR, KC_BTN2, KC_BTN1, KC_BTN3, KB_MO_WINDOW, _______,                                              _______, KB_MO_WINDOW, KC_BTN2, KC_BTN1, KC_BTN3, KC_POSR, _______,
+        _______, PM_MO(14), TD_PMD1, TD_DRGS, NX_TAB, PM_MO(6), _______, _______,          _______,          _______, _______, PM_MO(6), TD_PMD1, TD_DRGS, NX_TAB, KC_INTR, _______,
                                             _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                                             _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______
 
@@ -402,16 +401,21 @@ int8_t last_v = 0;
 
 
 layer_state_t layer_state_set_keymap(layer_state_t state) {
+    if (get_toggled_pointing_mode_id() != get_pointing_mode_id()) {
+        set_pointing_mode_id(get_toggled_pointing_mode_id());
+    }
     switch (get_highest_layer(state)) {
         case _LOWER:
 #ifdef HAPTIC_ENABLE
             DRV_pulse(soft_bump);
 #endif
+            set_pointing_mode_id(PM_VOL);
             break;
         case _RAISE:
 #ifdef HAPTIC_ENABLE
             DRV_pulse(transition_rampup_short_sharp1_50);
 #endif
+            set_pointing_mode_id(PM_CARET);
             break;
         case _ADJUST:
 #ifdef HAPTIC_ENABLE
@@ -422,10 +426,11 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
 #ifdef HAPTIC_ENABLE
             DRV_pulse(transition_rampup_short_sharp1_50);
 #endif
+            set_pointing_mode_id(6);
             break;
         case _MOUSE:
 #ifdef HAPTIC_ENABLE
-            DRV_pulse(sharp_tick1);
+            DRV_pulse(sharp_click);
 #endif
             break;
         case _MEDIA:
@@ -437,9 +442,6 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
     return state;
 }
 
-
-
-#include "combos.c"
 // #include "emblem_ui.c"
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
@@ -486,11 +488,6 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 
     }
     break;
-    case ST_MACRO_6:
-    if (record->event.pressed) {
-      SEND_STRING(SS_TAP(X_Y));
-
-    }
     case KC_C:
     if (record->event.pressed) {
         DRV_pulse(pulsing_sharp);

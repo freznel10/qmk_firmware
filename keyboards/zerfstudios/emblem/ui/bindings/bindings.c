@@ -15,7 +15,7 @@
  */
 
 #include "bindings.h"
-#include "../../emblem.h"
+#include "./keyboards/emblem/emblem.h"
 
 
 

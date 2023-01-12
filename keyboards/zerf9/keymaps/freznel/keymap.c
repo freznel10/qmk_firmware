@@ -17,10 +17,7 @@
 
 #include "freznel.h"
 #include "autocorrect_data.h"
-#include <math.h>
-#include <stdio.h>
-#include "ctype.h"
-#include "color.h"
+#include <math.h>P
 #include <qp.h>
 #ifdef OS_DETECTION_ENABLE
 #include "os_detection.h"

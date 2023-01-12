@@ -2,6 +2,7 @@ AUDIO_ENABLE                 = yes
 BACKLIGHT_ENABLE 			 = yes
 COMMAND_ENABLE               = no
 TAP_DANCE_ENABLE             = yes
+UNICODE_ENABLE               = no
 OLED_ENABLE                  = no
 WPM_ENABLE                   = yes
 ENCODER_ENABLE               = yes
@@ -23,6 +24,8 @@ DEFERRED_EXEC_ENABLE  = yes
 QUANTUM_PAINTER_ENABLE = yes
 QUANTUM_PAINTER_DRIVERS = gc9a01_spi
 
+# SRC += select_word.c
+
 AUDIO_DRIVER  = pwm_hardware
 BACKLIGHT_DRIVER = pwm
 
@@ -30,7 +33,6 @@ COMBO_ENABLE = yes
 VPATH += keyboards/gboards
 
 CUSTOM_DYNAMIC_MACROS_ENABLE = no
-CUSTOM_UNICODE_ENABLE = yes
 
 VIA_ENABLE = yes
 VIAL_ENABLE = yes

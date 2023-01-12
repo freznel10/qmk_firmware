@@ -4,7 +4,7 @@
  * Opts: --bpp 4 --size 8 --font C:\Users\User\OneDrive\Documents2\SquareLine\assets\futur.ttf -o C:\Users\User\OneDrive\Documents2\SquareLine\assets\ui_font_Font1.c --format lvgl -r 0x20-0x7f --no-compress --no-prefilter
  ******************************************************************************/
 
-#include "../emblem/ui/ui.h"
+#include "../zerfstudios/emblem/ui/ui.h"
 
 #ifndef UI_FONT_FONT1
 #define UI_FONT_FONT1 1

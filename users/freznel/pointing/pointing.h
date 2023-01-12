@@ -9,4 +9,4 @@ report_mouse_t pointing_device_task_keymap(report_mouse_t mouse_report);
 void           matrix_scan_pointing(void);
 bool           process_record_pointing(uint16_t keycode, keyrecord_t* record);
 layer_state_t  layer_state_set_pointing(layer_state_t state);
-extern bool    enable_acceleration, is_drag_mom, is_media, scrolling_mode, is_caret;
+extern bool    enable_acceleration;

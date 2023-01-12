@@ -11,7 +11,7 @@ OLED_ENABLE                  = no
 ENCODER_ENABLE               = yes
 # DEBOUNCE_TYPE = sym_eager_pk
 KEYBOARD_SHARED_EP = no   # Free up some extra endpoints - needed if console+mouse+extra
-MOUSE_SHARED_EP    = no
+MOUSE_SHARED_EP    = yes
 OLED_DRIVER = custom
 
 POINTING_DEVICE_ENABLE = yes

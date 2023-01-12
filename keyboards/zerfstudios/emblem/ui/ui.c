@@ -7,7 +7,7 @@
 #include "ui_helpers.h"
 #include "bindings/bindings.h"
 #include "freznel.h"
-#include "../../emblem/emblem.h"
+#include "../emblem/emblem.h"
 #include "./quantum/pointing_device/pointing_device_modes.h"
 
 #include "menu.h"
@@ -352,23 +352,21 @@ void ui_event_StatusPanel(lv_event_t * e) {
             _ui_state_modify(ui_Status_Dragscroll, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
             _ui_state_modify(ui_Status_Caret, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
             _ui_state_modify(ui_Status_Volume, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
-            _ui_state_modify(ui_Status_Dragscroll, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
-            _ui_state_modify(ui_Status_Sniping, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
             break;
         case 1:
             _ui_state_modify(ui_Status_Dragscroll, LV_STATE_FOCUSED, _UI_MODIFY_STATE_ADD);
             break;
-        case 2:
-            _ui_state_modify(ui_Status_Sniping, LV_STATE_FOCUSED, _UI_MODIFY_STATE_ADD);
-            break;
         case 3:
             _ui_state_modify(ui_Status_Caret, LV_STATE_FOCUSED, _UI_MODIFY_STATE_ADD);
-            break;
-        case 4:
             break;
         case 5:
             _ui_state_modify(ui_Status_Volume, LV_STATE_FOCUSED, _UI_MODIFY_STATE_ADD);
             break;
+        }
+        if(emblem_get_pointer_sniping_enabled()) {
+            _ui_state_modify(ui_Status_Sniping, LV_STATE_FOCUSED, _UI_MODIFY_STATE_ADD);
+        } else {
+            _ui_state_modify(ui_Status_Sniping, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
         }
         if(is_audio_on()) {
             _ui_state_modify(ui_Status_Audio, LV_STATE_FOCUSED, _UI_MODIFY_STATE_ADD);
@@ -387,7 +385,6 @@ void ui_event_StatusPanel(lv_event_t * e) {
         }
     }
 }
-
 
 ///////////////////// SCREENS ////////////////////
 void ui_Screen1_screen_init(void) {

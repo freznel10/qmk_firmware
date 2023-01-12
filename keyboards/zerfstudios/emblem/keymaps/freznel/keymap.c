@@ -17,15 +17,20 @@
 
 #include "freznel.h"
 #include "pointing_device.h"
+// #include "select_word.h"
 #include "print.h"
 #include <math.h>
 #include <stdio.h>
 #include "./users/freznel/split/transport_sync.h"
 #include "spi_master.h"
 #include "autocorrect_data.h"
-#include <hal.h>
+// #include "qp_gc9a01.h"
 
+
+#include  "g/keymap_combo.h"
+#include <hal.h>
 #ifdef HAPTIC_ENABLE
+//#include "keyboards/zerf9/mx_track/haptic_utils.h"
 #include "drivers/haptic/DRV2605L.h"
 #endif
 
@@ -52,15 +57,17 @@
 #define DYN_000 DYN_MACRO_KEY00
 #define DYN_001 DYN_MACRO_KEY01
 
+
+
 enum custom_keycodes {
   ST_MACRO_0 = NEW_SAFE_RANGE,
   ST_MACRO_1,
   ST_MACRO_2,
   ST_MACRO_3,
   ST_MACRO_4,
-  ST_MACRO_5,
-  ST_MACRO_6,
+  ST_MACRO_5
 };
+
 
 // clang-format off
 
@@ -71,9 +78,9 @@ enum custom_keycodes {
     K21, K22, K23, K24, K25, K26, K27, K28, K29, K2A  \
   ) \
   LAYOUT_emblem_wrapper( \
-    KC_MINUS,                           ________________NUMBER_LEFT________________,           PM_MO(10),                                                                       DYN_MACRO_PROG,                                            ________________NUMBER_RIGHT_______________,            KC_EQUAL, \
+    KC_MINUS,                           ________________NUMBER_LEFT________________,           KB_MO_WINDOW,                                                                    DYN_MACRO_PROG,                                            ________________NUMBER_RIGHT_______________,            KC_EQUAL, \
     DYN_000,           K01,            K02,            K03,            K04,        K05,        SELWORD,                                                                         KC_RGB_T,        K06,            K07,                K08,                K09,                K0A,            KC_BSPC, \
-    DYN_001,   LGUI_T(K11),    LALT_T(K12),    LCTL_T(K13),    LSFT_T(K14),        K15,        PM_MO(12),                                                                       RGB_TOG1,        K16,    RSFT_T(K17),        RCTL_T(K18),        RALT_T(K19),        RGUI_T(K1A),        RALT_T(K1B), \
+    DYN_001,   LGUI_T(K11),    LALT_T(K12),    LCTL_T(K13),    LSFT_T(K14),        K15,        PM_MO(11),                                                                       RGB_TOG1,        K16,    RSFT_T(K17),        RCTL_T(K18),        RALT_T(K19),        RGUI_T(K1A),        RALT_T(K1B), \
     ALT_DEL,    LCTL_T(K21),            K22,            K23,            K24,        K25,        KC_NUHS,        TD_DRGS,                        KC_BTN1,                        ALT_TAB,        C_R,            K26,                K27,                K28,                K29,         RCTL_T(K2A),   KC_BSLS, \
                                                                      KC_INS,        TAB_RSE,    SPC_LSH,        ENT_LWR,        KC_BTN2,        TD_DRGS,       KC_BTN2,         ESC_LWR,        BSP_KEY,    DEL_RSE,           SELWORD, \
                                        PB_1,          PB_2,            PB_3,            PB_4,    KC_MUTE,                                                                             PB_5,       PB_6,          PB_7,  PB_8,  KC_MUTE  \
@@ -105,12 +112,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_MOUSE] = LAYOUT_emblem(
-        _______, KC_E,    KC_WH_D, KC_WH_U, _______, _______,  _______,                                                _______, _______, _______, _______, _______, _______, _______,
-        _______, S(KC_M), KC_WH_D, KC_WH_U, KC_ESC,  PM_MO(4),  _______,                                              _______, PM_MO(4), KC_ESC, KC_WH_U,  KC_WH_D, S(KC_M), _______,
-        _______, KC_POSR, KC_BTN2, KC_BTN1, KC_BTN3, PM_MO(10), _______,                                              _______, PM_MO(10), KC_BTN2, KC_BTN1, KC_BTN3, KC_POSR, _______,
-        _______, PM_MO(14),TD_PMD1, TD_DRGS,  NX_TAB, PM_MO(6),  _______, _______,          _______,          _______, _______, PM_MO(6), BK_TAB, TD_DRGS, NX_TAB, TD_PMD1, _______,
+        _______, KC_E, KC_WH_D, KC_WH_U, _______, _______, _______,                                                 _______, _______, _______, _______, _______, _______, _______,
+        _______, S(KC_M), KC_WH_D, KC_WH_U, KC_ESC, PM_MO(4), _______,                                              _______, PM_MO(4), KC_ESC, KC_WH_U,  KC_WH_D, S(KC_M), _______,
+        _______, KC_POSR, KC_BTN2, KC_BTN1, KC_BTN3, KB_MO_WINDOW, _______,                                              _______, KB_MO_WINDOW, KC_BTN2, KC_BTN1, KC_BTN3, KC_POSR, _______,
+        _______, PM_MO(14), TD_PMD1, TD_DRGS, NX_TAB, PM_MO(6), _______, _______,          _______,          _______, _______, PM_MO(6), TD_PMD1, TD_DRGS, NX_TAB, KC_INTR, _______,
                                             _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                                             _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______
+
 
     ),
     [_MEDIA] = LAYOUT_emblem(
@@ -121,11 +129,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                                             _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______
 
+
     ),
     [_LOWER] = LAYOUT_emblem_wrapper(
         KC_F12,  _________________FUNC_LEFT_________________, _______,                                              _______, _________________FUNC_RIGHT________________, KC_F11,
-        KC_CAPS, _________________LOWER_L1__________________, _______,                                              _______, _________________LOWER_R1__________________, _______,
-        _______, _________________LOWER_L2__________________, _______,                                              _______, _________________LOWER_R2__________________, KC_PIPE,
+        KC_CAPS, _________________LOWER_L1__________________, _______,                                              _______, _________________LOWER_R1_ALT______________, _______,
+        _______, _________________LOWER_L2__________________, _______,                                              _______, _________________LOWER_R2_ALT______________, KC_PIPE,
         _______, _________________LOWER_L3__________________, DRG_TOG, _______,          _______,          _______, _______, _________________LOWER_R3__________________, _______,
                                             _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                                             _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______
@@ -173,6 +182,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define BASE_ENCODERS { ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) }
 #define BASE_ENCODERS_EMBLEM { ENCODER_CCW_CW(KC_WH_U, KC_WH_D), ENCODER_CCW_CW(LVGL_COUNTER_CLOCKWISE, LVGL_CLOCKWISE), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) }
 #ifdef ENCODER_MAP_ENABLE
+#    if defined(KEYBOARD_zerfstudios_emblem)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [_DEFAULT_LAYER_1] = BASE_ENCODERS_EMBLEM,
     [_DEFAULT_LAYER_2] = BASE_ENCODERS_EMBLEM,
@@ -186,6 +196,21 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [_LOWER]           = { ENCODER_CCW_CW(RGB_HUD, RGB_HUI), ENCODER_CCW_CW(RGB_SAD, RGB_SAI), ENCODER_CCW_CW(RGB_SAD, RGB_SAI)  },
     [_ADJUST]          = { ENCODER_CCW_CW(RGB_RMOD, RGB_MOD), ENCODER_CCW_CW(KC_RIGHT, KC_LEFT), ENCODER_CCW_CW(RGB_HUD, RGB_HUI) },
 };
+#    elif defined(KEYBOARD_zerf9_mx_track)
+const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
+    [_DEFAULT_LAYER_1] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_WH_D, KC_WH_U)},
+    [_DEFAULT_LAYER_2] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_WH_D, KC_WH_U)},
+    [_DEFAULT_LAYER_3] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_WH_D, KC_WH_U)},
+    [_DEFAULT_LAYER_4] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_WH_D, KC_WH_U)},
+    [_GAMEPAD]         = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(_______, _______) },
+    [_DIABLO]          = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(_______, _______)  },
+    [_KEYPAD]          = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_WH_D, KC_WH_U) },
+    [_MEDIA]           = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_WH_D, KC_WH_U) },
+    [_RAISE]           = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI), ENCODER_CCW_CW(RGB_VAD, RGB_VAI), ENCODER_CCW_CW(RGB_SPD, RGB_SPI), ENCODER_CCW_CW(RGB_SPD, RGB_SPI)  },
+    [_LOWER]           = { ENCODER_CCW_CW(RGB_HUD, RGB_HUI), ENCODER_CCW_CW(RGB_HUD, RGB_HUI), ENCODER_CCW_CW(RGB_SAD, RGB_SAI), ENCODER_CCW_CW(RGB_SAD, RGB_SAI)  },
+    [_ADJUST]          = { ENCODER_CCW_CW(RGB_RMOD, RGB_MOD), ENCODER_CCW_CW(RGB_RMOD, RGB_MOD), ENCODER_CCW_CW(KC_RIGHT, KC_LEFT), ENCODER_CCW_CW(KC_RIGHT, KC_LEFT) },
+};
+#endif
 // clang-format on
 #else
 
@@ -383,15 +408,14 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
         case _LOWER:
 #ifdef HAPTIC_ENABLE
             DRV_pulse(soft_bump);
-            set_pointing_mode_id(PM_VOL);
 #endif
+            set_pointing_mode_id(PM_VOL);
             break;
-
         case _RAISE:
 #ifdef HAPTIC_ENABLE
             DRV_pulse(transition_rampup_short_sharp1_50);
-            set_pointing_mode_id(PM_CARET);
 #endif
+            set_pointing_mode_id(PM_CARET);
             break;
         case _ADJUST:
 #ifdef HAPTIC_ENABLE
@@ -402,10 +426,11 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
 #ifdef HAPTIC_ENABLE
             DRV_pulse(transition_rampup_short_sharp1_50);
 #endif
+            set_pointing_mode_id(6);
             break;
         case _MOUSE:
 #ifdef HAPTIC_ENABLE
-            DRV_pulse(sharp_tick1);
+            DRV_pulse(sharp_click);
 #endif
             break;
         case _MEDIA:
@@ -417,9 +442,6 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
     return state;
 }
 
-
-
-#include "combos.c"
 // #include "emblem_ui.c"
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
@@ -457,16 +479,13 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     case ST_MACRO_4:
     if (record->event.pressed) {
       SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_UP))));
+
     }
     break;
     case ST_MACRO_5:
     if (record->event.pressed) {
-      SEND_STRING(SS_TAP(X_BTN1) SS_DELAY(100) SS_LSFT(SS_TAP(X_HOME)) SS_DELAY(100) SS_TAP(X_DEL));
-    }
-    break;
-    case ST_MACRO_6:
-    if (record->event.pressed) {
-      SEND_STRING(SS_TAP(X_Y));
+      SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_RIGHT))));
+
     }
     break;
     case KC_C:
@@ -474,6 +493,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
         DRV_pulse(pulsing_sharp);
     }
     break;
+    return false;
   }
   return true;
 }
