@@ -20,12 +20,12 @@
 
 /* initialize static functions */
 
-/* local inline functions from pointing_device.c */
-static inline int8_t pointing_device_hv_clamp(int16_t value) {
-    if (value < INT8_MIN) {
-        return INT8_MIN;
-    } else if (value > INT8_MAX) {
-        return INT8_MAX;
+/* local inline functions from pointing_device.c with int16_t input */
+static inline mouse_hv_report_t pointing_device_hv_clamp(int16_t value) {
+    if (value < HV_REPORT_MIN) {
+        return HV_REPORT_MIN;
+    } else if (value > HV_REPORT_MAX) {
+        return HV_REPORT_MAX;
     } else {
         return value;
     }
@@ -91,7 +91,7 @@ void set_pointing_mode(pointing_mode_t pointing_mode) {
     // skip if same
     if (!memcmp(&pointing_mode_context.mode, &pointing_mode, sizeof(pointing_mode_t))) return;
     memcpy(&pointing_mode_context.mode, &pointing_mode, sizeof(pointing_mode_t));
-    dprintf("PM status saved!");
+    dprintf("PM status saved!\n");
     // Prevent zero divisor
     if (!pointing_mode_context.mode.divisor) {
         pointing_mode_context.mode.divisor = POINTING_DEFAULT_DIVISOR;
@@ -362,9 +362,25 @@ static report_mouse_t process_pointing_mode(pointing_mode_t pointing_mode, repor
     switch (pointing_mode.id) {
         // drag scroll mode (sets mouse axes to mouse_report h & v with divisor)
         case PM_DRAG:
+#    ifdef MOUSE_SCROLL_HIRES_ENABLE
+            uint8_t cur_divisor = pointing_mode.divisor;
+            uint8_t drag_multiplier = MAX(MOUSE_SCROLL_MULTIPLIER / cur_divisor, 1);
+            if (resolution_multiplier & 1 << 2) {
+                pointing_mode.x *= drag_multiplier;
+                pointing_mode.divisor = 1;
+            }
+#    endif
             mouse_report.h = pointing_device_hv_clamp(pointing_mode.x / (int16_t)pointing_mode.divisor);
-            mouse_report.v = pointing_device_hv_clamp(pointing_mode.y / (int16_t)pointing_mode.divisor);
             pointing_mode.x -= (int16_t)mouse_report.h * (int16_t)pointing_mode.divisor;
+#    ifdef MOUSE_SCROLL_HIRES_ENABLE
+            if (resolution_multiplier & 1 << 0) {
+                pointing_mode.y *= drag_multiplier;
+                pointing_mode.divisor = 1;
+            } else {
+                pointing_mode.divisor = cur_divisor;
+            }
+#    endif
+            mouse_report.v = pointing_device_hv_clamp(pointing_mode.y / (int16_t)pointing_mode.divisor);
             pointing_mode.y -= (int16_t)mouse_report.v * (int16_t)pointing_mode.divisor;
             set_pointing_mode(pointing_mode);
             break;

@@ -63,10 +63,11 @@ extern keymap_config_t keymap_config;
 #    define usb_lld_disconnect_bus(usbp)
 #endif
 
-uint8_t                keyboard_idle __attribute__((aligned(2)))     = 0;
-uint8_t                keyboard_protocol __attribute__((aligned(2))) = 1;
-uint8_t                keyboard_led_state                            = 0;
-volatile uint16_t      keyboard_idle_count                           = 0;
+uint8_t keyboard_idle __attribute__((aligned(2)))     = 0;
+uint8_t keyboard_protocol __attribute__((aligned(2))) = 1;
+uint8_t keyboard_led_state                            = 0;
+
+volatile uint16_t      keyboard_idle_count = 0;
 static virtual_timer_t keyboard_idle_timer;
 
 #if CH_KERNEL_MAJOR >= 7
@@ -126,7 +127,7 @@ static const USBDescriptor *usb_get_descriptor_cb(USBDriver *usbp, uint8_t dtype
     uint16_t             wValue  = ((uint16_t)dtype << 8) | dindex;
     uint16_t             wLength = ((uint16_t)usbp->setup[7] << 8) | usbp->setup[6];
     desc.ud_string               = NULL;
-    desc.ud_size                 = get_usb_descriptor(wValue, wIndex, wLength, (const void **const) & desc.ud_string);
+    desc.ud_size                 = get_usb_descriptor(wValue, wIndex, wLength, (const void **const)&desc.ud_string);
     if (desc.ud_string == NULL)
         return NULL;
     else
@@ -556,6 +557,10 @@ static void usb_event_cb(USBDriver *usbp, usbevent_t event) {
                 qmkusbSuspendHookI(&drivers.array[i].driver);
                 chSysUnlockFromISR();
             }
+#ifdef MOUSE_SCROLL_HIRES_ENABLE
+            /* Reset multiplier on reset */
+            resolution_multiplier = 0;
+#endif 
             return;
 
         case USB_EVENT_WAKEUP:
@@ -610,6 +615,14 @@ static void set_led_transfer_cb(USBDriver *usbp) {
     }
 }
 
+#ifdef MOUSE_SCROLL_HIRES_ENABLE
+static void set_multiplier_cb(USBDriver *usbp) {
+    if (usbp->setup[6] == 2 && set_report_buf[0] == REPORT_ID_MULTIPLIER) {
+        resolution_multiplier = set_report_buf[1];
+    }
+}
+#endif
+
 /* Callback for SETUP request on the endpoint 0 (control) */
 static bool usb_request_hook_cb(USBDriver *usbp) {
     const USBDescriptor *dp;
@@ -636,9 +649,21 @@ static bool usb_request_hook_cb(USBDriver *usbp) {
 #endif
 #if defined(MOUSE_ENABLE) && !defined(MOUSE_SHARED_EP)
                             case MOUSE_INTERFACE:
+#    ifndef MOUSE_SCROLL_HIRES_ENABLE
                                 usbSetupTransfer(usbp, (uint8_t *)&mouse_report_sent, sizeof(mouse_report_sent), NULL);
                                 return TRUE;
                                 break;
+#    else
+                                if (usbp->setup[2] == REPORT_ID_MULTIPLIER) {
+                                    usbSetupTransfer(usbp, (uint8_t *)&resolution_multiplier, sizeof(resolution_multiplier), NULL);
+                                    return TRUE;
+                                    break;
+                                } else {
+                                    usbSetupTransfer(usbp, (uint8_t *)&mouse_report_sent, sizeof(mouse_report_sent), NULL);
+                                    return TRUE;
+                                    break;
+                                }
+#    endif
 #endif
 #ifdef SHARED_EP_ENABLE
                             case SHARED_INTERFACE:
@@ -652,6 +677,13 @@ static bool usb_request_hook_cb(USBDriver *usbp) {
 #    ifdef MOUSE_SHARED_EP
                                 if (usbp->setup[2] == REPORT_ID_MOUSE) {
                                     usbSetupTransfer(usbp, (uint8_t *)&mouse_report_sent, sizeof(mouse_report_sent), NULL);
+                                    return TRUE;
+                                    break;
+                                }
+#    endif
+#    ifdef MOUSE_SCROLL_HIRES_ENABLE
+                                if (usbp->setup[2] == REPORT_ID_MULTIPLIER) {
+                                    usbSetupTransfer(usbp, (uint8_t *)&resolution_multiplier, sizeof(resolution_multiplier), NULL);
                                     return TRUE;
                                     break;
                                 }
@@ -687,9 +719,21 @@ static bool usb_request_hook_cb(USBDriver *usbp) {
 #if defined(SHARED_EP_ENABLE) && !defined(KEYBOARD_SHARED_EP)
                             case SHARED_INTERFACE:
 #endif
+#ifndef MOUSE_SCROLL_HIRES_ENABLE
                                 usbSetupTransfer(usbp, set_report_buf, sizeof(set_report_buf), set_led_transfer_cb);
                                 return TRUE;
                                 break;
+#else
+                                if (usbp->setup[2] == REPORT_ID_MULTIPLIER) {
+                                    usbSetupTransfer(usbp, set_report_buf, sizeof(set_report_buf), set_multiplier_cb);
+                                    return TRUE;
+                                    break;
+                                } else {
+                                    usbSetupTransfer(usbp, set_report_buf, sizeof(set_report_buf), set_led_transfer_cb);
+                                    return TRUE;
+                                    break;
+                                }
+#endif
                         }
                         break;
 
@@ -769,7 +813,7 @@ static const USBConfig usbcfg = {
 /*
  * Initialize the USB driver
  */
-void init_usb_driver(USBDriver *usbp) {
+void init_usb_driver(USBDriver *usbp) {   
     for (int i = 0; i < NUM_USB_DRIVERS; i++) {
 #ifdef USB_ENDPOINTS_ARE_REORDERABLE
         QMKUSBDriver *driver                       = &drivers.array[i].driver;
@@ -954,6 +998,10 @@ void send_mouse(report_mouse_t *report) {
     usbStartTransmitI(&USB_DRIVER, MOUSE_IN_EPNUM, (uint8_t *)report, sizeof(report_mouse_t));
     mouse_report_sent = *report;
     osalSysUnlock();
+    
+#    ifdef MOUSE_HIRES_SCROLL_ENABLE
+    enable_hires_scroll();
+#    endif
 }
 
 #else  /* MOUSE_ENABLE */
