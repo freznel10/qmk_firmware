@@ -66,7 +66,7 @@ enum custom_keycodes {
     KC_MINUS,  ________________NUMBER_LEFT________________,                                                                  ________________NUMBER_RIGHT_______________, KC_EQUAL,\
     CTLGRVE,         K01,         K02,          K03,           K04,        K05,                                            K06,     K07,     K08,     K09,     K0A,   BSP_KEY, \
     OSM(MOD_LSFT), LGUI_T(K11), LALT_T(K12),  LCTL_T(K13),   LSFT_T(K14),         K15,                                            K16,     RSFT_T(K17),     RCTL_T(K18),     RALT_T(K19),     RGUI_T(K1A),     RALT_T(K1B), \
-    LALT_T(KC_DEL), LCTL_T(K21),  K22,          K23,            K24,        K25,        MIDI_CH_ARM,          ALT_TAB,        K26,     K27,     K28,     K29, RCTL_T(K2A), KC_BSLS, \
+    LALT_T(KC_DEL), LCTL_T(K21),  K22,          K23,            K24,        K25,        ST_MACRO_5,          ALT_TAB,        K26,     K27,     K28,     K29, RCTL_T(K2A), KC_BSLS, \
                                                             TAB_RSE,        SPC_LSH,    ENT_LWR,            ESC_LWR,        BSP_KEY,    DEL_RSE,\
                                                                             A(KC_4),    A(KC_5),            A(KC_6),        A(KC_7),\
                                                             DPI_RMOD,       RGB_TOG1,   DPI_MOD,            RGB_RMOD,       KC_RGB_T,    RGB_MOD,\
@@ -211,12 +211,60 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     case ST_MACRO_4:
     if (record->event.pressed) {
       SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_UP))));
-
     }
     break;
     case ST_MACRO_5:
         if (record->event.pressed) {
-            SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_RIGHT))));
+            // SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_RIGHT))));
+            SEND_STRING(SS_DOWN(X_LSFT) SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_TAP(X_DOWN)
+            SS_UP(X_LSFT)
+            SS_DELAY(50)
+            SS_TAP(X_DEL));
         }
     break;
     case ST_MACRO_6:
