@@ -41,6 +41,9 @@
 
 
 
+static bool     MIDI_ARM = false;
+extern MidiDevice midi_device;
+
 enum custom_keycodes {
     ST_MACRO_0 = NEW_SAFE_RANGE,
     ST_MACRO_1,
@@ -48,28 +51,29 @@ enum custom_keycodes {
     ST_MACRO_3,
     ST_MACRO_4,
     ST_MACRO_5,
+    MIDI_CH_ARM,
 };
 
 // clang-format off
 
-#define LAYOUT_douballz_wrapper(...) LAYOUT_douballz(__VA_ARGS__)
-#define LAYOUT_douballz_base( \
+#define LAYOUT_4x6_wrapper(...) LAYOUT_4x6(__VA_ARGS__)
+#define LAYOUT_4x6_base( \
     K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A,\
     K11, K12, K13, K14, K15, K16, K17, K18, K19, K1A, K1B, \
     K21, K22, K23, K24, K25, K26, K27, K28, K29, K2A  \
 ) \
-    LAYOUT_douballz_wrapper( \
+    LAYOUT_4x6_wrapper( \
     KC_MINUS,  ________________NUMBER_LEFT________________,                                                                  ________________NUMBER_RIGHT_______________, KC_EQUAL,\
-    PM_MO(3),         K01,         K02,          K03,           K04,        K05,                                            K06,     K07,     K08,     K09,     K0A,   BSP_KEY, \
-    CTLGRVE, LGUI_T(K11), LALT_T(K12),  LCTL_T(K13),   LSFT_T(K14),         K15,                                            K16,     RSFT_T(K17),     RCTL_T(K18),     RALT_T(K19),     RGUI_T(K1A),     RALT_T(K1B), \
-    LALT_T(KC_DEL), LCTL_T(K21),  K22,          K23,            K24,        K25,        PM_SWITCH,          ALT_TAB,        K26,     K27,     K28,     K29, RCTL_T(K2A), KC_BSLS, \
+    CTLGRVE,         K01,         K02,          K03,           K04,        K05,                                            K06,     K07,     K08,     K09,     K0A,   BSP_KEY, \
+    OSM(MOD_LSFT), LGUI_T(K11), LALT_T(K12),  LCTL_T(K13),   LSFT_T(K14),         K15,                                            K16,     RSFT_T(K17),     RCTL_T(K18),     RALT_T(K19),     RGUI_T(K1A),     RALT_T(K1B), \
+    LALT_T(KC_DEL), LCTL_T(K21),  K22,          K23,            K24,        K25,        MIDI_CH_ARM,          ALT_TAB,        K26,     K27,     K28,     K29, RCTL_T(K2A), KC_BSLS, \
                                                             TAB_RSE,        SPC_LSH,    ENT_LWR,            ESC_LWR,        BSP_KEY,    DEL_RSE,\
                                                                             A(KC_4),    A(KC_5),            A(KC_6),        A(KC_7),\
                                                             DPI_RMOD,       RGB_TOG1,   DPI_MOD,            RGB_RMOD,       KC_RGB_T,    RGB_MOD,\
                                                             KC_TRNS,       KC_TRNS,                                       KC_TRNS,   KC_TRNS\
     )
 
-#define LAYOUT_base_wrapper(...) LAYOUT_douballz_base(__VA_ARGS__)
+#define LAYOUT_base_wrapper(...) LAYOUT_4x6_base(__VA_ARGS__)
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_DEFAULT_LAYER_1] = LAYOUT_base_wrapper(
         ______________COLEMAK_MOD_DH_L1____________, ______________COLEMAK_MOD_DH_R1____________,
@@ -94,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _________________DVORAK_L3_________________, _________________DVORAK_R3_________________
     ),
 
-    [_MOUSE] = LAYOUT_douballz(
+    [_MOUSE] = LAYOUT_4x6(
         _______,        KC_E,       KC_WH_L,    KC_WH_R,    _______,    _______,                                                    _______,    _______,    _______,    _______,    _______,    _______,
         _______,        S(KC_M),    KC_WH_D,    KC_WH_U,    KC_ESC,     ST_MACRO_6,                                                  ST_MACRO_6,    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
         _______,        KC_WH_L,    KC_BTN2,    KC_BTN1,    KC_BTN3,    KB_MO_WINDOW,                                             KB_MO_WINDOW,  KC_BTN2,    KC_BTN1,    KC_BTN3,    KC_WH_R,    _______,
@@ -105,7 +109,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                         _______,    _______,                _______,    _______
     ),
 
-    [_MEDIA] = LAYOUT_douballz(
+    [_MEDIA] = LAYOUT_4x6(
         _______,        KC_E,       KC_WH_D,    KC_WH_U,    _______,    _______,                                                    _______,    _______,    _______,    _______,    _______,    _______,
         _______,        S(KC_M),    KC_WH_D,    KC_WH_U,    KC_ESC,     _______,                                                    _______,    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
         _______,        KC_POSR,    KC_BTN2,    KC_BTN1,    KC_BTN3,    _______,                                                    _______,    KC_BTN2,    KC_BTN1,    KC_BTN3,    KC_POSR,    _______,
@@ -116,7 +120,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                         _______,    _______,                _______,    _______
     ),
 
-    [_LOWER] = LAYOUT_douballz_wrapper(
+    [_LOWER] = LAYOUT_4x6_wrapper(
         UC(0x30C4),         _________________FUNC_LEFT_________________,                                                _________________FUNC_RIGHT________________,     KC_F11,
         KC_CAPS,        _________________LOWER_L1__________________,                                                    _________________LOWER_R1_ALT______________,    _______,
         _______,        _________________LOWER_L2__________________,                                                    _________________LOWER_R2_ALT______________,    KC_PIPE,
@@ -126,7 +130,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                             _______,    _______,    _______,    _______,    _______,    _______,
                                                             _______,    _______,                            _______,    _______
     ),
-    [_RAISE] = LAYOUT_douballz_wrapper(
+    [_RAISE] = LAYOUT_4x6_wrapper(
         KC_F12,         _________________FUNCA_LEFT________________,                                                    _________________FUNC_RIGHT________________,     KC_F11,
         KC_CAPS,        _________________RAISE_L1__________________,                                                    _________________RAISE_R1__________________,    _______,
         _______,        _________________RAISE_L2__________________,                                                    _________________RAISE_R2__________________,    KC_PIPE,
@@ -136,7 +140,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                             _______,    _______,    _______,    _______,    _______,    _______,
                                                             _______,    _______,                            _______,    _______
     ),
-    [_ADJUST] = LAYOUT_douballz_wrapper(
+    [_ADJUST] = LAYOUT_4x6_wrapper(
         QK_BOOT,        _________________FUNC_LEFT_________________,                                                    _________________FUNC_RIGHT________________,    QK_BOOT,
         EE_CLR,         _________________ADJUST_L1_________________,                                                    _________________ADJUST_R1_________________,    EE_CLR,
         KEYLOCK,        _________________ADJUST_L2_________________,                                                    _________________ADJUST_R2_________________,    TG_MODS,
@@ -146,7 +150,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                             _______,    _______,    _______,    _______,    _______,    _______,
                                                             _______,    _______,                            _______,    _______
     ),
-    [_KEYPAD] = LAYOUT_douballz_wrapper(
+    [_KEYPAD] = LAYOUT_4x6_wrapper(
         QK_MAKE,        _________________UNICO_L1__________________,                                                   _________________UNICO_R1__________________,    KC_WIDE,
         EE_CLR,         ________________NUMPAD1_LEFT_______________,                                                     _________________ADJUST_R1_________________,   UC_TABL,
         KC_NUM_LOCK,    ________________NUMPAD2_LEFT_______________,                                                    _________________ADJUST_R2_________________,    UC_SHRG,
@@ -156,7 +160,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                             _______,    _______,    _______,    _______,    _______,    _______,
                                                             _______,    _______,                            _______,    _______
     ),
-    [_GAMEPAD] = LAYOUT_douballz_wrapper(
+    [_GAMEPAD] = LAYOUT_4x6_wrapper(
         QK_MAKE,        _________________FUNC_LEFT_________________,                                                    _________________FUNC_RIGHT________________,    QK_BOOT,
         EE_CLR,         ________________NUMPAD1_LEFT_______________,                                                     _________________ADJUST_R1_________________,    EE_CLR,
         KEYLOCK,        ________________NUMPAD2_LEFT_______________,                                                    _________________ADJUST_R2_________________,    TG_MODS,
@@ -218,6 +222,19 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     case ST_MACRO_6:
     if (record->event.pressed) {
         SEND_STRING(SS_TAP(X_BTN1) SS_DELAY(50)  SS_LSFT(SS_TAP(X_HOME)) SS_DELAY(50) SS_TAP(X_DEL));
+    }
+    break;
+    case MIDI_CH_ARM:
+    if (record->event.pressed) {
+        if (!MIDI_ARM) {
+            MIDI_ARM = true;
+            midi_send_cc(&midi_device, 10, 82, 127);
+            dprintf("on");
+        } else {
+            MIDI_ARM = false;
+            midi_send_cc(&midi_device, 10, 82, 0);
+            dprintf("off");
+        }
     }
     break;
   }
@@ -339,17 +356,17 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 // static painter_image_handle_t cg_off;
 
 
-void init_and_clear(painter_device_t device, painter_rotation_t rotation) {
-    uint16_t width;
-    uint16_t height;
-    qp_get_geometry(device, &width, &height, NULL, NULL, NULL);
+// void init_and_clear(painter_device_t device, painter_rotation_t rotation) {
+//     uint16_t width;
+//     uint16_t height;
+//     qp_get_geometry(device, &width, &height, NULL, NULL, NULL);
 
-    qp_init(device, rotation);
-    qp_clear(device);
-    qp_rect(device, 0, 0, width, height, 0, 0, 0, true);
-}
+//     qp_init(device, rotation);
+//     qp_clear(device);
+//     qp_rect(device, 0, 0, width, height, 0, 0, 0, true);
+// }
 
-e_t layer_state_set_keymap(layer_state_t state) {
+layer_state_t layer_state_set_keymap(layer_state_t state) {
     if (get_toggled_pointing_mode_id() != get_pointing_mode_id()) {
         set_pointing_mode_id(get_toggled_pointing_mode_id());
     }
@@ -402,3 +419,5 @@ void matrix_output_unselect_delay(uint8_t line, bool key_pressed) {
         __asm__ volatile("nop" ::: "memory");
     }
 }
+
+

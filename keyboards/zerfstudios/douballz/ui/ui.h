@@ -147,6 +147,7 @@ LV_FONT_DECLARE(ui_font_Futura24);
 LV_FONT_DECLARE(eleganticons);
 
 LV_IMG_DECLARE(ui_img_2120736529);
+LV_IMG_DECLARE(ui_img_bk80_png);
 LV_IMG_DECLARE(ui_img_logo_test_png);
 LV_IMG_DECLARE(ui_img_city_png);
 LV_IMG_DECLARE(ui_img_emblem_80_png);    // assets\emblem_80.png
@@ -166,6 +167,14 @@ LV_IMG_DECLARE(ui_img_numpad_80_png);
 // #define MENU_KNOB_SIZE 110
 // #define LAYER_POS_Y -60
 // #define LAYER_POS_X 0
+
+#if defined(KEYBOARD_zerfstudios_douballz_rev1)
+#define TFT_WIDTH 80
+#define TFT_HEIGHT 160
+#elif defined(KEYBOARD_zerfstudios_douballz_rev2)
+#define TFT_WIDTH 172
+#define TFT_HEIGHT 320
+#endif
 
 
 

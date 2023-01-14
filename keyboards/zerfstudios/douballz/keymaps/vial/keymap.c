@@ -114,13 +114,13 @@ enum custom_keycodes {
 
 // clang-format off
 
-#define LAYOUT_douballz_wrapper(...) LAYOUT_douballz(__VA_ARGS__)
-#define LAYOUT_douballz_base( \
+#define LAYOUT_4x6_wrapper(...) LAYOUT_4x6(__VA_ARGS__)
+#define LAYOUT_4x6_base( \
     K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A,\
     K11, K12, K13, K14, K15, K16, K17, K18, K19, K1A, K1B, \
     K21, K22, K23, K24, K25, K26, K27, K28, K29, K2A  \
 ) \
-    LAYOUT_douballz_wrapper( \
+    LAYOUT_4x6_wrapper( \
     KC_MINUS,  ________________NUMBER_LEFT________________,                                                                  ________________NUMBER_RIGHT_______________, KC_EQUAL,\
     KC_RGB_T,         K01,         K02,          K03,           K04,        K05,                                            K06,     K07,     K08,     K09,     K0A,   BSP_KEY, \
     CTLGRVE, LGUI_T(K11), LALT_T(K12),  LCTL_T(K13),   LSFT_T(K14),        K15,                                            K16,     RSFT_T(K17),     RCTL_T(K18),     RALT_T(K19),     RGUI_T(K1A),     RALT_T(K1B), \
@@ -132,7 +132,7 @@ enum custom_keycodes {
     )
 
 
-#define LAYOUT_base_wrapper(...) LAYOUT_douballz_base(__VA_ARGS__)
+#define LAYOUT_base_wrapper(...) LAYOUT_4x6_base(__VA_ARGS__)
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_DEFAULT_LAYER_1] = LAYOUT_base_wrapper(
         ______________COLEMAK_MOD_DH_L1____________, ______________COLEMAK_MOD_DH_R1____________,
@@ -157,7 +157,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _________________DVORAK_L3_________________, _________________DVORAK_R3_________________
     ),
 
-    [_MOUSE] = LAYOUT_douballz(
+    [_MOUSE] = LAYOUT_4x6(
         _______,        KC_E,       KC_WH_D,    KC_WH_U,    _______,    _______,                                                    _______,    _______,    _______,    _______,    _______,    _______,
         _______,        S(KC_M),    KC_WH_D,    KC_WH_U,    KC_ESC,     _______,                                                    _______,    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
         _______,        KC_POSR,    KC_BTN2,    KC_BTN1,    KC_BTN3,    _______,                                                    _______,    KC_BTN2,    KC_BTN1,    KC_BTN3,    KC_POSR,    _______,
@@ -168,7 +168,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                         _______,    _______,                _______,    _______
     ),
 
-    [_MEDIA] = LAYOUT_douballz(
+    [_MEDIA] = LAYOUT_4x6(
         _______,        KC_E,       KC_WH_D,    KC_WH_U,    _______,    _______,                                                    _______,    _______,    _______,    _______,    _______,    _______,
         _______,        S(KC_M),    KC_WH_D,    KC_WH_U,    KC_ESC,     _______,                                                    _______,    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
         _______,        KC_POSR,    KC_BTN2,    KC_BTN1,    KC_BTN3,    _______,                                                    _______,    KC_BTN2,    KC_BTN1,    KC_BTN3,    KC_POSR,    _______,
@@ -179,7 +179,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                         _______,    _______,                _______,    _______
     ),
 
-    [_LOWER] = LAYOUT_douballz_wrapper(
+    [_LOWER] = LAYOUT_4x6_wrapper(
         KC_F12,         _________________FUNC_LEFT_________________,                                                    _________________FUNC_RIGHT________________,     KC_F11,
         KC_CAPS,        _________________LOWER_L1__________________,                                                    _________________LOWER_R1__________________,    _______,
         _______,        _________________LOWER_L2__________________,                                                    _________________LOWER_R2__________________,    KC_PIPE,
@@ -189,7 +189,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                             _______,    _______,    _______,    _______,    _______,    _______,
                                                             _______,    _______,                            _______,    _______
     ),
-    [_RAISE] = LAYOUT_douballz_wrapper(
+    [_RAISE] = LAYOUT_4x6_wrapper(
         KC_F12,         _________________FUNC_LEFT_________________,                                                    _________________FUNC_RIGHT________________,     KC_F11,
         KC_CAPS,        _________________RAISE_L1__________________,                                                    _________________RAISE_R1__________________,    _______,
         _______,        _________________RAISE_L2__________________,                                                    _________________RAISE_R2__________________,    KC_PIPE,
@@ -199,7 +199,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                             _______,    _______,    _______,    _______,    _______,    _______,
                                                             _______,    _______,                            _______,    _______
     ),
-    [_ADJUST] = LAYOUT_douballz_wrapper(
+    [_ADJUST] = LAYOUT_4x6_wrapper(
         QK_BOOT,        _________________FUNC_LEFT_________________,                                                    _________________FUNC_RIGHT________________,    QK_BOOT,
         EE_CLR,         _________________ADJUST_L1_________________,                                                    _________________ADJUST_R1_________________,    EE_CLR,
         KEYLOCK,        _________________ADJUST_L2_________________,                                                    _________________ADJUST_R2_________________,    TG_MODS,
@@ -209,7 +209,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                             _______,    _______,    _______,    _______,    _______,    _______,
                                                             _______,    _______,                            _______,    _______
     ),
-    [_KEYPAD] = LAYOUT_douballz_wrapper(
+    [_KEYPAD] = LAYOUT_4x6_wrapper(
         QK_MAKE,        _________________FUNC_LEFT_________________,                                                    _________________FUNC_RIGHT________________,    QK_BOOT,
         EE_CLR,         ________________NUMPAD1_LEFT_______________,                                                     _________________ADJUST_R1_________________,    EE_CLR,
         KC_SCROLL_LOCK,        ________________NUMPAD2_LEFT_______________,                                                    _________________ADJUST_R2_________________,    TG_MODS,
@@ -219,7 +219,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                             _______,    _______,    _______,    _______,    _______,    _______,
                                                             _______,    _______,                            _______,    _______
     ),
-    [_GAMEPAD] = LAYOUT_douballz_wrapper(
+    [_GAMEPAD] = LAYOUT_4x6_wrapper(
         QK_MAKE,        _________________FUNC_LEFT_________________,                                                    _________________FUNC_RIGHT________________,    QK_BOOT,
         EE_CLR,         ________________NUMPAD1_LEFT_______________,                                                     _________________ADJUST_R1_________________,    EE_CLR,
         KEYLOCK,        ________________NUMPAD2_LEFT_______________,                                                    _________________ADJUST_R2_________________,    TG_MODS,

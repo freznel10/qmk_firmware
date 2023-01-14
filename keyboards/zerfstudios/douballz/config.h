@@ -135,6 +135,10 @@
 #define POINTING_DRAG_DIVISOR 4
 #define POINTING_MODE_DEFAULT PM_NONE
 
+#define MOUSE_SCROLL_HIRES_ENABLE
+#define MOUSE_SCROLL_EXTENDED_REPORT
+#define MOUSE_EXTENDED_REFORT
+
 #ifdef QUANTUM_PAINTER_ENABLE
 /* right */
 #define DISPLAY_CS_PIN_RIGHT GP11
@@ -155,7 +159,7 @@
 
 #ifndef LCD_ACTIVITY_TIMEOUT
 #    define LCD_ACTIVITY_TIMEOUT 30000
-#endif // LCD_ACTIVITY_TIMEOUT
+#endif // LCD_ACTIVITY_TIMEOUTk
 
 // #define BUSY_WAIT
 // #define BUSY_WAIT_INSTRUCTIONS 40 // Increase if two rows are pressed at the same time.
@@ -175,5 +179,18 @@
 #define QUANTUM_PAINTER_LVGL_USE_CUSTOM_CONF
 
 
-#define MOUSE_EXTENDED_REFORT
 
+
+// Not yet available in `info.json`
+#ifdef BOOTMAGIC_ENABLE
+     // Top left key on left half
+#    define BOOTMAGIC_LITE_ROW 0
+#    define BOOTMAGIC_LITE_COLUMN 0
+     // Top right key on right half
+#    define BOOTMAGIC_LITE_ROW_RIGHT    6
+#    define BOOTMAGIC_LITE_COLUMN_RIGHT 0
+#endif
+
+
+
+#define MIDI_ADVANCED

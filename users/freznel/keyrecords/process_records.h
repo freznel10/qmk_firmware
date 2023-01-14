@@ -193,7 +193,6 @@ bool process_record_painter(uint16_t keycode, keyrecord_t *record);
 /* OSM keycodes, to keep things clean and easy to change */
 #define KC_MLSF OSM(MOD_LSFT)
 #define KC_MRSF OSM(MOD_RSFT)
-
 #define OS_LGUI OSM(MOD_LGUI)
 #define OS_RGUI OSM(MOD_RGUI)
 #define OS_LSFT OSM(MOD_LSFT)

@@ -26,3 +26,5 @@ HAPTIC_DRIVER += DRV2605L
 DEFERRED_EXEC_ENABLE  = yes
 SRC += select_word.c
 
+VPATH += keyboards/gboards
+

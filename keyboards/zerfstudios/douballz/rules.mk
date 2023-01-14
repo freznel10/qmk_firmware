@@ -6,14 +6,10 @@ MCU = RP2040
 BOOTLOADER = rp2040
 
 # Build Options
-#   change yes to no to disable
 BACKLIGHT_ENABLE = yes       # Enable keyboard backlight functionality
 RGBLIGHT_ENABLE = no      # Enable keyboard RGB underglow
-# ENCODER_ENABLE = yes        # Enable rotary encoder support
-AUDIO_ENABLE = no          # Audio output
-KEYBOARD_SHARED_EP = yes   # Free up some extra endpoints - needed if console+mouse+extra
-OS_DETECTION_ENABLE = no
-
+KEYBOARD_SHARED_EP = yes   # Free up some extra endpoints - needed if console+mouse
+MIDI_ENABLE = yes
 POINTING_DEVICE_ENABLE = yes
 POINTING_DEVICE_DRIVER = pmw3360
 MOUSE_SHARED_EP    = yes
@@ -56,6 +52,7 @@ I2C_SCANNER_ENABLE = no
 SRC +=  ui/ui.c \
 		ui/ui_helpers.c \
 		ui/assets/ui_img_2120736529.c \
+		ui/assets/ui_img_bk80_png.c \
 		ui/assets/ui_img_logo_test_png.c \
 		ui/assets/ui_img_city_png.c \
 		ui/assets/ui_img_emblem_80_png.c \

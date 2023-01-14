@@ -352,11 +352,11 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
             return false;
         case DRAG_MOM:
             if (record->event.pressed) {
-                is_drag_mom ^= 1;
+
             }
             break;
         case DRAG_SCROLL:{
-            scrolling_mode ^= 1;
+
         }
         break;
         case PM_SWITCH:
@@ -463,13 +463,6 @@ void kb_state_update(void) {
         g_charybdis_config.lcd_power = (last_input_activity_elapsed() < 30000) ? 1 : 0;
     }
 }
-
-// void kb_state_sync_slave(uint8_t initiator2target_buffer_size, const void* initiator2target_buffer, uint8_t target2initiator_buffer_size, void* target2initiator_buffer) {
-//     if (initiator2target_buffer_size == sizeof(kb_runtime_config)) {
-//         memcpy(&kb_state, initiator2target_buffer, sizeof(kb_runtime_config));
-//     }
-// }
-// #endif
 
 void eeconfig_init_kb(void) {
     g_charybdis_config.raw = 0;
