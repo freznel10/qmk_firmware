@@ -63,11 +63,7 @@
 #    define POINTING_PRECISION_DIVISOR 2
 #endif
 #ifndef POINTING_DRAG_DIVISOR
-#    ifdef MOUSE_SCROLL_HIRES_ENABLE
-#        define POINTING_DRAG_DIVISOR 8
-#    else
-#        define POINTING_DRAG_DIVISOR 4
-#    endif
+#    define POINTING_DRAG_DIVISOR 4
 #endif
 
 /* error checking */

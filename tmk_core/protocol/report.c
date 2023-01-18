@@ -32,10 +32,9 @@ static int8_t cb_count = 0;
 #endif
 
 #ifdef MOUSE_SCROLL_HIRES_ENABLE
-report_mouse_scroll_res_t  mouse_scroll_res_report = {
-        .report_id = REPORT_ID_MULTIPLIER,
-        .multiplier = 0
-    };
+static uint8_t prev_resolution_multiplier = 0;
+uint8_t        resolution_multiplier      = 0;
+uint8_t        resolution_multiplier_stored      = 0;
 #endif
 
 /** \brief has_anykey
@@ -299,32 +298,12 @@ __attribute__((weak)) bool has_mouse_report_changed(report_mouse_t* new_report, 
 }
 
 #    ifdef MOUSE_SCROLL_HIRES_ENABLE
-bool set_hires_scroll_multiplier(uint8_t axis, uint8_t value) {
-    static uint8_t max_multiplier;
-    uint8_t multiplier_temp = mouse_scroll_res_report.multiplier;
-    max_multiplier |= multiplier_temp;
-
-    uint8_t set_value = (value / MOUSE_SCROLL_MULTIPLIER_RESOLUTION) & 0x0F;
-
-    switch(axis) {
-        case HIRES_V:
-            mouse_scroll_res_report.axis.v = set_value;
-            break;
-
-        case HIRES_H:
-            mouse_scroll_res_report.axis.h = set_value;
-            break;
-
-        case HIRES_BOTH:
-            mouse_scroll_res_report.axis.v = set_value;
-            mouse_scroll_res_report.axis.h = set_value;
-    }
-    mouse_scroll_res_report.multiplier &= max_multiplier;
-    return mouse_scroll_res_report.multiplier != multiplier_temp;
+void hires_scroll_disable_next(hires_axis_t axis) {
+    resolution_multiplier_stored &= resolution_multiplier;
+    resolution_multiplier        ^= (1 << axis);
 }
-
-void resolution_multiplier_reset(void) {
-    mouse_scroll_res_report.multiplier = 0;
+void hires_scroll_reset(void) {
+    resolution_multiplier &= prev_resolution_multiplier;
 }
 #    endif
 #endif // MOUSE_ENABLE
