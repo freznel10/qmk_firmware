@@ -5,3 +5,6 @@
 
 
 #define ST7789_NUM_DEVICES 2
+
+//Layer Indicator
+#define IMAGE_LAYER_ZOOM 256
