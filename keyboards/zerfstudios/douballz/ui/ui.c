@@ -2,6 +2,7 @@
 // EDITOR VERSION: SquareLine Studio 1.1.0
 // LVGL VERSION: 8.2
 // PROJECT: SquareLine_Project
+ // * Copyright 2023 Freznel B. Sta. Ana <freznel@gmail.com> (@freznel10)
 
 #include "ui.h"
 #include "ui_helpers.h"
@@ -14,8 +15,6 @@
 #ifdef OS_DETECTION_ENABLE
 #include "os_detection.h"
 #endif
-
-
 
 // #include "menu.h"
 // #include "dial_menu/dial_menu.h"
