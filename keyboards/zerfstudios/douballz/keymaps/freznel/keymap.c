@@ -69,7 +69,7 @@ enum custom_keycodes {
     LALT_T(KC_DEL), LCTL_T(K21),  K22,          K23,            K24,        K25,        ST_MACRO_5,          ALT_TAB,        K26,     K27,     K28,     K29, RCTL_T(K2A), KC_BSLS, \
                                                             TAB_RSE,        SPC_LSH,    ENT_LWR,            ESC_LWR,        BSP_KEY,    DEL_RSE,\
                                                                             A(KC_4),    A(KC_5),            A(KC_6),        A(KC_7),\
-                                                            DPI_RMOD,       RGB_TOG1,   DPI_MOD,            RGB_RMOD,       KC_RGB_T,    RGB_MOD,\
+                                                            DPI_RMOD,      AM_TOGGLE,   DPI_MOD,            RGB_RMOD,       KC_RGB_T,    RGB_MOD,\
                                                             KC_TRNS,       KC_TRNS,                                       KC_TRNS,   KC_TRNS\
     )
 
@@ -101,23 +101,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_MOUSE] = LAYOUT_4x6(
         _______,        KC_E,       KC_WH_L,    KC_WH_R,    _______,    _______,                                                    _______,    _______,    _______,    _______,    _______,    _______,
         _______,        S(KC_M),    KC_WH_D,    KC_WH_U,    KC_ESC,     ST_MACRO_6,                                                  ST_MACRO_6,    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
-        _______,        KC_WH_L,    KC_BTN2,    KC_BTN1,    KC_BTN3,    KB_MO_WINDOW,                                             KB_MO_WINDOW,  KC_BTN2,    KC_BTN1,    KC_BTN3,    KC_WH_R,    _______,
-        _______,        PM_MO(14),  TD_PMD1,    TD_DRGS,    NX_TAB,     PM_MO(6),  _______,                             _______,    PM_MO(6),    BK_TAB,     TD_DRGR,    NX_TAB,     PM_MO(14),    _______,
+        _______,        PM_MO(14),  KC_BTN2,    KC_BTN1,    KC_BTN3,    KB_MO_WINDOW,                                             KB_MO_WINDOW,  KC_BTN2,    KC_BTN1,    KC_BTN3,    PM_MO(14),    _______,
+        KC_BTN2,        KC_BTN1,    TD_PMD1,    TD_DRGS,    NX_TAB,     PM_MO(6),  _______,                             _______,    PM_MO(6),    BK_TAB,     TD_DRGR,    NX_TAB,     KC_BTN1,    KC_BTN2,
                                                                         _______,    _______,    _______,    _______,    _______,    _______,
                                                                                     KC_BTN1,    KC_BTN2,    KC_BTN2,    KC_BTN1,
                                                                         _______,    _______,    _______,    _______,    _______,    _______,
-                                                                        _______,    _______,                _______,    _______
-    ),
-
-    [_MEDIA] = LAYOUT_4x6(
-        _______,        KC_E,       KC_WH_D,    KC_WH_U,    _______,    _______,                                                    _______,    _______,    _______,    _______,    _______,    _______,
-        _______,        S(KC_M),    KC_WH_D,    KC_WH_U,    KC_ESC,     _______,                                                    _______,    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
-        _______,        KC_POSR,    KC_BTN2,    KC_BTN1,    KC_BTN3,    _______,                                                    _______,    KC_BTN2,    KC_BTN1,    KC_BTN3,    KC_POSR,    _______,
-        _______,        KC_INTR,     BK_TAB,    TD_DRGS,    NX_TAB,     _______,    _______,                            _______,    _______,    BK_TAB,     TD_DRGS,    NX_TAB,     KC_INTR,    _______,
-                                                                        _______,    _______,    _______,    _______,    _______,    _______,
-                                                                                    _______,    _______,    _______,    _______,
-                                                                        _______,    _______,    _______,    _______,    _______,    _______,
-                                                                        _______,    _______,                _______,    _______
+                                                                        _______,    _______,                            _______,    _______
     ),
 
     [_LOWER] = LAYOUT_4x6_wrapper(
@@ -161,13 +150,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                             _______,    _______,                            _______,    _______
     ),
     [_GAMEPAD] = LAYOUT_4x6_wrapper(
-        QK_MAKE,        _________________FUNC_LEFT_________________,                                                    _________________FUNC_RIGHT________________,    QK_BOOT,
-        EE_CLR,         ________________NUMPAD1_LEFT_______________,                                                     _________________ADJUST_R1_________________,    EE_CLR,
-        KEYLOCK,        ________________NUMPAD2_LEFT_______________,                                                    _________________ADJUST_R2_________________,    TG_MODS,
-        UC_MOD,         ________________NUMPAD3_LEFT_______________,    LVGL_ENCODER_BUTTON,       LVGL_ENCODER_BUTTON, _________________ADJUST_R3_________________,    KC_MPLY,
-                                                            KC_BSPC,    DPI_MOD,    DPI_RMOD,   DRGSCRL,        DQT,    _______,
-                                                                        _______,    _______,    _______,    _______,
-                                                            _______,    _______,    _______,    _______,    _______,    _______,
+        QK_MAKE,        ________________NUMBER_LEFT________________,                                                     _________________FUNC_RIGHT________________,    QK_BOOT,
+        KC_CAPS,        _________________GAMING_L1_________________,                                                     _________________ADJUST_R1_________________,    EE_CLR,
+        KC_RSFT,        _________________GAMING_L2_________________,                                                     _________________ADJUST_R2_________________,    TG_MODS,
+        KC_RCTL,        _________________GAMING_L3_________________,    KC_N,         LVGL_ENCODER_BUTTON,  KC_J,    KC_F,     KC_WH_D,    KC_WH_U,     KC_BTN1,    KC_BTN2,
+                                                            KC_TAB,    KC_SPACE,    KC_LALT,   DRGSCRL,    KC_BTN3,    KC_BTN2,
+                                                                           KC_M,    KC_ENTER,  KC_BTN2,    KC_BTN1,
+                                                            _______,    AM_TOGGLE,    _______,    _______,    _______,    _______,
                                                             _______,    _______,                            _______,    _______
     )
 
@@ -448,6 +437,11 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
 #endif
             break;
         case _MEDIA:
+#ifdef HAPTIC_ENABLE
+            DRV_pulse(pulsing_sharp);
+#endif
+            break;
+        case _GAMEPAD:
 #ifdef HAPTIC_ENABLE
             DRV_pulse(pulsing_sharp);
 #endif

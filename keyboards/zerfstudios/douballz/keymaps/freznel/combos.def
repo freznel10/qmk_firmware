@@ -51,6 +51,8 @@ COMB(find_combo, C(KC_F), LCTL_T(KC_S), KC_F)
 COMB(caps_combo, KC_CAPS, RTHUMBS23)
 COMB(save_combo, C(KC_S), LCTL_T(KC_S), RCTL_T(KC_E) )
 COMB(select_combo, C(KC_A), LGUI_T(KC_A), RCTL_T(KC_E) )
+COMB(game_combo, GAMEPAD_TOGGLE, LGUI_T(KC_A), LALT_T(KC_R), LCTL_T(KC_S), LSFT_T(KC_T) )
+
 
 COMB(osmlsft_combo, OSM(MOD_LSFT), LSFT_T(KC_T), KC_D )
 COMB(osmrsft_combo, OSM(MOD_RSFT), RSFT_T(KC_N), KC_H )
@@ -59,5 +61,4 @@ SUBS(aml_combo, "AML/CFT", LGUI_T(KC_A), KC_C )
 SUBS(tks_combo, "Thanks", LSFT_T(KC_T), LCTL_T(KC_S), KC_K )
 SUBS(tkyk_combo, "Thank you", LSFT_T(KC_T), RSFT_T(KC_N), KC_Y)
 SUBS(patron_combo, "patron", KC_P, LSFT_T(KC_T), RSFT_T(KC_N))
-
 

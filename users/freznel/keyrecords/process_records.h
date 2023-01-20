@@ -71,6 +71,7 @@ enum userspace_custom_keycodes {
     KB_TG_ACCEL,
     KB_MO_APP,
     KB_MO_WINDOW,
+    AM_TOGGLE,
 
     RAISE_TOGGLE, //combos
     BSPC_LSFT_CLEAR,
@@ -83,6 +84,7 @@ enum userspace_custom_keycodes {
     PASTE,
     KEYPAD,
     LOWER_TOGGLE,
+    GAMEPAD_TOGGLE,
     LPAREN,
     RPAREN,
     WBACK,

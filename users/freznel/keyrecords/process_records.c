@@ -12,12 +12,14 @@
 #endif
 
 #include "select_word.h"
+#include "pointing_device_auto_mouse.h"
 
 
 
 uint16_t copy_paste_timer;
 bool   host_driver_disabled = false;
 bool  is_caret = false;
+bool auto_mouse_tg_off = false;
 
 
 /**
@@ -282,6 +284,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 layer_invert(_LOWER);
             }
         break;
+        case GAMEPAD_TOGGLE:
+            if (record->event.pressed) {
+                layer_invert(_GAMEPAD);
+            }
+        break;
         case LPAREN:
             if (record->event.pressed) {
                 tap_code16(KC_LPRN);
@@ -314,6 +321,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             tap_code16(C(KC_V));
             }
         break;
+        case AM_TOGGLE:
+            if(record->event.pressed) { // key down
+                auto_mouse_layer_off(); // disable target layer if needed
+                set_auto_mouse_enable((AUTO_MOUSE_ENABLED) ^ 1);
+                auto_mouse_tg_off = !get_auto_mouse_enable();
+            }
     }
     return true;
 }

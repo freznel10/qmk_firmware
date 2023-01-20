@@ -114,10 +114,15 @@ lv_timer_t* timer;
 #define LV_STYLE_INIT(var_name, prop_array) lv_style_t var_name = { .v_p = { .const_props = prop_array }, .has_group = 0xFF, .is_const = 1 }
 #define C_LV_STYLE_PROP_INV { .prop = LV_STYLE_PROP_INV, .value = {0} }
 
+
+
+
 lv_style_t style_label_futura22;
 lv_style_t style_label_futura20;
 lv_style_t style_label_futura18;
 lv_style_t style_label_futura12;
+lv_style_t style_panel_flex_mods;
+
 
 
 const lv_style_const_prop_t style_label_futura22_props[] = {
@@ -177,6 +182,36 @@ const lv_style_const_prop_t style_label_futura24_props[] = {
 
 };
 LV_STYLE_INIT(style_label_futura24, style_label_futura24_props);
+
+
+    // static lv_style_t style_test_2;
+    // lv_style_init(&style_test_2);
+    // lv_style_set_pad_all(&style_test_2, 0);
+    // lv_style_set_layout(&style_test_2,LV_LAYOUT_FLEX );
+    // lv_style_set_pad_left(&style_test_2, 0);
+    // lv_style_set_pad_right(&style_test_2, 0);
+    // lv_style_set_pad_top(&style_test_2, 0);
+    // lv_style_set_pad_bottom(&style_test_2, 0);
+    // lv_style_set_pad_row(&style_test_2, 1);
+    // lv_style_set_pad_column(&style_test_2, 5);
+    // lv_style_set_flex_flow(&style_test_2, LV_FLEX_FLOW_ROW);
+    // lv_style_set_flex_main_place(&style_test_2, LV_FLEX_ALIGN_SPACE_AROUND);
+    // lv_style_set_flex_cross_place(&style_test_2, LV_FLEX_ALIGN_CENTER );
+    // lv_style_set_flex_track_place(&style_test_2, LV_FLEX_ALIGN_CENTER);
+
+// const lv_style_const_prop_t style_panel_flex_mods_props[] = {
+//     LV_STYLE_CONST_PAD_TOP(0),
+//     LV_STYLE_CONST_PAD_BOTTOM(0),
+//     LV_STYLE_CONST_PAD_LEFT(0),
+//     LV_STYLE_CONST_PAD_RIGHT(0),
+//     LV_STYLE_CONST_PAD_ROW(1),
+//     LV_STYLE_CONST_PAD_COLUMN(5),
+//     C_LV_STYLE_PROP_INV,
+// };
+
+// LV_STYLE_INIT(style_panel_flex_mods, style_panel_flex_mods_props);
+
+
 
 
 
@@ -784,6 +819,9 @@ void ui_active_layer_change(lv_event_t * e) {
             case _MEDIA:
                 lv_img_set_src(ui_Layer_Indicator, &ui_img_emblem_80_png);
                 lv_label_set_text(ui_Label_Layer_Name, "MEDIA");
+            case _GAMEPAD:
+                lv_img_set_src(ui_Layer_Indicator, &ui_img_emblem_80_png);
+                lv_label_set_text(ui_Label_Layer_Name, "GAMEPAD");
                 break;
         }
         // lv_anim_2(ui_Layer_Indicator);
@@ -1117,14 +1155,23 @@ void render_panel_HSV (lv_obj_t *scr, lv_align_t align, lv_coord_t x, lv_coord_t
 void render_panel_mods (lv_obj_t *scr, lv_align_t align, lv_coord_t x, lv_coord_t y, lv_coord_t w, lv_coord_t h, lv_style_t * style_font,
                             lv_event_cb_t event_cb, lv_event_code_t filter, void * user_data) {
 
+
     static lv_style_t style_test_2;
     lv_style_init(&style_test_2);
-    ui_Screen1_Panel_Status = lv_obj_create(scr);
-    lv_obj_set_layout(ui_Screen1_Panel_Status, LV_LAYOUT_FLEX);
-    lv_obj_set_flex_flow(ui_Screen1_Panel_Status, LV_FLEX_FLOW_ROW);
     lv_style_set_pad_all(&style_test_2, 0);
-    // lv_obj_set_flex_align(ui_Screen1_Panel_Status,  LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_SPACE_EVENLY );
-    lv_obj_set_flex_align(ui_Screen1_Panel_Status,  LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_SPACE_EVENLY );
+    lv_style_set_layout(&style_test_2,LV_LAYOUT_FLEX );
+    lv_style_set_pad_left(&style_test_2, 0);
+    lv_style_set_pad_right(&style_test_2, 0);
+    lv_style_set_pad_top(&style_test_2, 0);
+    lv_style_set_pad_bottom(&style_test_2, 0);
+    lv_style_set_pad_row(&style_test_2, 1);
+    lv_style_set_pad_column(&style_test_2, 5);
+    lv_style_set_flex_flow(&style_test_2, LV_FLEX_FLOW_ROW);
+    lv_style_set_flex_main_place(&style_test_2, LV_FLEX_ALIGN_SPACE_AROUND);
+    lv_style_set_flex_cross_place(&style_test_2, LV_FLEX_ALIGN_CENTER );
+    lv_style_set_flex_track_place(&style_test_2, LV_FLEX_ALIGN_CENTER);
+
+    ui_Screen1_Panel_Status = lv_obj_create(scr);
     lv_obj_set_width(ui_Screen1_Panel_Status, w);
     lv_obj_set_height(ui_Screen1_Panel_Status, h);
     lv_obj_set_x(ui_Screen1_Panel_Status, x);
@@ -1132,6 +1179,8 @@ void render_panel_mods (lv_obj_t *scr, lv_align_t align, lv_coord_t x, lv_coord_
     lv_obj_set_align(ui_Screen1_Panel_Status, align);
     lv_obj_clear_flag(ui_Screen1_Panel_Status, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_add_style(ui_Screen1_Panel_Status, style_font, 0);
+    lv_obj_add_style(ui_Screen1_Panel_Status, &style_test_2, 0);
+
     lv_obj_set_style_outline_opa(ui_Screen1_Panel_Status, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_outline_width(ui_Screen1_Panel_Status, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_outline_pad(ui_Screen1_Panel_Status, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
