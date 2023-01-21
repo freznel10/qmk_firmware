@@ -152,8 +152,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_GAMEPAD] = LAYOUT_4x6_wrapper(
         QK_MAKE,        ________________NUMBER_LEFT________________,                                                     _________________FUNC_RIGHT________________,    QK_BOOT,
         KC_CAPS,        _________________GAMING_L1_________________,                                                     _________________ADJUST_R1_________________,    EE_CLR,
-        KC_RSFT,        _________________GAMING_L2_________________,                                                     _________________ADJUST_R2_________________,    TG_MODS,
-        KC_RCTL,        _________________GAMING_L3_________________,    KC_N,         LVGL_ENCODER_BUTTON,  KC_J,    KC_F,     KC_WH_D,    KC_WH_U,     KC_BTN1,    KC_BTN2,
+        KC_RSFT,        _________________GAMING_L2_________________,                                                     _________________ADJUST_R2_________________,   KC_BTN3,
+        KC_RCTL,        _________________GAMING_L3_________________,    KC_N,               LVGL_ENCODER_BUTTON,  KC_J,    KC_F,     KC_WH_D,    KC_WH_U,     KC_BTN1,    KC_BTN2,
                                                             KC_TAB,    KC_SPACE,    KC_LALT,   DRGSCRL,    KC_BTN3,    KC_BTN2,
                                                                            KC_M,    KC_ENTER,  KC_BTN2,    KC_BTN1,
                                                             _______,    AM_TOGGLE,    _______,    _______,    _______,    _______,
