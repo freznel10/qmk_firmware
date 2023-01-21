@@ -156,6 +156,8 @@ LV_IMG_DECLARE(ui_img_toolbox_80_png);
 LV_IMG_DECLARE(ui_img_lower_80_png);
 LV_IMG_DECLARE(ui_img_raise_80_png);
 LV_IMG_DECLARE(ui_img_numpad_80_png);
+LV_IMG_DECLARE(matrix_80);
+
 
 // //////////////////////////////////////////////////////////////
 // // User Defines

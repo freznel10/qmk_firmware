@@ -71,6 +71,8 @@ lv_obj_t * ui_Screen2_Label_Pointing_Mode;
 lv_obj_t * ui_PM_led1;
 lv_obj_t * ui_PM_led2;
 lv_obj_t * ui_Label_Unicode_Mode;
+lv_obj_t * adjust_matrix;
+
 
 
 // lv_obj_t * ui_Main1;
@@ -113,16 +115,11 @@ lv_timer_t* timer;
 #define LV_STYLE_INIT(var_name, prop_array) lv_style_t var_name = { .v_p = { .const_props = prop_array }, .has_group = 0xFF, .is_const = 1 }
 #define C_LV_STYLE_PROP_INV { .prop = LV_STYLE_PROP_INV, .value = {0} }
 
-
-
-
 lv_style_t style_label_futura22;
 lv_style_t style_label_futura20;
 lv_style_t style_label_futura18;
 lv_style_t style_label_futura12;
 lv_style_t style_panel_flex_mods;
-
-
 
 const lv_style_const_prop_t style_label_futura22_props[] = {
     LV_STYLE_CONST_TEXT_COLOR(LV_COLOR_MAKE16(0xff, 0xff, 0xff)),
@@ -773,6 +770,16 @@ void ui_render_rgbmode(lv_event_t * e) {
     }
 }
 
+
+void gif_load (lv_obj_t* scr) {
+    adjust_matrix = lv_gif_create(ui_Screen2);
+    lv_gif_set_src(adjust_matrix, &matrix_80);
+    lv_obj_align(adjust_matrix, LV_ALIGN_CENTER, 0, 0);
+
+}
+
+
+
 /*ACTIVE LAYER CHANGE*/
 void ui_active_layer_change(lv_event_t * e) {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -808,7 +815,7 @@ void ui_active_layer_change(lv_event_t * e) {
                 lv_label_set_text(ui_Label_Layer_Name, "RAISE");
                 break;
             case _ADJUST:
-                lv_img_set_src(ui_Layer_Indicator, &ui_img_toolbox_80_png);
+                // lv_img_set_src(ui_Layer_Indicator, &ui_img_toolbox_80_png);
                 lv_label_set_text(ui_Label_Layer_Name, "ADJUST");
                 break;
             case _KEYPAD:
@@ -913,6 +920,9 @@ void render_panel_pointing (lv_obj_t *scr, lv_align_t align, lv_coord_t x, lv_co
     lv_obj_set_y(ui_Panel_Pointing_Mode, y);
     lv_obj_set_align(ui_Panel_Pointing_Mode, align);
     lv_obj_clear_flag(ui_Panel_Pointing_Mode, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+
+    gif_load(ui_Screen2);
+
 
     lv_obj_set_style_outline_opa(ui_Panel_Pointing_Mode, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_outline_width(ui_Panel_Pointing_Mode, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
