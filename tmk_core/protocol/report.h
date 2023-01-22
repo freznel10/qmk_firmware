@@ -1,16 +1,13 @@
 /*
 Copyright 2011,2012 Jun Wako <wakojun@gmail.com>
-
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 2 of the License, or
 (at your option) any later version.
-
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
-
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -22,14 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "keycode.h"
 
 // clang-format off
-
-#ifdef MOUSE_SCROLL_HIRES_ENABLE
-#    ifndef MOUSE_SCROLL_MULTIPLIER
-#        define MOUSE_SCROLL_MULTIPLIER 120
-#    elif (MOUSE_SCROLL_MULTIPLIER > 120 || MOUSE_SCROLL_MULTIPLIER < 1)
-#        error "MOUSE_SCROLL_MULTIPLIER out of bounds must be in range of 1-120"
-#    endif
-# endif
 
 /* HID report IDs */
 enum hid_report_ids {
@@ -129,6 +118,12 @@ enum desktop_usages {
     SYSTEM_DISPLAY_TOGGLE_INT_EXT = 0xB5
 };
 
+enum mouse_scroll_hires_axes {
+    HIRES_V,
+    HIRES_H,
+    HIRES_BOTH
+};
+
 // clang-format on
 
 #define NKRO_SHARED_EP
@@ -222,14 +217,22 @@ typedef int16_t mouse_hv_report_t;
 typedef int8_t mouse_hv_report_t;
 #endif
 
-#ifdef MOUSE_SCROLL_HIRES_ENABLE
-extern uint8_t resolution_multiplier;
-#    define IS_V_HIRES_ACTIVE (bool)(resolution_multiplier & (0x01 << 0))
-#    define IS_H_HIRES_ACTIVE (bool)(resolution_multiplier & (0x01 << 2))
-#endif
+typedef union {
+    uint8_t raw[2];
+    struct {
+        uint8_t report_id;
+        union {
+            uint8_t data;
+            struct {
+                uint8_t v : 4;
+                uint8_t h : 4;
+            } multiplier;
+        };
+    };
+} __attribute__((packed)) report_mouse_scroll_res_t;
 
 typedef struct {
-#if (defined(MOUSE_SHARED_EP) || defined(MOUSE_SCROLL_HIRES_ENABLE))
+#if defined(MOUSE_SHARED_EP) || defined(MOUSE_SCROLL_HIRES_ENABLE)
     uint8_t report_id;
 #endif
     uint8_t buttons;
@@ -364,13 +367,18 @@ bool has_mouse_report_changed(report_mouse_t* new_report, report_mouse_t* old_re
 #endif
 
 #ifdef MOUSE_SCROLL_HIRES_ENABLE
-typedef enum {
-    HIRES_V = 0,
-    HIRES_BOTH,
-    HIRES_H = 2
-} hires_axis_t;
-void hires_scroll_disable_next (hires_axis_t axis);
-void hires_scroll_reset(void);
+extern report_mouse_scroll_res_t mouse_scroll_res_report;
+
+bool set_hires_scroll_multiplier(uint8_t axis, uint8_t value);
+void resolution_multiplier_reset(void);
+
+#    define MOUSE_SCROLL_MULTIPLIER_RESOLUTION 8
+#    define MULTIPLIER_CONVERSION(value)       (uint8_t)( ((((uint16_t)value * (uint16_t)0x80) >> 8) >> 2) & 0x0F)
+#    define IS_HIRES_V_ACTIVE                  (bool)(mouse_scroll_res_report.multiplier.v)
+#    define IS_HIRES_H_ACTIVE                  (bool)(mouse_scroll_res_report.multiplier.h)
+#    define MOUSE_SCROLL_MULTIPLIER_DATA       (mouse_scroll_res_report.data)
+#    define MOUSE_SCROLL_MULTIPLIER_V          (uint8_t)(MAX(mouse_scroll_res_report.multiplier.v * MOUSE_SCROLL_MULTIPLIER_RESOLUTION, 1))
+#    define MOUSE_SCROLL_MULTIPLIER_H          (uint8_t)(MAX(mouse_scroll_res_report.multiplier.h * MOUSE_SCROLL_MULTIPLIER_RESOLUTION, 1))
 #endif
 
 #ifdef __cplusplus

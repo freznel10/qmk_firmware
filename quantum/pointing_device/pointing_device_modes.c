@@ -91,7 +91,7 @@ void set_pointing_mode(pointing_mode_t pointing_mode) {
     // skip if same
     if (!memcmp(&pointing_mode_context.mode, &pointing_mode, sizeof(pointing_mode_t))) return;
     memcpy(&pointing_mode_context.mode, &pointing_mode, sizeof(pointing_mode_t));
-    dprintf("PM status saved!\n");
+    //dprintf("PM status saved!\n");
     // Prevent zero divisor
     if (!pointing_mode_context.mode.divisor) {
         pointing_mode_context.mode.divisor = POINTING_DEFAULT_DIVISOR;
@@ -116,7 +116,7 @@ void set_pointing_mode_id(uint8_t mode_id) {
     if (pointing_mode_context.mode.id != mode_id) {
         pointing_mode_reset();
         pointing_mode_context.mode.id = mode_id;
-        dprintf("PMID Set: %d\n", mode_id);
+        //dprintf("PMID Set: %d\n", mode_id);
     }
 }
 
@@ -130,10 +130,10 @@ void set_pointing_mode_id(uint8_t mode_id) {
 void toggle_pointing_mode_id(uint8_t mode_id) {
     if (pointing_mode_context.config.tg_mode_id == mode_id) {
         pointing_mode_context.config.tg_mode_id = POINTING_MODE_DEFAULT;
-        dprintf("Toggled PMID: %d\n Off", mode_id);
+        //dprintf("Toggled PMID: %d\n Off", mode_id);
     } else {
         pointing_mode_context.config.tg_mode_id = mode_id;
-        dprintf("Toggled PMID: %d\n On", mode_id);
+        //dprintf("Toggled PMID: %d\n On", mode_id);
     }
     if (pointing_mode_context.mode.id != pointing_mode_context.config.tg_mode_id) pointing_mode_reset();
 }
@@ -363,21 +363,24 @@ static report_mouse_t process_pointing_mode(pointing_mode_t pointing_mode, repor
         // drag scroll mode (sets mouse axes to mouse_report h & v with divisor)
         case PM_DRAG:
 #    ifdef MOUSE_SCROLL_HIRES_ENABLE
-            uint8_t cur_divisor = pointing_mode.divisor;
-            uint8_t drag_multiplier = MAX(MOUSE_SCROLL_MULTIPLIER / cur_divisor, 1);
-            if (resolution_multiplier & 1 << 2) {
-                pointing_mode.x *= drag_multiplier;
-                pointing_mode.divisor = 1;
-            }
+            {
+                uint8_t cur_divisor = pointing_mode.divisor;
+                if (IS_HIRES_H_ACTIVE) {
+                    uint8_t drag_multiplier = MAX(MOUSE_SCROLL_MULTIPLIER_H / cur_divisor, 1);
+                    pointing_mode.x *= (int16_t)drag_multiplier;
+                    pointing_mode.divisor = 1;
+                }
 #    endif
             mouse_report.h = pointing_device_hv_clamp(pointing_mode.x / (int16_t)pointing_mode.divisor);
             pointing_mode.x -= (int16_t)mouse_report.h * (int16_t)pointing_mode.divisor;
 #    ifdef MOUSE_SCROLL_HIRES_ENABLE
-            if (resolution_multiplier & 1 << 0) {
-                pointing_mode.y *= drag_multiplier;
-                pointing_mode.divisor = 1;
-            } else {
-                pointing_mode.divisor = cur_divisor;
+                if (IS_HIRES_V_ACTIVE) {
+                    uint8_t drag_multiplier = MAX(MOUSE_SCROLL_MULTIPLIER_V / cur_divisor, 1);
+                    pointing_mode.y *= (int16_t)drag_multiplier;
+                    pointing_mode.divisor = 1;
+                } else {
+                    pointing_mode.divisor = cur_divisor;
+                }
             }
 #    endif
             mouse_report.v = pointing_device_hv_clamp(pointing_mode.y / (int16_t)pointing_mode.divisor);
