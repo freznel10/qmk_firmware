@@ -717,6 +717,7 @@ static bool usb_request_hook_cb(USBDriver *usbp) {
 #endif
 #if defined(MOUSE_ENABLE) && !defined(MOUSE_SHARED_EP)
                             case MOUSE_INTERFACE:
+#endif
 #    ifndef MOUSE_SCROLL_HIRES_ENABLE
                                 usbSetupTransfer(usbp, set_report_buf, sizeof(set_report_buf), set_led_transfer_cb);
                                 return TRUE;
