@@ -123,7 +123,7 @@ static const USBDescriptor *usb_get_descriptor_cb(USBDriver *usbp, uint8_t dtype
     uint16_t             wValue  = ((uint16_t)dtype << 8) | dindex;
     uint16_t             wLength = ((uint16_t)usbp->setup[7] << 8) | usbp->setup[6];
     desc.ud_string               = NULL;
-    desc.ud_size                 = get_usb_descriptor(wValue, wIndex, wLength, (const void **const)&desc.ud_string);
+    desc.ud_size                 = get_usb_descriptor(wValue, wIndex, wLength, (const void **const) &desc.ud_string);
     if (desc.ud_string == NULL)
         return NULL;
     else
@@ -661,7 +661,7 @@ static bool usb_request_hook_cb(USBDriver *usbp) {
                                         break;
                                 }
 #    endif
-#endif
+#endif // defined(MOUSE_ENABLE) && !defined(MOUSE_SHARED_EP)
 #ifdef SHARED_EP_ENABLE
                             case SHARED_INTERFACE:
                                 switch (usbp->setup[2]) {
@@ -718,22 +718,26 @@ static bool usb_request_hook_cb(USBDriver *usbp) {
 #if defined(MOUSE_ENABLE) && !defined(MOUSE_SHARED_EP)
                             case MOUSE_INTERFACE:
 #endif
-#    ifndef MOUSE_SCROLL_HIRES_ENABLE
+#ifndef MOUSE_SCROLL_HIRES_ENABLE
                                 usbSetupTransfer(usbp, set_report_buf, sizeof(set_report_buf), set_led_transfer_cb);
                                 return TRUE;
                                 break;
-#    else
+#else
                                 switch (usbp->setup[2]) {
                                     case REPORT_ID_KEYBOARD:
                                         usbSetupTransfer(usbp, set_report_buf, sizeof(set_report_buf), set_led_transfer_cb);
                                         return TRUE;
                                         break;
                                     case REPORT_ID_MULTIPLIER:
-                                        if (usbp->setup[3] == 0x03) usbSetupTransfer(usbp, set_report_buf, sizeof(set_report_buf), set_multiplier_cb);
-                                        return TRUE;
+                                        // check for feature variable type
+                                        if (usbp->setup[3] == 0x03) {
+                                            usbSetupTransfer(usbp, set_report_buf, sizeof(set_report_buf), set_multiplier_cb);
+                                            return TRUE;
+                                        }
                                         break;
                                 }
-#    endif
+                                break;
+#endif
                         }
                         break;
 
@@ -961,7 +965,7 @@ void send_mouse(report_mouse_t *report) {
     send_report(MOUSE_IN_EPNUM, report, sizeof(report_mouse_t));
     mouse_report_sent = *report;
     osalSysUnlock();
-#    endif
+#endif
 }
 
 /* ---------------------------------------------------------
