@@ -920,7 +920,6 @@ void render_panel_pointing (lv_obj_t *scr, lv_align_t align, lv_coord_t x, lv_co
 
     gif_load(ui_Screen2);
 
-
     lv_obj_set_style_outline_opa(ui_Panel_Pointing_Mode, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_outline_width(ui_Panel_Pointing_Mode, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_outline_pad(ui_Panel_Pointing_Mode, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
