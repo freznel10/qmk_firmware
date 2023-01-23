@@ -79,7 +79,7 @@ enum custom_keycodes {
   ) \
   LAYOUT_emblem_wrapper( \
     KC_MINUS,                           ________________NUMBER_LEFT________________,           KB_MO_WINDOW,                                                                    LO_RES_DOWN,                                            ________________NUMBER_RIGHT_______________,            KC_EQUAL, \
-    DYN_000,           K01,            K02,            K03,            K04,        K05,        SELWORD,                                                                         KC_RGB_T,        K06,            K07,                K08,                K09,                K0A,            KC_BSPC, \
+    DYN_000,           K01,            K02,            K03,            K04,        K05,        SELWORD,                                                                         LO_RES_UP,        K06,            K07,                K08,                K09,                K0A,            KC_BSPC, \
     DYN_001,   LGUI_T(K11),    LALT_T(K12),    LCTL_T(K13),    LSFT_T(K14),        K15,        PM_MO(11),                                                                       RGB_TOG1,        K16,    RSFT_T(K17),        RCTL_T(K18),        RALT_T(K19),        RGUI_T(K1A),        RALT_T(K1B), \
     ALT_DEL,    LCTL_T(K21),            K22,            K23,            K24,        K25,        KC_NUHS,        TD_DRGS,                        KC_BTN1,                        ALT_TAB,        C_R,            K26,                K27,                K28,                K29,         RCTL_T(K2A),   KC_BSLS, \
                                                                      KC_INS,        TAB_RSE,    SPC_LSH,        ENT_LWR,        KC_BTN2,        TD_DRGS,       KC_BTN2,         ESC_LWR,        BSP_KEY,    DEL_RSE,           SELWORD, \
@@ -167,16 +167,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                            _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______
     ),
     [_GAMEPAD] = LAYOUT_emblem_wrapper(
-       QK_MAKE,     KC_NO,     KC_1,    KC_2,    KC_3,    KC_4, KC_5,                                               _______, _________________FUNCA_RIGHT_______________, QK_MAKE,
-       VRSN,        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R, KC_T,                                               _______, _________________ADJUST_R1_________________, KC_EQUAL,
-       KC_TAB,      KC_CAPS,   KC_A,    KC_S,    KC_D,    KC_F, KC_G,                                               _______, _________________ADJUST_R2_________________, SH_TG,
-       KC_LCTL,     KC_LSFT,   KC_Z,    KC_X,    KC_C,    KC_V, KC_B, TG(_GAMEPAD),          AML_TOG,          AML_TOG, DRGSCRL, ________________NUMPAD3_RIGHT______________, KC_MPLY,
-                                           KC_LGUI, KC_LALT, KC_SPACE, KC_ENTER, _______, _______, _______, _______, _______, _______, _______,
+       QK_MAKE, ________________NUMBER_LEFT________________, KC_F1,                                            _______, ________________NUMBER_RIGHT_______________, QK_MAKE,
+       KC_TAB,  ______________COLEMAK_MOD_DH_L1____________, KC_F2,                                            _______, ______________COLEMAK_MOD_DH_R1____________, KC_EQUAL,
+       KC_CAPS, ______________COLEMAK_MOD_DH_L2____________, KC_M,                                             _______, ______________COLEMAK_MOD_DH_R1____________, SH_TG,
+       KC_LSFT, ______________COLEMAK_MOD_DH_L3____________, KC_B, TG(_GAMEPAD),        AM_TOGGLE,    AML_TOG, DRGSCRL, ______________COLEMAK_MOD_DH_R1____________, KC_MPLY,
+                                           KC_LCTL, KC_LALT, KC_SPACE, KC_ENTER, _______, _______, _______, _______, _______, _______, _______,
                                            _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______
     )
 };
-
-
 
 
 #define BASE_ENCODERS { ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) }

@@ -71,7 +71,7 @@ lv_obj_t * ui_Screen2_Label_Pointing_Mode;
 lv_obj_t * ui_PM_led1;
 lv_obj_t * ui_PM_led2;
 lv_obj_t * ui_Label_Unicode_Mode;
-lv_obj_t * adjust_matrix;
+lv_obj_t * monitormund_test;
 
 
 
@@ -770,12 +770,12 @@ void ui_render_rgbmode(lv_event_t * e) {
     }
 }
 
-// void gif_load (lv_obj_t* scr) {
-//     adjust_matrix = lv_gif_create(ui_Screen2);
-//     lv_gif_set_src(adjust_matrix, &matrix_80);
-//     lv_obj_align(adjust_matrix, LV_ALIGN_CENTER, 0, 0);
+void gif_load (lv_obj_t* scr) {
+    monitormund_test = lv_gif_create(ui_Screen2);
+    lv_gif_set_src(monitormund_test, &monitormund);
+    lv_obj_align(monitormund_test, LV_ALIGN_CENTER, 0, 0);
 
-// } further testing neededo for this.
+} //further testing neededo for this.
 
 /*ACTIVE LAYER CHANGE*/
 void ui_active_layer_change(lv_event_t * e) {
@@ -918,7 +918,7 @@ void render_panel_pointing (lv_obj_t *scr, lv_align_t align, lv_coord_t x, lv_co
     lv_obj_set_align(ui_Panel_Pointing_Mode, align);
     lv_obj_clear_flag(ui_Panel_Pointing_Mode, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    // gif_load(ui_Screen2);
+    gif_load(ui_Screen2);
 
 
     lv_obj_set_style_outline_opa(ui_Panel_Pointing_Mode, 255, LV_PART_MAIN | LV_STATE_DEFAULT);

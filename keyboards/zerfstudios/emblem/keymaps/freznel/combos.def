@@ -58,6 +58,7 @@ COMB(pbupr_combo, KC_UP, PB_5, KC_MUTE)
 COMB(pbleftr_combo, KC_LEFT, PB_6, KC_MUTE)
 COMB(pbldnr_combo, KC_DOWN, PB_6, KC_MUTE)
 COMB(pbrightr_comb, KC_RIGHT, PB_8, KC_MUTE)
+COMB(game_combo, GAMEPAD_TOGGLE, LGUI_T(KC_A), LALT_T(KC_R), LCTL_T(KC_S), LSFT_T(KC_T) )
 
 SUBS(aml_combo, "AML/CFT", LGUI_T(KC_A), KC_C )
 SUBS(tks_combo, "Thanks", LSFT_T(KC_T), LCTL_T(KC_S), KC_K )

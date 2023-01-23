@@ -61,7 +61,7 @@ SRC +=  ui/ui.c \
 		ui/assets/ui_img_toolbox_80_png.c \
 		ui/assets/ui_img_lower_80_png.c \
 		ui/assets/ui_img_raise_80_png.c \
-		ui/assets/matrix_80.c \
+		ui/assets/monitormund.c \
 		ui/bindings/bindings.c \
 		ui/fonts/ui_font_Futura12.c \
 		ui/fonts/ui_font_Futura18.c \
