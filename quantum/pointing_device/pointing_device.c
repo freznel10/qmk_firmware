@@ -383,7 +383,7 @@ static inline mouse_hv_report_t pointing_device_hv_clamp(clamp_hv_range_t value)
 }
 
 /**
- * @brief clamps input to mouse_xy_report_t range
+ * @brief clamps clamp_range_t to mouse_xy_report_t
  *
  * @param[in] clamp_xy_range_t value
  * @return mouse_xy_report_t clamped value
