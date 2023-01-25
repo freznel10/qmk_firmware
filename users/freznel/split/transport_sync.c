@@ -94,8 +94,12 @@ void user_transport_update(void) {
 #endif
         user_state.is_caps_word_on =  is_caps_word_on();
         user_state.host_driver_disabled = host_driver_disabled;
+#if defined (POINTING_DEVICE_MODES_ENABLE)
         user_state.split_pointing_mode = get_pointing_mode_id();
+#   if defined (POINTING_DEVICE_COMBINED)
         user_state.pointing_side = is_pointing_mode_on_left();
+#   endif //POINTING_DEVICE_COMBINED
+#endif //POINTING_DEVICE_MODES_ENABLE
 #ifdef OS_DETECTION_ENABLE
         user_state.detected_os = detected_host_os();
 #endif

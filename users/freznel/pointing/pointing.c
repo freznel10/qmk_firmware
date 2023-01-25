@@ -42,12 +42,12 @@ enum keymap_pointing_device_modes {
     PM_RGB_MODE_VAL,         // RGB Control for mode and Brightness [mode id 7]
     PM_RGB_HUE_SAT,          // RGB Control for HUE and Saturation  [mode id 8]
     PM_RGB_SPEED,            // RGB Control for Speed               [mode id 9]
-    PM_WINDOW,                // Window Control                 [mode id 10]
-    PM_SWITCHER,             // RGB Control for Speed           [mode id 11]
-    PM_APP_2,                // ALT_TAB                         [mode id 12]
-    PM_CUR_ACCEL,           // Acceleration                     [mode id 13]
-    PM_BROWSER_CONTROL,     // BROWSER HISTORY                  [mode id 14]
-    PM_WIN_POS,             // WIN_PIS                          [mode id 15]
+    PM_WINDOW,               // LGUI plus Arrow Keys                [mode id 10]
+    PM_SWITCHER,             // LGUI plus Arrow Keys (for rev)      [mode id 11]
+    PM_APP_2,                // ALT_TAB                             [mode id 12]
+    PM_CUR_ACCEL,            // Acceleration                        [mode id 13]
+    PM_BROWSER_CONTROL,      // Browser history                     [mode id 14]
+    PM_WIN_POS,              // Window repositinong                 [mode id 15]
 };
 
 const uint16_t pointing_device_mode_maps[][4] = {
@@ -245,7 +245,6 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t* record) {
     }
     return true;
 }
-
 
 #if defined(POINTING_DEVICE_AUTO_MOUSE_ENABLE)
 bool is_mouse_record_user(uint16_t keycode, keyrecord_t* record) {
