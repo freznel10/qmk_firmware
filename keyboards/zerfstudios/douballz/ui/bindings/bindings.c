@@ -101,6 +101,6 @@ uint8_t qmk_lv_active_layer(void) {
 
 uint16_t qmk_lv_get_cpi(void) {
     uint16_t cpi = 0;
-    cpi = user_state.split_pointing_mode == 2 ? charybdis_get_pointer_sniping_dpi() : charybdis_get_pointer_default_dpi();
+    cpi = user_state.split_pointing_mode == PM_PRECISION ? charybdis_get_pointer_sniping_dpi() : charybdis_get_pointer_default_dpi();
     return cpi;
 }

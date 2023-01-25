@@ -602,11 +602,11 @@ void set_pm_text_value(lv_obj_t* lbl) {
         char buf[32];
         const char *pm_name = "-----";
         switch (user_state.split_pointing_mode) {
-            case 1:
-                pm_name = "DRAGSCROLL";
-                break;
-            case 2:
+            case PM_PRECISION:
                 pm_name = "PRECISION";
+                break;
+            case PM_DRAG:
+                pm_name = "PM_DRAG";
                 break;
             case 3:
                 pm_name = "CARET";
