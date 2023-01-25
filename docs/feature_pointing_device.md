@@ -807,8 +807,8 @@ Pointing device modes activated by toggle type functions/macros have their mode 
 | Pointing Device Mode  | Alias     | Mode Id | Description                                                                                                                                                 |
 | :-------------------- | --------- | :-----: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `PM_NONE`             |  _None_   |     0   | Null pointing mode that will will pass through normal x and y output of pointing device (Cannot be overwritten)                                             |
-| `PM_DRAG`             | `PM_DRG`  |     1   | Change x and y movement of pointing device into h and v axis values  `x->h`  `y->v`                                                                         |
-| `PM_PRECISION`        | `PM_PRE`  |     2   | Reduce x and y movement output of pointing device by the divisor which can affect other modes when toggled (_see notes_)                                    |
+| `PM_PRECISION`        | `PM_PRE`  |     1   | Reduce x and y movement output of pointing device by the divisor which can affect other modes when toggled (_see notes_)                                    |
+| `PM_DRAG`             | `PM_DRG`  |     2   | Change x and y movement of pointing device into h and v axis values  `x->h`  `y->v`                                                                         |
 | `PM_CARET`            | `PM_CRT`  |     3   | Taps arrow keys based on pointing input  `x->(<-, ->)` `y->(^, v)`                                                                                          |
 | `PM_HISTORY`          | `PM_HST`  |     4   | x movement of pointing device to undo and redo macros  `x->(C(KC_Z)), C(KC_Y)`  `y->ignored`                                                                |
 | `PM_VOLUME`           | `PM_VOL`  |     5   | y movement of pointing device to media volume up/down (requires `EXTRAKEY_ENABLED`) `x->ignored` `y->(KC_VOLU, KC_VOLD)`                                    |
@@ -818,7 +818,7 @@ Pointing device modes activated by toggle type functions/macros have their mode 
 ***Notes:***   
 -***These modes can all be overwritten with the exception of `PM_NONE`.***   
 -***The mode id count starts at 0 (e.g. mode id 15 is the 16th mode) and thus mode mode ids 6-15 are free to be used without overwriting a mode (see adding custom modes below)***
--***The `PM_PRECISION` mode has additional behaviour when it is the current toggle mode, all modes will have their divisors multiplied by `POINTING_PRECISION_DIVISOR` (see adding divisors for more detail)***
+-***The `PM_PRECISION` mode has additional behaviour when it is toggled, all modes activated as momentary modes will have their divisors multiplied by `POINTING_PRECISION_DIVISOR` until another mode is toggled (see adding divisors for more detail)***
 
 #### Use In A keymap:
 ```c
@@ -838,10 +838,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 | `POINTING_DEVICE_MODES_ENABLE`   | (Required) Enables pointing device pointing device modes feature                                   |  `NA`   |    `None`    |                  _Not defined_ |
 | `POINTING_DEVICE_MODES_INVERT_X` | (optional) Inverts stored y axis accumulation (affects all modes)                                  |  `NA`   |    `None`    |                  _Not defined_ |
 | `POINTING_DEVICE_MODES_INVERT_Y` | (optional) Inverts stored x axis accumulation (affects all modes)                                  |  `NA`   |    `None`    |                  _Not defined_ |
-| `POINTING_DEVICE_MODES_FASTCALC` | (optional) Enables fast calculations for division operations limiting divisors to base 2           |  `NA`   |    `None`    |                  _Not defined_ |
+| `POINTING_DEVICE_MODES_FASTCALC` | (optional) Enables fast calculations for division operations limiting divisors to powers of 2      |  `NA`   |    `None`    |                  _Not defined_ |
 | `POINTING_MODE_DEFAULT`          | (optional) Default pointing device mode                                                            | `0-255` |    `None`    |                      `PM_NONE` |
 | `POINTING_TAP_DELAY`             | (optional) Delay between key presses in `pointing_tap_codes` in ms                                 | `0-255` |     `ms`     |                            `0` |
-| `POINTING_MODE_MAP_COUNT`        | (optional) Number of modes defined in `pointing_device_mode_maps`                                  | `0-255` |    `None`    |                            `0` |
+| `POINTING_MODE_MAP_COUNT`        | (optional) Number of modes defined in `pointing_device_mode_maps`(_required if using mode maps_)   | `0-255` |    `None`    |                            `0` |
 | `POINTING_DEFAULT_DIVISOR`       | (optional) Default divisor for all modes that do not have a defined divisor                        | `1-255` |   `Varies`   |                           `64` |
 | `POINTING_HISTORY_DIVISOR`       | (optional) Accumulated stored x/y per key tap in `PM_HISTORY` mode                                 | `1-255` | `(x\|y)/tap` |                           `64` |
 | `POINTING_VOLUME_DIVISOR`        | (optional) Accumulated stored x/y per key tap in `PM_VOLUME` mode                                  | `1-255` | `(x\|y)/tap` |                           `64` |
@@ -855,10 +855,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    
 ***Notes:***  
 1. `POINTING_DEVICE_MODES_FASTCALC` will force all divisors to powers of two but will enable fast calculation of division.
-2. it is recommended that generally powers of 2 are used for divisors **(e.g. 1, 2, 4, 8, 16, 32, 64, 128*)**  and using `POINTING_DEVICE_MODES_FASTCALC` as will optimize better, but as long as `POINTING_DEVICE_MODES_FASTCALC` is not used **any positive integer of 255 or less** will work.   
+2. For processors without hardware supported integer division (Atmel AVR U4, U2, ARM Cortex M0, M0+, M1, and, M2 chips with the exception of the RP2040[M0+] which has additional hardware for it) it is recommended that generally powers of 2 are used for divisors **(e.g. 1, 2, 4, 8, 16, 32, 64, 128*)** or using `POINTING_DEVICE_MODES_FASTCALC` as it will optimize better, but as long as `POINTING_DEVICE_MODES_FASTCALC` is not used **any positive integer of 255 or less** will work but can be slower on chips without hardware division.   
 3. Drag scroll speed will be effected by OS mouse settings (_there are usually separate settings for scroll "wheel" and "wheel tilt"_)   
     - The `POINTING_DRAG_DIVISOR` default value of 8 is based on having mouse settings in the OS set to one line per tick of "mouse wheel" or "wheel tilt" (_the minimum_)   
-4. `POINTING_PRECISION_DIVISOR` default will half cursor speed when active (_divisor of 2_) but a divisor of 4 is fine to use as well but the cursor will be quite a bit slower, however divisors of 8 or greater will likely only work well for high cpi settings.
+4. `POINTING_PRECISION_DIVISOR` default will half cursor speed when active (_divisor of 2_) but a divisor of 4 is fine to use as well but the cursor will be quite a bit slower, however divisors of 8 or greater will likely only work well for very high cpi settings.
 5. Speed and sensitivity of any pointing device mode will be impacted by the pointing device CPI setting so divisors may need to be adjusted to personal preference and CPI settings typically used.   
 6. Recommended settings for `POINTING_CARET_DIVISOR_V` and `POINTING_CARET_DIVISOR_H` will give faster horizontal caret movement than vertical and will give even more stability to keeping movement horizontal.
 
@@ -877,7 +877,7 @@ const uint16_t pointing_device_mode_maps[][4] = {
                 <keycode down>
     ),
     //... all other pointing mode maps ...
-    [<last_map_id>] = POINTING_MODE_LAYOUT(
+    [<POINTING_MODE_MAP_COUNT - 1>] = POINTING_MODE_LAYOUT(
                 <keycode up>,
         <keycode left>,       <keycode right>,
                 <keycode down>
@@ -889,8 +889,8 @@ const uint16_t pointing_device_mode_maps[][4] = {
 #### Example Mode Maps:
 ```c
 // in config.h:
-#define POINTING_DEVICE_MODES_ENABLE // always needed (assumed for future example code)
-#define POINTING_MODE_MAP_COUNT 4    // number of modes in map
+#define POINTING_DEVICE_MODES_ENABLE // (Required)
+#define POINTING_MODE_MAP_COUNT 4    // (Required) number of modes in map
 // POINTING_MODE_MAP_START is left at the default value to not overwrite any modes
 
 // in keymap.c
@@ -935,9 +935,6 @@ const uint16_t pointing_device_mode_maps[][4] = {
 -***Any mode map with a mode id greater than `POINTING_MODE_MAP_COUNT - 1` will be ignored***   
 -***The modes maps start at 0 and are in the same order as the enum***
 -***If mode maps and pointing mode processing callbacks are being used together to define multiple modes care must be taken to ensure that there is no overlap between mode ids (as the callbacks will override the maps) ***
-
-**Note on overriding built in modes using pointing device mode maps:**   
-if `POINTING_MODE_MAP_START` is set to the `PM_VOLUME` mode id or lower then mode maps will override the built-in modes it overlaps with.  Keep in mind that pointing mode maps must be consecutive so modes from `POINTING_MODE_MAP_START` to `POINTING_MODE_MAP_START + POINTING_MODE_MAP_COUNT` will be overridden.
 
 ### Adding & Customizing Divisors   
 All Newly added modes will use `POINTING_DEFAULT_DIVISOR` unless a divisor is defined for the modes in the `get_pointing_mode_divisor` callback functions.
@@ -1279,7 +1276,7 @@ bool process_pointing_mode_kb(pointing_mode_t pointing_mode, report_mouse_t* mou
 #else
                 mouse_report->x = CONSTRAIN_XY(mouse_report->x + temp_mouse_axis);
 #endif
-                // collect residuals
+                // collect residual
                 pointing_mode.x -= multiply_divisor_xy(temp_mouse_axis);
                 // add linear boost to cursor y speed
                 temp_mouse_axis = apply_divisor_xy(pointing_mode.y);
@@ -1288,7 +1285,7 @@ bool process_pointing_mode_kb(pointing_mode_t pointing_mode, report_mouse_t* mou
 #else
                 mouse_report->y = CONSTRAIN_XY(mouse_report->y + apply_divisor_xy(pointing_mode.y));
 #endif
-                // collect residuals
+                // collect residual
                 pointing_mode.y -= multiply_divisor_xy(temp_mouse_axis);
             }
             // update pointing_mode with residual stored x & y
@@ -1354,9 +1351,9 @@ If both `SPLIT_POINTING_ENABLE` and `POINTING_DEVICE_COMBINED` are defined then 
 
 #### Relevant Settings
 
-| Define                             | Description                                                 |        Default |
-| ---------------------------------- | ----------------------------------------------------------- | -------------: |
-| `POINTING_MODES_LEFT`              | Set left side to default pointing device controlled side    |  _Not defined_ |
+| Define                             | Description                                                            |        Default |
+| ---------------------------------- | ---------------------------------------------------------------------- | -------------: |
+| `POINTING_MODES_LEFT`              | (optional) Set left side to default pointing device controlled side    |  _Not defined_ |
    
 #### Functions when using two pointing devices  
 These functions are only available when both `SPLIT_POINTING_ENABLE` and `POINTING_DEVICE_COMBINED` are defined and will cause a compiler error if they are not.  It is recommended that code that uses them is conditional on both of these settings being defined.

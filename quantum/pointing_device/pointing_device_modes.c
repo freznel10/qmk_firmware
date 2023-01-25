@@ -55,6 +55,12 @@ static inline int16_t clamp_int_32_to_16(int32_t value) {
 }
 
 static inline int16_t divisor_multiply16(int16_t value) {
+#    ifdef POINTING_DEVICE_MODES_FASTCALC
+    return clamp_int_32_to_16(value << pointing_mode_context.mode.divisor);
+#    else
+    return clamp_int_32_to_16(value * (int16_t)pointing_mode_context.mode.divisor);
+#    endif
+
     return clamp_int_32_to_16(value * (int16_t)pointing_mode_context.mode.divisor);
 }
 
@@ -268,11 +274,11 @@ static uint8_t get_pointing_mode_divisor(void) {
                 divisor = POINTING_HISTORY_DIVISOR;
                 break;
 
-            case PM_VOLUME:
 #    ifdef EXTRAKEY_ENABLE
+            case PM_VOLUME:
                 divisor = POINTING_VOLUME_DIVISOR;
-#    endif
                 break;
+#    endif
         }
     }
     return divisor_postprocess(divisor);
