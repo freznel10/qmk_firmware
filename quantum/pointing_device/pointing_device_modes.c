@@ -307,7 +307,7 @@ void pointing_mode_update(void) {
 }
 
 /**
- * @brief divides/multiplies cursor value by current divisor
+ * @brief divides/multipliers cursor value by current divisor
  *
  * @params value[in]    int16_t input to divide
  * @params multiply[in] bool    multiply when true divide when false

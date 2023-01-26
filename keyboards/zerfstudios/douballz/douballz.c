@@ -76,11 +76,11 @@ __attribute__((weak)) void draw_ui_user(void) {}
 typedef union {
     uint16_t raw;
     struct {
-        uint8_t pointer_default_dpi : 4;  // 16 steps available.
-        uint8_t pointer_sniping_dpi : 2;  // 4 steps available.
-        bool    is_dragscroll_enabled : 1;
-        bool    is_sniping_enabled : 1;
-        unsigned          lcd_power : 1;
+        uint8_t     pointer_default_dpi     : 4;  // 16 steps available.
+        uint8_t     pointer_sniping_dpi     : 2;  // 4 steps available.
+        bool        is_dragscroll_enabled   : 1;
+        bool        is_sniping_enabled      : 1;
+        unsigned    lcd_power                : 1;
     } __attribute__((packed));
 } charybdis_config_t;
 
@@ -350,15 +350,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
                 rgb_matrix_increase_flags();
             }
             return false;
-        case DRAG_MOM:
-            if (record->event.pressed) {
-
-            }
-            break;
-        case DRAG_SCROLL:{
-
-        }
-        break;
         case PM_SWITCH:
             if (record->event.pressed) {
                 pointing_mode_switch_hands();
@@ -549,11 +540,8 @@ void keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data){
 void keyboard_post_init_kb(void) {
     maybe_update_pointing_device_cpi(&g_charybdis_config);
     transaction_register_rpc(RPC_ID_KB_CONFIG_SYNC, charybdis_config_sync_handler);
-    #ifdef QUANTUM_PAINTER_ENABLE
-    // transaction_register_rpc(RPC_ID_SYNC_STATE_KB, kb_state_sync_slave);
-        // Reset the initial shared data value between master and slave
+    // Reset the initial shared data value between master and slave
     memset(&g_charybdis_config, 0, sizeof(g_charybdis_config));
-    #endif
     wait_ms(50);
         if (is_keyboard_left()) {
             #if (defined(KEYBOARD_zerfstudios_douballz_rev1))
@@ -685,19 +673,4 @@ void housekeeping_task_kb(void) {
 // void                       matrix_scan_kb(void) {
 //     matrix_scan_sub_kb();
 //     matrix_scan_user();
-// }
-
-// enum via_qmk_caps_word_value{
-//     id_qmk_caps_word_activation   = 1,
-// };
-
-
-// void via_custom_value_command_kb(uint8_t *data, uint8_t length) {
-//     // data = [ command_id, channel_id, value_id, value_data ]
-//     uint8_t *command_id = &(data[0]);
-//     if (*channel_id == id_qmk_caps_word_activation) {
-//         via_qmk_caps_word_command(data, length);
-//         return;
-//     }
-//     *command_id = id_unhandled;
 // }

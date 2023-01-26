@@ -7,7 +7,7 @@
 #if defined(KEYBOARD_zerf9) && defined(POINTING_DEVICE_ENABLE)
 #    define PLACEHOLDER_SAFE_RANGE QK_USER
 #elif defined(KEYBOARD_zerfstudios_douballz)
-#    define PLACEHOLDER_SAFE_RANGE KEYMAP_SAFE_RANGE
+#    define PLACEHOLDER_SAFE_RANGE QK_USER
 #elif defined(KEYBOARD_bastardkb_charybdis)
 #    define PLACEHOLDER_SAFE_RANGE CHARYBDIS_SAFE_RANGE
 #elif defined(KEYBOARD_rocksolid)
@@ -72,7 +72,6 @@ enum userspace_custom_keycodes {
     KB_MO_APP,
     KB_MO_WINDOW,
     AM_TOGGLE,
-    PM_SWITCH,
 
     RAISE_TOGGLE, //combos
     BSPC_LSFT_CLEAR,

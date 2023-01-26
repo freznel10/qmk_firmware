@@ -27,7 +27,7 @@ __attribute__((weak)) void pointing_device_init_keymap(void) {}
 
 void pointing_device_init_user(void) {
 #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
-    set_auto_mouse_layer(AUTO_MOUSE_DEFAULT_LAYER);
+    set_auto_mouse_layer(_MOUSE);
     set_auto_mouse_enable(true);
 #endif
     pointing_device_init_keymap();
@@ -238,15 +238,15 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t* record) {
             }
             pointing_mode_key_momentary(PM_WIN_POS, record);
         break;
-#if defined(SPLIT_POINTING_ENABLE) && defined(POINTING_DEVICE_COMBINED)
         case PM_SWITCH:
             if (record->event.pressed) {
                 pointing_mode_switch_hands();
             }
-#endif
         break;
         default:
         break;
+
+
     }
     return true;
 }

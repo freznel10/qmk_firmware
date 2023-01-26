@@ -57,7 +57,7 @@ extern keyboard_config_t keyboard_config;
 
 enum duoballz_keycodes {
     //DPI_CONFIG = SAFE_RANGE,
-    POINTER_DEFAULT_DPI_FORWARD  = SAFE_RANGE,
+    POINTER_DEFAULT_DPI_FORWARD  = QK_KB,
     // LEFT_DPI,
     RGB_TOG1,
     POINTER_DEFAULT_DPI_REVERSE,
@@ -68,7 +68,6 @@ enum duoballz_keycodes {
     DRAGSCROLL_MODE,
     DRAGSCROLL_MODE_TOGGLE,
     AUTO_MOUSE_LAYER_TOGGLE,
-    PM_SWITCH,
     LVGL_CLOCKWISE,
     LVGL_COUNTER_CLOCKWISE,
     LVGL_ENCODER_BUTTON,
@@ -76,8 +75,7 @@ enum duoballz_keycodes {
     LVGL_CONTROL_PREV,
     LVGL_CONTROL_LEFT,
     LVGL_CONTROL_RIGHT,
-    LVGL_CONTROL_ENTER,
-    KEYMAP_SAFE_RANGE,
+    LVGL_CONTROL_ENTER
 };
 #        define CHARYBDIS_SAFE_RANGE KEYMAP_SAFE_RANGE
 #        define DPI_MOD POINTER_DEFAULT_DPI_FORWARD
@@ -90,7 +88,7 @@ enum duoballz_keycodes {
 #        define DRG_TOG DRAGSCROLL_MODE_TOGGLE
 #        define AML_TOG AUTO_MOUSE_LAYER_TOGGLE
 #ifdef POINTING_DEVICE_ENABLE
-/** \brief Return the current DPI value for the pointer's default mode. */
+/** \brief Return the currentc DPI value for the pointer's default mode. */
 uint16_t charybdis_get_pointer_default_dpi(void);
 
 /**
@@ -166,8 +164,6 @@ void charybdis_set_pointer_dragscroll_enabled(bool enable);
  */
 void rgb_matrix_increase_flags(void);
 
-
-
 void matrix_init_sub_kb(void);
 void matrix_scan_sub_kb(void);
 
@@ -175,11 +171,5 @@ void keyboard_pre_init_sync(void);
 void keyboard_post_init_sync(void);
 void housekeeping_task_sync(void);
 
-void kb_config_sync_handler(uint8_t initiator2target_buffer_size, const void* initiator2target_buffer, uint8_t target2initiator_buffer_size, void* target2initiator_buffer);
-void kb_state_sync_slave(uint8_t initiator2target_buffer_size, const void* initiator2target_buffer, uint8_t target2initiator_buffer_size, void* target2initiator_buffer);
-
-
-void via_qmk_caps_word_command(uint8_t *data, uint8_t length);
-void via_qmk_caps_word_set_value(uint8_t *data);
-void via_qmk_caps_word_get_value(uint8_t *data);
-void via_qmk_caps_word_save(void);
+// void kb_config_sync_handler(uint8_t initiator2target_buffer_size, const void* initiator2target_buffer, uint8_t target2initiator_buffer_size, void* target2initiator_buffer);
+// void kb_state_sync_slave(uint8_t initiator2target_buffer_size, const void* initiator2target_buffer, uint8_t target2initiator_buffer_size, void* target2initiator_buffer);
