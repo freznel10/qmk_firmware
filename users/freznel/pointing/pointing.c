@@ -254,15 +254,6 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t* record) {
 #if defined(POINTING_DEVICE_AUTO_MOUSE_ENABLE)
 bool is_mouse_record_user(uint16_t keycode, keyrecord_t* record) {
     switch (keycode) {
-#    if defined(KEYBOARD_ploopy)
-        case DPI_CONFIG:
-#    elif (defined(KEYBOARD_bastardkb_charybdis) || defined(KEYBOARD_handwired_tractyl_manuform)) && !defined(NO_CHARYBDIS_KEYCODES)
-        case SAFE_RANGE ...(CHARYBDIS_SAFE_RANGE - 1):
-#    elif (defined(KEYBOARD_bastardkb_dilemma) && !defined(NO_DILEMMA_KEYCODES))
-        case SAFE_RANGE ...(DILEMMA_SAFE_RANGE - 1):
-// #    elif (defined(KEYBOARD_emblem) && !defined(NO_EMBLEM_KEYCODES))
-//         case SAFE_RANGE ...(EMBLEM_SAFE_RANGE - 1):
-#    endif
         case KC_ACCEL:
         case TD_DRGS:
         case TD_DRGR:
