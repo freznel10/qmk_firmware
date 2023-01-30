@@ -49,10 +49,6 @@ typedef union {
     };
 } keyboard_config_t;
 
-// extern kb_runtime_config kb_state;
-// _Static_assert(sizeof(kb_runtime_config) == 1, "Invalid data transfer size for keyboard sync data");
-// #pragma pack(pop)
-
 extern keyboard_config_t keyboard_config;
 
 enum duoballz_keycodes {

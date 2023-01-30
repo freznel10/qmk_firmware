@@ -37,6 +37,7 @@ __attribute__((weak)) report_mouse_t pointing_device_task_keymap(report_mouse_t 
     return mouse_report;
 }
 
+//Pointing Device Modes
 enum keymap_pointing_device_modes {
     PM_BROW = PM_SAFE_RANGE, // BROWSER TAB Manipulation            [mode id 6]
     PM_RGB_MODE_VAL,         // RGB Control for mode and Brightness [mode id 7]

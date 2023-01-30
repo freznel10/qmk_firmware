@@ -32,7 +32,7 @@ static void close_rgb_speed_pane(lv_event_t* event) {
     if (speed > 255) {
         speed = 255;
     }
-    qmk_lv_rgb_matrix_set_speed(speed, true);
+    ui_lv_rgb_matrix_set_speed(speed, true);
 
     if (lv_obj_is_valid(arc)) {
         lv_obj_del(arc);
@@ -49,8 +49,8 @@ static void arc_value_changed(lv_event_t* event)
 
     dial_menu_set_label_text_fml("%03d", speed);
 
-    qmk_lv_rgb_matrix_set_speed(speed, false);
-    
+    ui_lv_rgb_matrix_set_speed(speed, false);
+
 }
 
 void init_rgb_speed_pane() {
@@ -66,7 +66,7 @@ void init_rgb_speed_pane() {
 
     lv_arc_set_rotation(arc, 135);
     lv_arc_set_bg_angles(arc, 30, 240);
-    lv_arc_set_value(arc, qmk_lv_rgb_matrix_get_speed() >> 2);
+    lv_arc_set_value(arc, ui_lv_rgb_matrix_get_speed() >> 2);
     lv_arc_set_range(arc, 0, 63);
 
     lv_group_add_obj(lv_group_get_default(), arc);

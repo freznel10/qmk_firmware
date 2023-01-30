@@ -18,11 +18,11 @@
 #include "../../bindings/bindings.h"
 
 void dev_qk_boot(void) {
-    qmk_lv_tap_keycode(QK_BOOT);
+    ui_lv_tap_keycode(QK_BOOT);
 }
 void dev_dbg_toggle(void) {
-    qmk_lv_tap_keycode(DB_TOGG);
+    ui_lv_tap_keycode(DB_TOGG);
 }
 void dev_clr_eeprom(void) {
-    qmk_lv_tap_keycode(EE_CLR);
+    ui_lv_tap_keycode(EE_CLR);
 }

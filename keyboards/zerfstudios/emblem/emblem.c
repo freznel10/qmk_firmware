@@ -415,13 +415,13 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
         }
         case LO_RES_DOWN: {
             if (record->event.pressed) {
-                set_hires_scroll_multiplier(HIRES_BOTH, 1);
+                // set_hires_scroll_multiplier(HIRES_BOTH, 1);
             }
             break;
         }
         case LO_RES_UP: {
             if (record->event.pressed) {
-                set_hires_scroll_multiplier(HIRES_BOTH, 120);
+                // set_hires_scroll_multiplier(HIRES_BOTH, 120);
             }
             break;
         }

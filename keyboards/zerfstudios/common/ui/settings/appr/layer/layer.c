@@ -33,7 +33,7 @@ static void poll_layer(lv_timer_t* timer) {
     LV_UNUSED(timer);
     lv_obj_t* lbl = timer->user_data;
 
-    set_layer_text_value_JP(qmk_lv_geT_layer(), lbl);
+    set_layer_text_value_JP(ui_lv_geT_layer(), lbl);
 }
 
 lv_obj_t* init_layer_indicator(lv_obj_t* screen) {

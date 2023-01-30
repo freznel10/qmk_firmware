@@ -249,6 +249,9 @@ void ui_active_layer_change(lv_event_t * e) {
                 case _MEDIA:
                     lv_img_set_src(ui_Image1, &ui_img_emblem_80_png);
                     break;
+                case _GAMEPAD:
+                    lv_img_set_src(ui_Image1, &ui_img_controller80_png);
+                    break;
                 default:
                     lv_img_set_src(ui_Image1, &ui_img_numpad_80_png);
                     break;

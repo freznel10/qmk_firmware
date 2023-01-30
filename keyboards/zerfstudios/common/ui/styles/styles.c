@@ -16,7 +16,6 @@
  */
 
 #include "styles.h"
-#include "../fonts/fonts.h"
 
 //////////////////////////////////////////////////////////////
 // Main Screen Styles
@@ -136,6 +135,64 @@ const lv_style_const_prop_t style_label_imp_45_props[] = {
 
 };
 LV_STYLE_INIT(style_label_imp_45, style_label_imp_45_props);
+
+const lv_style_const_prop_t style_label_futura22_props[] = {
+    LV_STYLE_CONST_TEXT_COLOR(LV_COLOR_MAKE16(0xff, 0xff, 0xff)),
+    LV_STYLE_CONST_TEXT_FONT(&ui_font_Futura22),
+    LV_STYLE_CONST_WIDTH(LV_SIZE_CONTENT),
+    LV_STYLE_CONST_HEIGHT(LV_SIZE_CONTENT),
+    LV_STYLE_CONST_ALIGN(LV_ALIGN_CENTER),
+    C_LV_STYLE_PROP_INV,
+
+};
+LV_STYLE_INIT(style_label_futura22, style_label_futura22_props);
+
+
+const lv_style_const_prop_t style_label_futura20_props[] = {
+    LV_STYLE_CONST_TEXT_COLOR(LV_COLOR_MAKE16(0xff, 0xff, 0xff)),
+    LV_STYLE_CONST_TEXT_FONT(&ui_font_Futura20),
+    LV_STYLE_CONST_WIDTH(LV_SIZE_CONTENT),
+    LV_STYLE_CONST_HEIGHT(LV_SIZE_CONTENT),
+    LV_STYLE_CONST_ALIGN(LV_ALIGN_CENTER),
+    C_LV_STYLE_PROP_INV,
+
+};
+LV_STYLE_INIT(style_label_futura20, style_label_futura20_props);
+
+const lv_style_const_prop_t style_label_futura18_props[] = {
+    LV_STYLE_CONST_TEXT_COLOR(LV_COLOR_MAKE16(0xff, 0xff, 0xff)),
+    LV_STYLE_CONST_TEXT_FONT(&ui_font_Futura18),
+    LV_STYLE_CONST_WIDTH(LV_SIZE_CONTENT),
+    LV_STYLE_CONST_HEIGHT(LV_SIZE_CONTENT),
+    LV_STYLE_CONST_ALIGN(LV_ALIGN_CENTER),
+    C_LV_STYLE_PROP_INV,
+
+};
+LV_STYLE_INIT(style_label_futura18, style_label_futura18_props);
+
+
+const lv_style_const_prop_t style_label_futura12_props[] = {
+    LV_STYLE_CONST_TEXT_COLOR(LV_COLOR_MAKE16(0xff, 0xff, 0xff)),
+    LV_STYLE_CONST_TEXT_FONT(&ui_font_Futura12),
+    LV_STYLE_CONST_WIDTH(LV_SIZE_CONTENT),
+    LV_STYLE_CONST_HEIGHT(LV_SIZE_CONTENT),
+    LV_STYLE_CONST_ALIGN(LV_ALIGN_CENTER),
+    C_LV_STYLE_PROP_INV,
+
+};
+LV_STYLE_INIT(style_label_futura12, style_label_futura12_props);
+
+
+const lv_style_const_prop_t style_label_futura24_props[] = {
+    LV_STYLE_CONST_TEXT_COLOR(LV_COLOR_MAKE16(0xff, 0xff, 0xff)),
+    LV_STYLE_CONST_TEXT_FONT(&ui_font_Futura24),
+    LV_STYLE_CONST_WIDTH(LV_SIZE_CONTENT),
+    LV_STYLE_CONST_HEIGHT(LV_SIZE_CONTENT),
+    LV_STYLE_CONST_ALIGN(LV_ALIGN_CENTER),
+    C_LV_STYLE_PROP_INV,
+
+};
+LV_STYLE_INIT(style_label_futura24, style_label_futura24_props);
 
 //////////////////////////////////////////////////////////////
 // Panel Styles

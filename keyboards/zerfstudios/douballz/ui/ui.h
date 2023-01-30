@@ -68,6 +68,7 @@ extern lv_obj_t * ui_Screen2_Label_Pointing_Mode;
 extern lv_obj_t * ui_Screen2_Label_CPI;
 extern lv_obj_t * ui_PM_led1;
 extern lv_obj_t * ui_PM_led2;
+extern lv_obj_t * ui_PM_led3;
 extern lv_obj_t * ui_Label_Unicode_Mode;
 
 
@@ -108,6 +109,7 @@ void ui_df_layer_change(lv_event_t * e);
 void ui_event_dflayer_dropdown(lv_event_t * e);
 void ui_active_layer_change(lv_event_t * e);
 void ui_pm_state_change(lv_event_t * e);
+void ui_am_state_change(lv_event_t * e);
 void ui_unicode_mode_change(lv_event_t * e);
 void ui_render_cpi(lv_event_t * e);
 void ui_render_wpm(lv_event_t * e);

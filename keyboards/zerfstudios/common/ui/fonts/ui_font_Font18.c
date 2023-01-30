@@ -4,8 +4,7 @@
  * Opts: --bpp 4 --size 18 --font C:\Users\User\OneDrive\Documents2\SquareLine\assets\futur.ttf -o C:\Users\User\OneDrive\Documents2\SquareLine\assets\ui_font_Font18.c --format lvgl -r 0x20-0x7f --no-compress --no-prefilter
  ******************************************************************************/
 
-#include "../zerfstudios/emblem/ui/ui.h"
-
+#include "../zerfstudios/common/ui/ui.h"
 #ifndef UI_FONT_FONT18
 #define UI_FONT_FONT18 1
 #endif

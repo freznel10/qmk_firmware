@@ -46,6 +46,7 @@ CAPS_WORD_ENABLE = yes
 
 SRC += ui/ui.c \
 		ui/assets/ui_img_emblem_80_png.c \
+		ui/assets/ui_img_controller80_png.c \
 		ui/assets/ui_img_numpad_80_png.c \
 		ui/assets/ui_img_trackball_png.c \
 		ui/assets/ui_img_toolbox_80_png.c \

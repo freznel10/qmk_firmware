@@ -36,12 +36,12 @@ void destroy_chart(void) {
 static void add_data(lv_timer_t* timer) {
     LV_UNUSED(timer);
     lv_obj_t* chart = timer->user_data;
-    
-    lv_chart_set_next_value(chart, lv_chart_get_series_next(chart, NULL), qmk_lv_get_bpm());
+
+    lv_chart_set_next_value(chart, lv_chart_get_series_next(chart, NULL), ui_lv_get_bpm());
 }
 
 void init_chart(void) {
-    
+
     /*Create a chart*/
     chart = lv_chart_create(lv_scr_act());
     lv_obj_set_size(chart, 110, 60);
@@ -49,9 +49,9 @@ void init_chart(void) {
     lv_obj_set_align(chart, LV_ALIGN_CENTER);
     lv_chart_set_type(chart, LV_CHART_TYPE_LINE);   /*Show lines and points too*/
     lv_chart_set_update_mode(chart, LV_CHART_UPDATE_MODE_SHIFT); /*Shift the data when set a new point*/
-    
+
     lv_chart_add_series(chart, lv_color_hex(0x00dce6), LV_CHART_AXIS_PRIMARY_Y);
-    
+
     lv_chart_set_axis_tick(chart, LV_CHART_AXIS_PRIMARY_X, 2, 1, 10, 1, false, 10);
     lv_chart_set_axis_tick(chart, LV_CHART_AXIS_PRIMARY_Y, 4, 1, 3, 2, true, 45);
 

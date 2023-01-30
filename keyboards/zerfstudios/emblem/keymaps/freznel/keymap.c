@@ -158,26 +158,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                            _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                                            _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______
     ),
-    [_KEYPAD] = LAYOUT_emblem_wrapper(
+    [_KEYPAD] = LAYOUT_emblem_wrapper(c
        QK_MAKE, _________________UNICO_L1__________________, _______,                                               _______, _________________UNICO_R1__________________, QK_MAKE,
        KC_NUM,  ________________NUMPAD1_LEFT_______________, _______,                                               _______, _________________ADJUST_R1_________________, KC_EQUAL,
        KC_BSPC, ________________NUMPAD2_LEFT_______________, _______,                                               _______, _________________ADJUST_R2_________________, SH_TG,
        UC_MOD,  ________________NUMPAD3_LEFT_______________, KC_SCRL, AML_TOG,          AML_TOG,          AML_TOG, DRGSCRL, ________________NUMPAD3_RIGHT______________, KC_MPLY,
-                                           _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+                                           _______, _______, _______, __j_____, _______, _______, _______, _______, _______, _______, _______,
                                            _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______
     ),
     [_GAMEPAD] = LAYOUT_emblem_wrapper(
-       QK_MAKE, ________________NUMBER_LEFT________________, KC_F1,                                            _______, ________________NUMBER_RIGHT_______________, QK_MAKE,
-       KC_TAB,  ______________COLEMAK_MOD_DH_L1____________, KC_F2,                                            _______, ______________COLEMAK_MOD_DH_R1____________, KC_EQUAL,
-       KC_CAPS, ______________COLEMAK_MOD_DH_L2____________, KC_M,                                             _______, ______________COLEMAK_MOD_DH_R1____________, SH_TG,
-       KC_LSFT, ______________COLEMAK_MOD_DH_L3____________, KC_B, TG(_GAMEPAD),        AM_TOGGLE,    AML_TOG, DRGSCRL, ______________COLEMAK_MOD_DH_R1____________, KC_MPLY,
-                                           KC_LCTL, KC_LALT, KC_SPACE, KC_ENTER, _______, _______, _______, _______, _______, _______, _______,
+       QK_GESC, ________________NUMBER_LEFT________________, KC_F1,                                            _______, ________________NUMBER_RIGHT_______________, QK_MAKE,
+       KC_CAPS, _________________GAMING_L1_________________, KC_T,                                            _______, ______________COLEMAK_MOD_DH_R1____________, KC_EQUAL,
+       KC_RSFT, _________________GAMING_L2_________________, KC_G,                                             _______, ______________COLEMAK_MOD_DH_R1____________, SH_TG,
+       KC_RCTL, _________________GAMING_L2_________________, KC_B, TG(_GAMEPAD),        KC_BTN1,    AML_TOG, DRGSCRL, ______________COLEMAK_MOD_DH_R1____________, KC_MPLY,
+                                           KC_LALT, KC_TAB, KC_SPACE, KC_ENTER, _______, KC_BTN2, _______, _______, _______, _______, _______,
                                            _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______
     )
 };
 
 
-#define BASE_ENCODERS { ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) }
+#define BASE_ENCODERS { ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) }o
 #define BASE_ENCODERS_EMBLEM { ENCODER_CCW_CW(KC_WH_U, KC_WH_D), ENCODER_CCW_CW(LVGL_COUNTER_CLOCKWISE, LVGL_CLOCKWISE), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) }
 #ifdef ENCODER_MAP_ENABLE
 #    if defined(KEYBOARD_zerfstudios_emblem)
@@ -200,7 +200,8 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [_DEFAULT_LAYER_2] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_WH_D, KC_WH_U)},
     [_DEFAULT_LAYER_3] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_WH_D, KC_WH_U)},
     [_DEFAULT_LAYER_4] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_WH_D, KC_WH_U)},
-    [_GAMEPAD]         = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(_______, _______) },
+    [_GAMEPAD]         = { ENCODER_CCW_CW(_______, _______ ),
+    ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(_______, _______) },
     [_DIABLO]          = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(_______, _______)  },
     [_KEYPAD]          = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_WH_D, KC_WH_U) },
     [_MEDIA]           = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_WH_D, KC_WH_U) },

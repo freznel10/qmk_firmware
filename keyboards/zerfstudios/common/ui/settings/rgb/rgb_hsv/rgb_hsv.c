@@ -31,7 +31,7 @@ static void close_rgb_hsv_pane(lv_event_t* event)
 
     // Save to EEPROM after exit
     lv_color_hsv_t hsv = lv_custom_colorwheel_get_hsv(color_wheel);
-    qmk_lv_rgb_matrix_sethsv(hsv.h, hsv.s, hsv.v, true);
+    ui_lv_rgb_matrix_sethsv(hsv.h, hsv.s, hsv.v, true);
 
     // Delete both objs
     if (lv_obj_is_valid(color_wheel))
@@ -50,13 +50,13 @@ static void change_cw_mode(lv_event_t* event)
 static void cw_value_changed(lv_event_t* event)
 {
     lv_color_hsv_t hsv = lv_custom_colorwheel_get_hsv(color_wheel);
-   
+
     char str[11];
     sprintf(str, "0x%02X%02X%02X", (uint8_t)hsv.h, hsv.s, hsv.v);
-    
+
     dial_menu_set_label_text(str);
 
-    qmk_lv_rgb_matrix_sethsv(hsv.h, hsv.s, hsv.v, false);
+    ui_lv_rgb_matrix_sethsv(hsv.h, hsv.s, hsv.v, false);
 }
 
 void init_rgb_hsv_pane()
@@ -65,8 +65,8 @@ void init_rgb_hsv_pane()
 
     color_wheel = lv_custom_colorwheel_create(lv_scr_act(), true, 10);
 
-    lv_color_hsv_t color = qmk_lv_rgb_matrix_get_hsv();
-    lv_custom_colorwheel_set_hsv(color_wheel, color);    
+    lv_color_hsv_t color = ui_lv_rgb_matrix_get_hsv();
+    lv_custom_colorwheel_set_hsv(color_wheel, color);
 
     lv_obj_add_style(color_wheel, &style_dial_menu_arc, 0);
     lv_obj_add_style(color_wheel, &style_cw_knob, LV_PART_KNOB);

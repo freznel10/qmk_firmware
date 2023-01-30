@@ -18,7 +18,7 @@
 #include "../bindings/bindings.h"
 
 void set_layer(uint8_t i) {
-    qmk_lv_set_layer(i);
+    ui_lv_set_layer(i);
 }
 
 void set_layer_1() {

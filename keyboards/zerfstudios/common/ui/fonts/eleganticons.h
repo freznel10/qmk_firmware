@@ -1,4 +1,4 @@
-﻿/* Copyright 2022 Jose Pablo Ramirez <jp.ramangulo@gmail.com>
+﻿/* Copyright 2023 Freznel B. Sta. Ana <freznel@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,19 +16,7 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "../zerfstudios/common/ui/ui.h"
-
-#include "extra_icons.h"
-
-LV_FONT_DECLARE(impact_45)
-LV_FONT_DECLARE(impact_22)
-LV_FONT_DECLARE(extra_icons)
-
-#ifdef __cplusplus
-} /*extern "C"*/
-#endif
+#define FBS_ICON_ATOM "\xEE\x80\x8A"
+#define FBS_ICON_AUDIO "\xEE\x81\xA9"
+#define FBS_ICON_PHONES "\xEE\x80\xA7"
 

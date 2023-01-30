@@ -33,13 +33,10 @@
 #include "drivers/haptic/DRV2605L.h"
 #endif
 
-#define DRAGSCROLL_PADDING 6
 #define DQT QK_DEBUG_TOGGLE
 
 #define DYN_000 DYN_MACRO_KEY00
 #define DYN_001 DYN_MACRO_KEY01
-
-
 
 static bool     MIDI_ARM = false;
 extern MidiDevice midi_device;

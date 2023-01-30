@@ -340,20 +340,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
                 rgb_matrix_increase_flags();
             }
             return false;
-        case DRAG_MOM:
-            if (record->event.pressed) {
-                is_drag_mom ^= 1;
-            }
-            break;
-        case DRAG_SCROLL:{
-            scrolling_mode ^= 1;
-        }
-        break;
-        case PM_SWITCH:
-            if (record->event.pressed) {
-                pointing_mode_switch_hands();
-            }
-        break;
         case LVGL_CLOCKWISE:
             if (record->event.pressed) {
                 rotations++;

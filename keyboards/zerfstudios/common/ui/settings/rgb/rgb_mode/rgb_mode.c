@@ -77,7 +77,7 @@ static void close_rgb_speed_pane(lv_event_t* event) {
     lv_group_focus_obj(previous_focus_item);
 
     uint16_t mode = lv_arc_get_value(arc);
-    qmk_lv_rgb_matrix_mode(mode, true);
+    ui_lv_rgb_matrix_mode(mode, true);
 
     if (lv_obj_is_valid(arc)) {
         lv_obj_del(arc);
@@ -112,7 +112,7 @@ uint8_t curr_effect = rgb_matrix_config.mode;
 
     // dial_menu_set_label_text(rgb_modes[mode]);
     dial_menu_set_label_text(rgb_matrix_name(curr_effect));
-    qmk_lv_rgb_matrix_mode(mode, false);
+    ui_lv_rgb_matrix_mode(mode, false);
 }
 
 void init_rgb_mode_pane() {
@@ -128,7 +128,7 @@ void init_rgb_mode_pane() {
 
     lv_arc_set_rotation(arc, 135);
     lv_arc_set_bg_angles(arc, 30, 240);
-    lv_arc_set_value(arc, qmk_lv_rgb_matrix_get_mode());
+    lv_arc_set_value(arc, ui_lv_rgb_matrix_get_mode());
     lv_arc_set_range(arc, 0, 44);
 
     lv_group_add_obj(lv_group_get_default(), arc);

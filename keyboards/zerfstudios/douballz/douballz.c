@@ -103,7 +103,6 @@ static void read_charybdis_config_from_eeprom(charybdis_config_t* config) {
     config->lcd_power             = false;
 }
 
-
 /**
  * \brief Save the value of `config` to eeprom.
  *

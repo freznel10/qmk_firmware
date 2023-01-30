@@ -1,5 +1,6 @@
 ﻿/* Copyright 2022 Jose Pablo Ramirez <jp.ramangulo@gmail.com>
- *
+ * Copyright 2023 Freznel B. Sta. Ana <freznel@gmail.com>
+
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or
@@ -33,38 +34,42 @@ extern "C" {
     #define C_LV_STYLE_PROP_INV { .prop = LV_STYLE_PROP_INV, .value = {0} }
 
 
-    //////////////////////////////////////////////////////////////
-    // Main Screen Styles
-    lv_style_t style_main_screen;
+//////////////////////////////////////////////////////////////
+// Main Screen Styles
+lv_style_t style_main_screen;
 
-    //////////////////////////////////////////////////////////////
-    // Dial Menu Styles
-    lv_style_t style_dial_menu_arc;
-    lv_style_t style_dial_menu_arc_indicator;
-    lv_style_t style_dial_menu_knob;
+//////////////////////////////////////////////////////////////
+// Dial Menu Styles
+lv_style_t style_dial_menu_arc;
+lv_style_t style_dial_menu_arc_indicator;
+lv_style_t style_dial_menu_knob;
 
-    //////////////////////////////////////////////////////////////
-    // Flex (Layer) Styles
-    lv_style_t style_flex_layer;
+//////////////////////////////////////////////////////////////
+// Flex (Layer) Styles
+lv_style_t style_flex_layer;
 
-    //////////////////////////////////////////////////////////////
-    // Button Icon Styles
-    lv_style_t default_btn_style;
-    lv_style_t focused_btn_style;
+//////////////////////////////////////////////////////////////
+// Button Icon Styles
+lv_style_t default_btn_style;
+lv_style_t focused_btn_style;
 
-    //////////////////////////////////////////////////////////////
-    // Label Styles
-    lv_style_t style_label_mons_22;
-    lv_style_t style_label_imp_22;
-    lv_style_t style_label_imp_45;
+//////////////////////////////////////////////////////////////
+// Label Styles
+lv_style_t style_label_mons_22;
+lv_style_t style_label_imp_22;
+lv_style_t style_label_imp_45;
+lv_style_t style_label_futura22;
+lv_style_t style_label_futura20;
+lv_style_t style_label_futura18;
+lv_style_t style_label_futura12;
 
-    //////////////////////////////////////////////////////////////
-    // Panel Styles
-    lv_style_t style_panel_bg;
+//////////////////////////////////////////////////////////////
+// Panel Styles
+lv_style_t style_panel_bg;
 
-    //////////////////////////////////////////////////////////////
-    // Colorwheel Styles
-    lv_style_t style_cw_knob;
+//////////////////////////////////////////////////////////////
+// Colorwheel Styles
+lv_style_t style_cw_knob;
 
 #ifdef __cplusplus
 } /*extern "C"*/
