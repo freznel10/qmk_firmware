@@ -84,6 +84,8 @@ enum qk_keycode_ranges {
     QK_USER_MAX                    = 0x7FFF,
     QK_UNICODE                     = 0x8000,
     QK_UNICODE_MAX                 = 0xFFFF,
+    QK_POINTING_MODE               = 0x52E0,
+    QK_POINTING_MODE_MAX           = 0x52FF,
 };
 
 enum qk_keycode_defines {
@@ -1304,6 +1306,7 @@ enum qk_keycode_defines {
 #define IS_QK_KB(code) ((code) >= QK_KB && (code) <= QK_KB_MAX)
 #define IS_QK_USER(code) ((code) >= QK_USER && (code) <= QK_USER_MAX)
 #define IS_QK_UNICODE(code) ((code) >= QK_UNICODE && (code) <= QK_UNICODE_MAX)
+#define IS_QK_POINTING_MODE(code) ((code) >= QK_POINTING_MODE && (code) <= QK_POINTING_MODE_MAX)
 
 // Group Helpers
 #define IS_INTERNAL_KEYCODE(code) ((code) >= KC_NO && (code) <= KC_TRANSPARENT)
