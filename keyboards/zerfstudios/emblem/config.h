@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include "config_common.h"
-
 #define MATRIX_SHIFT_REGISTER_COUNT 10
 #define SPI_MATRIX_CHIP_SELECT_PIN GP15
 #define SPI_MATRIX_DIVISOR 16

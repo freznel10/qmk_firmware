@@ -275,10 +275,10 @@ NOTE: These are all the same length.  If you do a search/replace
 #define _________________UNICO_R1__________________       KC_ZALGO, KC_SUPER, KC_COMIC, KC_NOMODE, UC(0x2763)
 
 #define _________________ADJUST_L1_________________       RGB_MOD, RGB_HUI, RGB_SAI, RGB_VAI, RGB_IDL
-#define _________________ADJUST_L2_________________       MU_TOG , CK_TOGG, AU_ON,   AU_OFF,  CG_NORM
+#define _________________ADJUST_L2_________________       MU_TOGG , CK_TOGG, AU_ON,   AU_OFF,  CG_NORM
 #define _________________ADJUST_L3_________________       RGB_RMOD,RGB_HUD,RGB_SAD, RGB_VAD, KC_RGB_T
 
-#define _________________ADJUST_R1_________________       HF_TOGG, HPT_BUZ, HF_FDBK, HF_PREV, HF_NEXT
+#define _________________ADJUST_R1_________________       HF_TOGG, HF_BUZZ, HF_FDBK, HF_PREV, HF_NEXT
 #define _________________ADJUST_R2_________________       CG_SWAP, DEFLYR1, DEFLYR2, DEFLYR3, DEFLYR4
 #define _________________ADJUST_R3_________________       HF_RST, KC_MUTE, KC_VOLD, HF_CONT, HF_CONU
 
