@@ -13,10 +13,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 #pragma once
 
-#include "config_common.h"
 
 #ifdef RGB_MATRIX_ENABLE
 
@@ -27,9 +26,9 @@
 	#define WS2812_DMA_STREAM STM32_DMA1_STREAM6
 	#define WS2812_DMA_CHANNEL 7						//7 works, CxS[3:0] 0111 = TIM1_UP on Channel 6? (RM0394.pdf pg.298)
 
-	#define RGB_DI_PIN A7                               // The pin connected to the data pin of the LEDs    
+	#define RGB_DI_PIN A7                               // The pin connected to the data pin of the LEDs
     #define RGB_MATRIX_LED_COUNT 61                     // The number of LEDs connected
-    
+
     #define RGB_MATRIX_KEYPRESSES                       // reacts to keypresses
     #define RGB_MATRIX_KEYRELEASES                      // reacts to keyreleases (instead of keypresses)
     #define RGB_MATRIX_FRAMEBUFFER_EFFECTS              // enable framebuffer effects
@@ -79,6 +78,6 @@
     #define ENABLE_RGB_MATRIX_MULTISPLASH               // Full gradient & value pulse away from multiple key hits then fades value out
     #define ENABLE_RGB_MATRIX_SOLID_SPLASH              // Hue & value pulse away from a single key hit then fades value out
     #define ENABLE_RGB_MATRIX_SOLID_MULTISPLASH         // Hue & value pulse away from multiple key hits then fades value out
-    
+
 #endif
 
