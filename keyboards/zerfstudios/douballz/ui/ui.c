@@ -950,7 +950,7 @@ void render_panel_pointing (lv_obj_t *scr, lv_align_t align, lv_coord_t x, lv_co
 
     ui_PM_led3  = lv_led_create(ui_Panel_Pointing_Mode);
     lv_obj_set_size(ui_PM_led3, 10, 10);
-    lv_obj_align(ui_PM_led3, LV_ALIGN_CENTER, (((w/2)-40), ((h/2)-15) * (-1)));
+    lv_obj_align(ui_PM_led3, LV_ALIGN_CENTER, ((w/2)-40), ((h/2)-15) * (-1));
     lv_led_set_brightness(ui_PM_led3, 255);
     lv_led_set_color(ui_PM_led3, lv_palette_main(LV_PALETTE_GREEN));
 

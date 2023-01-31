@@ -84,7 +84,7 @@
     // },
     "menus": [ "qmk_rgb_matrix" ],
     "layouts": {
-        "LAYOUT_emblem": {
+        "LAYOUT": {
             "layout": [
                 { "label": "-", "matrix": [1, 0], "x": 0, "y": 0, "w": 1 },
                 { "label": "1", "matrix": [1, 4], "x": 14, "y": 0, "w": 1 },

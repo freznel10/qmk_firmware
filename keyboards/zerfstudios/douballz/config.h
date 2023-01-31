@@ -28,7 +28,7 @@
 // #define USB_VBUS_PIN   GP13
 
 #define RGB_DI_PIN      GP25
-#define WS2812_PIO_USE_PIO1
+#define WS2812_PIO_USE_PIO0
 
 #ifdef RGB_MATRIX_ENABLE
 #define DRIVER_LED_TOTAL 84

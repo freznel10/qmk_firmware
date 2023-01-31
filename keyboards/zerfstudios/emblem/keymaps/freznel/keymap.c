@@ -71,13 +71,13 @@ enum custom_keycodes {
 
 // clang-format off
 
-#define LAYOUT_emblem_wrapper(...) LAYOUT_emblem(__VA_ARGS__)
-#define LAYOUT_emblem_base( \
+#define LAYOUT_wrapper(...) LAYOUT(__VA_ARGS__)
+#define LAYOUT_base( \
     K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A, \
     K11, K12, K13, K14, K15, K16, K17, K18, K19, K1A, K1B, \
     K21, K22, K23, K24, K25, K26, K27, K28, K29, K2A  \
   ) \
-  LAYOUT_emblem_wrapper( \
+  LAYOUT_wrapper( \
     KC_MINUS,                           ________________NUMBER_LEFT________________,           KB_MO_WINDOW,                                                                    LO_RES_DOWN,                                            ________________NUMBER_RIGHT_______________,            KC_EQUAL, \
     DYN_000,           K01,            K02,            K03,            K04,        K05,        SELWORD,                                                                         LO_RES_UP,        K06,            K07,                K08,                K09,                K0A,            KC_BSPC, \
     DYN_001,   LGUI_T(K11),    LALT_T(K12),    LCTL_T(K13),    LSFT_T(K14),        K15,        PM_MO(11),                                                                       RGB_TOG1,        K16,    RSFT_T(K17),        RCTL_T(K18),        RALT_T(K19),        RGUI_T(K1A),        RALT_T(K1B), \
@@ -86,7 +86,7 @@ enum custom_keycodes {
                                        PB_1,          PB_2,            PB_3,            PB_4,    KC_MUTE,                                                                             PB_5,       PB_6,          PB_7,  PB_8,  KC_MUTE  \
 )
 
-#define LAYOUT_base_wrapper(...) LAYOUT_emblem_base(__VA_ARGS__)
+#define LAYOUT_base_wrapper(...) LAYOUT_base(__VA_ARGS__)
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_DEFAULT_LAYER_1] = LAYOUT_base_wrapper(
         ______________COLEMAK_MOD_DH_L1____________, ______________COLEMAK_MOD_DH_R1____________,
@@ -111,7 +111,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _________________DVORAK_L3_________________, _________________DVORAK_R3_________________
     ),
 
-    [_MOUSE] = LAYOUT_emblem(
+    [_MOUSE] = LAYOUT(
         _______, KC_E, KC_WH_D, KC_WH_U, _______, _______, _______,                                                 _______, _______, _______, _______, _______, _______, _______,
         _______, S(KC_M), KC_WH_D, KC_WH_U, KC_ESC, PM_MO(4), _______,                                              _______, PM_MO(4), KC_ESC, KC_WH_U,  KC_WH_D, S(KC_M), _______,
         _______, KC_POSR, KC_BTN2, KC_BTN1, KC_BTN3, KB_MO_WINDOW, _______,                                              _______, KB_MO_WINDOW, KC_BTN2, KC_BTN1, KC_BTN3, KC_POSR, _______,
@@ -121,7 +121,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
     ),
-    [_MEDIA] = LAYOUT_emblem(
+    [_MEDIA] = LAYOUT(
         _______, KC_E, KC_WH_D, KC_WH_U, _______, _______, _______,                                                 _______, _______, _______, _______, _______, _______, _______,
         _______, S(KC_M), KC_WH_D, KC_WH_U,  KC_ESC, _______, _______,                                              _______, _______, KC_ESC, KC_WH_U,  KC_WH_D, S(KC_M), _______,
         _______, KC_POSR, KC_BTN2, KC_BTN1, KC_BTN3, _______, _______,                                              _______, _______, KC_BTN2, KC_BTN1, KC_BTN3, KC_POSR, _______,
@@ -131,7 +131,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
     ),
-    [_LOWER] = LAYOUT_emblem_wrapper(
+    [_LOWER] = LAYOUT_wrapper(
         KC_F12,  _________________FUNC_LEFT_________________, _______,                                              _______, _________________FUNC_RIGHT________________, KC_F11,
         KC_CAPS, _________________LOWER_L1__________________, _______,                                              _______, _________________LOWER_R2_ALT______________, _______,
         _______, _________________LOWER_L2__________________, _______,                                              _______, _________________LOWER_R1_ALT______________, KC_PIPE,
@@ -140,7 +140,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______
 
     ),
-    [_RAISE] = LAYOUT_emblem_wrapper(
+    [_RAISE] = LAYOUT_wrapper(
        QK_BOOT,  _________________FUNC_LEFT_________________, _______,                                             _______, _________________FUNC_RIGHT________________, KC_F11,
        _______, _________________RAISE_L1__________________, _______,                                              _______, _________________RAISE_R1__________________, _______,
        _______, _________________RAISE_L2__________________, _______,                                              _______, _________________RAISE_R2__________________, KC_BSLS,
@@ -150,7 +150,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
     ),
-    [_ADJUST] = LAYOUT_emblem_wrapper(
+    [_ADJUST] = LAYOUT_wrapper(
        QK_BOOT, _________________FUNC_LEFT_________________, _______,                                               _______, _________________FUNC_RIGHT________________, QK_RBT,
        EE_CLR,  _________________ADJUST_L1_________________, _______,                                               _______, _________________ADJUST_R1_________________, KC_EQUAL,
        KEYLOCK, _________________ADJUST_L2_________________, _______,                                               _______, _________________ADJUST_R2_________________, TG_MODS,
@@ -158,7 +158,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                            _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                                            _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______
     ),
-    [_KEYPAD] = LAYOUT_emblem_wrapper(
+    [_KEYPAD] = LAYOUT_wrapper(
        QK_MAKE, _________________UNICO_L1__________________, _______,                                               _______, _________________UNICO_R1__________________, QK_MAKE,
        KC_NUM,  ________________NUMPAD1_LEFT_______________, _______,                                               _______, _________________ADJUST_R1_________________, KC_EQUAL,
        KC_BSPC, ________________NUMPAD2_LEFT_______________, _______,                                               _______, _________________ADJUST_R2_________________, SH_TG,
@@ -166,7 +166,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                            _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                                            _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______
     ),
-    [_GAMEPAD] = LAYOUT_emblem_wrapper(
+    [_GAMEPAD] = LAYOUT_wrapper(
        QK_GESC, ________________NUMBER_LEFT________________, KC_F1,                                            _______, ________________NUMBER_RIGHT_______________, QK_MAKE,
        KC_CAPS, _________________GAMING_L1_________________, KC_T,                                            _______, ______________COLEMAK_MOD_DH_R1____________, KC_EQUAL,
        KC_RSFT, _________________GAMING_L2_________________, KC_G,                                             _______, ______________COLEMAK_MOD_DH_R1____________, SH_TG,

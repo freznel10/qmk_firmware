@@ -20,15 +20,8 @@
 #define RGBLIGHT_LAYERS
 #endif
 
-// #define LCD_POWER_ENABLE_PIN GP4
-// #define LCD_POWER_ENABLE_PIN GP26
-
 #define CRC8_USE_TABLE
-#define CRC8_OPTIMIZE_SPEED
-
-// #define ENCODERS_PAD_A {GP12, GP8, GP10}
-// #define ENCODERS_PAD_B {GP14, GP7, GP9}
-// #define ENCODER_RESOLUTIONS { 1, 2, 2 }
+#define CRC8_OPTIMIZE_SPEEDs
 
 #ifdef RGB_MATRIX_ENABLE
 #define RGB_MATRIX_LED_COUNT 70
@@ -49,8 +42,6 @@
 #ifdef BACKLIGHT_ENABLE
 #define BACKLIGHT_PWM_DRIVER PWMD4
 #define BACKLIGHT_PWM_CHANNEL 1
-#define BACKLIGHT_PIN GP24
-#define BACKLIGHT_LEVELS 4
 #endif //BACKLIGHT_ENABLE
 
 
@@ -70,10 +61,6 @@
 // #define EXTERNAL_EEPROM_SPI_SLAVE_SELECT_PIN GP17
 
 //#define EEPROM_I2C_CAT24C512
-
-
-// #define OLED_DISPLAY_128X64
-// #define DEBUG_EEPROM_OUTPUT
 
 /*Enable when trackpoint is attached */
 // #define PS2_CLOCK_PIN B0

@@ -1,11 +1,9 @@
-AUDIO_ENABLE                 = yes
 BACKLIGHT_ENABLE 			 = yes
 COMMAND_ENABLE               = no
 TAP_DANCE_ENABLE             = yes
 UNICODE_ENABLE               = no
 OLED_ENABLE                  = no
 WPM_ENABLE                   = yes
-ENCODER_ENABLE               = yes
 ENCODER_MAP_ENABLE           = yes
 # DEBOUNCE_TYPE = sym_eager_pk
 

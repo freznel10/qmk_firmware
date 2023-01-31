@@ -130,7 +130,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         QK_BOOT,        _________________FUNC_LEFT_________________,                                                    _________________FUNC_RIGHT________________,    QK_BOOT,
         EE_CLR,         _________________ADJUST_L1_________________,                                                    _________________ADJUST_R1_________________,    EE_CLR,
         KEYLOCK,        _________________ADJUST_L2_________________,                                                    _________________ADJUST_R2_________________,    TG_MODS,
-        UC_MOD,         _________________ADJUST_L3_________________,    AML_TOG,                            SNP_TOG,    _________________ADJUST_R3_________________,    KC_MPLY,
+        UC_CLUE,         _________________ADJUST_L3_________________,    AML_TOG,                            SNP_TOG,    _________________ADJUST_R3_________________,    KC_MPLY,
                                                             SH_TT,      DPI_MOD,    DPI_RMOD,   DRGSCRL,        DQT,    _______,
                                                                         _______,    _______,    _______,    _______,
                                                             _______,    _______,    _______,    _______,    _______,    _______,
