@@ -1,5 +1,5 @@
 /*
-<<<<<<<< HEAD:keyboards/zerf9/chunky2040/post_config.h
+<<<<<<<< HEAD:keyboards/zerf9/spacetrack/post_config.h
 Copyright 2012 Jun Wako <wakojun@gmail.com>
 Copyright 2015 Jack Humbert
 ========
@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-<<<<<<<< HEAD:keyboards/zerf9/chunky2040/post_config.h
+<<<<<<<< HEAD:keyboards/zerf9/spacetrack/post_config.h
 #ifndef RGBLIGHT_LIMIT_VAL
 #    if defined(OLED_ENABLE)
 #        define RGBLIGHT_LIMIT_VAL 100

@@ -23,7 +23,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   |  L⌃  |  L⌥  |  L⌘  |   ←  |   →  |                                       |   ↑  |   ↓  |   [  |   ]  |  ↩︎   |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,---------------.
- *                                        |  `~  |  '"  |       |   ⎋  |    ⌫   |
+ *                                        |  `~  |  ⇪   |       |   ⎋  |    ⌫   |
  *                                 ,------|------|------|       |------+--------+------.
  *                                 |      |      | PgUp |       | PgDn |        |      |
  *                                 |   ↩︎  |  ⇥  |------|       |------|   ⇥   |      |
@@ -34,14 +34,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Otherwise, it needs KC_*
 [BASE] = LAYOUT_ergodox(  // layer 0 : default
         // left hand
-        KC_EQL,         KC_1,         KC_2,   KC_3,   KC_4,   KC_5,   TG(SYMB),
-        KC_DEL,         KC_Q,         KC_W,   KC_E,   KC_R,   KC_T,   MO(SYMB),
-        KC_BSPC,        KC_A,         KC_S,   KC_D,   KC_F,   KC_G,
-        KC_LSFT,        KC_Z,         KC_X,   KC_C,   KC_V,   KC_B,   KC_LGUI,
-        KC_LCTL,        KC_LALT,      KC_LGUI,KC_LEFT,KC_RGHT,
-                                              KC_GRV, KC_QUOT,
-                                                              KC_PGUP,
-                                              KC_ENT ,KC_TAB ,KC_RALT,
+        KC_EQL,         KC_1,         KC_2,     KC_3,   KC_4,   KC_5,   TG(SYMB),
+        KC_DEL,         KC_Q,         KC_W,     KC_E,   KC_R,   KC_T,   MO(SYMB),
+        KC_BSPC,        KC_A,         KC_S,     KC_D,   KC_F,   KC_G,
+        KC_LSFT,        KC_Z,         KC_X,     KC_C,   KC_V,   KC_B,   KC_LGUI,
+        KC_LCTL,        KC_LALT,      KC_LGUI,  KC_LEFT,KC_RGHT,
+                                                KC_GRV, KC_CAPS,
+                                                                KC_LALT,
+                                                KC_ENT ,KC_TAB ,KC_LCTL,
         // right hand
              TG(SYMB),  KC_6,   KC_7,   KC_8,   KC_9,   KC_0,             KC_MINS,
              MO(SYMB),  KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,             KC_BSLS,
@@ -117,16 +117,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 // MEDIA AND MOUSE
 [MDIA] = LAYOUT_ergodox(
-       KC_TRNS, KC_F14 , KC_F15 , KC_PSCR, KC_SCRL, KC_PAUS, KC_TRNS,  /* F14 dims screen, F15 brightens */
-       KC_TRNS, KC_TRNS, KC_TRNS, KC_PGUP, KC_TRNS, KC_TRNS, KC_TRNS,
-       KC_TRNS, KC_TRNS, KC_HOME, KC_PGDN, KC_END , KC_TRNS,
-       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                                           KC_TRNS, KC_TRNS,
-                                                    KC_HOME,
-                                  KC_TRNS, KC_TRNS, KC_TRNS,
+       KC_TRNS,     KC_F14 ,        KC_F15 ,            KC_PSCR,        KC_SCRL,                KC_PAUS,        KC_TRNS,  /* F14 dims screen, F15 brightens */
+       KC_TRNS,     KC_TRNS,        LALT(KC_UP),        KC_PGUP,        LALT(KC_DOWN),          KC_TRNS,        KC_TRNS,
+       KC_TRNS,     KC_TRNS,        KC_HOME,            KC_PGDN,        KC_END ,                KC_TRNS,
+       KC_TRNS,     KC_TRNS,        KC_TRNS,            KC_TRNS,        KC_TRNS,                KC_TRNS,        KC_TRNS,
+       KC_TRNS,     KC_TRNS,        KC_TRNS,            KC_TRNS,        KC_TRNS,
+                                                                        KC_TRNS,                KC_TRNS,
+                                                                                                KC_TRNS,
+                                                        KC_TRNS,        KC_TRNS,                KC_TRNS,
     // right hand
-       KC_TRNS,     LGUI(KC_W),     LGUI(LSFT(KC_GRV)), LGUI(KC_GRV),   KC_TRNS,                KC_TRNS,        KC_PWR,
+       KC_TRNS,     LGUI(KC_W),     LGUI(LSFT(KC_GRV)), LGUI(KC_GRV),   KC_TRNS,                KC_EJCT,        KC_PWR,
        KC_TRNS,     LGUI(KC_RBRC),  LGUI(LALT(KC_UP)),  KC_UP  ,        LGUI(LALT(KC_DOWN)),    KC_TRNS,        KC_TRNS,
                     LGUI(KC_LBRC),  KC_LEFT,            KC_DOWN,        KC_RGHT,                KC_TRNS,        KC_F16 ,
        KC_TRNS,     KC_TRNS,        KC_MPLY,            KC_MPRV,        KC_MNXT,                KC_TRNS,        KC_TRNS,
