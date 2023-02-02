@@ -113,10 +113,9 @@ static uint16_t get_pointer_sniping_dpi(emblem_config_t* config) { return (uint1
 
 /** \brief Set the appropriate DPI for the input config. */
 static void maybe_update_pointing_device_cpi(emblem_config_t* config) {
-    if (config->is_dragscroll_enabled) {
+    if (get_pointing_mode_id() == PM_DRAG) {
         pointing_device_set_cpi(EMBLEM_DRAGSCROLL_DPI);
     } else if (config->is_sniping_enabled) {
-        pointing_device_set_cpi(get_pointer_sniping_dpi(config));
         pointing_device_set_cpi(get_pointer_sniping_dpi(config));
     } else {
         pointing_device_set_cpi(get_pointer_default_dpi(config));

@@ -355,8 +355,12 @@ void ui_event_StatusPanel(lv_event_t * e) {
             _ui_state_modify(ui_Status_Dragscroll, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
             _ui_state_modify(ui_Status_Caret, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
             _ui_state_modify(ui_Status_Volume, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
+            _ui_state_modify(ui_Status_Sniping, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
             break;
         case 1:
+            _ui_state_modify(ui_Status_Sniping, LV_STATE_FOCUSED, _UI_MODIFY_STATE_ADD);
+            break;
+        case 2:
             _ui_state_modify(ui_Status_Dragscroll, LV_STATE_FOCUSED, _UI_MODIFY_STATE_ADD);
             break;
         case 3:
@@ -365,11 +369,6 @@ void ui_event_StatusPanel(lv_event_t * e) {
         case 5:
             _ui_state_modify(ui_Status_Volume, LV_STATE_FOCUSED, _UI_MODIFY_STATE_ADD);
             break;
-        }
-        if(emblem_get_pointer_sniping_enabled()) {
-            _ui_state_modify(ui_Status_Sniping, LV_STATE_FOCUSED, _UI_MODIFY_STATE_ADD);
-        } else {
-            _ui_state_modify(ui_Status_Sniping, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
         }
         if(is_audio_on()) {
             _ui_state_modify(ui_Status_Audio, LV_STATE_FOCUSED, _UI_MODIFY_STATE_ADD);
@@ -859,15 +858,6 @@ void lvgl_event_triggers(void) {
         last_scroll_state  = get_pointing_mode_id();
         scroll_state_redraw = true;
     }
-    bool            sniping_state_redraw = false;
-    static uint8_t last_sniping_state   = 0;
-    if (last_sniping_state != emblem_get_pointer_sniping_enabled()) {
-        last_sniping_state  = emblem_get_pointer_sniping_enabled();
-        sniping_state_redraw = true;
-    }
-    // if (sniping_state_redraw) {
-    //     lv_event_send(ui_StatusPanel, USER_EVENT_PANEL_CHANGE, NULL);
-    // }
     bool            audio_state_redraw = false;
     static uint8_t last_audio_state   = 0;
     if (last_audio_state != is_audio_on()) {
@@ -886,8 +876,8 @@ void lvgl_event_triggers(void) {
         last_autocorrect_state  = autocorrect_is_enabled();
         autocorrect_state_redraw = true;
     }
-    if (scroll_state_redraw || sniping_state_redraw || audio_state_redraw || clicky_state_redraw || autocorrect_state_redraw ) {
-    lv_event_send(ui_StatusPanel, USER_EVENT_PANEL_CHANGE, NULL);
+    if (scroll_state_redraw || audio_state_redraw || clicky_state_redraw || autocorrect_state_redraw ) {
+        lv_event_send(ui_StatusPanel, USER_EVENT_PANEL_CHANGE, NULL);
     }
 
 }
