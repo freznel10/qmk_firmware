@@ -1,7 +1,6 @@
 /*
-<<<<<<<< HEAD:keyboards/zerf9/space_control1/post_config.h
-Copyright 2012 Jun Wako <wakojun@gmail.com>
-Copyright 2015 Jack Humbert
+<<<<<<<< HEAD:keyboards/nullbitsco/scramble/v2/config.h
+Copyright 2021 Jay Greco
 ========
 This is the c configuration file for the keymap
 
@@ -24,25 +23,33 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+<<<<<<<< HEAD:keyboards/nullbitsco/scramble/v2/config.h
+/* NOTE: This config file is specific to RP2040 builds. */
+
 #pragma once
 
-<<<<<<<< HEAD:keyboards/zerf9/space_control1/post_config.h
-#ifndef RGBLIGHT_LIMIT_VAL
-#    if defined(OLED_ENABLE)
-#        define RGBLIGHT_LIMIT_VAL 100
-#    else
-#        define RGBLIGHT_LIMIT_VAL 150
-#    endif
-#endif
+/* key matrix size */
+#define MATRIX_ROWS 2
+#define MATRIX_COLS 3
 
-#ifndef OLED_BRIGHTNESS
-#    ifdef RGBLIGHT_ENABLE
-#        define OLED_BRIGHTNESS 80
-#    else
-#        define OLED_BRIGHTNESS 150
-#    endif
-#endif
+#define DIRECT_PINS {{GP6,GP8,GP10}, {GP29,GP28,GP22}}
+
+/* Set 0 if debouncing isn't needed */
+#define DEBOUNCE 10
+
+/* Optional encoder pins */
+#define ENCODERS_PAD_A { GP24 }
+#define ENCODERS_PAD_B { GP25 }
+#define TAP_CODE_DELAY 10
+
+/* RP2040-specific defines*/
+#define RP2040_FLASH_GENERIC_03H
+#define I2C1_SDA_PIN GP26
+#define I2C1_SCL_PIN GP27
+#define I2C_DRIVER I2CD2
 ========
+#pragma once
+
 /* Select hand configuration */
 // #define MASTER_LEFT
 // #define MASTER_RIGHT
