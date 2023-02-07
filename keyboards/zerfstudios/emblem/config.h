@@ -63,8 +63,13 @@
 //#define EEPROM_I2C_CAT24C512
 
 /*Enable when trackpoint is attached */
-// #define PS2_CLOCK_PIN B0
-// #define PS2_DATA_PIN B1
+
+
+
+
+#define PS2_MOUSE_ENABLE_SCROLLING
+#define PS2_MOUSE_INIT_DELAY 1000
+
 
 #ifdef HAPTIC_ENABLE
 	#define FB_ERM_LRA 1
