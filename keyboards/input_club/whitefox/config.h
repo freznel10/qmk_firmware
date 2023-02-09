@@ -55,11 +55,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define I2C1_SCL_PIN B0
 #define I2C1_SDA_PIN B1
 
-/* If defined, GRAVE_ESC will always act as ESC when CTRL is held.
- * This is useful for the Windows task manager shortcut (ctrl+shift+esc).
- */
-//#define GRAVE_ESC_CTRL_OVERRIDE
-
 /*
  * Feature disable options
  *  These options are also useful to firmware size reduction.
@@ -75,7 +70,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
-
-/* Bootmagic Lite key configuration */
-//#define BOOTMAGIC_LITE_ROW 0
-//#define BOOTMAGIC_LITE_COLUMN 0
