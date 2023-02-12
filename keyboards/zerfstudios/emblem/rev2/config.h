@@ -8,5 +8,6 @@
 
 
 
-#define PS2_CLOCK_PIN GP6
-#define PS2_DATA_PIN GP5
+
+#define PS2_DATA_PIN GP28
+#define PS2_CLOCK_PIN GP29

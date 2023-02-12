@@ -549,8 +549,8 @@ void keyboard_post_init_kb(void) {
                 qp_set_viewport_offsets (qp_display, 25, 0);
                 qp_rect(qp_display, 0, 0, 80, 160, 0, 0, 0, true);
              #elif (defined(KEYBOARD_zerfstudios_douballz_rev2))
-                qp_display = qp_st7789_make_spi_device(172, 320, DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, 8, 3);
-                qp_set_viewport_offsets(qp_display, 34, 0);
+                qp_display = qp_st7789_make_spi_device(240, 320, DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, 8, 3);
+                qp_set_viewport_offsets(qp_display, 0, 0);
                 qp_init(qp_display, QP_ROTATION_0);
                 qp_rect(qp_display, 0, 0, 172, 320, 0,0,0, true);
              #endif
@@ -561,8 +561,8 @@ void keyboard_post_init_kb(void) {
                 qp_set_viewport_offsets (qp_display, 25, 0);
                 qp_rect(qp_display, 0, 0, 80, 160, 0, 0, 0, true);
             #elif (defined(KEYBOARD_zerfstudios_douballz_rev2))
-                qp_display = qp_st7789_make_spi_device(172, 320, DISPLAY_CS_PIN_RIGHT, DISPLAY_DC_PIN_RIGHT, DISPLAY_RST_PIN_RIGHT, 8, 3);
-                qp_set_viewport_offsets(qp_display, 34, 0);
+                qp_display = qp_st7789_make_spi_device(240, 320, DISPLAY_CS_PIN_RIGHT, DISPLAY_DC_PIN_RIGHT, DISPLAY_RST_PIN_RIGHT, 8, 3);
+                qp_set_viewport_offsets(qp_display, 0, 0);
                 qp_init(qp_display, QP_ROTATION_180);
                 qp_rect(qp_display, 0, 0, 172, 320, 0,0,0, true);
             #endif

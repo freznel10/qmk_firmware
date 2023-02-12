@@ -8,3 +8,6 @@
 
 //Layer Indicator
 #define IMAGE_LAYER_ZOOM 256
+
+
+#define ST7789_NO_AUTOMATIC_VIEWPORT_OFFSETS
