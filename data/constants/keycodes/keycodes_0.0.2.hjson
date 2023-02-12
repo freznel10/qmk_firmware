@@ -2,6 +2,12 @@
     "ranges": {
         "0x52E0/0x001F": {
             "define": "QK_POINTING_MODE"
+        },
+        "0x8000/0X3FFF": {
+            "define": "QK_UNICODEMAP"
+        },
+        "0xC000/0X3FFF": {
+            "define": "QK_UNICODEMAP_PAIR"
         }
     }
 }
