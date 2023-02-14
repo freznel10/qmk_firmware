@@ -235,7 +235,7 @@ static uint8_t get_pointing_mode_divisor(void) {
             break;
 
         case PM_DRAG:
-            divisor = POINTING_DRAG_DIVISOR_H;
+            divisor = POINTING_DRAG_DIVISOR;
             break;
 
         case PM_CARET:
