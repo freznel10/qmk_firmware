@@ -25,6 +25,9 @@
         "wpm": true,
         "audio": true
     },
+    "bootmagic": {
+        "matrix": [0, 0]
+    },
     "encoder": {
         "enabled": true,
         "rotary": [
@@ -46,6 +49,9 @@
                 "cols": ["GP8", "GP7", "GP5", "GP22", "GP23", "GP26"],
                 "rows": ["GP6", "GP9", "GP14", "GP12", "GP27", "GP28"]
             }
+        },
+        "bootmagic": {
+            "matrix": [6, 0]
         }
     },
     "layouts": {

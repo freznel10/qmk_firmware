@@ -97,9 +97,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_MOUSE] = LAYOUT_4x6(
         _______,        KC_E,       KC_WH_L,    KC_WH_R,    _______,    _______,                                                    _______,    _______,    _______,    _______,    _______,    _______,
-        _______,        S(KC_M),    KC_WH_D,    KC_WH_U,    KC_ESC,     ST_MACRO_6,                                                  ST_MACRO_6,    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
+        _______,        S(KC_M),    KC_WH_D,    KC_WH_U,    KC_ESC,     PM_MO(6),                                                  ST_MACRO_6,    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
         _______,        PM_MO(14),  KC_BTN2,    KC_BTN1,    KC_BTN3,    KB_MO_WINDOW,                                             KB_MO_WINDOW,  KC_BTN2,    KC_BTN1,    KC_BTN3,    PM_MO(14),    _______,
-        KC_BTN2,        KC_BTN1,    TD_PMD1,    TD_DRGS,    NX_TAB,     PM_MO(6),  _______,                             _______,    PM_MO(6),    BK_TAB,     TD_DRGR,    NX_TAB,     KC_BTN1,    KC_BTN2,
+        KC_BTN2,        KC_BTN1,    TD_PMD1,    TD_DRGS,    NX_TAB,     KC_V,        _______,                             _______,    PM_MO(6),    BK_TAB,     TD_DRGR,    NX_TAB,     KC_BTN1,    KC_BTN2,
                                                                         _______,    _______,    _______,    _______,    _______,    _______,
                                                                                     KC_BTN1,    KC_BTN2,    KC_BTN2,    KC_BTN1,
                                                                         _______,    _______,    _______,    _______,    _______,    _______,
@@ -275,7 +275,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-#define BASE_ENCODERS { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(ENC_ALT_TAB_REV, ENC_ALT_TAB)}
+#define BASE_ENCODERS { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U)}
 #ifdef ENCODER_MAP_ENABLE
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [_DEFAULT_LAYER_1] = BASE_ENCODERS,
@@ -283,7 +283,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [_DEFAULT_LAYER_3] = BASE_ENCODERS,
     [_DEFAULT_LAYER_4] = BASE_ENCODERS,
     [_MOUSE] = BASE_ENCODERS,
-    [_GAMEPAD]         = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(_______, _______) },
+    [_GAMEPAD]         = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(ENC_ALT_TAB_REV, ENC_ALT_TAB) },
     [_MEDIA]           = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(KC_WH_D, KC_WH_U) },
     [_RAISE]           = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI),  ENCODER_CCW_CW(KC_WH_L, KC_WH_R)  },
     [_LOWER]           = { ENCODER_CCW_CW(RGB_HUD, RGB_HUI), ENCODER_CCW_CW(RGB_SAI, RGB_SAD)  },
