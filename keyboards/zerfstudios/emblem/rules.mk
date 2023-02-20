@@ -20,8 +20,8 @@ PS2_ENABLE = yes
  PS2_MOUSE_ENABLE = yes
  PS2_DRIVER = vendor
 
-# POINTING_DEVICE_DRIVER = cirque_pinnacle_spi
-POINTING_DEVICE_DRIVER = pmw3360
+POINTING_DEVICE_DRIVER = cirque_pinnacle_spi
+# POINTING_DEVICE_DRIVER = pmw3360
 
 WS2812_DRIVER = vendor
 
