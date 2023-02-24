@@ -31,7 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define BACKLIGHT_PIN B6
 #define BACKLIGHT_BREATHING
-#define BACKLIGHT_LEVELS 3
 
 /* Underlight configuration
  */
@@ -55,11 +54,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define LOCKING_SUPPORT_ENABLE
 /* Locking resynchronize hack */
 #define LOCKING_RESYNC_ENABLE
-
-#define QMK_ESC_OUTPUT A0 // usually COL
-#define QMK_ESC_INPUT F4 // usually ROW
-#define QMK_LED D2 // NumLock on TKC1800
-//#define QMK_SPEAKER C6
 
 /*
  * Feature disable options

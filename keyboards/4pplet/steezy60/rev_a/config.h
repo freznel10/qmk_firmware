@@ -8,12 +8,8 @@
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION COL2ROW
 
-#define QMK_ESC_OUTPUT C4 // usually COL
-#define QMK_ESC_INPUT C2 // usually ROW
-
 #define RGB_DI_PIN D3
 #define RGBLED_NUM 12
-#define BACKLIGHT_LEVELS 5
 
 #define RGBLIGHT_HUE_STEP 8
 #define RGBLIGHT_SAT_STEP 8
