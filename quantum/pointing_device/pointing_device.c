@@ -468,11 +468,27 @@ report_mouse_t pointing_device_adjust_by_defines_right(report_mouse_t mouse_repo
  */
 report_mouse_t pointing_device_task_combined(report_mouse_t left_report, report_mouse_t right_report) {
 #    ifdef POINTING_DEVICE_MODES_ENABLE
-    if (is_pointing_mode_on_left()) {
-        left_report = pointing_device_modes_task(left_report);
-    } else {
-        right_report = pointing_device_modes_task(right_report);
+#        ifdef POINTING_MODES_SINGLE_CONTROL
+    // only one side controlled at any one time
+    switch (get_pointing_mode_device()) {
+        case PM_RIGHT_SIDE:
+            right_report = pointing_device_modes_task(right_report);
+            break;
+        default:
+            left_report = pointing_device_modes_task(left_report);
     }
+#        else
+    // both sides controlled independently
+    // save current device id
+    uint8_t current_device = get_pointing_mode_device();
+    set_pointing_mode_device(PM_RIGHT_SIDE);
+    right_report = pointing_device_modes_task(right_report);
+
+    set_pointing_mode_device(PM_LEFT_SIDE);
+    left_report = pointing_device_modes_task(left_report);
+    // set device id back
+    set_pointing_mode_device(current_device);
+#        endif
 #    endif
     return pointing_device_task_combined_kb(left_report, right_report);
 }
