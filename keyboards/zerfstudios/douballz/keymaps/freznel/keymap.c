@@ -38,6 +38,13 @@
 #define DYN_000 DYN_MACRO_KEY00
 #define DYN_001 DYN_MACRO_KEY01
 
+#define DRG_TCK DRAG_TRACKS
+#define PLC_VIA PLACE_VIA
+#define TCK_WTH TRACK_WIDTH
+#define VIA_WTH VIA_WIDTH
+#define TCK_PRE TRACK_POSTURE
+#define TCK_CME TRACK_CORNER_MODE
+
 static bool     MIDI_ARM = false;
 extern MidiDevice midi_device;
 
@@ -96,10 +103,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_MOUSE] = LAYOUT_4x6(
-        _______,        KC_E,       KC_WH_L,    KC_WH_R,    _______,    _______,                                                    _______,    _______,    _______,    _______,    _______,    _______,
-        _______,        S(KC_M),    KC_WH_D,    KC_WH_U,    KC_ESC,     PM_MO(6),                                                  ST_MACRO_6,    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
-        _______,        PM_MO(14),  KC_BTN2,    KC_BTN1,    KC_BTN3,    KB_MO_WINDOW,                                             KB_MO_WINDOW,  KC_BTN2,    KC_BTN1,    KC_BTN3,    PM_MO(14),    _______,
-        KC_BTN2,        KC_BTN1,    TD_PMD1,    TD_DRGS,    NX_TAB,     KC_V,        _______,                             _______,    PM_MO(6),    BK_TAB,     TD_DRGR,    NX_TAB,     KC_BTN1,    KC_BTN2,
+        _______,        KC_E,       PM_MO(14),  TCK_PRE,    TCK_CME,    _______,                                                    _______,    _______,    _______,    _______,    _______,    _______,
+        _______,        S(KC_M),    TCK_WTH,    KC_BTN2,    VIA_WTH,     PM_MO(6),                                                  ST_MACRO_6,    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
+        _______,        PM_MO(14),  ROTATE,     KC_BTN1,    KC_BTN3,    KB_MO_WINDOW,                                             KB_MO_WINDOW,  KC_BTN2,    KC_BTN1,    KC_BTN3,    PM_MO(14),    _______,
+        KC_BTN2,        KC_BTN1,    ROUTE,      TD_DRGS,    DRG_TCK,     PLC_VIA,        _______,                             _______,    PM_MO(6),    BK_TAB,     TD_DRGR,    NX_TAB,     KC_BTN1,    KC_BTN2,
                                                                         _______,    _______,    _______,    _______,    _______,    _______,
                                                                                     KC_BTN1,    KC_BTN2,    KC_BTN2,    KC_BTN1,
                                                                         _______,    _______,    _______,    _______,    _______,    _______,

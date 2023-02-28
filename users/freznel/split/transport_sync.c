@@ -97,7 +97,7 @@ void user_transport_update(void) {
 #if defined (POINTING_DEVICE_MODES_ENABLE)
         user_state.split_pointing_mode = get_pointing_mode_id();
 #   if defined (POINTING_DEVICE_COMBINED)
-        user_state.pointing_side = is_pointing_mode_on_left();
+        user_state.pointing_side = get_pointing_mode_device();
 #   endif //POINTING_DEVICE_COMBINED
 #endif //POINTING_DEVICE_MODES_ENABLE
 #ifdef OS_DETECTION_ENABLE

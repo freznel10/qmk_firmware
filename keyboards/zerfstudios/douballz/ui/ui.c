@@ -670,7 +670,7 @@ void ui_pm_state_change(lv_event_t * e) {
         }
     }
     if(event_code == USER_EVENT_PM_SIDE_CHANGE) {
-        if ((target == ui_PM_led1 || ui_PM_led2) && (user_state.pointing_side)) {
+        if ((target == ui_PM_led1 || ui_PM_led2) && (get_pointing_mode_device() == PM_LEFT_DEVICE )) {
                 lv_led_on(ui_PM_led1);
                 lv_led_off(ui_PM_led2);
         } else {

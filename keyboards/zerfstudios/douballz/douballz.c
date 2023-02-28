@@ -351,7 +351,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
             return false;
         case PM_SWITCH:
             if (record->event.pressed) {
-                pointing_mode_switch_hands();
+                // pointing_mode_switch_hands();
                 PLAY_SONG(pm_song);
             }
         break;

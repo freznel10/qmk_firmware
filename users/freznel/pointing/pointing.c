@@ -153,7 +153,7 @@ uint8_t get_pointing_mode_divisor_user(uint8_t mode_id, uint8_t direction) {
 }
 
 
-#define CONSTRAIN_XY(amt) ((amt) < XY_REPORT_MIN ? XY_REPORT_MIN : ((amt) > XY_REPORT_MAX ? XY_REPORT_MAX : (amt)))
+#define CONSTRAIN_XY(value) (value > XY_REPORT_MAX ? XY_REPORT_MAX : value < XY_REPORT_MIN? XY_REPORT_MIN: value)
 
 bool process_pointing_mode_user(pointing_mode_t pointing_mode, report_mouse_t* mouse_report) {
     switch(pointing_mode.id){
@@ -163,24 +163,29 @@ bool process_pointing_mode_user(pointing_mode_t pointing_mode, report_mouse_t* m
          */
         // Manipulating pointing_mode & mouse_report (cursor speed boost mode example)
         case PM_CUR_ACCEL:
-            // reset mouse_report note tha mouse_report is a pointer in this function's context
+            // reset mouse_report note that mouse_report is a pointer in this function's context
             *mouse_report = pointing_device_get_report();
+            // set up temp variable and context
+            {
+                // add linear boost to cursor x speed
+                mouse_xy_report_t temp_mouse_axis = apply_divisor_xy(pointing_mode.x);
 #ifdef POINTING_DEVICE_INVERT_H
-            // add linear boost to cursor x speed
-            mouse_report->x = CONSTRAIN_XY(mouse_report->x - pointing_mode.x / pointing_mode.divisor);
+                mouse_report->x = CONSTRAIN_XY(mouse_report->x - temp_mouse_axis);
 #else
-            mouse_report->x = CONSTRAIN_XY(mouse_report->x + pointing_mode.x / pointing_mode.divisor);
+                mouse_report->x = CONSTRAIN_XY(mouse_report->x + temp_mouse_axis);
 #endif
-            // collect residuals
-            pointing_mode.x = 0;
-            // add linear boost to cursor y speed
+                // collect residual
+                pointing_mode.x -= multiply_divisor_xy(temp_mouse_axis);
+                // add linear boost to cursor y speed
+                temp_mouse_axis = apply_divisor_xy(pointing_mode.y);
 #ifdef POINTING_DEVICE_INVERT_V
-            mouse_report->y = CONSTRAIN_XY(mouse_report->y - pointing_mode.y / pointing_mode.divisor);
+                mouse_report->y = CONSTRAIN_XY(mouse_report->y - apply_divisor_xy(pointing_mode.y));
 #else
-            mouse_report->y = CONSTRAIN_XY(mouse_report->y + pointing_mode.y / pointing_mode.divisor);
+                mouse_report->y = CONSTRAIN_XY(mouse_report->y + apply_divisor_xy(pointing_mode.y));
 #endif
-            // collect residuals
-            pointing_mode.y = 0;
+                // collect residual
+                pointing_mode.y -= multiply_divisor_xy(temp_mouse_axis);
+            }
             // update pointing_mode with residual stored x & y
             set_pointing_mode(pointing_mode);
             // NOTE: mouse_report does not need to be set or sent here as it will be carried forward
@@ -189,14 +194,14 @@ bool process_pointing_mode_user(pointing_mode_t pointing_mode, report_mouse_t* m
         // Alternative method for app scrolling that only toggles ALT key when there is movement and holds until key release
         case PM_APP_2:
             // activate alt key if greater/equal to divisor and set flag
-            if((abs(pointing_mode.x)) >= pointing_mode.divisor && !APP_ALT) {
+            if((abs(pointing_mode.x)) >= current_pointing_mode_divisor() && !APP_ALT) {
                 register_code(KC_LALT);
                 APP_ALT = true;
             }
             pointing_tap_codes(S(KC_TAB), KC_NO, KC_NO, KC_TAB);
             return false;
         case PM_WIN_POS:
-            if((abs(pointing_mode.x)) >= pointing_mode.divisor && !APP_WIN) {
+            if((abs(pointing_mode.x)) >= current_pointing_mode_divisor() && !APP_WIN) {
                 register_code(KC_LGUI);
                 APP_WIN = true;
             }
@@ -241,9 +246,57 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t* record) {
 #if defined(SPLIT_POINTING_ENABLE) && defined(POINTING_DEVICE_COMBINED)
         case PM_SWITCH:
             if (record->event.pressed) {
-                pointing_mode_switch_hands();
+                 break;
             }
 #endif
+        break;
+        case ROUTE:
+            if (record->event.pressed) {
+    	        DRV_pulse(medium_click1);
+                tap_code(KC_X);
+            }
+        break;
+        case ROTATE:
+            if (record->event.pressed) {
+    	        DRV_pulse(medium_click1);
+                tap_code(KC_R);
+            }
+        break;
+        case DRAG_TRACKS:
+            if (record->event.pressed) {
+    	        DRV_pulse(medium_click1);
+                tap_code(KC_D);
+            }
+        break;
+        case PLACE_VIA:
+            if (record->event.pressed) {
+    	        DRV_pulse(medium_click1);
+                tap_code(KC_V);
+            }
+        break;
+        case TRACK_WIDTH:
+            if (record->event.pressed) {
+    	        DRV_pulse(medium_click1);
+                tap_code(KC_W);
+            }
+        break;
+        case VIA_WIDTH:
+            if (record->event.pressed) {
+    	        DRV_pulse(medium_click1);
+                tap_code(KC_BACKSLASH);
+            }
+        break;
+        case TRACK_POSTURE:
+            if (record->event.pressed) {
+    	        DRV_pulse(medium_click1);
+                tap_code(KC_SLASH);
+            }
+        break;
+        case TRACK_CORNER_MODE:
+            if (record->event.pressed) {
+    	        DRV_pulse(medium_click1);
+                tap_code16(C(KC_SLASH));
+            }
         break;
         default:
         break;
@@ -263,6 +316,14 @@ bool is_mouse_record_user(uint16_t keycode, keyrecord_t* record) {
         case ST_MACRO_6:
         case KB_MO_WINDOW:
         case KB_MO_APP:
+        case ROUTE:
+        case ROTATE:
+        case DRAG_TRACKS:
+        case PLACE_VIA:
+        case TRACK_WIDTH:
+        case VIA_WIDTH:
+        case TRACK_POSTURE:
+        case TRACK_CORNER_MODE:
         return true;
     }
     return false;

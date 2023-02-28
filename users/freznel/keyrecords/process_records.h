@@ -95,6 +95,15 @@ enum userspace_custom_keycodes {
     ENC_ALT_TAB,
     ENC_ALT_TAB_REV,
 
+    ROUTE,
+    ROTATE,
+    DRAG_TRACKS,
+    PLACE_VIA,
+    TRACK_WIDTH,
+    VIA_WIDTH,
+    TRACK_POSTURE,
+    TRACK_CORNER_MODE,
+
     DYN_MACRO_PROG,
     DYN_MACRO_KEY00,
     DYN_MACRO_KEY01,
