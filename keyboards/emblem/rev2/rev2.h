@@ -1,6 +1,4 @@
-
 /* Copyright 2022 Freznel B. Sta. Ana (Freznel10)
-
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +15,6 @@
  */
 #pragma once
 
-
 #include "emblem.h"
-
+#include "quantum.h"
 

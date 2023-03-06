@@ -141,7 +141,7 @@ int16_t multiply_divisor_hv(int8_t value) {
  * @return current device id [uint8_t]
  */
 uint8_t get_pointing_mode_device(void) {
-#    if defined(POINTING_MODES_SINGLE_CONTROL)
+#    ifdef POINTING_MODES_SINGLE_CONTROL
     return selected_device;
 #    else
     return current_device;
@@ -151,18 +151,20 @@ uint8_t get_pointing_mode_device(void) {
 /**
  * @brief Allow changing of active side
  *
- * will change which side (PM_LEFT_SIDE, PM_RIGHT_SIDE, etc.) is controlled by pointing mode framework
+ * will change which side (PM_LEFT_DEVICE, PM_RIGHT_DEVICE, etc.) is controlled by pointing mode framework
  *
  * NOTE: If mode is set above maximum device number device is set to zero (this allows cycling)
  *
  * @params[in] new side uint8_t
  */
 void set_pointing_mode_device(uint8_t device) {
-    if (device > POINTING_MODES_DEVICE_ID_MAX) device = 0;
-#    if defined(POINTING_MODES_SINGLE_CONTROL)
+#    if (POINTING_MODES_NUM_DEVICES > 1)
+    if (device > POINTING_MODES_NUM_DEVICES) device = 0;
+#        if POINTING_MODES_SINGLE_CONTROL
     selected_device = device;
-#    elif POINTING_MODES_DEVICE_CONTROL_COUNT > 1
+#        else
     current_device = device;
+#        endif
 #    else
     ;
 #    endif
@@ -431,19 +433,19 @@ void pointing_tap_codes(uint16_t kc_left, uint16_t kc_down, uint16_t kc_up, uint
     switch (current_pointing_mode_direction()) {
         case PD_DOWN ... PD_UP:
             count = divisor_divide16(pointing_modes[current_device].y);
-            if (!count) return;
+            if (!count) return; // exit if accumulated y is too low
             pointing_modes[current_device].y -= divisor_multiply16(count);
             pointing_modes[current_device].x = 0;
             break;
         case PD_LEFT ... PD_RIGHT:
             count = divisor_divide16(pointing_modes[current_device].x);
-            if (!count) return;
+            if (!count) return; // exit if accumulated x is too low
             pointing_modes[current_device].x -= divisor_multiply16(count);
             pointing_modes[current_device].y = 0;
             break;
     }
-    // skip if KC_NO (but allow for axes update above)
-    if (!kc_direction) return;
+    // skip if KC_TRNS or KC_NO (but allow for axes update above)
+    if (kc_direction < 2) return;
 
     // tap codes
     uint8_t taps = abs(count);

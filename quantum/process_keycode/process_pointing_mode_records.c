@@ -95,7 +95,7 @@ bool process_pointing_mode_records(uint16_t keycode, keyrecord_t* record) {
             return true;
         // utils: DEVICE LEFT
         case QK_PM_DEVICE_LEFT:
-            pointing_mode_key_set_device(PM_LEFT_DEVICE, record->event.pressed);
+            pointing_mode_key_set_device(PM_RIGHT_DEVICE, record->event.pressed);
             return true;
 #    endif
 
