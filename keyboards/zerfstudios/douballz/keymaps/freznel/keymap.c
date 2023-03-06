@@ -106,7 +106,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,        KC_E,       PM_MO(14),  TCK_PRE,    TCK_CME,    _______,                                                    _______,    _______,    _______,    _______,    _______,    _______,
         _______,        S(KC_M),    TCK_WTH,    KC_BTN2,    VIA_WTH,     PM_MO(6),                                                  ST_MACRO_6,    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
         _______,        PM_MO(14),  ROTATE,     KC_BTN1,    KC_BTN3,    KB_MO_WINDOW,                                             KB_MO_WINDOW,  KC_BTN2,    KC_BTN1,    KC_BTN3,    PM_MO(14),    _______,
-        KC_BTN2,        KC_BTN1,    ROUTE,      TD_DRGS,    DRG_TCK,     PLC_VIA,        _______,                             _______,    PM_MO(6),    BK_TAB,     TD_DRGR,    NX_TAB,     KC_BTN1,    KC_BTN2,
+        KC_DEL,        KC_BTN1,    ROUTE,      TD_DRGS,    DRG_TCK,     PLC_VIA,        _______,                             _______,    PM_MO(6),    BK_TAB,     TD_DRGR,    NX_TAB,     KC_BTN1,    KC_BTN2,
                                                                         _______,    _______,    _______,    _______,    _______,    _______,
                                                                                     KC_BTN1,    KC_BTN2,    KC_BTN2,    KC_BTN1,
                                                                         _______,    _______,    _______,    _______,    _______,    _______,
