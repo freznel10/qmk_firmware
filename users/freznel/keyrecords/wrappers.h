@@ -291,6 +291,4 @@ NOTE: These are all the same length.  If you do a search/replace
 #define ______________COLEMAK_MOD_DH_W1____________       KC_J,    KC_L,         KC_U,         KC_Y,         KC_SCLN
 #define ______________COLEMAK_MOD_DH_W2____________       KC_M,    RSFT_T(KC_N), RCTL_T(KC_E), RALT_T(KC_I), RGUI_T(KC_O),    KC_QUOT
 #define ______________COLEMAK_MOD_DH_W3____________       KC_K,    KC_H,         KC_COMM,      KC_DOT,       RCTL_T(KC_SLASH)
-
 // clang-format on
-
