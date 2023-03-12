@@ -73,6 +73,10 @@ enum userspace_custom_keycodes {
     KB_MO_WINDOW,
     AM_TOGGLE,
     PM_SWITCH,
+    PMR_DRAG,
+    PML_DRAG,
+    PMR_VOL,
+    PML_VOL,
 
     RAISE_TOGGLE, //combos
     BSPC_LSFT_CLEAR,

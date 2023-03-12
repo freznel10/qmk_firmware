@@ -298,6 +298,35 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t* record) {
                 tap_code16(C(KC_SLASH));
             }
         break;
+        case PMR_DRAG:
+            if (record->event.pressed) {
+    	        DRV_pulse(medium_click1);
+                set_pointing_mode_device(1);
+                toggle_pointing_mode_id(2);
+            }
+        break;
+        case PMR_LEFT:
+            if (record->event.pressed) {
+    	        DRV_pulse(medium_click1);
+                set_pointing_mode_device(0);
+                toggle_pointing_mode_id(2);
+            }
+        break;
+        case PMR_VOL:
+            if (record->event.pressed) {
+    	        DRV_pulse(medium_click1);
+                set_pointing_mode_device(1);
+                toggle_pointing_mode_id(5);
+            }
+        break;
+        case PML_VOL:
+            if (record->event.pressed) {
+    	        DRV_pulse(medium_click1);
+                set_pointing_mode_device(0);
+                toggle_pointing_mode_id(5);
+            }
+
+        break;
         default:
         break;
     }

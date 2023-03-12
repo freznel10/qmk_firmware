@@ -72,7 +72,7 @@ enum custom_keycodes {
     OSM(MOD_LSFT), LGUI_T(K11), LALT_T(K12),  LCTL_T(K13),   LSFT_T(K14),         K15,                                            K16,     RSFT_T(K17),     RCTL_T(K18),     RALT_T(K19),     RGUI_T(K1A),     RALT_T(K1B), \
     LALT_T(KC_DEL), LCTL_T(K21),  K22,          K23,            K24,        K25,        ST_MACRO_5,          ALT_TAB,        K26,     K27,     K28,     K29, RCTL_T(K2A), KC_BSLS, \
                                                             TAB_RSE,        SPC_LSH,    ENT_LWR,            ESC_LWR,        BSP_KEY,    DEL_RSE,\
-                                                                            A(KC_4),    A(KC_5),            A(KC_6),        A(KC_7),\
+                                                                            QK_PM_CYCLE_DEVICES,    PM_TG(PM_DRAG),            PM_TG(PM_VOL), PM_TG(PM_CARET),\
                                                             DPI_RMOD,      AM_TOGGLE,   DPI_MOD,            RGB_RMOD,       KC_RGB_T,    RGB_MOD,\
                                                             KC_TRNS,       KC_TRNS,                                       KC_TRNS,   KC_TRNS\
     )
@@ -104,7 +104,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_MOUSE] = LAYOUT_4x6(
         _______,        KC_E,       PM_MO(14),  TCK_PRE,    TCK_CME,    _______,                                                    _______,    _______,    _______,    _______,    _______,    _______,
-        _______,        S(KC_M),    TCK_WTH,    KC_BTN2,    VIA_WTH,     PM_MO(6),                                                  ST_MACRO_6,    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
+        _______,        S(KC_M),    TCK_WTH,    KC_BTN2,    VIA_WTH,     PM_MO(6),                                            ST_MACRO_6,    KC_ESC,     KC_WH_U,    KC_WH_D,    S(KC_M),    _______,
         _______,        PM_MO(14),  ROTATE,     KC_BTN1,    KC_BTN3,    KB_MO_WINDOW,                                             KB_MO_WINDOW,  KC_BTN2,    KC_BTN1,    KC_BTN3,    PM_MO(14),    _______,
         KC_DEL,        KC_BTN1,    ROUTE,      TD_DRGS,    DRG_TCK,     PLC_VIA,        _______,                             _______,    PM_MO(6),    BK_TAB,     TD_DRGR,    NX_TAB,     KC_BTN1,    KC_BTN2,
                                                                         _______,    _______,    _______,    _______,    _______,    _______,
@@ -406,9 +406,6 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 // }
 
 layer_state_t layer_state_set_keymap(layer_state_t state) {
-    if (get_toggled_pointing_mode_id() != get_pointing_mode_id()) {
-        set_pointing_mode_id(get_toggled_pointing_mode_id());
-    }
     switch (get_highest_layer(state)) {
         case _LOWER:
 #ifdef HAPTIC_ENABLE
@@ -448,6 +445,11 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
             DRV_pulse(pulsing_sharp);
 #endif
             break;
+        default:
+        // if (get_toggled_pointing_mode_id() != get_pointing_mode_id()) {
+        // set_pointing_mode_id(get_toggled_pointing_mode_id());
+        //  }
+        break;
     }
     return state;
 }

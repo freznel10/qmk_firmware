@@ -160,7 +160,7 @@ uint8_t get_pointing_mode_device(void) {
 void set_pointing_mode_device(uint8_t device) {
 #    if (POINTING_MODES_NUM_DEVICES > 1)
     if (device > POINTING_MODES_NUM_DEVICES) device = 0;
-#        if POINTING_MODES_SINGLE_CONTROL
+#        if defined(POINTING_MODES_SINGLE_CONTROL)
     selected_device = device;
 #        else
     current_device = device;
