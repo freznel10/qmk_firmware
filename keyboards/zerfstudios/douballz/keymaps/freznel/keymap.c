@@ -72,7 +72,7 @@ enum custom_keycodes {
     OSM(MOD_LSFT), LGUI_T(K11), LALT_T(K12),  LCTL_T(K13),   LSFT_T(K14),         K15,                                            K16,     RSFT_T(K17),     RCTL_T(K18),     RALT_T(K19),     RGUI_T(K1A),     RALT_T(K1B), \
     LALT_T(KC_DEL), LCTL_T(K21),  K22,          K23,            K24,        K25,        ST_MACRO_5,          ALT_TAB,        K26,     K27,     K28,     K29, RCTL_T(K2A), KC_BSLS, \
                                                             TAB_RSE,        SPC_LSH,    ENT_LWR,            ESC_LWR,        BSP_KEY,    DEL_RSE,\
-                                                                            QK_PM_CYCLE_DEVICES,    PM_TG(PM_DRAG),            PM_TG(PM_VOL), PM_TG(PM_CARET),\
+                                                                            QK_PM_CYCLE_DEVICES,    PM_TG(0),            PM_TG(PM_VOL), PM_TG(PM_CARET),\
                                                             DPI_RMOD,      AM_TOGGLE,   DPI_MOD,            RGB_RMOD,       KC_RGB_T,    RGB_MOD,\
                                                             KC_TRNS,       KC_TRNS,                                       KC_TRNS,   KC_TRNS\
     )
@@ -446,9 +446,9 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
 #endif
             break;
         default:
-        // if (get_toggled_pointing_mode_id() != get_pointing_mode_id()) {
-        // set_pointing_mode_id(get_toggled_pointing_mode_id());
-        //  }
+        if (get_toggled_pointing_mode_id() != get_pointing_mode_id()) {
+        set_pointing_mode_id(get_toggled_pointing_mode_id());
+         }
         break;
     }
     return state;

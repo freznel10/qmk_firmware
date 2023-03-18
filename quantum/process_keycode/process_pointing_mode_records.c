@@ -84,10 +84,11 @@ bool process_pointing_mode_records(uint16_t keycode, keyrecord_t* record) {
             pointing_mode_key_toggle((keycode - QK_POINTING_MODE_TG) & (QK_POINTING_MODE_TG_MAX - QK_POINTING_MODE_TG), record->event.pressed);
             return true; // allow further processing
 
-#    if (POINTING_MODES_DEVICE_ID_MAX > 0)
+#    if (POINTING_MODES_NUM_DEVICES > 0)
         // utils: Cycle devices
         case QK_PM_CYCLE_DEVICES:
             pointing_mode_key_set_device(get_pointing_mode_device() + 1, record->event.pressed);
+            dprintf("Current device: %d", get_pointing_mode_device());
             return true;
         // utils: DEVICE RIGHT
         case QK_PM_DEVICE_RIGHT:
