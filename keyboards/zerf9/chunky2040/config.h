@@ -58,8 +58,6 @@
 // #define AUDIO_STATE_TIMER  GPTD4
 
 
-
-
 /* serial.c configuration for split keyboard */
 #define SERIAL_USART_FULL_DUPLEX  // Enable full duplex operation mode.
 #define SERIAL_USART_TX_PIN      GP0

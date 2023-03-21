@@ -6,7 +6,7 @@
 
 #if defined(KEYBOARD_zerf9) && defined(POINTING_DEVICE_ENABLE)
 #    define PLACEHOLDER_SAFE_RANGE QK_USER
-#elif defined(KEYBOARD_zerfstudios_douballz)
+#elif defined(KEYBOARD_zerfstudios)
 #    define PLACEHOLDER_SAFE_RANGE KEYMAP_SAFE_RANGE
 #elif defined(KEYBOARD_bastardkb_charybdis)
 #    define PLACEHOLDER_SAFE_RANGE CHARYBDIS_SAFE_RANGE
@@ -145,7 +145,7 @@ bool process_record_painter(uint16_t keycode, keyrecord_t *record);
 #define ADJUST MO(_ADJUST)
 #define TG_MODS OS_TOGG
 #define TG_GAME TG(_GAMEPAD)
-// #define TG_DBLO TG(_DIABLO)
+
 #define OS_LWR OSL(_LOWER)
 #define OS_RSE OSL(_RAISE)
 #define KC_MAKE QK_MAKE
@@ -193,18 +193,27 @@ bool process_record_painter(uint16_t keycode, keyrecord_t *record);
 #define KC_RESET RESET
 #define KC_RST   KC_RESET
 
-#ifdef SWAP_HANDS_ENABLE
-#    define KC_C1R3 SH_T(KC_TAB)
-#elif defined(DRASHNA_LP)
-#    define KC_C1R3 TG(_GAMEPAD)
-#else  // SWAP_HANDS_ENABLE
-#    define KC_C1R3 KC_TAB
-#endif  // SWAP_HANDS_ENABLE
-
 #define BK_LWER LT(_LOWER, KC_BSPC)
 #define SP_LWER LT(_LOWER, KC_SPC)
 #define DL_RAIS LT(_RAISE, KC_DEL)
 #define ET_RAIS LT(_RAISE, KC_ENTER)
+
+#define CTLNUBS MT(MOD_LCTL, KC_NUBS)
+#define CTLGRVE MT(MOD_LCTL, KC_GRAVE)
+#define KC_CTUP C(KC_PGUP)
+#define KC_CTDN C(KC_PGDN)
+#define KC_ADEL LALT_T(KC_DEL)
+#define KC_SBT3 S(KC_BTN3)
+#define KC_MAC_UNDO LGUI(KC_Z)
+#define KC_MAC_CUT LGUI(KC_X)
+#define KC_MAC_COPY LGUI(KC_C)
+#define KC_MAC_PASTE LGUI(KC_V)
+#define KC_PC_UNDO LCTL(KC_Z)
+#define KC_PC_CUT LCTL(KC_X)
+#define KC_PC_COPY LCTL(KC_C)
+#define KC_PC_PASTE LCTL(KC_V)
+#define KC_POSR S(KC_P)
+#define KC_INTR C(S(KC_COMMA))
 
 /* OSM keycodes, to keep things clean and easy to change */
 #define KC_MLSF OSM(MOD_LSFT)

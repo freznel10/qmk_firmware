@@ -267,7 +267,7 @@ NOTE: These are all the same length.  If you do a search/replace
 #define _________________RAISE_L2__________________       LGUI_T(KC_GRAVE), LALT_T(KC_MINUS), KC_PLUS, LSFT_T(KC_EQUAL), KC_UNDS
 #define _________________RAISE_L3__________________       KC_LCBR, KC_LBRC, KC_NUHS, KC_RBRC, KC_RCBR
 
-#define _________________RAISE_R1__________________       ________________NUMBER_RIGHT_______________
+#define _________________RAISE_R1__________________       KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN
 #define _________________RAISE_R2__________________       KC_CAPS, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
 #define _________________RAISE_R3__________________       SELWORD, KC_HOME, KC_PGDN, KC_PGUP, KC_END
 
@@ -291,20 +291,3 @@ NOTE: These are all the same length.  If you do a search/replace
 #define ______________COLEMAK_MOD_DH_W1____________       KC_J,    KC_L,         KC_U,         KC_Y,         KC_SCLN
 #define ______________COLEMAK_MOD_DH_W2____________       KC_M,    RSFT_T(KC_N), RCTL_T(KC_E), RALT_T(KC_I), RGUI_T(KC_O),    KC_QUOT
 #define ______________COLEMAK_MOD_DH_W3____________       KC_K,    KC_H,         KC_COMM,      KC_DOT,       RCTL_T(KC_SLASH)
-
-#define CTLNUBS MT(MOD_LCTL, KC_NUBS)
-#define CTLGRVE MT(MOD_LCTL, KC_GRAVE)
-#define KC_CTUP C(KC_PGUP)
-#define KC_CTDN C(KC_PGDN)
-#define KC_ADEL LALT_T(KC_DEL)
-#define KC_SBT3 S(KC_BTN3)
-#define KC_MAC_UNDO LGUI(KC_Z)
-#define KC_MAC_CUT LGUI(KC_X)
-#define KC_MAC_COPY LGUI(KC_C)
-#define KC_MAC_PASTE LGUI(KC_V)
-#define KC_PC_UNDO LCTL(KC_Z)
-#define KC_PC_CUT LCTL(KC_X)
-#define KC_PC_COPY LCTL(KC_C)
-#define KC_PC_PASTE LCTL(KC_V)
-#define KC_POSR S(KC_P)
-#define KC_INTR C(S(KC_COMMA))
