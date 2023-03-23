@@ -80,7 +80,6 @@ typedef union {
         uint8_t     pointer_sniping_dpi     : 2;  // 4 steps available.
         bool        is_dragscroll_enabled   : 1;
         bool        is_sniping_enabled      : 1;
-        unsigned    lcd_power                : 1;
     } __attribute__((packed));
 } charybdis_config_t;
 
@@ -100,9 +99,7 @@ static void read_charybdis_config_from_eeprom(charybdis_config_t* config) {
     config->raw                   = eeconfig_read_kb() & 0xff;
     config->is_dragscroll_enabled = false;
     config->is_sniping_enabled    = false;
-    config->lcd_power             = false;
 }
-
 /**
  * \brief Save the value of `config` to eeprom.
  *
@@ -446,14 +443,6 @@ void rgb_matrix_increase_flags(void)
 }
 
 #ifdef QUANTUM_PAINTER_ENABLE
-void kb_state_update(void) {
-    if (is_keyboard_master()) {
-
-        // Turn off the LCD if there's been no matrix activity
-        g_charybdis_config.lcd_power = (last_input_activity_elapsed() < 30000) ? 1 : 0;
-    }
-}
-
 void eeconfig_init_kb(void) {
     g_charybdis_config.raw = 0;
     write_charybdis_config_to_eeprom(&g_charybdis_config);
@@ -478,7 +467,6 @@ void keyboard_pre_init_kb(void) {
     gpio_init(GP28);
     gpio_init(GP29);
     keyboard_pre_init_user();
-
 }
 
 // void matrix_power_up(void) { pointing_device_task(); }
@@ -568,6 +556,7 @@ void keyboard_post_init_kb(void) {
             #endif
         }
     // #endif
+    backlight_level_noeeprom(3);
     qp_lvgl_attach(qp_display);
 
     // Register Encoder and create default group
@@ -599,7 +588,7 @@ void keyboard_post_init_kb(void) {
 
 void housekeeping_task_kb(void) {
 #ifdef QUANTUM_PAINTER_ENABLE
-     kb_state_update();
+    //  kb_state_update();
 #endif
     if (is_keyboard_master()) {
         // Keep track of the last state, so that we can tell if we need to propagate to slave
@@ -640,20 +629,22 @@ void housekeeping_task_kb(void) {
         // #endif
     }
     #ifdef QUANTUM_PAINTER_ENABLE
-    static bool lcd_on = false;
-    if (lcd_on != (bool)g_charybdis_config.lcd_power) {
-        lcd_on = (bool)g_charybdis_config.lcd_power;
-        qp_power(qp_display, lcd_on);
-    }
-    if (g_charybdis_config.lcd_power) {
-        backlight_level_noeeprom(3);
+    // static bool lcd_on = false;
+    // if (lcd_on != (bool)g_charybdis_config.lcd_power) {
+    //     lcd_on = (bool)g_charybdis_config.lcd_power;
+    //     qp_power(qp_display, lcd_on);
+    // }
+    bool peripherals_on = last_input_activity_elapsed() < LCD_ACTIVITY_TIMEOUT;
+    if (peripherals_on) {
+        backlight_enable();
         rgb_matrix_enable_noeeprom();
+        lvgl_event_triggers();
     } else {
-        backlight_level_noeeprom(0);
+         backlight_disable();
         rgb_matrix_disable_noeeprom();
     }
     #endif
-    lvgl_event_triggers();
+    // lvgl_event_triggers();
     // no need for user function, is called already
 }
 
