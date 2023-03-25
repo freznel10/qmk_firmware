@@ -11,8 +11,8 @@
     "features": {
         "bootmagic": true,
         "backlight": true,
-        "command": false,
-        "console": false,
+        "command": true,
+        "console": true,
         "extrakey": true,
         "mousekey": true,
         "nkro": true,
@@ -22,9 +22,9 @@
         "wpm": true,
         "audio": true
     },
-    "bootmagic": {
-        "matrix": [0, 0]
-    },
+    // "bootmagic": {
+    //     "matrix": [0, 0]
+    // },
     "caps_word": {
         "enabled": true,
         "both_shifts_turns_on": true
@@ -72,10 +72,10 @@
                     { "pin_a": "GP26", "pin_b": "GP27", "resolution": 1 }
                 ]
             }
-        },
-        "bootmagic": {
-            "matrix": [7, 0]
         }
+        // "bootmagic": {
+        //     "matrix": [7, 0]
+        // }
     },
     "AUTO_MOUSE_DEFAULT_LAYER": "_MOUSE",
 
@@ -181,8 +181,8 @@
     },
     "rgb_matrix": {
         "driver": "WS2812",
-        "split_count": [34, 33],
-        "max_brightness": 200,
+        "split_count": [34, 34],
+        "max_brightness": 255,
         "hue_steps": 8,
         "sat_steps": 8,
         "val_steps": 8,

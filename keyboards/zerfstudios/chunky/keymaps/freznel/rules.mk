@@ -1,6 +1,6 @@
 RGBLIGHT_ENABLE              = no
 RGBLIGHT_STARTUP_ANIMATION   = no
-COMMAND_ENABLE               = no
+COMMAND_ENABLE               = yes
 TAP_DANCE_ENABLE             = yes
 OLED_ENABLE                  = no
 WPM_ENABLE                   = yes
@@ -12,7 +12,7 @@ LTO_SUPPORTED = yes
 OLED_DRIVER = custom
 
 AUTOCORRECT_ENABLE = yes
-CAPS_WORD_ENABLE = yes
+
 
 HAPTIC_ENABLE = yes			# Enable Pimoroni Haptic Bzzz LRA (+1192)
 HAPTIC_DRIVER += DRV2605L

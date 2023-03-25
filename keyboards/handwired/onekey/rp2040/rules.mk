@@ -1,0 +1,5 @@
+POINTING_DEVICE_ENABLE = yes
+POINTING_DEVICE_DRIVER = cirque_pinnacle_spi
+PS2_ENABLE = yes
+PS2_MOUSE_ENABLE = yes
+PS2_DRIVER = vendor

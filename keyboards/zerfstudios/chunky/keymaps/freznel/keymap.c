@@ -32,6 +32,8 @@
 #ifdef HAPTIC_ENABLE
 #include "drivers/haptic/DRV2605L.h"
 #endif
+#include "spi_master.h"
+#include "adps9660.h"
 
 #define DQT QK_DEBUG_TOGGLE
 
@@ -74,7 +76,7 @@ enum custom_keycodes {
                                 PM_TG(0),   TAB_RSE,    SPC_LSH,    ENT_LWR,    KC_BTN1,                        KC_BTN1,    ESC_LWR,    BSP_KEY,    DEL_RSE,    PMR_CYD, \
                                 LVGL_BTN,   PM_TG(2),   PM_TG(3),   KC_BTN3,    KC_BTN2,                        KC_BTN2,    PM_TG(3),   PM_TG(2),   PM_TG(3),   PM_TG(1), \
                                 DPI_RMOD,   KC_PGDN,    KC_PGUP,    DPI_MOD,    KC_MUTE,                        RGB_TOG1,   KC_RGB_T,   KC_PGDN,    KC_PGUP,    DPI_MOD,\
-    KC_F1,          KC_F2,      KC_F3,      KC_F4,      KC_F5,      KC_F6,      KC_F7,      KC_F8,      KC_9,   KC_F10,     KC_F11,     KC_F12,     KC_F13,     KC_F14,     KC_F15,     KC_F16\
+    RGB_RMOD,       RGB_MOD,    RGB_SAD,   RGB_SAI,   KC_A,      KC_RGB_T,      KC_F7,      KC_F8,      KC_9,   KC_F10,     KC_F11,     KC_F12,     KC_F13,     KC_F14,     KC_F15,     KC_F16\
     )
 
 #define LAYOUT_base_wrapper(...) LAYOUT_4x6_base(__VA_ARGS__)
@@ -171,9 +173,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
-bool auto_mouse_activation(report_mouse_t mouse_report) {
-    return mouse_report.x != 0 || mouse_report.y != 0 || mouse_report.h != 0 || mouse_report.v != 0 || mouse_report.buttons || (get_toggled_pointing_mode_id() == 3);
-}
+// bool auto_mouse_activation(report_mouse_t mouse_report) {
+//     return mouse_report.x != 0 || mouse_report.y != 0 || mouse_report.h != 0 || mouse_report.v != 0 || mouse_report.buttons || (get_toggled_pointing_mode_id() == 3);
+// }
 
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
@@ -354,13 +356,28 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 //     pointing_device_set_cpi_on_side(true, 100); //Set cpi on left side to a low value for slower scrolling.
 //     pointing_device_set_cpi_on_side(false, 8000); //Set cpi on right side to a reasonable value for mousing.
 // }
+// uint8_t prox_threshold;
 
+void keyboard_post_init_keymap(void) {
+    debug_enable = true;
+    // debug_matrix = true;
+    // debug_keyboard=true;
 
-// void keyboard_post_init_keymap(void) {
-//     //debug_enable = true;
-//     // debug_matrix = true;
-//     //debug_keyboard=true;
-// }
+    // adps9660_init();
+    // wait_ms(100);
+    // prox_threshold = 0;
+    // for (int i = 0; i < 10; ++i) {
+    //     uint8_t prox;
+    //     adps9660_proximity(&prox);
+    //     dprintf("initial %d\n", prox);
+    //     if (prox > prox_threshold) {
+	//         prox_threshold = prox;
+    //     }
+    //     wait_ms(20);
+    // }
+    // prox_threshold += 2;
+    // dprintf("Threshold: %d\n", prox_threshold);
+}
 
 // #ifdef QUANTUM_PAINTER_ENABLE
 // #include <qp.h>
@@ -412,6 +429,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 // }
 
 layer_state_t layer_state_set_keymap(layer_state_t state) {
+    adps9660_wake();
     switch (get_highest_layer(state)) {
         case _LOWER:
 #ifdef HAPTIC_ENABLE
@@ -470,6 +488,34 @@ void matrix_output_unselect_delay(uint8_t line, bool key_pressed) {
     for (int32_t i = 0; i < 40; i++) {
         __asm__ volatile("nop" ::: "memory");
     }
+}
+
+
+void matrix_init_custom(void) {
+    // SPI Matrix
+    setPinOutput(SPI_MATRIX_CHIP_SELECT_PIN);
+    writePinHigh(SPI_MATRIX_CHIP_SELECT_PIN);
+    spi_init();
+
+}
+
+bool matrix_scan_custom(matrix_row_t current_matrix[]) {
+    static matrix_row_t temp_matrix[MATRIX_ROWS] = {0};
+
+    // Read from SPI the matrix
+    spi_start(SPI_MATRIX_CHIP_SELECT_PIN, false, 0, SPI_MATRIX_DIVISOR);
+    spi_receive((uint8_t*)temp_matrix, MATRIX_SHIFT_REGISTER_COUNT * sizeof(matrix_row_t));
+    spi_stop();
+
+    // Read from the encoder pushbutton
+    // temp_matrix[5] = readPin(ENCODER_PUSHBUTTON_PIN) ? 1 : 0;
+
+    // Check if we've changed, return the last-read data
+    bool changed = memcmp(current_matrix, temp_matrix, sizeof(temp_matrix)) != 0;
+    if (changed) {
+        memcpy(current_matrix, temp_matrix, sizeof(temp_matrix));
+    }
+    return changed;
 }
 
 

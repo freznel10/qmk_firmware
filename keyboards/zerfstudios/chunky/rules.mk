@@ -1,10 +1,10 @@
 KEYBOARD_SHARED_EP = yes   # Free up some extra endpoints - needed if console+mouse
 MIDI_ENABLE = yes
 POINTING_DEVICE_ENABLE = yes
-POINTING_DEVICE_DRIVER = pmw3360
-PS2_ENABLE = yes
-PS2_MOUSE_ENABLE = yes
-PS2_DRIVER = vendor
+POINTING_DEVICE_DRIVER = cirque_pinnacle_spi
+# PS2_ENABLE = yes
+# PS2_MOUSE_ENABLE = yes
+# PS2_DRIVER = vendor
 
 MOUSE_SHARED_EP    = yes
 AUDIO_DRIVER  = pwm_hardware
@@ -16,7 +16,7 @@ EEPROM_DRIVER = i2c
 SERIAL_DRIVER = vendor
 
 WS2812_DRIVER = vendor
-RGB_MATRIX_DRIVER = WS2812
+CUSTOM_MATRIX = lite
 
 COMBO_ENABLE = yes
 VPATH += keyboards/gboards
@@ -61,9 +61,7 @@ SRC +=  ui/ui.c \
 		ui/fonts/ui_font_Futura22.c \
 		ui/fonts/ui_font_Futura24.c \
 		ui/fonts/eleganticons.c \
-
-
-
+		adps9660.c  \
 
 QUANTUM_PAINTER_LVGL_USE_CUSTOM_CONF = yes
 CIE1931_CURVE = yes

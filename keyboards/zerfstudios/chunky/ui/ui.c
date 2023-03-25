@@ -1262,32 +1262,19 @@ void ui_Screen1_screen_init(void)
 
     ui_Screen1 = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_Screen1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    #if (defined(KEYBOARD_zerfstudios_douballz_rev1))
-        render_rgb_mode_status(ui_Screen1, LV_ALIGN_TOP_LEFT, 5, 2, LV_SIZE_CONTENT, LV_SIZE_CONTENT, &style_label_futura12, ui_render_rgbmode, USER_EVENT_RGBMODE_UPDATE, NULL);
-        render_panel_kb_status (ui_Screen1, LV_ALIGN_CENTER, 0, -20, (TFT_WIDTH - 10), 60, &style_label_futura12, 0, 0, 0);
-        render_panel_HSV (ui_Screen1, LV_ALIGN_CENTER, 0, 57, (TFT_WIDTH - 10) , 25, &style_label_futura12, 0, 0, 0);
-        render_panel_mods (ui_Screen1, LV_ALIGN_CENTER, 0, 50, (TFT_WIDTH - 10), 40, &style_label_futura12, 0, 0, 0);
-    #elif (defined(KEYBOARD_zerfstudios_douballz_rev2))
-        // render_rgb_mode_status(ui_Screen1, LV_ALIGN_TOP_LEFT, 5, 57, LV_SIZE_CONTENT, LV_SIZE_CONTENT, &style_label_futura18, ui_render_rgbmode, USER_EVENT_RGBMODE_UPDATE, NULL);
-        render_panel_kb_status (ui_Screen1, LV_ALIGN_CENTER, 0, -55, (TFT_WIDTH - 20), 70, &style_label_futura22, 0, 0, 0);
-        render_panel_HSV (ui_Screen1, LV_ALIGN_CENTER, 0, 40, (TFT_WIDTH - 20) , 50, &style_label_futura18, 0, 0, 0);
-        render_panel_mods (ui_Screen1, LV_ALIGN_CENTER, 0, 118, (TFT_WIDTH - 20), 70, &style_label_futura24, 0, 0, 0);
-    #endif
+    // render_rgb_mode_status(ui_Screen1, LV_ALIGN_TOP_LEFT, 5, 57, LV_SIZE_CONTENT, LV_SIZE_CONTENT, &style_label_futura18, ui_render_rgbmode, USER_EVENT_RGBMODE_UPDATE, NULL);
+    render_panel_kb_status (ui_Screen1, LV_ALIGN_CENTER, 0, -55, (TFT_WIDTH - 20), 70, &style_label_futura22, 0, 0, 0);
+    render_panel_HSV (ui_Screen1, LV_ALIGN_CENTER, 0, 40, (TFT_WIDTH - 20) , 50, &style_label_futura18, 0, 0, 0);
+    render_panel_mods (ui_Screen1, LV_ALIGN_CENTER, 0, 118, (TFT_WIDTH - 20), 70, &style_label_futura24, 0, 0, 0);
 
 //for conversion and laying out properly
 #ifdef UI_RENDER_WPM
     ui_Screen1_Label_WPM = lv_label_create(ui_Screen1);
     lv_obj_set_width(ui_Screen1_Label_WPM, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Screen1_Label_WPM, LV_SIZE_CONTENT);    /// 1
-    #if (defined(KEYBOARD_zerfstudios_douballz_rev1))
-        lv_obj_set_x(ui_Screen1_Label_WPM, 5);
-        lv_obj_set_y(ui_Screen1_Label_WPM, 33);
-        lv_obj_set_style_text_font(ui_Screen1_Label _WPM, &ui_font_Futura18, LV_PART_MAIN | LV_STATE_DEFAULT);
-    #elif (defined(KEYBOARD_zerfstudios_douballz_rev2))
         lv_obj_set_x(ui_Screen1_Label_WPM, 9);
         lv_obj_set_y(ui_Screen1_Label_WPM,20);
         lv_obj_set_style_text_font(ui_Screen1_Label_WPM, &ui_font_Futura24, LV_PART_MAIN | LV_STATE_DEFAULT);
-    #endif
     lv_label_set_text(ui_Screen1_Label_WPM, "WPM");
 #endif
 #ifdef OS_DETECTION_ENABLE
@@ -1326,16 +1313,10 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_style_bg_main_stop(ui_Screen2, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_stop(ui_Screen2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_dir(ui_Screen2, LV_GRAD_DIR_HOR, LV_PART_MAIN | LV_STATE_DEFAULT);
+    render_panel_layer(ui_Screen2, LV_ALIGN_CENTER, 0, 30, (TFT_WIDTH - 60), 100, LV_SIZE_CONTENT, LV_SIZE_CONTENT, &style_label_futura22, &style_label_futura18, ui_active_layer_change, USER_EVENT_ACTIVE_LAYER_CHANGE, NULL);
+    render_panel_pointing (ui_Screen2, LV_ALIGN_CENTER, 0, -95, (TFT_WIDTH - 60), 100, &style_label_futura22, &style_label_futura18, ui_pm_state_change, USER_EVENT_PM_STATE_CHANGE, NULL);
+    render_panel_deflayer (ui_Screen2, LV_ALIGN_CENTER, 0, 130, &ui_font_Futura22, ui_event_dflayer_dropdown, LV_EVENT_ALL, NULL);
 
-    #if (defined(KEYBOARD_zerfstudios_douballz_rev1))
-        render_panel_layer (ui_Screen2, LV_ALIGN_CENTER, 0, 10, (TFT_WIDTH - 5), 70, LV_SIZE_CONTENT, LV_SIZE_CONTENT, &style_label_futura12, &style_label_futura12, ui_active_layer_change, USER_EVENT_ACTIVE_LAYER_CHANGE, NULL);
-        render_panel_pointing (ui_Screen2, LV_ALIGN_CENTER, 0, -50, (TFT_WIDTH - 20), 50, &style_label_futura12, &style_label_futura12, ui_pm_state_change, USER_EVENT_PM_STATE_CHANGE, NULL);
-        render_panel_deflayer (ui_Screen2, LV_ALIGN_CENTER, 0, 130, &ui_font_Futura18, ui_event_dflayer_dropdown, LV_EVENT_ALL, NULL);
-    #elif (defined(KEYBOARD_zerfstudios_douballz_rev2))
-        render_panel_layer(ui_Screen2, LV_ALIGN_CENTER, 0, 30, (TFT_WIDTH - 20), 120, LV_SIZE_CONTENT, LV_SIZE_CONTENT, &style_label_futura22, &style_label_futura18, ui_active_layer_change, USER_EVENT_ACTIVE_LAYER_CHANGE, NULL);
-        render_panel_pointing (ui_Screen2, LV_ALIGN_CENTER, 0, -95, (TFT_WIDTH - 20), 100, &style_label_futura22, &style_label_futura18, ui_pm_state_change, USER_EVENT_PM_STATE_CHANGE, NULL);
-        render_panel_deflayer (ui_Screen2, LV_ALIGN_CENTER, 0, 130, &ui_font_Futura22, ui_event_dflayer_dropdown, LV_EVENT_ALL, NULL);
-    #endif
 
     lv_obj_add_event_cb(ui_Screen2, ui_render_rgbhue_redraw, USER_EVENT_RGBHUE_UPDATE, NULL);
 }

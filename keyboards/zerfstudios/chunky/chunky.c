@@ -25,6 +25,7 @@
 #include <hal.h>
 #include "ui/ui.h"
 #include "color.h"
+#include "adps9660.h"
 
 #include <qp.h>
 #include <qp_lvgl.h>
@@ -78,7 +79,6 @@ typedef union {
         uint8_t     pointer_sniping_dpi     : 2;  // 4 steps available.
         bool        is_dragscroll_enabled   : 1;
         bool        is_sniping_enabled      : 1;
-        unsigned    lcd_power               : 1;
     } __attribute__((packed));
 } chunky_config_t;
 
@@ -98,7 +98,6 @@ static void read_chunky_config_from_eeprom(chunky_config_t* config) {
     config->raw                   = eeconfig_read_kb() & 0xff;
     config->is_dragscroll_enabled = false;
     config->is_sniping_enabled    = false;
-    config->lcd_power             = false;
 }
 
 /**
@@ -422,12 +421,12 @@ void rgb_matrix_increase_flags(void)
 }
 
 #ifdef QUANTUM_PAINTER_ENABLE
-void kb_state_update(void) {
-    if (is_keyboard_master()) {
-        // Turn off the LCD if there's been no matrix activity
-        g_chunky_config.lcd_power = (last_input_activity_elapsed() < 30000) ? 1 : 0;
-    }
-}
+// void kb_state_update(void) {
+//     if (is_keyboard_master()) {
+//         // Turn off the LCD if there's been no matrix activity
+//         g_chunky_config.lcd_power = (last_input_activity_elapsed() < 30000) ? 1 : 0;
+//     }
+// }
 
 void eeconfig_init_kb(void) {
     g_chunky_config.raw = 0;
@@ -453,7 +452,6 @@ void keyboard_pre_init_kb(void) {
     gpio_init(GP28);
     gpio_init(GP29);
     keyboard_pre_init_user();
-
 }
 
 // void matrix_power_up(void) { pointing_device_task(); }
@@ -513,15 +511,16 @@ void keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data){
 void keyboard_post_init_kb(void) {
     maybe_update_pointing_device_cpi(&g_chunky_config);
     transaction_register_rpc(RPC_ID_KB_CONFIG_SYNC, chunky_config_sync_handler);
-    // Reset the initial shared data value between master and slave
+
+   // Reset the initial shared data value between master and slave
     memset(&g_chunky_config, 0, sizeof(g_chunky_config));
     wait_ms(50);
         if (is_keyboard_left()) {
             qp_display = qp_gc9a01_make_spi_device(240, 240, DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, 8, 0);
-            qp_init(qp_display, QP_ROTATION_0);
+            qp_init(qp_display, QP_ROTATION_270);
             qp_rect(qp_display, 0, 0, 240, 240, 0, 0, 0, true);
         } else {
-            qp_display = qp_gc9a01_make_spi_device(240, 240, DISPLAY_CS_PIN_RIGHT, DISPLAY_DC_PIN_RIGHT, DISPLAY_RST_PIN_RIGHT, 8, 3);
+            qp_display = qp_gc9a01_make_spi_device(240, 240, DISPLAY_CS_PIN_RIGHT, DISPLAY_DC_PIN_RIGHT, DISPLAY_RST_PIN_RIGHT, 8, 0);
             qp_init(qp_display, QP_ROTATION_0);
             qp_rect(qp_display, 0, 0, 240, 240, 0, 0, 0, true);
         }
@@ -550,14 +549,20 @@ void keyboard_post_init_kb(void) {
         }
     }
     wait_ms(50);
+
     keyboard_post_init_user();
     ui_init();
+
 }
 
 void housekeeping_task_kb(void) {
-#ifdef QUANTUM_PAINTER_ENABLE
-     kb_state_update();
-#endif
+
+    // static int prev_prox_state = 0;
+    // static uint32_t prev_prox_time = 0;
+
+    // static uint32_t last_measurement = 0u;
+    // static uint32_t measurement_interval = 10u;
+
     if (is_keyboard_master()) {
         // Keep track of the last state, so that we can tell if we need to propagate to slave
         static chunky_config_t last_chunky_config = {0};
@@ -581,21 +586,45 @@ void housekeeping_task_kb(void) {
             }
         }
     }
-    #ifdef QUANTUM_PAINTER_ENABLE
-    static bool lcd_on = false;
-    if (lcd_on != (bool)g_chunky_config.lcd_power) {
-        lcd_on = (bool)g_chunky_config.lcd_power;
-        qp_power(qp_display, lcd_on);
-    }
-    if (g_chunky_config.lcd_power) {
+    bool peripherals_on = last_input_activity_elapsed() < LCD_ACTIVITY_TIMEOUT;
+    if (peripherals_on) {
         backlight_level_noeeprom(3);
         rgb_matrix_enable_noeeprom();
+        lvgl_event_triggers();
     } else {
         backlight_level_noeeprom(0);
         rgb_matrix_disable_noeeprom();
     }
-    #endif
-    lvgl_event_triggers();
+    // uint8_t prox;
+    // adps9660_proximity(&prox);
+    // dprintf("Proximity: %d (%d)\n", prox, prox_threshold);
+
+    // if (timer_elapsed32(last_measurement) > measurement_interval) {
+    //         last_measurement = timer_read32();
+    //         uint8_t prox;
+    //         adps9660_proximity(&prox);
+    //         dprintf("Proximity: %d (%d)\n", prox, prox_threshold);
+
+    //         if (prox > prox_threshold ) {
+    //             if (prev_prox_state == 0) {
+    //                 measurement_interval = 10;
+    //                 prev_prox_state = 1;
+    //                 prev_prox_time = timer_read32();
+    //         } else if (timer_elapsed32(prev_prox_time) > 200) {
+    //             measurement_interval = 100;
+    //             rgb_matrix_disable_noeeprom();
+    //         }
+    //     } else {
+    //         if (prev_prox_state == 1) {
+    //             measurement_interval = 10;
+    //             prev_prox_state = 0;
+    //             prev_prox_time = timer_read32();
+    //         } else if (timer_elapsed32(prev_prox_time) > 200) {
+    //             measurement_interval = 100;
+    //             rgb_matrix_enable_noeeprom();
+    //         }
+    //     }
+    // }
     // no need for user function, is called already
 }
 
@@ -615,33 +644,5 @@ void housekeeping_task_kb(void) {
 //     matrix_scan_sub_kb();
 //     matrix_scan_user();
 // }
-
-
-void matrix_init_custom(void) {
-    // SPI Matrix
-    setPinOutput(SPI_MATRIX_CHIP_SELECT_PIN);
-    writePinHigh(SPI_MATRIX_CHIP_SELECT_PIN);
-    spi_init();
-
-}
-
-bool matrix_scan_custom(matrix_row_t current_matrix[]) {
-    static matrix_row_t temp_matrix[MATRIX_ROWS] = {0};
-
-    // Read from SPI the matrix
-    spi_start(SPI_MATRIX_CHIP_SELECT_PIN, false, 0, SPI_MATRIX_DIVISOR);
-    spi_receive((uint8_t*)temp_matrix, MATRIX_SHIFT_REGISTER_COUNT * sizeof(matrix_row_t));
-    spi_stop();
-
-    // Read from the encoder pushbutton
-    // temp_matrix[5] = readPin(ENCODER_PUSHBUTTON_PIN) ? 1 : 0;
-
-    // Check if we've changed, return the last-read data
-    bool changed = memcmp(current_matrix, temp_matrix, sizeof(temp_matrix)) != 0;
-    if (changed) {
-        memcpy(current_matrix, temp_matrix, sizeof(temp_matrix));
-    }
-    return changed;
-}
 
 

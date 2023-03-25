@@ -19,7 +19,8 @@
         "type_traits": "c",
         "utility": "c",
         "ranges": "c",
-        "*.def": "c"
+        "*.def": "c",
+        "apds": "c"
     },
     "[markdown]": {
         "editor.trimAutoWhitespace": false,
