@@ -305,6 +305,23 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [_KEYPAD]          = { ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE) }
 };
 
+
+// #define BASE_ENCODERS {ENCODER_CCW_CW(KC_A, KC_B), ENCODER_CCW_CW(KC_WH_D, KC_WH_U) }
+// #ifdef ENCODER_MAP_ENABLE
+// const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
+//     [_DEFAULT_LAYER_1] = BASE_ENCODERS,
+//     [_DEFAULT_LAYER_2] = BASE_ENCODERS,
+//     [_DEFAULT_LAYER_3] = BASE_ENCODERS,
+//     [_DEFAULT_LAYER_4] = BASE_ENCODERS,
+//     [_MOUSE] = BASE_ENCODERS,
+//     [_GAMEPAD]         = BASE_ENCODERS,
+//     [_MEDIA]           = BASE_ENCODERS,
+//     [_RAISE]           = BASE_ENCODERS,
+//     [_LOWER]           = BASE_ENCODERS,
+//     [_ADJUST]          = BASE_ENCODERS,
+//     [_KEYPAD]          = BASE_ENCODERS
+// };
+
 // clang-format on
 #else
 
@@ -356,27 +373,27 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 //     pointing_device_set_cpi_on_side(true, 100); //Set cpi on left side to a low value for slower scrolling.
 //     pointing_device_set_cpi_on_side(false, 8000); //Set cpi on right side to a reasonable value for mousing.
 // }
-// uint8_t prox_threshold;
+uint8_t prox_threshold;
 
 void keyboard_post_init_keymap(void) {
     debug_enable = true;
     // debug_matrix = true;
     // debug_keyboard=true;
 
-    // adps9660_init();
-    // wait_ms(100);
-    // prox_threshold = 0;
-    // for (int i = 0; i < 10; ++i) {
-    //     uint8_t prox;
-    //     adps9660_proximity(&prox);
-    //     dprintf("initial %d\n", prox);
-    //     if (prox > prox_threshold) {
-	//         prox_threshold = prox;
-    //     }
-    //     wait_ms(20);
-    // }
-    // prox_threshold += 2;
-    // dprintf("Threshold: %d\n", prox_threshold);
+    adps9660_init();
+    wait_ms(100);
+    prox_threshold = 0;
+    for (int i = 0; i < 100; ++i) {
+        uint8_t prox;
+        adps9660_proximity(&prox);
+        dprintf("initial %d\n", prox);
+        if (prox > prox_threshold) {
+	        prox_threshold = prox;
+        }
+        wait_ms(20);
+    }
+    prox_threshold += 2;
+    dprintf("Threshold: %d\n", prox_threshold);
 }
 
 // #ifdef QUANTUM_PAINTER_ENABLE

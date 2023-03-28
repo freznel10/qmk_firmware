@@ -11,5 +11,13 @@
     },
     "rgblight": {
         "pin": "GP25"
-    }
+    },
+    "encoder": {
+        "enabled": true,
+        "rotary": [
+            // { "pin_a": "GP11", "pin_b": "GP12", "resolution": 2},
+            { "pin_a": "GP26", "pin_b": "GP27", "resolution": 1}
+        ]
+
+    },
 }

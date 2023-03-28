@@ -50,7 +50,7 @@ int adps9660_init(void) {
     return stat;
   }
 
-  data = ADPS9660_REG_CTRL1_LDRIVE(0) | ADPS9660_REG_CTRL1_PGAIN(3);
+  data = ADPS9660_REG_CTRL1_LDRIVE(0) | ADPS9660_REG_CTRL1_PGAIN(4);
   stat = i2c_writeReg(ADPS9660_ADDRESS, ADPS9660_REG_CTRL1, &data, 1, ADPS9660_TIMEOUT);
   if (stat) {
     return stat;

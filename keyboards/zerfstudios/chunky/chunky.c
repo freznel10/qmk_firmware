@@ -33,6 +33,7 @@
 #ifdef QUANTUM_PAINTER_ENABLE
 
 painter_device_t qp_display;
+extern uint8_t prox_threshold;
 
 __attribute__((weak)) void draw_ui_user(void) {}
 #endif
