@@ -28,88 +28,73 @@
 
 #define ADPS9660_REG_PDATA 0x9C
 
-int adps9660_id(uint8_t *id) {
-  i2c_status_t stat;
+void adps9660_id(uint8_t *id) {
+i2c_readReg(ADPS9660_ADDRESS, ADPS9660_REG_ID, id, 1, ADPS9660_TIMEOUT);
+//   if (stat) {
+//     return stat;
+//     dprintf("Success %d", stat);
+//   }
 
-  stat = i2c_readReg(ADPS9660_ADDRESS, ADPS9660_REG_ID, id, 1, ADPS9660_TIMEOUT);
-  if (stat) {
-    return stat;
-    dprintf("Success %d", stat);
-  }
-
-  return 0;
 }
 
-int adps9660_init(void) {
-  i2c_status_t stat;
-
+void adps9660_init(void) {
   uint8_t data = ADPS9660_REG_ENABLE_PON | ADPS9660_REG_ENABLE_AEN | ADPS9660_REG_ENABLE_PEN;
 
-  stat = i2c_writeReg(ADPS9660_ADDRESS, ADPS9660_REG_ENABLE, &data, 1, ADPS9660_TIMEOUT);
-  if (stat) {
-    return stat;
-  }
+  i2c_writeReg(ADPS9660_ADDRESS, ADPS9660_REG_ENABLE, &data, 1, ADPS9660_TIMEOUT);
 
-  data = ADPS9660_REG_CTRL1_LDRIVE(0) | ADPS9660_REG_CTRL1_PGAIN(4);
-  stat = i2c_writeReg(ADPS9660_ADDRESS, ADPS9660_REG_CTRL1, &data, 1, ADPS9660_TIMEOUT);
-  if (stat) {
-    return stat;
-  }
+  data = ADPS9660_REG_CTRL1_LDRIVE(1) | ADPS9660_REG_CTRL1_PGAIN(4);
+    i2c_writeReg(ADPS9660_ADDRESS, ADPS9660_REG_CTRL1, &data, 1, ADPS9660_TIMEOUT);
 
   data = ADPS9660_REG_CTRL2_BASE | ADPS9660_REG_CTRL2_LED_BOOST(3);
-  stat = i2c_writeReg(ADPS9660_ADDRESS, ADPS9660_REG_CTRL2, &data, 1, ADPS9660_TIMEOUT);
-  if (stat) {
-    return stat;
-  }
+    i2c_writeReg(ADPS9660_ADDRESS, ADPS9660_REG_CTRL2, &data, 1, ADPS9660_TIMEOUT);
 
-  return 0;
+  dprintf("Success");
+
+//   return 0;
 }
 
-int adps9660_proximity(uint8_t *data) {
-  i2c_status_t stat;
+void adps9660_proximity(uint8_t *data) {
 
-  stat = i2c_readReg(ADPS9660_ADDRESS, ADPS9660_REG_PDATA, data, 1, ADPS9660_TIMEOUT);
+i2c_readReg(ADPS9660_ADDRESS, ADPS9660_REG_PDATA, data, 1, ADPS9660_TIMEOUT);
 
-  if (stat) {
-    return stat;
-  }
+//   if (stat) {
+//     return stat;
+//   }
 
   //i2c_stop();
 
-  return 0;
+//   return 0;
 }
 
-int adps9660_sleep(void) {
-  i2c_status_t stat;
+void adps9660_sleep(void) {
+
 
   uint8_t data;
 
-  stat = i2c_readReg(ADPS9660_ADDRESS, ADPS9660_REG_ENABLE, &data, 1, ADPS9660_TIMEOUT);
+ i2c_readReg(ADPS9660_ADDRESS, ADPS9660_REG_ENABLE, &data, 1, ADPS9660_TIMEOUT);
 
   data &= (~ADPS9660_REG_ENABLE_PON);
+    i2c_writeReg(ADPS9660_ADDRESS, ADPS9660_REG_ENABLE, &data, 1, ADPS9660_TIMEOUT);
+//   if (stat) {
+//     return stat;
 
-  stat = i2c_writeReg(ADPS9660_ADDRESS, ADPS9660_REG_ENABLE, &data, 1, ADPS9660_TIMEOUT);
-  if (stat) {
-    return stat;
-
-  }
+//   }
   dprintf("sleep");
-  return 0;
+//   return 0;
 }
 
-int adps9660_wake(void) {
-  i2c_status_t stat;
+void adps9660_wake(void) {
 
   uint8_t data;
 
-  stat = i2c_readReg(ADPS9660_ADDRESS, ADPS9660_REG_ENABLE, &data, 1, ADPS9660_TIMEOUT);
+i2c_readReg(ADPS9660_ADDRESS, ADPS9660_REG_ENABLE, &data, 1, ADPS9660_TIMEOUT);
 
   data |= ADPS9660_REG_ENABLE_PON;
 
-  stat = i2c_writeReg(ADPS9660_ADDRESS, ADPS9660_REG_ENABLE, &data, 1, ADPS9660_TIMEOUT);
-  if (stat) {
-    return stat;
-  }
+i2c_writeReg(ADPS9660_ADDRESS, ADPS9660_REG_ENABLE, &data, 1, ADPS9660_TIMEOUT);
+//   if (stat) {
+//     return stat;
+//   }
 
-  return 0;
+//   return 0;
 }

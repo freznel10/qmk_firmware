@@ -269,7 +269,11 @@ NOTE: These are all the same length.  If you do a search/replace
 
 #define _________________RAISE_R1__________________       KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN
 #define _________________RAISE_R2__________________       KC_CAPS, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
-#define _________________RAISE_R3__________________       SELWORD, KC_HOME, KC_PGDN, KC_PGUP, KC_END
+#define _________________RAISE_R3__________________       SELWORD, KC_WWW_BACK, KC_PGDN, KC_PGUP, KC_END
+
+#define _________________EXTEND_R1_________________       KC_PGUP, KC_HOME, KC_INS,  KC_END,  KC_PRINT_SCREEN
+#define _________________EXTEND_R2_________________       KC_PGDN, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
+#define _________________EXTEND_R3_________________       SELWORD, KC_HOME, KC_PGDN, KC_PGUP, KC_END
 
 #define _________________UNICO_L1__________________       KC_WIDE, KC_SCRIPT, KC_BLOCKS, KC_REGIONAL, KC_AUSSIE
 #define _________________UNICO_R1__________________       KC_ZALGO, KC_SUPER, KC_COMIC, KC_NOMODE, UC(0x2763)

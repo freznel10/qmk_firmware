@@ -379,11 +379,11 @@ void keyboard_post_init_keymap(void) {
     debug_enable = true;
     // debug_matrix = true;
     // debug_keyboard=true;
-
+    wait_ms(100);
     adps9660_init();
     wait_ms(100);
     prox_threshold = 0;
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 10; ++i) {
         uint8_t prox;
         adps9660_proximity(&prox);
         dprintf("initial %d\n", prox);

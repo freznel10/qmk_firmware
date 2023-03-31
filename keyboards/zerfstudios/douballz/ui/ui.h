@@ -26,6 +26,9 @@ extern "C" {
 #include "fonts/eleganticons.h"
 // #include "fonts/fonts.h"
 
+#include "ui_events.h"
+void FadeIn_Animation(lv_obj_t * TargetObject, int delay);
+
 extern lv_obj_t * ui_Screen1;
 // extern lv_obj_t * ui_Screen1_Image2;
 extern lv_obj_t * ui_Screen1_Button1;
@@ -120,6 +123,8 @@ void ui_render_rgbsat_redraw(lv_event_t * e);
 void ui_render_caps_word(lv_event_t * e);
 void lvgl_event_triggers(void);
 void lv_anim_2 (lv_obj_t * TargetObject);
+void ui_event____initial_actions0(lv_event_t * e);
+extern lv_obj_t * ui____initial_actions0;
 
 
 // void lvgl_control_led_indicators(void);
@@ -180,11 +185,7 @@ LV_IMG_DECLARE(monitormund);
 #define TFT_HEIGHT 320
 #endif
 
-
-
 void ui_init(void);
-
-
 
 #ifdef __cplusplus
 } /*extern "C"*/
