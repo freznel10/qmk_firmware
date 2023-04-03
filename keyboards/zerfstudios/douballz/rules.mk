@@ -16,7 +16,6 @@ MOUSE_SHARED_EP    = yes
 AUDIO_DRIVER  = pwm_hardware
 TRI_LAYER_ENABLE = yes
 
-
 SWAP_HANDS_ENABLE = no
 EEPROM_DRIVER = i2c
 
@@ -70,9 +69,6 @@ SRC +=  ui/ui.c \
 		ui/fonts/ui_font_Futura22.c \
 		ui/fonts/ui_font_Futura24.c \
 		ui/fonts/eleganticons.c \
-
-
-
 
 QUANTUM_PAINTER_LVGL_USE_CUSTOM_CONF = yes
 CIE1931_CURVE = yes

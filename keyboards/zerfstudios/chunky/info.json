@@ -36,6 +36,9 @@
         "data_pin": "GP5",
         "clock_pin": "GP6"
     },
+    "eeprom": {
+        "driver": "i2c"
+    },
     "diode_direction": "COL2ROW",
     "matrix_pins": {
         "rows": ["NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN"],
@@ -163,9 +166,9 @@
                 { "label": "KC_TRNS", "matrix": [0, 5], "x": 0.0, "y": 8.0 },
                 { "label": "KC_TRNS", "matrix": [0, 4], "x": 1.0, "y": 8.0 },
                 { "label": "DPI-", "matrix": [0, 2], "x": 2.0, "y": 8.0 },
-                { "label": "DPI+", "matrix": [0, 3], "x": 3.0, "y": 8.0 },
-                { "label": "BOOT", "matrix": [0, 1], "x": 4.0, "y": 8.0 },
                 { "label": "KC_TRNS", "matrix": [0, 0], "x": 5.0, "y": 8.0 },
+                { "label": "BOOT", "matrix": [0, 1], "x": 4.0, "y": 8.0 },
+                { "label": "DPI+", "matrix": [0, 3], "x": 3.0, "y": 8.0 },
                 { "label": "KC_TRNS", "matrix": [0, 6], "x": 6.0, "y": 8.0 },
                 { "label": "KC_TRNS", "matrix": [0, 7], "x": 7.0, "y": 8.0 },
                 { "label": "KC_TRNS", "matrix": [6, 7], "x": 10.0, "y": 8.0 },

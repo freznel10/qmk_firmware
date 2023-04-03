@@ -35,6 +35,9 @@
         ]
 
     },
+    "eeprom": {
+        "driver": "i2c"
+    },
     "split": {
         "enabled": true,
         "encoder": {
