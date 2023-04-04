@@ -203,7 +203,6 @@ NOTE: These are all the same length.  If you do a search/replace
 #define _________________MTGAP_R2__________________       KC_M,    KC_H,    KC_T,    KC_S,    KC_R,    KC_QUOTE
 #define _________________MTGAP_R3__________________       KC_B,    KC_F,    KC_G,    KC_V,    KC_X
 
-
 #define _________________MINIMAK_L1________________       KC_Q,    KC_W,    KC_D,    KC_R,    KC_K
 #define _________________MINIMAK_L2________________       KC_A,    KC_S,    KC_T,    KC_F,    KC_G
 #define _________________MINIMAK_L3________________       KC_Z,    KC_X,    KC_C,    KC_V,    KC_B
@@ -211,7 +210,6 @@ NOTE: These are all the same length.  If you do a search/replace
 #define _________________MINIMAK_R1________________       KC_Y,    KC_U,    KC_I,    KC_O,    KC_P
 #define _________________MINIMAK_R2________________       KC_H,    KC_J,    KC_E,    KC_L,    KC_SCLN, KC_QUOT
 #define _________________MINIMAK_R3________________       KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH
-
 
 #define ________________MINIMAK_8_L1_______________       KC_Q,    KC_W,    KC_D,    KC_R,    KC_K
 #define ________________MINIMAK_8_L2_______________       KC_A,    KC_S,    KC_T,    KC_F,    KC_G
@@ -221,7 +219,6 @@ NOTE: These are all the same length.  If you do a search/replace
 #define ________________MINIMAK_8_R2_______________       KC_H,    KC_N,    KC_E,    KC_O,    KC_SCLN, KC_QUOT
 #define ________________MINIMAK_8_R3_______________       KC_J,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH
 
-
 #define _______________MINIMAK_12_L1_______________       KC_Q,    KC_W,    KC_D,    KC_F,    KC_K
 #define _______________MINIMAK_12_L2_______________       KC_A,    KC_S,    KC_T,    KC_R,    KC_G
 #define _______________MINIMAK_12_L3_______________       KC_Z,    KC_X,    KC_C,    KC_V,    KC_B
@@ -230,12 +227,10 @@ NOTE: These are all the same length.  If you do a search/replace
 #define _______________MINIMAK_12_R2_______________       KC_H,    KC_N,    KC_E,    KC_O,    KC_P,    KC_QUOT
 #define _______________MINIMAK_12_R3_______________       KC_J,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH
 
-
 #define ________________NUMBER_LEFT________________       KC_1,    KC_2,    KC_3,    KC_4,    KC_5
 #define ________________NUMBER_RIGHT_______________       KC_6,    KC_7,    KC_8,    KC_9,    KC_0
 #define _________________FUNC_LEFT_________________       KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5
 #define _________________FUNC_RIGHT________________       KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10
-
 
 #define ________________NUMPAD1_LEFT_______________       KC_PAST,   KC_P7,   KC_P8,   KC_P9,   KC_PPLS
 #define ________________NUMPAD2_LEFT_______________       KC_PSLS,  KC_P4,   KC_P5,   KC_P6,   KC_PMNS
@@ -261,8 +256,6 @@ NOTE: These are all the same length.  If you do a search/replace
 #define _________________LOWER_R1_ALT______________       _______, KC_HOME, KC_PGDN,  KC_PGUP, KC_END
 #define _________________LOWER_R3__________________       _______, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR
 
-
-
 #define _________________RAISE_L1__________________       KC_CIRC, KC_AT,   KC_EXLM, KC_QUES, KC_PERC
 #define _________________RAISE_L2__________________       LGUI_T(KC_GRAVE), LALT_T(KC_MINUS), KC_PLUS, LSFT_T(KC_EQUAL), KC_UNDS
 #define _________________RAISE_L3__________________       KC_LCBR, KC_LBRC, KC_NUHS, KC_RBRC, KC_RCBR
@@ -286,8 +279,6 @@ NOTE: These are all the same length.  If you do a search/replace
 #define _________________ADJUST_R2_________________       CG_SWAP, DEFLYR1, DEFLYR2, DEFLYR3, DEFLYR4
 #define _________________ADJUST_R3_________________       HF_RST, KC_MUTE, KC_VOLD, HF_CONT, HF_CONU
 
-// clang-format on
-
 #define ______________COLEMAK_MOD_DH_Q1____________       KC_Q,         KC_W,         KC_F,         KC_P,         KC_B
 #define ______________COLEMAK_MOD_DH_Q2____________       LGUI_T(KC_A), LALT_T(KC_R), LCTL_T(KC_S), LSFT_T(KC_T), KC_G
 #define ______________COLEMAK_MOD_DH_Q3____________       LCTL_T(KC_Z),         KC_X,         KC_C,         KC_D,         KC_V
@@ -295,3 +286,6 @@ NOTE: These are all the same length.  If you do a search/replace
 #define ______________COLEMAK_MOD_DH_W1____________       KC_J,    KC_L,         KC_U,         KC_Y,         KC_SCLN
 #define ______________COLEMAK_MOD_DH_W2____________       KC_M,    RSFT_T(KC_N), RCTL_T(KC_E), RALT_T(KC_I), RGUI_T(KC_O),    KC_QUOT
 #define ______________COLEMAK_MOD_DH_W3____________       KC_K,    KC_H,         KC_COMM,      KC_DOT,       RCTL_T(KC_SLASH)
+
+// clang-format on
+

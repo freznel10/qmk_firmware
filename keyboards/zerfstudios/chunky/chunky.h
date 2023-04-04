@@ -19,14 +19,14 @@
 
 #pragma once
 
-// #if defined(KEYBOARD_zerfstudios_chunky_rev1)
-// #    include "rev1.h"
-// #elif defined(KEYBOARD_zerfstudios_douballz_rev2)
-// #    include "rev2.h"
-// #else
-// #    error "Unsuported format"
-// #endif
-// // clang-format on
+#if defined(KEYBOARD_zerfstudios_chunky_rev1)
+#    include "rev1.h"
+#elif defined(KEYBOARD_zerfstudios_chunky_rev2)
+#    include "rev2.h"
+#else
+#    error "Unsuported format"
+#endif
+// clang-format on
 
 #include "quantum.h"
 

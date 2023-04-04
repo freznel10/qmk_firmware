@@ -1,7 +1,8 @@
 KEYBOARD_SHARED_EP = yes   # Free up some extra endpoints - needed if console+mouse
 MIDI_ENABLE = yes
 POINTING_DEVICE_ENABLE = yes
-POINTING_DEVICE_DRIVER = cirque_pinnacle_spi
+# POINTING_DEVICE_DRIVER = cirque_pinnacle_spi
+POINTING_DEVICE_DRIVER = pmw3360
 # PS2_ENABLE = yes
 # PS2_MOUSE_ENABLE = yes
 # PS2_DRIVER = vendor
@@ -22,6 +23,7 @@ COMBO_ENABLE = yes
 VPATH += keyboards/gboards
 
 CAPS_WORD_ENABLE = yes
+PER_KEY_TAPPING = yes
 # CUSTOM_UNICODE_ENABLE = yes
 
 DEFERRED_EXEC_ENABLE             = yes

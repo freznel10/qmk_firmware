@@ -42,6 +42,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    include "analog.h"
 #    include "drivers/sensors/analog_joystick.h"
 #    define POINTING_DEVICE_MOTION_PIN_ACTIVE_LOW
+#elif defined(POINTING_DEVICE_DRIVER_ps2_trackpoint)
+#    include "drivers/ps2/ps2.h"
+#    include "drivers/ps2/ps2_mouse.h"
 #elif defined(POINTING_DEVICE_DRIVER_cirque_pinnacle_i2c) || defined(POINTING_DEVICE_DRIVER_cirque_pinnacle_spi)
 #    include "drivers/sensors/cirque_pinnacle.h"
 #    include "drivers/sensors/cirque_pinnacle_gestures.h"

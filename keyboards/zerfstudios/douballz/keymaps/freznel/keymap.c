@@ -68,9 +68,9 @@ enum custom_keycodes {
 ) \
     LAYOUT_4x6_wrapper( \
     KC_MINUS,  ________________NUMBER_LEFT________________,                                                                  ________________NUMBER_RIGHT_______________, KC_EQUAL,\
-    CTLGRVE,         K01,         K02,          K03,           K04,        K05,                                            K06,     K07,     K08,     K09,     K0A,   BSP_KEY, \
-    OSM(MOD_LSFT), LGUI_T(K11), LALT_T(K12),  LCTL_T(K13),   LSFT_T(K14),         K15,                                            K16,     RSFT_T(K17),     RCTL_T(K18),     RALT_T(K19),     RGUI_T(K1A),     RALT_T(K1B), \
-    LALT_T(KC_DEL), LCTL_T(K21),  K22,          K23,            K24,        K25,        ST_MACRO_5,          ALT_TAB,        K26,     K27,     K28,     K29, RCTL_T(K2A), KC_BSLS, \
+    CTLGRVE,        K01,         K02,          K03,           K04,          K05,                                            K06,     K07,     K08,     K09,     K0A,   BSP_KEY, \
+    OSM(MOD_LSFT),  LGUI_T(K11), LALT_T(K12),  LCTL_T(K13),   LSFT_T(K14),  K15,                                            K16,     RSFT_T(K17),     RCTL_T(K18),     RALT_T(K19),     RGUI_T(K1A),     RALT_T(K1B), \
+    LALT_T(KC_DEL), LCTL_T(K21), K22,          K23,           K24,          K25,        ST_MACRO_5,          ALT_TAB,       K26,     K27,     K28,     K29, RCTL_T(K2A), KC_BSLS, \
                                                             TAB_RSE,        SPC_LSH,    ENT_LWR,            ESC_LWR,        BSP_KEY,    DEL_RSE,\
                                                                             QK_PM_CYCLE_DEVICES,    PM_TG(0),            PM_TG(PM_VOL), PM_TG(PM_CARET),\
                                                             DPI_RMOD,      AM_TOGGLE,   DPI_MOD,            RGB_RMOD,       KC_RGB_T,    RGB_MOD,\
@@ -144,8 +144,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                             _______,    _______,                            _______,    _______
     ),
     [_KEYPAD] = LAYOUT_4x6_wrapper(
-        QK_MAKE,        _________________UNICO_L1__________________,                                                   _________________UNICO_R1__________________,    KC_WIDE,
-        EE_CLR,         ________________NUMPAD1_LEFT_______________,                                                     _________________ADJUST_R1_________________,   UC_TABL,
+        QK_MAKE,        _________________UNICO_L1__________________,                                                    _________________UNICO_R1__________________,    KC_WIDE,
+        EE_CLR,         ________________NUMPAD1_LEFT_______________,                                                    _________________ADJUST_R1_________________,   UC_TABL,
         KC_NUM_LOCK,    ________________NUMPAD2_LEFT_______________,                                                    _________________ADJUST_R2_________________,    UC_SHRG,
         UC(0x1dfc),     ________________NUMPAD3_LEFT_______________,    LVGL_ENCODER_BUTTON,       LVGL_ENCODER_BUTTON, _________________ADJUST_R3_________________,    KC_MPLY,
                                                             KC_BSPC,    DPI_MOD,    DPI_RMOD,   DRGSCRL,        DQT,    _______,
@@ -163,13 +163,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                             _______,    AM_TOGGLE,    _______,    _______,    _______,    _______,
                                                             _______,    _______,                            _______,    _______
     )
-
-
 };
+
 bool auto_mouse_activation(report_mouse_t mouse_report) {
     return mouse_report.x != 0 || mouse_report.y != 0 || mouse_report.h != 0 || mouse_report.v != 0 || mouse_report.buttons || (get_toggled_pointing_mode_id() == 3);
 }
-
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
   // If console is enabled, it will print the matrix position and status of each key pressed
@@ -180,25 +178,22 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case ST_MACRO_0:
     if (record->event.pressed) {
-      SEND_STRING(SS_RGUI(SS_TAP(X_2)));
-
+        SEND_STRING(SS_RGUI(SS_TAP(X_2)));
     }
     break;
     case ST_MACRO_1:
     if (record->event.pressed) {
-      SEND_STRING(SS_TAP(X_MINUS) SS_DELAY(100) SS_LCTL(SS_TAP(X_V)));
-
+        SEND_STRING(SS_TAP(X_MINUS) SS_DELAY(100) SS_LCTL(SS_TAP(X_V)));
     }
     break;
     case ST_MACRO_2:
     if (record->event.pressed) {
-      SEND_STRING(SS_TAP(X_BTN1) SS_TAP(X_END) SS_DELAY(100) SS_LCTL(SS_LSFT (SS_TAP(X_LEFT) SS_TAP(X_LEFT))) SS_DELAY(100) SS_LCTL("c"));
+        SEND_STRING(SS_TAP(X_BTN1) SS_TAP(X_END) SS_DELAY(100) SS_LCTL(SS_LSFT (SS_TAP(X_LEFT) SS_TAP(X_LEFT))) SS_DELAY(100) SS_LCTL("c"));
     }
     break;
     case ST_MACRO_3:
     if (record->event.pressed) {
-      SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_DOWN))));
-
+        SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_DOWN))));
     }
     break;
     case ST_MACRO_4:
