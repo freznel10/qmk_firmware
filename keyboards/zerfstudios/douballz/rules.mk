@@ -11,7 +11,7 @@ RGBLIGHT_ENABLE = no      # Enable keyboard RGB underglow
 KEYBOARD_SHARED_EP = yes   # Free up some extra endpoints - needed if console+mouse
 MIDI_ENABLE = yes
 POINTING_DEVICE_ENABLE = yes
-POINTING_DEVICE_DRIVER = pmw3360
+POINTING_DEVICE_DRIVERS += pmw3360
 MOUSE_SHARED_EP    = yes
 AUDIO_DRIVER  = pwm_hardware
 TRI_LAYER_ENABLE = yes
@@ -38,6 +38,8 @@ ENCODER_MAP_ENABLE               = yes
 SWAP_HANDS_ENABLE                = no
 
 CUSTOM_SPLIT_TRANSPORT_SYNC = yes
+
+PER_KEY_TAPPING  = yes
 
 # HAPTIC_ENABLE = yes			# Enable Pimoroni Haptic Bzzz LRA (+1192)
 HAPTIC_DRIVER += DRV2605L

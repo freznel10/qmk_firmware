@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
 #    include "pointing_device_auto_mouse.h"
 #endif
+
 #ifdef POINTING_DEVICE_MODES_ENABLE
 #    include "pointing_device_modes.h"
 #endif
@@ -129,21 +130,11 @@ typedef struct {
 #ifdef MOUSE_EXTENDED_REPORT
 #    define XY_REPORT_MIN INT16_MIN
 #    define XY_REPORT_MAX INT16_MAX
-typedef int32_t clamp_xy_range_t;
+typedef int32_t clamp_range_t;
 #else
 #    define XY_REPORT_MIN INT8_MIN
 #    define XY_REPORT_MAX INT8_MAX
-typedef int16_t clamp_xy_range_t;
-#endif
-
-#ifdef MOUSE_SCROLL_EXTENDED_REPORT
-#    define HV_REPORT_MIN INT16_MIN
-#    define HV_REPORT_MAX INT16_MAX
-typedef int32_t clamp_hv_range_t;
-#else
-#    define HV_REPORT_MIN INT8_MIN
-#    define HV_REPORT_MAX INT8_MAX
-typedef int16_t clamp_hv_range_t;
+typedef int16_t clamp_range_t;
 #endif
 
 #define POINTING_DEVICE_NO_MOTION_PIN \

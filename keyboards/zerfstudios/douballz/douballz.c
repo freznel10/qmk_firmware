@@ -116,33 +116,62 @@ static uint16_t get_pointer_default_dpi(charybdis_config_t* config) { return (ui
 /** \brief Return the current value of the pointer's sniper-mode DPI. */
 static uint16_t get_pointer_sniping_dpi(charybdis_config_t* config) { return (uint16_t)config->pointer_sniping_dpi * CHARYBDIS_SNIPING_DPI_CONFIG_STEP + CHARYBDIS_MINIMUM_SNIPING_DPI; }
 
+// /** \brief Set the appropriate DPI for the input config. */
+// static void maybe_update_pointing_device_cpi(charybdis_config_t* config) {
+//     if (is_keyboard_left()) {
+//         if (user_state.split_pointing_mode == PM_DRAG) {
+//             pointing_device_set_cpi_on_side(true, CHARYBDIS_DRAGSCROLL_DPI);
+//             pointing_device_set_cpi_on_side(false, CHARYBDIS_DRAGSCROLL_DPI);
+//         } else if (user_state.split_pointing_mode == PM_PRECISION) {
+//             pointing_device_set_cpi_on_side(true,get_pointer_sniping_dpi(config));
+//             pointing_device_set_cpi_on_side(false,get_pointer_sniping_dpi(config));
+//             dprintf("testing");
+//         } else {
+//             pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
+//             pointing_device_set_cpi_on_side(false, get_pointer_default_dpi(config));
+//         }
+//     } else {
+//         if (user_state.split_pointing_mode == PM_DRAG) {
+//             pointing_device_set_cpi_on_side(true, CHARYBDIS_DRAGSCROLL_DPI);
+//             pointing_device_set_cpi(CHARYBDIS_DRAGSCROLL_DPI);
+//         } else if (user_state.split_pointing_mode == PM_PRECISION) {
+//             pointing_device_set_cpi_on_side(true,get_pointer_sniping_dpi(config));
+//             pointing_device_set_cpi(get_pointer_sniping_dpi(config));
+//         } else {
+//             pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
+//             pointing_device_set_cpi(get_pointer_default_dpi(config));
+//         }
+//     }
+// }
+
 /** \brief Set the appropriate DPI for the input config. */
 static void maybe_update_pointing_device_cpi(charybdis_config_t* config) {
     if (is_keyboard_left()) {
         if (user_state.split_pointing_mode == PM_DRAG) {
-            pointing_device_set_cpi_on_side(true, CHARYBDIS_DRAGSCROLL_DPI);
-            pointing_device_set_cpi_on_side(false, CHARYBDIS_DRAGSCROLL_DPI);
+            pointing_device_set_cpi_by_index(CHARYBDIS_DRAGSCROLL_DPI, 0);
+            pointing_device_set_cpi_by_index(CHARYBDIS_DRAGSCROLL_DPI, 1);
         } else if (user_state.split_pointing_mode == PM_PRECISION) {
-            pointing_device_set_cpi_on_side(true,get_pointer_sniping_dpi(config));
-            pointing_device_set_cpi_on_side(false,get_pointer_sniping_dpi(config));
+            pointing_device_set_cpi_by_index(get_pointer_sniping_dpi(config), 0);
+            pointing_device_set_cpi_by_index(get_pointer_sniping_dpi(config), 1);
             dprintf("testing");
         } else {
-            pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
-            pointing_device_set_cpi_on_side(false, get_pointer_default_dpi(config));
+            pointing_device_set_cpi_by_index(get_pointer_default_dpi(config), 0);
+            pointing_device_set_cpi_by_index(get_pointer_default_dpi(config), 1);
         }
     } else {
         if (user_state.split_pointing_mode == PM_DRAG) {
-            pointing_device_set_cpi_on_side(true, CHARYBDIS_DRAGSCROLL_DPI);
-            pointing_device_set_cpi(CHARYBDIS_DRAGSCROLL_DPI);
+            pointing_device_set_cpi_by_index(CHARYBDIS_DRAGSCROLL_DPI, 0);
+            pointing_device_set_cpi_by_index(CHARYBDIS_DRAGSCROLL_DPI, 1);
         } else if (user_state.split_pointing_mode == PM_PRECISION) {
-            pointing_device_set_cpi_on_side(true,get_pointer_sniping_dpi(config));
-            pointing_device_set_cpi(get_pointer_sniping_dpi(config));
+            pointing_device_set_cpi_by_index(get_pointer_sniping_dpi(config), 0);
+            pointing_device_set_cpi_by_index(get_pointer_sniping_dpi(config), 1);
         } else {
-            pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
-            pointing_device_set_cpi(get_pointer_default_dpi(config));
+            pointing_device_set_cpi_by_index(get_pointer_default_dpi(config), 0);
+            pointing_device_set_cpi_by_index(get_pointer_default_dpi(config), 1);
         }
     }
 }
+
 
 // static void maybe_update_pointing_device_cpi(charybdis_config_t* config) {
 //     if (config->is_dragscroll_enabled) {
@@ -664,3 +693,11 @@ void housekeeping_task_kb(void) {
 //     matrix_scan_sub_kb();
 //     matrix_scan_user();
 // }
+
+const pointing_device_spi_config_t pmw3360_config_spi_default_left = {.cs = PMW33XX_CS_PIN, .mode = 3, .divisor = PMW33XX_SPI_DIVISOR};
+const pointing_device_spi_config_t pmw3360_config_spi_default_right = {.cs = PMW33XX_CS_PIN_RIGHT, .mode = 3, .divisor = PMW33XX_SPI_DIVISOR};
+
+const pointing_device_config_t pointing_device_configs[POINTING_DEVICE_COUNT] = {
+    // {.driver = &pmw3360_driver_spi_default, .config = &pmw3360_config_spi_default_left, .throttle = 1, .invert = INVERT_X},
+    {.driver = &pmw3360_driver_spi_default, .config = &pmw3360_config_spi_default_right, .throttle = 1, .invert = INVERT_X}
+};

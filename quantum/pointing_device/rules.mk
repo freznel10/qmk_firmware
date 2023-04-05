@@ -10,7 +10,8 @@ COMMON_VPATH += $(QUANTUM_DIR)/pointing_device
 COMMON_VPATH += $(DRIVER_PATH)/sensors
 SRC += $(QUANTUM_DIR)/pointing_device/pointing_device.c
 SRC += $(QUANTUM_DIR)/pointing_device/pointing_device_auto_mouse.c
-
+SRC += $(QUANTUM_DIR)/pointing_device/pointing_device_modes.c
+SRC += $(QUANTUM_DIR)/process_keycode/process_pointing_mode_records.c
 # Comms flags
 POINTING_DEVICE_NEEDS_COMMS_I2C ?= no
 POINTING_DEVICE_NEEDS_COMMS_SPI ?= no
@@ -21,7 +22,7 @@ define handle_pointing_device_drivers
 
     ifeq ($$(filter $$(strip $1),$$(VALID_POINTING_DEVICE_DRIVERS)),)
         $$(error "$1" is not a valid pointing driver)
-    else 
+    else
         ifeq ($$(filter $$(strip $1), custom_i2c custom_spi),)
             SRC += $(DRIVER_PATH)/sensors/$$(strip $1).c
             OPT_DEFS += -DPOINTING_DEVICE_DRIVER_$$(strip $$(shell echo $1 | tr '[:lower:]' '[:upper:]'))
