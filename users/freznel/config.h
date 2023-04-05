@@ -121,18 +121,18 @@
 #    define ONESHOT_TIMEOUT 3000
 #endif  // !ONESHOT_TIMEOUT
 
-#if defined(PER_KEY_TAPPING)
-#    define PERMISSIVE_HOLD_PER_KEY
-#    define QUICK_TAP_TERM_PER_KEY
-#    define HOLD_ON_OTHER_KEY
-#    define RETRO_TAPPING_PER_KEY
-#    define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
-#    define TAPPING_TERM_PER_KEY
-#else
-#    define IGNORE_MOD_TAP_INTERRUPT
-#    undef PERMISSIVE_HOLD
-#endif
-#define AUTO_MOUSE_DEFAULT_LAYER 4
+// #if defined(PER_KEY_TAPPING)
+// #    define PERMISSIVE_HOLD_PER_KEY
+// #    define QUICK_TAP_TERM_PER_KEY
+// #    define HOLD_ON_OTHER_KEY
+// #    define RETRO_TAPPING_PER_KEY
+// #    define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
+// #    define TAPPING_TERM_PER_KEY
+// #else
+// #    define IGNORE_MOD_TAP_INTERRUPT
+// #    undef PERMISSIVE_HOLD
+// #endif
+// #define AUTO_MOUSE_DEFAULT_LAYER 4
 
 #ifndef TAPPING_TOGGLE
 #    define TAPPING_TOGGLE 1
