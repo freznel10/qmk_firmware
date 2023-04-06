@@ -464,4 +464,30 @@ void matrix_output_unselect_delay(uint8_t line, bool key_pressed) {
     }
 }
 
+bool is_keyboard_left(void) {
+    static enum { UNKNOWN, LEFT, RIGHT } side = UNKNOWN;
+
+    if (side == UNKNOWN) {
+#if defined(SPLIT_HAND_PIN)
+        // Test pin SPLIT_HAND_PIN for High/Low, if low it's right hand
+#    ifdef SPLIT_HAND_PIN_LOW_IS_LEFT
+        side = !readPin(SPLIT_HAND_PIN) ? LEFT : RIGHT;
+#    else
+        side = readPin(SPLIT_HAND_PIN) ? LEFT : RIGHT;
+#    endif
+#elif defined(SPLIT_HAND_MATRIX_GRID)
+#    ifdef SPLIT_HAND_MATRIX_GRID_LOW_IS_RIGHT
+        side = peek_matrix_intersection(SPLIT_HAND_MATRIX_GRID) ? LEFT : RIGHT;
+#    else
+        side = !peek_matrix_intersection(SPLIT_HAND_MATRIX_GRID) ? LEFT : RIGHT;
+#    endif
+#elif defined(EE_HANDS)
+        side = eeconfig_read_handedness() ? LEFT : RIGHT;
+#elif defined(MASTER_RIGHT)
+        side = !is_keyboard_master() ? LEFT : RIGHT;
+#endif
+    }
+
+    return (side == LEFT);
+}
 
