@@ -33,7 +33,6 @@
         "rotary": [
             { "pin_a": "GP10", "pin_b": "GP11", "resolution": 2}
         ]
-
     },
     "eeprom": {
         "driver": "i2c"

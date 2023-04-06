@@ -146,30 +146,30 @@ static uint16_t get_pointer_sniping_dpi(charybdis_config_t* config) { return (ui
 
 /** \brief Set the appropriate DPI for the input config. */
 static void maybe_update_pointing_device_cpi(charybdis_config_t* config) {
-    if (is_keyboard_left()) {
-        if (user_state.split_pointing_mode == PM_DRAG) {
-            pointing_device_set_cpi_by_index(CHARYBDIS_DRAGSCROLL_DPI, 0);
-            pointing_device_set_cpi_by_index(CHARYBDIS_DRAGSCROLL_DPI, 1);
-        } else if (user_state.split_pointing_mode == PM_PRECISION) {
-            pointing_device_set_cpi_by_index(get_pointer_sniping_dpi(config), 0);
-            pointing_device_set_cpi_by_index(get_pointer_sniping_dpi(config), 1);
-            dprintf("testing");
-        } else {
-            pointing_device_set_cpi_by_index(get_pointer_default_dpi(config), 0);
-            pointing_device_set_cpi_by_index(get_pointer_default_dpi(config), 1);
-        }
-    } else {
-        if (user_state.split_pointing_mode == PM_DRAG) {
-            pointing_device_set_cpi_by_index(CHARYBDIS_DRAGSCROLL_DPI, 0);
-            pointing_device_set_cpi_by_index(CHARYBDIS_DRAGSCROLL_DPI, 1);
-        } else if (user_state.split_pointing_mode == PM_PRECISION) {
-            pointing_device_set_cpi_by_index(get_pointer_sniping_dpi(config), 0);
-            pointing_device_set_cpi_by_index(get_pointer_sniping_dpi(config), 1);
-        } else {
-            pointing_device_set_cpi_by_index(get_pointer_default_dpi(config), 0);
-            pointing_device_set_cpi_by_index(get_pointer_default_dpi(config), 1);
-        }
-    }
+    // if (is_keyboard_left()) {
+    //     if (user_state.split_pointing_mode == PM_DRAG) {
+    //         pointing_device_set_cpi_by_index(CHARYBDIS_DRAGSCROLL_DPI, 0);
+    //         pointing_device_set_cpi_by_index(CHARYBDIS_DRAGSCROLL_DPI, 1);
+    //     } else if (user_state.split_pointing_mode == PM_PRECISION) {
+    //         pointing_device_set_cpi_by_index(get_pointer_sniping_dpi(config), 0);
+    //         pointing_device_set_cpi_by_index(get_pointer_sniping_dpi(config), 1);
+    //         dprintf("testing");
+    //     } else {
+    //         pointing_device_set_cpi_by_index(get_pointer_default_dpi(config), 0);
+    //         pointing_device_set_cpi_by_index(get_pointer_default_dpi(config), 1);
+    //     }
+    // } else {
+    //     if (user_state.split_pointing_mode == PM_DRAG) {
+    //         pointing_device_set_cpi_by_index(CHARYBDIS_DRAGSCROLL_DPI, 0);
+    //         pointing_device_set_cpi_by_index(CHARYBDIS_DRAGSCROLL_DPI, 1);
+    //     } else if (user_state.split_pointing_mode == PM_PRECISION) {
+    //         pointing_device_set_cpi_by_index(get_pointer_sniping_dpi(config), 0);
+    //         pointing_device_set_cpi_by_index(get_pointer_sniping_dpi(config), 1);
+    //     } else {
+    //         pointing_device_set_cpi_by_index(get_pointer_default_dpi(config), 0);
+    //         pointing_device_set_cpi_by_index(get_pointer_default_dpi(config), 1);
+    //     }
+    // }
 }
 
 
@@ -556,7 +556,10 @@ void keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data){
 void keyboard_post_init_kb(void) {
     maybe_update_pointing_device_cpi(&g_charybdis_config);
     transaction_register_rpc(RPC_ID_KB_CONFIG_SYNC, charybdis_config_sync_handler);
+    pointing_device_set_cpi(800);
     // Reset the initial shared data value between master and slave
+    // debug_keyboard = true;
+    // debug_mouse = true;
     memset(&g_charybdis_config, 0, sizeof(g_charybdis_config));
     wait_ms(50);
         if (is_keyboard_left()) {
@@ -667,13 +670,13 @@ void housekeeping_task_kb(void) {
     if (peripherals_on) {
         backlight_enable();
         rgb_matrix_enable_noeeprom();
-        lvgl_event_triggers();
+        // lvgl_event_triggers();
     } else {
          backlight_disable();
         rgb_matrix_disable_noeeprom();
     }
     #endif
-    // lvgl_event_triggers();
+    lvgl_event_triggers();
     // no need for user function, is called already
 }
 
@@ -694,10 +697,10 @@ void housekeeping_task_kb(void) {
 //     matrix_scan_user();
 // }
 
-const pointing_device_spi_config_t pmw3360_config_spi_default_left = {.cs = PMW33XX_CS_PIN, .mode = 3, .divisor = PMW33XX_SPI_DIVISOR};
-const pointing_device_spi_config_t pmw3360_config_spi_default_right = {.cs = PMW33XX_CS_PIN_RIGHT, .mode = 3, .divisor = PMW33XX_SPI_DIVISOR};
+const pointing_device_spi_config_t pmw3360_config_spi_left = {.cs = PMW33XX_CS_PIN, .mode = 3, .divisor = PMW33XX_SPI_DIVISOR};
+const pointing_device_spi_config_t pmw3360_config_spi_right = {.cs = PMW33XX_CS_PIN_RIGHT, .mode = 3, .divisor = PMW33XX_SPI_DIVISOR};
 
 const pointing_device_config_t pointing_device_configs[POINTING_DEVICE_COUNT] = {
-    // {.driver = &pmw3360_driver_spi_default, .config = &pmw3360_config_spi_default_left, .throttle = 1, .invert = INVERT_X},
-    {.driver = &pmw3360_driver_spi_default, .config = &pmw3360_config_spi_default_right, .throttle = 1, .invert = INVERT_X}
+    {.driver = &pmw3360_driver_spi_default, .config = &pmw3360_config_spi_left, .throttle = 10, .side = LEFT, .invert = INVERT_X},
+    {.driver = &pmw3360_driver_spi_default, .config = &pmw3360_config_spi_right, .throttle = 10, .side = RIGHT, .invert = INVERT_X}
 };

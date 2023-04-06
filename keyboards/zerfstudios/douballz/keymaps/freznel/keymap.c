@@ -333,9 +333,12 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 #endif
 // bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 //   // If console is enabled, it will print the matrix position and status of each key pressed
-// #ifdef CONSOLE_ENABLE
-//     uprintf("KL: kc: %u, col: %u, row: %u, pressed: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed);
-// #endif
+// // #ifdef CONSOLE_ENABLE
+// //     uprintf("KL: kc: %u, col: %u, row: %u, pressed: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed);
+// // #endif
+//     debug_keyboard = true;
+//     debug_mouse = true;
+
 //   return true;
 // }
 
