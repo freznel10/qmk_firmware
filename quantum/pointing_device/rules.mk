@@ -75,3 +75,9 @@ ifeq ($(strip $(POINTING_DEVICE_NEEDS_COMMS_I2C)), yes)
     OPT_DEFS += -DSTM32_SPI -DHAL_USE_I2C=TRUE
     QUANTUM_LIB_SRC += i2c_master.c
 endif
+
+# If I2C comms is needed, set up the required files
+ifeq ($(strip $(POINTING_DEVICE_NEEDS_COMMS_I2C)), yes)
+    OPT_DEFS += -DSTM32_SPI -DHAL_USE_I2C=TRUE
+    QUANTUM_LIB_SRC += i2c_master.c
+endif
