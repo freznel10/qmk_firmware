@@ -39,7 +39,7 @@
         "driver": "i2c"
     },
     "matrix_pins": {
-        "rows": ["NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN"],
+        "rows": ["NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN"],
         "cols": ["NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN"]
     },
     "encoder": {

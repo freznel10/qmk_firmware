@@ -497,16 +497,15 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
 
 // #include "combos.c"
 
-void matrix_io_delay(void) {
-    __asm__ volatile("nop\nnop\nnop\n");
-}
+// void matrix_io_delay(void) {
+//     __asm__ volatile("nop\nnop\nnop\n");
+// }
 
-void matrix_output_unselect_delay(uint8_t line, bool key_pressed) {
-    for (int32_t i = 0; i < 40; i++) {
-        __asm__ volatile("nop" ::: "memory");
-    }
-}
-
+// void matrix_output_unselect_delay(uint8_t line, bool key_pressed) {
+//     for (int32_t i = 0; i < 40; i++) {
+//         __asm__ volatile("nop" ::: "memory");
+//     }
+// }
 
 void matrix_init_custom(void) {
     // SPI Matrix
