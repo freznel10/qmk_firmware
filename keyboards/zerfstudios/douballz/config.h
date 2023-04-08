@@ -25,7 +25,7 @@
 #define SPLIT_HAND_PIN  GP4
 // #define USB_VBUS_PIN   GP13
 
-#define RGB_DI_PIN      GP25
+#define WS2812_DI_PIN      GP25
 #define WS2812_PIO_USE_PIO0
 
 #ifdef RGB_MATRIX_ENABLE

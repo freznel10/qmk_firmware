@@ -38,7 +38,6 @@
     "eeprom": {
         "driver": "i2c"
     },
-    "diode_direction": "COL2ROW",
     "matrix_pins": {
         "rows": ["NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN"],
         "cols": ["NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN"]
@@ -261,6 +260,7 @@
         ]
     },
     "ws2812": {
-        "driver": "vendor"
+        "driver": "vendor",
+        "pin": "GP25"
     }
 }

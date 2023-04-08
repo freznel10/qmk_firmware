@@ -552,7 +552,7 @@ void keyboard_post_init_kb(void) {
     wait_ms(50);
 
     keyboard_post_init_user();
-    ui_init();
+    // ui_init();
 
 }
 
@@ -591,7 +591,7 @@ void housekeeping_task_kb(void) {
     if (peripherals_on) {
         backlight_level_noeeprom(3);
         rgb_matrix_enable_noeeprom();
-        lvgl_event_triggers();
+        // lvgl_event_triggers();
     } else {
         backlight_level_noeeprom(0);
         rgb_matrix_disable_noeeprom();

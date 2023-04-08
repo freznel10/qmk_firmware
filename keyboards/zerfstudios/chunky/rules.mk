@@ -16,7 +16,6 @@ EEPROM_DRIVER = i2c
 
 SERIAL_DRIVER = vendor
 
-WS2812_DRIVER = vendor
 CUSTOM_MATRIX = lite
 
 COMBO_ENABLE = yes

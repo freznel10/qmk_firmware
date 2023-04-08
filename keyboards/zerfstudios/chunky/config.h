@@ -15,8 +15,7 @@
 
 /* RGB configuration*/
 #ifdef RGB_MATRIX_ENABLE
-    #define RGB_DI_PIN GP25
-    #define WS2812_PIO_USE_PIO1
+    #define WS2812_PIO_USE_PIO0
     #define RGB_MATRIX_LED_COUNT 68
 #endif
 
