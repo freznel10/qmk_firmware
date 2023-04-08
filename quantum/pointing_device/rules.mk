@@ -2,7 +2,7 @@
 POINTING_DEVICE_DRIVERS ?=
 
 # The list of permissible drivers that can be listed in POINTING_DEVICE_DRIVERS
-VALID_POINTING_DEVICE_DRIVERS := adns5050 adns9800 analog_joystick azoteq_iqs5xx cirque_pinnacle_i2c cirque_pinnacle_spi paw3204 pmw3360 pmw3389 pimoroni_trackball custom_i2c custom_spi
+VALID_POINTING_DEVICE_DRIVERS := adns5050 adns9800 analog_joystick azoteq_iqs5xx cirque_pinnacle_i2c cirque_pinnacle_spi paw3204 pmw3360 pmw3389 pimoroni_trackball ps2_trackpoint custom_i2c custom_spi
 
 OPT_DEFS += -DPOINTING_DEVICE_ENABLE
 MOUSE_ENABLE := yes
@@ -46,6 +46,13 @@ define handle_pointing_device_drivers
         SRC += $(DRIVER_PATH)/sensors/cirque_pinnacle.c
         SRC += $(DRIVER_PATH)/sensors/cirque_pinnacle_gestures.c
         SRC += $(QUANTUM_DIR)/pointing_device/pointing_device_gestures.c
+	else ifeq ($$(strip $1), ps2_trackpoint)
+        SRC += $(DRIVER_PATH)/sensors/ps2_trackpoint.c
+		PS2_ENABLE := yes
+		# OPT_DEFS += -DPS2_MOUSE_ENABLE
+   		OPT_DEFS += -DMOUSE_ENABLE
+        # SRC += $(DRIVER_PATH)/sensors/cirque_pinnacle_gestures.c
+        # SRC += $(QUANTUM_DIR)/pointing_device/pointing_device_gestures.c
     else ifeq ($$(strip $1),pimoroni_trackball)
         POINTING_DEVICE_NEEDS_COMMS_I2C := yes
     else ifeq ($$(strip $1),azoteq_iqs5xx)

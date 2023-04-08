@@ -129,7 +129,7 @@
 #    define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 #    define TAPPING_TERM_PER_KEY
 #else
-#    define IGNORE_MOD_TAP_INTERRUPT
+// #    define IGNORE_MOD_TAP_INTERRUPT
 #    undef PERMISSIVE_HOLD
 #endif
 #define AUTO_MOUSE_DEFAULT_LAYER 4
@@ -139,6 +139,7 @@
 #endif
 
 #define TAP_CODE_DELAY 5
+
 
 /* Disable unused and unneeded features to reduce on firmware size */
 #ifdef LOCKING_SUPPORT_ENABLE

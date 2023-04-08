@@ -482,7 +482,7 @@ bool is_keyboard_left(void) {
         side = !peek_matrix_intersection(SPLIT_HAND_MATRIX_GRID) ? LEFT : RIGHT;
 #    endif
 #elif defined(EE_HANDS)
-        side = eeconfig_read_handedness() ? LEFT : RIGHT;
+        side = eeconfig_read_handedness() ? LEFT : RIGHT;P
 #elif defined(MASTER_RIGHT)
         side = !is_keyboard_master() ? LEFT : RIGHT;
 #endif

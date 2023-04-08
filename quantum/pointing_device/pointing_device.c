@@ -147,6 +147,8 @@ __attribute__((weak)) void pointing_device_init(void) {
             setPinInput(pointing_device_configs[i].motion.pin);
         }
     }
+    pointing_device_init_kb();
+    pointing_device_init_user();
 }
 
 __attribute__((weak)) void pointing_device_send(report_mouse_t* sending_report) {
@@ -271,6 +273,15 @@ __attribute__((weak)) bool pointing_device_task(void) {
 #if defined(SPLIT_KEYBOARD)
     report_is_different = pointing_device_task_handle_shared_report(&local_report, &device_was_ready);
 #endif
+    if (is_keyboard_master()) {
+        // automatic mouse layer function
+#ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+        pointing_device_task_auto_mouse(local_report);
+#endif
+    }
+#ifdef POINTING_DEVICE_MODES_ENABLE
+        local_report = pointing_device_modes_task(local_report);
+#endif
 
     // combine with mouse report to ensure that the combined is sent correctly
 #ifdef MOUSEKEY_ENABLE
@@ -283,14 +294,11 @@ __attribute__((weak)) bool pointing_device_task(void) {
         report_is_different = pointing_device_report_ready(&last_sent_report, &local_report, &device_was_ready);
     }
     if (report_is_different) {
-        // automatic mouse layer function
-#ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
-        pointing_device_task_auto_mouse(local_report);
-#endif
 
         memcpy(&last_sent_report, &local_report, sizeof(report_mouse_t));
         pointing_device_send(&local_report);
     }
+
 
     return report_is_different;
 }
@@ -338,6 +346,7 @@ void pointing_device_set_cpi_by_index(uint16_t cpi, uint8_t index) {
     shared_cpi[index].cpi = cpi;
     if (!POINTING_DEVICE_THIS_SIDE(index)) {
         shared_cpi[index].update = true;
+        return;
     }
 #endif
     pointing_device_configs[index].driver->set_cpi(pointing_device_configs[index].config, cpi);

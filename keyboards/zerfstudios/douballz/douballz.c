@@ -556,7 +556,9 @@ void keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data){
 void keyboard_post_init_kb(void) {
     maybe_update_pointing_device_cpi(&g_charybdis_config);
     transaction_register_rpc(RPC_ID_KB_CONFIG_SYNC, charybdis_config_sync_handler);
-    pointing_device_set_cpi(800);
+    // pointing_device_set_cpi(800);
+    // pointing_device_set_cpi_by_index(800, 0);
+    // pointing_device_set_cpi_by_index(800, 1);
     // Reset the initial shared data value between master and slave
     // debug_keyboard = true;
     // debug_mouse = true;
@@ -670,13 +672,13 @@ void housekeeping_task_kb(void) {
     if (peripherals_on) {
         backlight_enable();
         rgb_matrix_enable_noeeprom();
-        // lvgl_event_triggers();
+        lvgl_event_triggers();
     } else {
          backlight_disable();
         rgb_matrix_disable_noeeprom();
     }
     #endif
-    lvgl_event_triggers();
+    // lvgl_event_triggers();
     // no need for user function, is called already
 }
 

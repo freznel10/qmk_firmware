@@ -18,19 +18,19 @@ const uint8_t pmw3360_firmware_data[PMW3360_FIRMWARE_LENGTH] PROGMEM;
 
 // clang-format off
 const pmw33xx_regs_common_t pmw3360_common_regs = {
-    .Product_ID = PMW3360_REG_Product_ID, 
-    .Motion = PMW3360_REG_Motion, 
-    .Delta_X_L = PMW3360_REG_Delta_X_L, 
-    .Delta_X_H = PMW3360_REG_Delta_X_H, 
-    .Delta_Y_L = PMW3360_REG_Delta_Y_L, 
-    .Delta_Y_H = PMW3360_REG_Delta_Y_H, 
-    .Config2 = PMW3360_REG_Config2, 
-    .Angle_Tune = PMW3360_REG_Angle_Tune, 
-    .SROM_Enable = PMW3360_REG_SROM_Enable, 
-    .SROM_ID = PMW3360_REG_SROM_ID, 
-    .Inverse_Product_ID = PMW3360_REG_Inverse_Product_ID, 
-    .Motion_Burst = PMW3360_REG_Motion_Burst, 
-    .SROM_Load_Burst = PMW3360_REG_SROM_Load_Burst, 
+    .Product_ID = PMW3360_REG_Product_ID,
+    .Motion = PMW3360_REG_Motion,
+    .Delta_X_L = PMW3360_REG_Delta_X_L,
+    .Delta_X_H = PMW3360_REG_Delta_X_H,
+    .Delta_Y_L = PMW3360_REG_Delta_Y_L,
+    .Delta_Y_H = PMW3360_REG_Delta_Y_H,
+    .Config2 = PMW3360_REG_Config2,
+    .Angle_Tune = PMW3360_REG_Angle_Tune,
+    .SROM_Enable = PMW3360_REG_SROM_Enable,
+    .SROM_ID = PMW3360_REG_SROM_ID,
+    .Inverse_Product_ID = PMW3360_REG_Inverse_Product_ID,
+    .Motion_Burst = PMW3360_REG_Motion_Burst,
+    .SROM_Load_Burst = PMW3360_REG_SROM_Load_Burst,
     .Lift_Config = PMW3360_REG_Lift_Config,
     .Power_Up_Reset = PMW3360_REG_Power_Up_Reset
 };

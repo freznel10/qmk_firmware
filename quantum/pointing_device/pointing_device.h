@@ -60,6 +60,11 @@ typedef struct {
 } pointing_device_i2c_config_t;
 
 typedef struct {
+    pin_t data_pin;
+    pin_t clock_pin;
+} pointing_device_ps2_config_t;
+
+typedef struct {
     pin_t pin;
     bool  active_low;
 } pointing_device_motion_t;
@@ -121,6 +126,9 @@ typedef struct {
 #endif
 #if defined(POINTING_DEVICE_DRIVER_PMW3389)
 #    include "pmw3389.h"
+#endif
+#if defined(POINTING_DEVICE_DRIVER_PS2_TRACKPOINT)
+#    include "ps2_trackpoint.h"
 #endif
 
 #ifdef MOUSE_EXTENDED_REPORT

@@ -119,30 +119,30 @@ static uint16_t get_pointer_sniping_dpi(chunky_config_t* config) { return (uint1
 
 /** \brief Set the appropriate DPI for the input config. */
 static void maybe_update_pointing_device_cpi(chunky_config_t* config) {
-    if (is_keyboard_left()) {
-        if (user_state.split_pointing_mode == PM_DRAG) {
-            pointing_device_set_cpi_on_side(true, CHUNKY_DRAGSCROLL_DPI);
-            pointing_device_set_cpi_on_side(false, CHUNKY_DRAGSCROLL_DPI);
-        } else if (user_state.split_pointing_mode == PM_PRECISION) {
-            pointing_device_set_cpi_on_side(true,get_pointer_sniping_dpi(config));
-            pointing_device_set_cpi_on_side(false,get_pointer_sniping_dpi(config));
-            dprintf("testing");
-        } else {
-            pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
-            pointing_device_set_cpi_on_side(false, get_pointer_default_dpi(config));
-        }
-    } else {
-        if (user_state.split_pointing_mode == PM_DRAG) {
-            pointing_device_set_cpi_on_side(true, CHUNKY_DRAGSCROLL_DPI);
-            pointing_device_set_cpi(CHUNKY_DRAGSCROLL_DPI);
-        } else if (user_state.split_pointing_mode == PM_PRECISION) {
-            pointing_device_set_cpi_on_side(true,get_pointer_sniping_dpi(config));
-            pointing_device_set_cpi(get_pointer_sniping_dpi(config));
-        } else {
-            pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
-            pointing_device_set_cpi(get_pointer_default_dpi(config));
-        }
-    }
+    // if (is_keyboard_left()) {
+    //     if (user_state.split_pointing_mode == PM_DRAG) {
+    //         pointing_device_set_cpi_on_side(true, CHUNKY_DRAGSCROLL_DPI);
+    //         pointing_device_set_cpi_on_side(false, CHUNKY_DRAGSCROLL_DPI);
+    //     } else if (user_state.split_pointing_mode == PM_PRECISION) {
+    //         pointing_device_set_cpi_on_side(true,get_pointer_sniping_dpi(config));
+    //         pointing_device_set_cpi_on_side(false,get_pointer_sniping_dpi(config));
+    //         dprintf("testing");
+    //     } else {
+    //         pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
+    //         pointing_device_set_cpi_on_side(false, get_pointer_default_dpi(config));
+    //     }
+    // } else {
+    //     if (user_state.split_pointing_mode == PM_DRAG) {
+    //         pointing_device_set_cpi_on_side(true, CHUNKY_DRAGSCROLL_DPI);
+    //         pointing_device_set_cpi(CHUNKY_DRAGSCROLL_DPI);
+    //     } else if (user_state.split_pointing_mode == PM_PRECISION) {
+    //         pointing_device_set_cpi_on_side(true,get_pointer_sniping_dpi(config));
+    //         pointing_device_set_cpi(get_pointer_sniping_dpi(config));
+    //     } else {
+    //         pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
+    //         pointing_device_set_cpi(get_pointer_default_dpi(config));
+    //     }
+    // }
 }
 
 // static void maybe_update_pointing_device_cpi(chunky_config_t* config) {
@@ -596,9 +596,9 @@ void housekeeping_task_kb(void) {
         backlight_level_noeeprom(0);
         rgb_matrix_disable_noeeprom();
     }
-    uint8_t prox;
-    adps9660_proximity(&prox);
-    dprintf("Proximity: %d (%d)\n", prox, prox_threshold);
+    // uint8_t prox;
+    // adps9660_proximity(&prox);
+    // dprintf("Proximity: %d (%d)\n", prox, prox_threshold);
 
     // if (timer_elapsed32(last_measurement) > measurement_interval) {
     //         last_measurement = timer_read32();
@@ -645,5 +645,17 @@ void housekeeping_task_kb(void) {
 //     matrix_scan_sub_kb();
 //     matrix_scan_user();
 // }
+
+
+const pointing_device_spi_config_t cirque_config_spi_left = {.cs = CIRQUE_PINNACLE_SPI_CS_PIN, .mode = CIRQUE_PINNACLE_SPI_MODE, .divisor = CIRQUE_PINNACLE_SPI_DIVISOR};
+const pointing_device_spi_config_t cirque_config_spi_right = {.cs = CIRQUE_PINNACLE_SPI_CS_PIN, .mode = CIRQUE_PINNACLE_SPI_MODE, .divisor = CIRQUE_PINNACLE_SPI_DIVISOR};
+
+const pointing_device_config_t pointing_device_configs[POINTING_DEVICE_COUNT] = {
+    {.driver = &cirque_driver_spi_default, .config = &cirque_config_spi_left, .throttle = 10, .side = LEFT},
+    // {.driver = &cirque_driver_spi_default, .config = &cirque_config_spi_right, .throttle = 10, .side = RIGHT},
+    // {.driver = &ps2_trackpoint_driver_ps2_default, .config = &ps2_trackpoint_config_ps2_default, .throttle = 10, .side = LEFT},
+    {.driver = &ps2_trackpoint_driver_ps2_default, .config = &ps2_trackpoint_config_ps2_default, .throttle = 10, .side = RIGHT}
+
+};
 
 
