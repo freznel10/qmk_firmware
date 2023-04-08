@@ -379,21 +379,21 @@ void keyboard_post_init_keymap(void) {
     debug_enable = true;
     // debug_matrix = true;
     // debug_keyboard=true;
-    wait_ms(100);
-    adps9660_init();
-    wait_ms(100);
-    prox_threshold = 0;
-    for (int i = 0; i < 10; ++i) {
-        uint8_t prox;
-        adps9660_proximity(&prox);
-        dprintf("initial %d\n", prox);
-        if (prox > prox_threshold) {
-	        prox_threshold = prox;
-        }
-        wait_ms(20);
-    }
-    prox_threshold += 2;
-    dprintf("Threshold: %d\n", prox_threshold);
+    // wait_ms(100);
+    // adps9660_init();
+    // wait_ms(100);
+    // prox_threshold = 0;
+    // for (int i = 0; i < 10; ++i) {
+    //     uint8_t prox;
+    //     adps9660_proximity(&prox);
+    //     dprintf("initial %d\n", prox);
+    //     if (prox > prox_threshold) {
+	//         prox_threshold = prox;
+    //     }
+    //     wait_ms(20);
+    // }
+    // prox_threshold += 2;
+    // dprintf("Threshold: %d\n", prox_threshold);
 }
 
 // #ifdef QUANTUM_PAINTER_ENABLE

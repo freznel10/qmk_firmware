@@ -33,7 +33,7 @@
 #ifdef QUANTUM_PAINTER_ENABLE
 
 painter_device_t qp_display;
-extern uint8_t prox_threshold;
+// extern uint8_t prox_threshold;
 
 __attribute__((weak)) void draw_ui_user(void) {}
 #endif
@@ -596,9 +596,9 @@ void housekeeping_task_kb(void) {
         backlight_level_noeeprom(0);
         rgb_matrix_disable_noeeprom();
     }
-    uint8_t prox;
-    adps9660_proximity(&prox);
-    dprintf("Proximity: %d (%d)\n", prox, prox_threshold);
+    // uint8_t prox;
+    // adps9660_proximity(&prox);
+    // dprintf("Proximity: %d (%d)\n", prox, prox_threshold);
 
     // if (timer_elapsed32(last_measurement) > measurement_interval) {
     //         last_measurement = timer_read32();
