@@ -1,9 +1,6 @@
-<<<<<<<< HEAD:keyboards/emblem/rev1/rev1.h
+
 /* Copyright 2022 Freznel B. Sta. Ana (Freznel10)
-========
-/* Copyright 2022 Gondolindrim
->>>>>>>> upstream/develop:keyboards/smithrune/iron160/iron160_h/mcuconf.h
- *
+
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or
@@ -21,13 +18,7 @@
 
 #pragma once
 
-<<<<<<<< HEAD:keyboards/emblem/rev1/rev1.h
 #include "emblem.h"
 #include "quantum.h"
 
-========
 #include_next <mcuconf.h>
-
-#undef STM32_SPI_USE_SPI2
-#define STM32_SPI_USE_SPI2 TRUE
->>>>>>>> upstream/develop:keyboards/smithrune/iron160/iron160_h/mcuconf.h

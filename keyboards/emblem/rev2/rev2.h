@@ -1,8 +1,5 @@
-<<<<<<<< HEAD:keyboards/emblem/rev2/rev2.h
 /* Copyright 2022 Freznel B. Sta. Ana (Freznel10)
-========
-/* Copyright 2023 @ Keychron(https://www.keychron.com)
->>>>>>>> upstream/develop:keyboards/keychron/q11/ansi_encoder/config.h
+
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,11 +17,5 @@
 
 #pragma once
 
-<<<<<<<< HEAD:keyboards/emblem/rev2/rev2.h
 #include "emblem.h"
-#include "quantum.h"
 
-========
-/* Enable caps-lock LED */
-#define CAPS_LOCK_LED_INDEX 23
->>>>>>>> upstream/develop:keyboards/keychron/q11/ansi_encoder/config.h
