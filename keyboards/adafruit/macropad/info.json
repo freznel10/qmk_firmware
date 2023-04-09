@@ -13,10 +13,14 @@
             {"pin_a": "GP18", "pin_b": "GP17"}
         ]
     },
+    "rgb_matrix": {
+        "driver": "WS2812"
+    },
     "bootmagic": {
         "matrix": [1, 2]
     },
     "ws2812": {
+        "pin": "GP19",
         "driver": "vendor"
     },
     "processor": "RP2040",
