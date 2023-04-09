@@ -1,8 +1,8 @@
 {
-    "keyboard_name": "wanten", 
+    "keyboard_name": "wanten",
     "manufacturer": "qpockets",
-    "url": "", 
-    "maintainer": "qpockets", 
+    "url": "",
+    "maintainer": "qpockets",
     "usb": {
     	"vid": "0x7170",
     	"pid": "0x7774",

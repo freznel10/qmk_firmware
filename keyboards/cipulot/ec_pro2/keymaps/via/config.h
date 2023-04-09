@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:keyboards/keychron/q12/mcuconf.h
+/* Copyright 2020 QMK
+========
 /* Copyright 2023 Cipulot
+>>>>>>>> upstream/develop:keyboards/cipulot/ec_pro2/keymaps/via/config.h
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,5 +20,12 @@
 
 #pragma once
 
+<<<<<<<< HEAD:keyboards/keychron/q12/mcuconf.h
+#include_next <mcuconf.h>
+
+#undef STM32_I2C_USE_I2C1
+#define STM32_I2C_USE_I2C1 TRUE
+========
 // This is the size of the EEPROM for the custom VIA-specific data
 #define EECONFIG_USER_DATA_SIZE 4
+>>>>>>>> upstream/develop:keyboards/cipulot/ec_pro2/keymaps/via/config.h

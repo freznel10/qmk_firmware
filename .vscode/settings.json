@@ -18,7 +18,9 @@
         "xstddef": "c",
         "type_traits": "c",
         "utility": "c",
-        "ranges": "c"
+        "ranges": "c",
+        "*.def": "c",
+        "apds": "c"
     },
     "[markdown]": {
         "editor.trimAutoWhitespace": false,
@@ -27,5 +29,18 @@
     "python.formatting.provider": "yapf",
     "[json]": {
 	    "editor.formatOnSave": false
-    }
+    },
+    "terminal.integrated.profiles.windows": {
+        "QMK_MSYS": {
+            "path": "C:/QMK_MSYS/usr/bin/bash.exe",
+            "env": {
+                "MSYSTEM": "MINGW64",
+                "CHERE_INVOKING": "1"
+            },
+            "args": ["--login"]
+        }
+    },
+
+    "terminal.integrated.cursorStyle": "line",
+    "cmake.sourceDirectory": "${workspaceFolder}/lib/googletest"
 }

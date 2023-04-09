@@ -39,33 +39,33 @@ static inline void ps2_mouse_scroll_button_task(report_mouse_t *mouse_report);
 /* ============================= IMPLEMENTATION ============================ */
 
 /* supports only 3 button mouse at this time */
-void ps2_mouse_init(void) {
-    ps2_host_init();
+// void ps2_mouse_init(const void *config) {
+//     ps2_host_init();
 
-    wait_ms(PS2_MOUSE_INIT_DELAY); // wait for powering up
+//     wait_ms(PS2_MOUSE_INIT_DELAY); // wait for powering up
 
-    PS2_MOUSE_SEND(PS2_MOUSE_RESET, "ps2_mouse_init: sending reset");
+//     PS2_MOUSE_SEND(PS2_MOUSE_RESET, "ps2_mouse_init: sending reset");
 
-    PS2_MOUSE_RECEIVE("ps2_mouse_init: read BAT");
-    PS2_MOUSE_RECEIVE("ps2_mouse_init: read DevID");
+//     PS2_MOUSE_RECEIVE("ps2_mouse_init: read BAT");
+//     PS2_MOUSE_RECEIVE("ps2_mouse_init: read DevID");
 
-#ifdef PS2_MOUSE_USE_REMOTE_MODE
-    ps2_mouse_set_remote_mode();
-#else
-    ps2_mouse_enable_data_reporting();
-    ps2_mouse_set_stream_mode();
-#endif
+// #ifdef PS2_MOUSE_USE_REMOTE_MODE
+//     ps2_mouse_set_remote_mode();
+// #else
+//     ps2_mouse_enable_data_reporting();
+//     ps2_mouse_set_stream_mode();
+// #endif
 
-#ifdef PS2_MOUSE_ENABLE_SCROLLING
-    ps2_mouse_enable_scrolling();
-#endif
+// #ifdef PS2_MOUSE_ENABLE_SCROLLING
+//     ps2_mouse_enable_scrolling();
+// #endif
 
-#ifdef PS2_MOUSE_USE_2_1_SCALING
-    ps2_mouse_set_scaling_2_1();
-#endif
+// #ifdef PS2_MOUSE_USE_2_1_SCALING
+//     ps2_mouse_set_scaling_2_1();
+// #endif
 
-    ps2_mouse_init_user();
-}
+//     ps2_mouse_init_user();
+// }
 
 __attribute__((weak)) void ps2_mouse_init_user(void) {}
 
