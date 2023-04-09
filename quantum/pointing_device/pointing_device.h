@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "host.h"
 #include "report.h"
 #include "gpio.h"
+#include "pointing_device_internal.h"
 
 #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
 #    include "pointing_device_auto_mouse.h"
@@ -109,14 +110,24 @@ typedef struct {
     uint8_t        counter;
 } pointing_device_shared_report_t;
 
+
+#if defined(POINTING_DEVICE_DRIVER_ADNS5050)
+#    include "adns5050.h"
+#endif
 #if defined(POINTING_DEVICE_DRIVER_ADNS9800)
 #    include "adns9800.h"
+#endif
+#if defined(POINTING_DEVICE_DRIVER_ANALOG_JOYSTICK)
+#    include "analog_joystick.h"
 #endif
 #if defined(POINTING_DEVICE_DRIVER_AZOTEQ_IQS5XX)
 #    include "azoteq_iqs5xx.h"
 #endif
 #if defined(POINTING_DEVICE_DRIVER_CIRQUE_PINNACLE_I2C) || defined(POINTING_DEVICE_DRIVER_CIRQUE_PINNACLE_SPI)
 #    include "cirque_pinnacle.h"
+#endif
+#if defined(POINTING_DEVICE_DRIVER_PAW3204)
+#    include "paw3204.h"
 #endif
 #if defined(POINTING_DEVICE_DRIVER_PIMORONI_TRACKBALL)
 #    include "pimoroni_trackball.h"
