@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:keyboards/zerfpoint/zerfpoint.c
 /* Copyright 2022 Freznel B. Sta. Ana (@freznel10) <freznel@gmail.com>
+========
+/* Copyright 2020 QMK
+>>>>>>>> upstream/develop:keyboards/keychron/q11/halconf.h
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +18,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+<<<<<<<< HEAD:keyboards/zerfpoint/zerfpoint.c
 #include "zerfpoint.h"
 #include "quantum.h"
 
+========
+#pragma once
+
+#define HAL_USE_I2C TRUE
+#define HAL_USE_SERIAL TRUE
+#define HAL_USE_ADC TRUE
+
+#include_next <halconf.h>
+>>>>>>>> upstream/develop:keyboards/keychron/q11/halconf.h
