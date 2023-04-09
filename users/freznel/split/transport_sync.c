@@ -5,7 +5,6 @@
 #include "transport_sync.h"
 #include "transactions.h"
 #include <string.h>
-#include "os_detection.h"
 
 #ifdef UNICODE_COMMON_ENABLE
 #    include "process_unicode_common.h"
@@ -100,9 +99,6 @@ void user_transport_update(void) {
         user_state.pointing_side = get_pointing_mode_device();
 #   endif //POINTING_DEVICE_COMBINED
 #endif //POINTING_DEVICE_MODES_ENABLE
-#ifdef OS_DETECTION_ENABLE
-        user_state.detected_os = detected_host_os();
-#endif
         transport_user_state = user_state.raw;
     } else {
         keymap_config.raw    = transport_keymap_config;

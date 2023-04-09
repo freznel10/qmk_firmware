@@ -29,8 +29,6 @@
 #    define WPM_ESTIMATED_WORD_SIZE 5
 #endif
 
-
-
 #ifdef AUDIO_ENABLE
 #    define AUDIO_CLICKY
 #    define AUDIO_CLICKY_FREQ_RANDOMNESS 1.5f

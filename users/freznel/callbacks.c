@@ -106,26 +106,7 @@ void                       suspend_wakeup_init_user(void) {
 // scan function
 __attribute__((weak)) void matrix_scan_keymap(void) {}
 void                       matrix_scan_user(void) {
-    static bool has_ran_yet;
-    if (!has_ran_yet) {
-        has_ran_yet = true;
-        startup_user();
-    }
-
-#ifdef TAP_DANCE_ENABLE // Run Diablo 3 macro checking code.
-    // run_diablo_macro_check();
-#endif // TAP_DANCE_ENABLE
-#if defined(CUSTOM_RGB_MATRIX)
-    matrix_scan_rgb_matrix();
-#endif
-#ifdef I2C_SCANNER_ENABLE
-    matrix_scan_i2c();
-#endif
-#ifdef CUSTOM_OLED_DRIVER
-    matrix_scan_oled();
-#endif
     matrix_scan_super_alt_tab();
-
     matrix_scan_keymap();
 }
 
@@ -139,10 +120,6 @@ __attribute__((weak)) layer_state_t layer_state_set_keymap(layer_state_t state) 
     return state;
 }
 layer_state_t layer_state_set_user(layer_state_t state) {
-    if (!is_keyboard_master()) {
-        return state;
-    }
-
     state = update_tri_layer_state(state, _RAISE, _LOWER, _ADJUST);
 // #if defined(CUSTOM_POINTING_DEVICE)
 //     state = layer_state_set_pointing(state);
@@ -150,18 +127,14 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 #if defined(CUSTOM_RGBLIGHT)
     state = layer_state_set_rgb_light(state);
 #endif // CUSTOM_RGBLIGHT
-#if defined(AUDIO_ENABLE) && !defined(__arm__)
-    static bool is_gamepad_on = false;
-    if (layer_state_cmp(state, _GAMEPAD) != is_gamepad_on) {
-        is_gamepad_on = layer_state_cmp(state, _GAMEPAD);
-        if (is_gamepad_on) {
-            PLAY_LOOP(doom_song);
-        } else {
-            stop_all_notes();
-        }
-    }
-#endif
     state = layer_state_set_keymap(state);
+
+#ifdef CONSOLE_ENABLE
+    char layer_buffer[16 + 5];
+    format_layer_bitmap_string(layer_buffer, state, default_layer_state);
+    dprintf("layer state: %s\n", layer_buffer);
+#endif
+
     return state;
 }
 
@@ -233,8 +206,16 @@ void                       matrix_slave_scan_user(void) {
 
 __attribute__((weak)) void housekeeping_task_keymap(void) {}
 void housekeeping_task_user(void) {
+    static bool has_ran_yet;
+    if (!has_ran_yet) {
+        has_ran_yet = true;
+        startup_user();
+    }
 #if defined(SPLIT_KEYBOARD) && defined(SPLIT_TRANSACTION_IDS_USER)
     housekeeping_task_transport_sync();
+#endif
+#if defined(CUSTOM_RGB_MATRIX)
+    housekeeping_task_rgb_matrix();
 #endif
     housekeeping_task_keymap();
 }

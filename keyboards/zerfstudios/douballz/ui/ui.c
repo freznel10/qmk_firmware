@@ -593,9 +593,9 @@ void set_unicode_mode_text_value(lv_obj_t* lbl) {
         char buf[32];
         const char *unicode_mode_display = "-----";
         switch (user_state.unicode_typing_mode) {
-            //  case 0:
-            //     unicode_mode_display = "NO MODE";
-            //     break;
+             case 0:
+                unicode_mode_display = "NO MODE";
+                break;
             case 1:
                 unicode_mode_display = "WIDE";
                 break;
@@ -617,8 +617,8 @@ void set_unicode_mode_text_value(lv_obj_t* lbl) {
             case 7:
                 unicode_mode_display = "SUPER";
                 break;
-            // case 8:
-            //     unicode_mode_display = "COMIC";
+            case 8:
+                unicode_mode_display = "COMIC";
                 break;
             default:
                 unicode_mode_display = " ";
@@ -691,9 +691,9 @@ void set_pm_text_value(lv_obj_t* lbl) {
             case 15:
                 pm_name = "WIN_POS";
                 break;
-            // case 16:
-            //     pm_name = "ACCELL";
-            //     break;
+            case 16:
+                pm_name = "ACCELL";
+                break;
             default:
                 pm_name = " ";
                 break;
@@ -1381,7 +1381,9 @@ void ui_Screen2_screen_init(void)
     lv_obj_add_event_cb(ui_Screen2, ui_render_rgbhue_redraw, USER_EVENT_RGBHUE_UPDATE, NULL);
 }
 
+
 void lvgl_event_triggers(void) {
+
     static uint32_t last_dl_state   = 0;
     bool dl_state_redraw = false;
     if (last_dl_state != default_layer_state) {
@@ -1576,7 +1578,6 @@ void lvgl_event_triggers(void) {
     //     } else {
     //         lv_led_off(ui_PM_led3);
     // }
-
 }
 
 
