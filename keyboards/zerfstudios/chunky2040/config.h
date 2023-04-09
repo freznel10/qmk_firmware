@@ -31,7 +31,7 @@
 #define SPLIT_HAND_PIN  GP26  // high = left, low = right
 
 //SK6803 input and number of LEDs
-#define RGB_DI_PIN      GP25
+#define WS2812_DI_PIN      GP25
 #define WS2812_PIO_USE_PIO1
 
 #define AUDIO_PIN GP29
