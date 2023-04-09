@@ -112,9 +112,7 @@
 #define SPLIT_HAPTIC_ENABLE
 #endif
 
-
 /* Pointing device configuration. */
-
 #define SPI_DRIVER SPID0
 #define SPI_SCK_PIN GP18
 #define SPI_MOSI_PIN GP19

@@ -30,9 +30,6 @@ typedef union {
         bool    is_caps_word_on      :1;
         bool    pointing_side        :1;
         uint8_t split_pointing_mode  :4;
-#ifdef OS_DETECTION_ENABLE
-        uint8_t detected_os          :3;
-#endif
     };
 } user_runtime_config_t;
 
