@@ -678,7 +678,6 @@ void housekeeping_task_kb(void) {
         rgb_matrix_disable_noeeprom();
     }
     #endif
-    // lvgl_event_triggers();
     // no need for user function, is called already
 }
 
