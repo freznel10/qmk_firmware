@@ -1381,7 +1381,9 @@ void ui_Screen2_screen_init(void)
     lv_obj_add_event_cb(ui_Screen2, ui_render_rgbhue_redraw, USER_EVENT_RGBHUE_UPDATE, NULL);
 }
 
+
 void lvgl_event_triggers(void) {
+
     static uint32_t last_dl_state   = 0;
     bool dl_state_redraw = false;
     if (last_dl_state != default_layer_state) {
@@ -1576,7 +1578,6 @@ void lvgl_event_triggers(void) {
     //     } else {
     //         lv_led_off(ui_PM_led3);
     // }
-
 }
 
 

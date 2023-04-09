@@ -553,43 +553,47 @@ void keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data){
 }
 
 
+void init_qp_display(void) {
+    if (is_keyboard_left()) {
+    #if (defined(KEYBOARD_zerfstudios_douballz_rev1))
+        qp_display = qp_st7735_make_spi_device(80, 160, DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, 8, 0);
+        qp_init(qp_display, QP_ROTATION_180);
+        qp_set_viewport_offsets (qp_display, 25, 0);
+        qp_rect(qp_display, 0, 0, 80, 160, 0, 0, 0, true);
+    #elif (defined(KEYBOARD_zerfstudios_douballz_rev2))
+        qp_display = qp_st7789_make_spi_device(240, 320, DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, 8, 3);
+        qp_set_viewport_offsets(qp_display, 0, 0);
+        qp_init(qp_display, QP_ROTATION_0);
+        qp_rect(qp_display, 0, 0, 172, 320, 0,0,0, true);
+    #endif
+    } else {
+    #if (defined(KEYBOARD_zerfstudios_douballz_rev1))
+        qp_display = qp_st7735_make_spi_device(80, 160, DISPLAY_CS_PIN_RIGHT, DISPLAY_DC_PIN_RIGHT, DISPLAY_RST_PIN_RIGHT, 8, 0);
+        qp_init(qp_display, QP_ROTATION_180);
+        qp_set_viewport_offsets (qp_display, 25, 0);
+        qp_rect(qp_display, 0, 0, 80, 160, 0, 0, 0, true);
+    #elif (defined(KEYBOARD_zerfstudios_douballz_rev2))
+        qp_display = qp_st7789_make_spi_device(240, 320, DISPLAY_CS_PIN_RIGHT, DISPLAY_DC_PIN_RIGHT, DISPLAY_RST_PIN_RIGHT, 8, 3);
+        qp_set_viewport_offsets(qp_display, 0, 0);
+        qp_init(qp_display, QP_ROTATION_180);
+        qp_rect(qp_display, 0, 0, 172, 320, 0,0,0, true);
+    #endif
+    }
+}
+
+extern bool trigger;
+
 void keyboard_post_init_kb(void) {
     maybe_update_pointing_device_cpi(&g_charybdis_config);
     transaction_register_rpc(RPC_ID_KB_CONFIG_SYNC, charybdis_config_sync_handler);
-    // pointing_device_set_cpi(800);
-    // pointing_device_set_cpi_by_index(800, 0);
-    // pointing_device_set_cpi_by_index(800, 1);
+    pointing_device_set_cpi_by_index(800, 0);
+    pointing_device_set_cpi_by_index(800, 1);
     // Reset the initial shared data value between master and slave
-    // debug_keyboard = true;
-    // debug_mouse = true;
     memset(&g_charybdis_config, 0, sizeof(g_charybdis_config));
     wait_ms(50);
-        if (is_keyboard_left()) {
-            #if (defined(KEYBOARD_zerfstudios_douballz_rev1))
-                qp_display = qp_st7735_make_spi_device(80, 160, DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, 8, 0);
-                qp_init(qp_display, QP_ROTATION_180);
-                qp_set_viewport_offsets (qp_display, 25, 0);
-                qp_rect(qp_display, 0, 0, 80, 160, 0, 0, 0, true);
-             #elif (defined(KEYBOARD_zerfstudios_douballz_rev2))
-                qp_display = qp_st7789_make_spi_device(240, 320, DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, 8, 3);
-                qp_set_viewport_offsets(qp_display, 0, 0);
-                qp_init(qp_display, QP_ROTATION_0);
-                qp_rect(qp_display, 0, 0, 172, 320, 0,0,0, true);
-             #endif
-        } else {
-            #if (defined(KEYBOARD_zerfstudios_douballz_rev1))
-                qp_display = qp_st7735_make_spi_device(80, 160, DISPLAY_CS_PIN_RIGHT, DISPLAY_DC_PIN_RIGHT, DISPLAY_RST_PIN_RIGHT, 8, 0);
-                qp_init(qp_display, QP_ROTATION_180);
-                qp_set_viewport_offsets (qp_display, 25, 0);
-                qp_rect(qp_display, 0, 0, 80, 160, 0, 0, 0, true);
-            #elif (defined(KEYBOARD_zerfstudios_douballz_rev2))
-                qp_display = qp_st7789_make_spi_device(240, 320, DISPLAY_CS_PIN_RIGHT, DISPLAY_DC_PIN_RIGHT, DISPLAY_RST_PIN_RIGHT, 8, 3);
-                qp_set_viewport_offsets(qp_display, 0, 0);
-                qp_init(qp_display, QP_ROTATION_180);
-                qp_rect(qp_display, 0, 0, 172, 320, 0,0,0, true);
-            #endif
-        }
-    // #endif
+
+    init_qp_display();
+
     backlight_level_noeeprom(3);
     qp_lvgl_attach(qp_display);
 
@@ -621,9 +625,6 @@ void keyboard_post_init_kb(void) {
 }
 
 void housekeeping_task_kb(void) {
-#ifdef QUANTUM_PAINTER_ENABLE
-    //  kb_state_update();
-#endif
     if (is_keyboard_master()) {
         // Keep track of the last state, so that we can tell if we need to propagate to slave
         static charybdis_config_t last_charybdis_config = {0};
@@ -646,28 +647,8 @@ void housekeeping_task_kb(void) {
                 last_sync = timer_read32();
             }
         }
-        // #ifdef QUANTUM_PAINTER_ENABLE
-        // static kb_runtime_config last_kb_state;
-        // // Check if the state values are different
-        // if (memcmp(&kb_state, &last_kb_state, sizeof(kb_runtime_config))) {
-        //     needs_sync = true;
-        //     memcpy(&last_kb_state, &kb_state, sizeof(kb_runtime_config));
-        // }
-
-        // // Perform the sync if requested
-        // if (needs_sync) {
-        //     if (transaction_rpc_send(RPC_ID_SYNC_STATE_KB, sizeof(kb_runtime_config), &kb_state)) {
-        //         last_sync = timer_read32();
-        //     }
-        // }
-        // #endif
     }
     #ifdef QUANTUM_PAINTER_ENABLE
-    // static bool lcd_on = false;
-    // if (lcd_on != (bool)g_charybdis_config.lcd_power) {
-    //     lcd_on = (bool)g_charybdis_config.lcd_power;
-    //     qp_power(qp_display, lcd_on);
-    // }
     bool peripherals_on = last_input_activity_elapsed() < LCD_ACTIVITY_TIMEOUT;
     if (peripherals_on) {
         backlight_enable();
