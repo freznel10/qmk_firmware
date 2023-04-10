@@ -617,12 +617,12 @@ void set_unicode_mode_text_value(lv_obj_t* lbl) {
             case 7:
                 unicode_mode_display = "SUPER";
                 break;
-            case 8:
-                unicode_mode_display = "COMIC";
-                break;
-            default:
-                unicode_mode_display = " ";
-                break;
+            // case 8:
+            //     unicode_mode_display = "COMIC";
+            //     break;
+            // default:
+            //     unicode_mode_display = " ";
+            //     break;
         }
         snprintf(buf, sizeof(buf), "UM: %s", unicode_mode_display);
         lv_label_set_text(lbl, buf);
@@ -691,12 +691,12 @@ void set_pm_text_value(lv_obj_t* lbl) {
             case 15:
                 pm_name = "WIN_POS";
                 break;
-            case 16:
-                pm_name = "ACCELL";
-                break;
-            default:
-                pm_name = " ";
-                break;
+            // case 16:
+            //     pm_name = "ACCELL";
+            //     break;
+            // default:
+            //     pm_name = " ";
+            //     break;
         }
         snprintf(buf, sizeof(buf), "%s", pm_name);
         lv_label_set_text(lbl, buf);
