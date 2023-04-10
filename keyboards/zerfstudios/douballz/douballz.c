@@ -583,6 +583,13 @@ void init_qp_display(void) {
 
 extern bool trigger;
 
+
+void pointing_device_init_kb() {
+    set_auto_mouse_layer(AUTO_MOUSE_DEFAULT_LAYER);
+    set_auto_mouse_enable(true);
+}
+
+
 void keyboard_post_init_kb(void) {
     maybe_update_pointing_device_cpi(&g_charybdis_config);
     transaction_register_rpc(RPC_ID_KB_CONFIG_SYNC, charybdis_config_sync_handler);

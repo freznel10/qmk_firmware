@@ -1,6 +1,5 @@
 #include "pointing_device.h"
 #include "ps2_trackpoint.h"
-#include "ps2_mouse.h"
 #include "wait.h"
 #include "gpio.h"
 #include "host.h"
