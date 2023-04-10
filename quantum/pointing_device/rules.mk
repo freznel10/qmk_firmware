@@ -49,10 +49,6 @@ define handle_pointing_device_drivers
 	else ifeq ($$(strip $1), ps2_trackpoint)
         SRC += $(DRIVER_PATH)/sensors/ps2_trackpoint.c
 		PS2_ENABLE := yes
-		# OPT_DEFS += -DPS2_MOUSE_ENABLE
-   		OPT_DEFS += -DMOUSE_ENABLE
-        # SRC += $(DRIVER_PATH)/sensors/cirque_pinnacle_gestures.c
-        # SRC += $(QUANTUM_DIR)/pointing_device/pointing_device_gestures.c
     else ifeq ($$(strip $1),pimoroni_trackball)
         POINTING_DEVICE_NEEDS_COMMS_I2C := yes
     else ifeq ($$(strip $1),azoteq_iqs5xx)

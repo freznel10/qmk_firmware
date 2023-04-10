@@ -30,7 +30,7 @@
     },
     "ps2": {
         "enabled": true,
-        "mouse_enabled": true,
+        // "mouse_enabled": true,
         "driver": "vendor",
         "data_pin": "GP5",
         "clock_pin": "GP6"
@@ -40,7 +40,7 @@
     },
     "diode_direction": "COL2ROW",
     "matrix_pins": {
-        "rows": ["NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN"],
+        "rows": ["NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN"],
         "cols": ["NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN", "NO_PIN"]
     },
     "encoder": {

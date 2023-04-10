@@ -147,6 +147,10 @@ typedef struct {
 #if defined(POINTING_DEVICE_DRIVER_PMW3389)
 #    include "pmw3389.h"
 #endif
+#if defined(POINTING_DEVICE_DRIVER_PS2_TRACKPOINT)
+#    include "ps2_trackpoint.h"
+#    include "ps2.h"
+#endif
 
 #ifdef MOUSE_EXTENDED_REPORT
 #    define XY_REPORT_MIN INT16_MIN

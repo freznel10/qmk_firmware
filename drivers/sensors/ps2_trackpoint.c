@@ -51,7 +51,6 @@ void ps2_mouse_init(const void *config) {
     ps2_mouse_set_scaling_2_1();
 #endif
 
-    ps2_mouse_init_user();
 }
 
 static inline void ps2_mouse_convert_report_to_hid(report_mouse_t *mouse_report) {
@@ -200,9 +199,9 @@ report_mouse_t ps2_trackpoint_get_report(const void *config)  {
         mouse_report.buttons = ps2_host_recv_response();
         mouse_report.x       = ps2_host_recv_response() * PS2_MOUSE_X_MULTIPLIER;
         mouse_report.y       = ps2_host_recv_response() * PS2_MOUSE_Y_MULTIPLIER;
-// #    ifdef PS2_MOUSE_ENABLE_SCROLLING
-//         mouse_report.v       = -(ps2_host_recv_response() & PS2_MOUSE_SCROLL_MASK) * PS2_MOUSE_V_MULTIPLIER;
-// #    endif
+#    ifdef PS2_MOUSE_ENABLE_SCROLLING
+        mouse_report.v       = -(ps2_host_recv_response() & PS2_MOUSE_SCROLL_MASK) * PS2_MOUSE_V_MULTIPLIER;
+#    endif
     } else {
         // if (debug_mouse) print("ps2_mouse: fail to get mouse packet\n");
     }
@@ -213,7 +212,7 @@ report_mouse_t ps2_trackpoint_get_report(const void *config)  {
     if (mouse_report.x || mouse_report.y) { // || mouse_report.v || ((mouse_report.buttons ^ buttons_prev) & PS2_MOUSE_BTN_MASK)) {
 #ifdef PS2_MOUSE_DEBUG_RAW
         // Used to debug raw ps2 bytes from mouse
-        ps2_mouse_print_report(&mouse_report);
+        // ps2_mouse_print_report(&mouse_report);
 #endif
         // buttons_prev = mouse_report.buttons;
         ps2_mouse_convert_report_to_hid(&mouse_report);
@@ -230,5 +229,39 @@ report_mouse_t ps2_trackpoint_get_report(const void *config)  {
     }
 
     return mouse_report;
+}
+
+void ps2_mouse_disable_data_reporting(void) {
+    PS2_MOUSE_SEND(PS2_MOUSE_DISABLE_DATA_REPORTING, "ps2 mouse disable data reporting");
+}
+
+void ps2_mouse_enable_data_reporting(void) {
+    PS2_MOUSE_SEND(PS2_MOUSE_ENABLE_DATA_REPORTING, "ps2 mouse enable data reporting");
+}
+
+void ps2_mouse_set_remote_mode(void) {
+    PS2_MOUSE_SEND_SAFE(PS2_MOUSE_SET_REMOTE_MODE, "ps2 mouse set remote mode");
+    ps2_mouse_mode = PS2_MOUSE_REMOTE_MODE;
+}
+
+void ps2_mouse_set_stream_mode(void) {
+    PS2_MOUSE_SEND_SAFE(PS2_MOUSE_SET_STREAM_MODE, "ps2 mouse set stream mode");
+    ps2_mouse_mode = PS2_MOUSE_STREAM_MODE;
+}
+
+void ps2_mouse_set_scaling_2_1(void) {
+    PS2_MOUSE_SEND_SAFE(PS2_MOUSE_SET_SCALING_2_1, "ps2 mouse set scaling 2:1");
+}
+
+void ps2_mouse_set_scaling_1_1(void) {
+    PS2_MOUSE_SEND_SAFE(PS2_MOUSE_SET_SCALING_1_1, "ps2 mouse set scaling 1:1");
+}
+
+void ps2_mouse_set_resolution(ps2_mouse_resolution_t resolution) {
+    PS2_MOUSE_SET_SAFE(PS2_MOUSE_SET_RESOLUTION, resolution, "ps2 mouse set resolution");
+}
+
+void ps2_mouse_set_sample_rate(ps2_mouse_sample_rate_t sample_rate) {
+    PS2_MOUSE_SET_SAFE(PS2_MOUSE_SET_SAMPLE_RATE, sample_rate, "ps2 mouse set sample rate");
 }
 
