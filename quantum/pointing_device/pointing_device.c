@@ -297,7 +297,6 @@ __attribute__((weak)) bool pointing_device_task(void) {
         pointing_device_task_auto_mouse(local_report);
 #endif
 
-
     // combine with mouse report to ensure that the combined is sent correctly
 #ifdef MOUSEKEY_ENABLE
     report_mouse_t mousekey_report = mousekey_get_report();
