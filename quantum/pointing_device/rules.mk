@@ -2,7 +2,7 @@
 POINTING_DEVICE_DRIVERS ?=
 
 # The list of permissible drivers that can be listed in POINTING_DEVICE_DRIVERS
-VALID_POINTING_DEVICE_DRIVERS := adns5050 adns9800 analog_joystick azoteq_iqs5xx cirque_pinnacle_i2c cirque_pinnacle_spi paw3204 pmw3360 pmw3389 pimoroni_trackball ps2_trackpoint custom_i2c custom_spi
+VALID_POINTING_DEVICE_DRIVERS := adns5050 adns9800 analog_joystick azoteq_iqs5xx cirque_pinnacle_i2c cirque_pinnacle_spi paw3204 pmw3360 pmw3389 pimoroni_trackball custom_i2c custom_spi
 
 OPT_DEFS += -DPOINTING_DEVICE_ENABLE
 MOUSE_ENABLE := yes
@@ -10,9 +10,6 @@ COMMON_VPATH += $(QUANTUM_DIR)/pointing_device
 COMMON_VPATH += $(DRIVER_PATH)/sensors
 SRC += $(QUANTUM_DIR)/pointing_device/pointing_device.c
 SRC += $(QUANTUM_DIR)/pointing_device/pointing_device_auto_mouse.c
-SRC += $(QUANTUM_DIR)/pointing_device/pointing_device_modes.c
-SRC += $(QUANTUM_DIR)/process_keycode/process_pointing_mode_records.c
-
 
 # Comms flags
 POINTING_DEVICE_NEEDS_COMMS_I2C ?= no
@@ -46,13 +43,6 @@ define handle_pointing_device_drivers
         SRC += $(DRIVER_PATH)/sensors/cirque_pinnacle.c
         SRC += $(DRIVER_PATH)/sensors/cirque_pinnacle_gestures.c
         SRC += $(QUANTUM_DIR)/pointing_device/pointing_device_gestures.c
-	else ifeq ($$(strip $1), ps2_trackpoint)
-        SRC += $(DRIVER_PATH)/sensors/ps2_trackpoint.c
-		PS2_ENABLE := yes
-		# OPT_DEFS += -DPS2_MOUSE_ENABLE
-   		OPT_DEFS += -DMOUSE_ENABLE
-        # SRC += $(DRIVER_PATH)/sensors/cirque_pinnacle_gestures.c
-        # SRC += $(QUANTUM_DIR)/pointing_device/pointing_device_gestures.c
     else ifeq ($$(strip $1),pimoroni_trackball)
         POINTING_DEVICE_NEEDS_COMMS_I2C := yes
     else ifeq ($$(strip $1),azoteq_iqs5xx)
@@ -75,16 +65,4 @@ $(foreach pd_driver,$(POINTING_DEVICE_DRIVERS),$(eval $(call handle_pointing_dev
 ifeq ($(strip $(POINTING_DEVICE_NEEDS_COMMS_SPI)), yes)
     OPT_DEFS += -DSTM32_SPI -DHAL_USE_SPI=TRUE
     QUANTUM_LIB_SRC += spi_master.c
-endif
-
-# If I2C comms is needed, set up the required files
-ifeq ($(strip $(POINTING_DEVICE_NEEDS_COMMS_I2C)), yes)
-    OPT_DEFS += -DSTM32_SPI -DHAL_USE_I2C=TRUE
-    QUANTUM_LIB_SRC += i2c_master.c
-endif
-
-# If I2C comms is needed, set up the required files
-ifeq ($(strip $(POINTING_DEVICE_NEEDS_COMMS_I2C)), yes)
-    OPT_DEFS += -DSTM32_SPI -DHAL_USE_I2C=TRUE
-    QUANTUM_LIB_SRC += i2c_master.c
 endif
