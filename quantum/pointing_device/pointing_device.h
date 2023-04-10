@@ -61,6 +61,11 @@ typedef struct {
 } pointing_device_i2c_config_t;
 
 typedef struct {
+    pin_t data_pin;
+    pin_t clock_pin;
+} pointing_device_ps2_config_t;
+
+typedef struct {
     pin_t sdio;
     pin_t sclk;
     pin_t cs;
