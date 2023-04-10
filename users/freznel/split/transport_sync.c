@@ -91,7 +91,7 @@ void user_transport_update(void) {
 #ifdef SWAP_HANDS_ENABLE
         user_state.swap_hands = swap_hands;
 #endif
-        user_state.is_caps_word_on =  is_caps_worqmkd_on();
+        user_state.is_caps_word_on =  is_caps_word_on();
         user_state.host_driver_disabled = host_driver_disabled;
 #if defined (POINTING_DEVICE_MODES_ENABLE)
         user_state.split_pointing_mode = get_pointing_mode_id();
