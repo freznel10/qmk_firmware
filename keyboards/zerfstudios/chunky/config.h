@@ -16,7 +16,7 @@
 /* RGB configuration*/
 #ifdef RGB_MATRIX_ENABLE
     #define WS2812_DI_PIN GP25
-    #define WS2812_PIO_USE_PIO1
+    #define WS2812_PIO_USE_PIO0
     #define RGB_MATRIX_LED_COUNT 68
 #endif
 
@@ -119,7 +119,7 @@
     #define POINTING_DRAG_DIVISOR 4
     #define POINTING_MODE_DEFAULT PM_NONE
 
-    #define MOUSE_EXTENDED_REFORT
+    // #define MOUSE_EXTENDED_REFORT
 
     #define AUTO_MOUSE_DEFAULT_LAYER 4
     #define AUTO_MOUSE_TIME 650
@@ -184,6 +184,6 @@
 #define TRI_LAYER_UPPER_LAYER  6
 #define TRI_LAYER_ADJUST_LAYER 7
 
-#define POINTING_DEVICE_COUNT 2
+#define POINTING_DEVICE_COUNT 4
 
 // #define ENCODER_DIRECTION_FLIP

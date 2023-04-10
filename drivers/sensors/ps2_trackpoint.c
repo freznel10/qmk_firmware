@@ -165,8 +165,8 @@ static inline void ps2_mouse_scroll_button_task(report_mouse_t *mouse_report) {
 #if PS2_MOUSE_SCROLL_BTN_SEND
         if (scroll_state == SCROLL_BTN && timer_elapsed(scroll_button_time) < PS2_MOUSE_SCROLL_BTN_SEND) {
             PRESS_SCROLL_BUTTONS;
-            host_mouse_send(mouse_report);
-            wait_ms(100);
+            // host_mouse_send(mouse_report);
+            // wait_ms(100);
             RELEASE_SCROLL_BUTTONS;
         }
 #endif
@@ -187,25 +187,25 @@ report_mouse_t ps2_trackpoint_get_report(const void *config)  {
     uint8_t rcv;
     rcv = ps2_host_send(PS2_MOUSE_READ_DATA);
     if (rcv == PS2_ACK) {
-        mouse_report.buttons = ps2_host_recv_response();
+        // mouse_report.buttons = ps2_host_recv_response();
         mouse_report.x       = ps2_host_recv_response() * PS2_MOUSE_X_MULTIPLIER;
         mouse_report.y       = ps2_host_recv_response() * PS2_MOUSE_Y_MULTIPLIER;
-// #    ifdef PS2_MOUSE_ENABLE_SCROLLING
-//         mouse_report.v = -(ps2_host_recv_response() & PS2_MOUSE_SCROLL_MASK) * PS2_MOUSE_V_MULTIPLIER;
-// #    endif
+#    ifdef PS2_MOUSE_ENABLE_SCROLLING
+        mouse_report.v = -(ps2_host_recv_response() & PS2_MOUSE_SCROLL_MASK) * PS2_MOUSE_V_MULTIPLIER;
+#    endif
     } else {
         if (debug_mouse) print("ps2_mouse: fail to get mouse packet\n");
     }
 #else
     if (pbuf_has_data()) {
-        mouse_report.buttons = ps2_host_recv_response();
+        // mouse_report.buttons = ps2_host_recv_response();
         mouse_report.x       = ps2_host_recv_response() * PS2_MOUSE_X_MULTIPLIER;
         mouse_report.y       = ps2_host_recv_response() * PS2_MOUSE_Y_MULTIPLIER;
-// #    ifdef PS2_MOUSE_ENABLE_SCROLLING
-//         mouse_report.v       = -(ps2_host_recv_response() & PS2_MOUSE_SCROLL_MASK) * PS2_MOUSE_V_MULTIPLIER;
-// #    endif
+#    ifdef PS2_MOUSE_ENABLE_SCROLLING
+        mouse_report.v       = -(ps2_host_recv_response() & PS2_MOUSE_SCROLL_MASK) * PS2_MOUSE_V_MULTIPLIER;
+#    endif
     } else {
-        // if (debug_mouse) print("ps2_mouse: fail to get mouse packet\n");
+        if (debug_mouse) print("ps2_mouse: fail to get mouse packet\n");
     }
 #endif
 
