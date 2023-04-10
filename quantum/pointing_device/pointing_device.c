@@ -71,6 +71,32 @@ bool pointing_device_check_shared_cpi_update_flags(void) {
     return false;
 }
 
+bool pointing_device_task_handle_shared_report(report_mouse_t* local_report, bool* device_was_ready) {
+    static uint8_t counter = 0;
+    if (is_keyboard_master()) {
+        if (counter != shared_report.counter) {
+#if defined(POINTING_DEVICE_DEBUG)
+            if (shared_report.counter != (((uint16_t)counter + 1) & UINT8_MAX)) {
+                pd_dprintf("POINTING DEVICE: Missed shared report - last report: %d, new report: %d\n", counter, shared_report.counter);
+            }
+#endif
+            pointing_device_add_and_clamp_report(local_report, &shared_report.report);
+            counter           = shared_report.counter;
+            *device_was_ready = true;
+            return true;
+        }
+    } else {
+        if (*device_was_ready) {
+            if (pointing_device_report_ready(&shared_report.report, local_report, device_was_ready)) {
+                memcpy(&shared_report, local_report, sizeof(report_mouse_t));
+                shared_report.counter = counter;
+                counter               = (((uint16_t)counter + 1) & UINT8_MAX);
+                return true;
+            }
+        }
+    }
+    return false;
+}
 #endif
 
 /**
@@ -105,15 +131,31 @@ static inline mouse_xy_report_t pointing_device_xy_clamp(clamp_range_t value) {
     }
 }
 
-__attribute__((weak)) void pointing_device_init_kb(void) {}
+__attribute__((weak)) void pointing_device_init_kb(void) {
+    pointing_device_init_user();
+}
 
 __attribute__((weak)) void pointing_device_init_user(void) {}
 
-__attribute__((weak)) report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report, uint8_t index) {
-    return pointing_device_task_user(mouse_report, index);
+__attribute__((weak)) void pointing_device_init_kb_by_index(uint8_t index) {
+    pointing_device_init_user_by_index(index);
 }
 
-__attribute__((weak)) report_mouse_t pointing_device_task_user(report_mouse_t mouse_report, uint8_t index) {
+__attribute__((weak)) void pointing_device_init_user_by_index(uint8_t index) {}
+
+__attribute__((weak)) report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
+    return pointing_device_task_user(mouse_report);
+}
+
+__attribute__((weak)) report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
+    return mouse_report;
+}
+
+__attribute__((weak)) report_mouse_t pointing_device_task_kb_by_index(report_mouse_t mouse_report, uint8_t index) {
+    return pointing_device_task_user_by_index(mouse_report, index);
+}
+
+__attribute__((weak)) report_mouse_t pointing_device_task_user_by_index(report_mouse_t mouse_report, uint8_t index) {
     return mouse_report;
 }
 
@@ -147,9 +189,9 @@ __attribute__((weak)) void pointing_device_init(void) {
         if (pointing_device_configs[i].motion.pin) {
             setPinInput(pointing_device_configs[i].motion.pin);
         }
+        pointing_device_init_kb_by_index(i);
     }
     pointing_device_init_kb();
-    pointing_device_init_user();
 }
 
 __attribute__((weak)) void pointing_device_send(report_mouse_t* sending_report) {
@@ -228,7 +270,7 @@ bool pointing_deivce_task_get_pointing_reports(report_mouse_t* report) {
             device_was_ready = true;
             loop_report      = pointing_device_configs[i].driver->get_report(pointing_device_configs[i].config);
             pointing_device_adjust_report(&loop_report, i);
-            loop_report = pointing_device_task_kb(loop_report, i); // Maybe simpler to not pass pointer to user?
+            loop_report = pointing_device_task_kb_by_index(loop_report, i); // Maybe simpler to not pass pointer to user?
             buttons[i]  = loop_report.buttons;
             pointing_device_add_and_clamp_report(report, &loop_report);
         } else {
@@ -241,48 +283,20 @@ bool pointing_deivce_task_get_pointing_reports(report_mouse_t* report) {
     return device_was_ready;
 }
 
-bool pointing_device_task_handle_shared_report(report_mouse_t* local_report, bool* device_was_ready) {
-    static uint8_t counter = 0;
-    if (is_keyboard_master()) {
-        if (counter != shared_report.counter) {
-#if defined(POINTING_DEVICE_DEBUG)
-            if (shared_report.counter != (((uint16_t)counter + 1) & UINT8_MAX)) {
-                pd_dprintf("POINTING DEVICE: Missed shared report - last report: %d, new report: %d\n", counter, shared_report.counter);
-            }
-#endif
-            pointing_device_add_and_clamp_report(local_report, &shared_report.report);
-            counter           = shared_report.counter;
-            *device_was_ready = true;
-            return true;
-        }
-    } else {
-        if (*device_was_ready) {
-            if (pointing_device_report_ready(&shared_report.report, local_report, device_was_ready)) {
-                memcpy(&shared_report, local_report, sizeof(report_mouse_t));
-                shared_report.counter = counter;
-                counter               = (((uint16_t)counter + 1) & UINT8_MAX);
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
 __attribute__((weak)) bool pointing_device_task(void) {
     bool device_was_ready    = pointing_deivce_task_get_pointing_reports(&local_report);
     bool report_is_different = false;
 #if defined(SPLIT_KEYBOARD)
     report_is_different = pointing_device_task_handle_shared_report(&local_report, &device_was_ready);
 #endif
-    if (is_keyboard_master()) {
+
+    local_report = pointing_device_task_kb(local_report);
+
         // automatic mouse layer function
 #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
         pointing_device_task_auto_mouse(local_report);
 #endif
-    }
-#ifdef POINTING_DEVICE_MODES_ENABLE
-        local_report = pointing_device_modes_task(local_report);
-#endif
+
 
     // combine with mouse report to ensure that the combined is sent correctly
 #ifdef MOUSEKEY_ENABLE
@@ -295,11 +309,9 @@ __attribute__((weak)) bool pointing_device_task(void) {
         report_is_different = pointing_device_report_ready(&last_sent_report, &local_report, &device_was_ready);
     }
     if (report_is_different) {
-
         memcpy(&last_sent_report, &local_report, sizeof(report_mouse_t));
         pointing_device_send(&local_report);
     }
-
 
     return report_is_different;
 }

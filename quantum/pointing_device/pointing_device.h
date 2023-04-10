@@ -77,23 +77,6 @@ typedef struct {
     uint16_t (*get_cpi)(const void *);
 } pointing_device_driver_t;
 
-typedef struct {
-    const pointing_device_driver_t   *driver;
-    const pointing_device_rotations_t rotation;
-    const pointing_device_invert_t    invert;
-    const uint8_t                     throttle;
-    const void                       *config;
-    const pointing_device_motion_t    motion;
-#if defined(SPLIT_KEYBOARD)
-    const pointing_device_side_t side;
-#endif
-} pointing_device_config_t;
-
-typedef struct {
-    uint16_t cpi;
-    bool     update;
-} pointing_device_shared_cpi_t;
-
 typedef enum {
     POINTING_DEVICE_BUTTON1,
     POINTING_DEVICE_BUTTON2,
@@ -159,6 +142,13 @@ typedef int16_t clamp_range_t;
 #define CONSTRAIN_HID(amt) ((amt) < INT8_MIN ? INT8_MIN : ((amt) > INT8_MAX ? INT8_MAX : (amt)))
 #define CONSTRAIN_HID_XY(amt) ((amt) < XY_REPORT_MIN ? XY_REPORT_MIN : ((amt) > XY_REPORT_MAX ? XY_REPORT_MAX : (amt)))
 
+#define POINTING_DEVICE_NO_MOTION_PIN \
+    { 0 }
+#define POINTING_DEVICE_THIS_SIDE(index) (pointing_device_configs[index].side == (is_keyboard_left() ? LEFT : RIGHT))
+
+#define CONSTRAIN_HID(amt) ((amt) < INT8_MIN ? INT8_MIN : ((amt) > INT8_MAX ? INT8_MAX : (amt)))
+#define CONSTRAIN_HID_XY(amt) ((amt) < XY_REPORT_MIN ? XY_REPORT_MIN : ((amt) > XY_REPORT_MAX ? XY_REPORT_MAX : (amt)))
+
 void           pointing_device_init(void);
 bool           pointing_device_task(void);
 void           pointing_device_send(report_mouse_t *sending_report);
@@ -170,14 +160,40 @@ void           pointing_device_set_cpi(uint16_t cpi);
 uint16_t pointing_device_get_cpi_by_index(uint8_t index);
 void     pointing_device_set_cpi_by_index(uint16_t cpi, uint8_t index);
 
+uint16_t pointing_device_get_cpi_by_index(uint8_t index);
+void     pointing_device_set_cpi_by_index(uint16_t cpi, uint8_t index);
+
+
+void           pointing_device_init_kb_by_index(uint8_t index);
+void           pointing_device_init_user_by_index(uint8_t index);
 void           pointing_device_init_kb(void);
 void           pointing_device_init_user(void);
-report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report, uint8_t index);
-report_mouse_t pointing_device_task_user(report_mouse_t mouse_report, uint8_t index);
+report_mouse_t pointing_device_task_kb_by_index(report_mouse_t mouse_report, uint8_t index);
+report_mouse_t pointing_device_task_user_by_index(report_mouse_t mouse_report, uint8_t index);
+report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report);
+report_mouse_t pointing_device_task_user(report_mouse_t mouse_report);
 uint8_t        pointing_device_handle_buttons(uint8_t buttons, bool pressed, pointing_device_buttons_t button);
 void           pointing_device_adjust_by_defines(report_mouse_t *report);
 void           pointing_device_keycode_handler(uint16_t keycode, bool pressed);
 bool           pointing_deivce_task_get_pointing_reports(report_mouse_t *report);
+bool           pointing_deivce_task_get_pointing_reports(report_mouse_t *report);
+void pointing_device_add_and_clamp_report(report_mouse_t* report, report_mouse_t* additional_report);
+bool pointing_device_report_ready(report_mouse_t* last_report, report_mouse_t* new_report, bool* device_was_ready);
+
+#if defined(SPLIT_POINTING_ENABLE)
+void     pointing_device_set_shared_report(report_mouse_t report);
+uint16_t pointing_device_get_shared_cpi(void);
+#    if !defined(POINTING_DEVICE_TASK_THROTTLE_MS)
+#        define POINTING_DEVICE_TASK_THROTTLE_MS 1
+#    endif
+#    if defined(POINTING_DEVICE_COMBINED)
+void           pointing_device_set_cpi_on_side(bool left, uint16_t cpi);
+report_mouse_t pointing_device_combine_reports(report_mouse_t left_report, report_mouse_t right_report);
+report_mouse_t pointing_device_task_combined_kb(report_mouse_t left_report, report_mouse_t right_report);
+report_mouse_t pointing_device_task_combined_user(report_mouse_t left_report, report_mouse_t right_report);
+report_mouse_t pointing_device_adjust_by_defines_right(report_mouse_t mouse_report);
+#    endif // defined(POINTING_DEVICE_COMBINED)
+#endif     // defined(SPLIT_POINTING_ENABLE)
 
 void                             pointing_device_set_shared_report(pointing_device_shared_report_t report);
 pointing_device_shared_report_t  pointing_device_get_shared_report(void);
