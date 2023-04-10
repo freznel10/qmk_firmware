@@ -13,3 +13,5 @@ void rgb_matrix_layer_helper(uint8_t hue, uint8_t sat, uint8_t val, uint8_t mode
 
 bool rgb_matrix_indicators_advanced_keymap(uint8_t led_min, uint8_t led_max);
 bool rgb_matrix_indicators_keymap(void);
+
+extern bool   tap_toggling, enable_acceleration, is_drag_mom, is_media, scrolling_mode, is_caret;
