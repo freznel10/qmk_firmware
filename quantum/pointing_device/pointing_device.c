@@ -296,7 +296,6 @@ __attribute__((weak)) bool pointing_device_task(void) {
 #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
         pointing_device_task_auto_mouse(local_report);
 #endif
-
 #ifdef POINTING_DEVICE_MODES_ENABLE
         local_report = pointing_device_modes_task(local_report);
 #endif
