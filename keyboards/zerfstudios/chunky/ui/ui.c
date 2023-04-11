@@ -263,21 +263,21 @@ const char *rgb_matrix_name(uint8_t effect) {
 #endif // defined(RGB_MATRIX_ENABLE)
 
 ///////////////////// CUSTOM EVENTS ////////////////////
-uint32_t USER_EVENT_DF_LAYER_CHANGE = 0;
-uint32_t USER_EVENT_CPI_UPDATE = 1;
-uint32_t USER_EVENT_WPM_UPDATE = 2;
-uint32_t USER_EVENT_ACTIVE_LAYER_CHANGE = 3;
-uint32_t USER_EVENT_PANEL_CHANGE = 4;
-uint32_t USER_EVENT_RGBMODE_UPDATE = 5;
-uint32_t USER_EVENT_CAPS_WORD_UPDATE = 6;
-uint32_t USER_EVENT_PM_STATE_CHANGE = 7;
-uint32_t USER_EVENT_PM_SIDE_CHANGE = 8;
-uint32_t USER_EVENT_AM_STATE_CHANGE = 9;
-uint32_t USER_EVENT_RGBHUE_UPDATE = 10;
-uint32_t USER_EVENT_RGBSAT_UPDATE = 11;
-uint32_t USER_EVENT_RGBVAL_UPDATE = 12;
-uint32_t USER_EVENT_KEYLOG_UPDATE = 13;
-uint32_t USER_EVENT_UNICODE_MODE_UPDATE = 14;
+uint32_t USER_EVENT_DF_LAYER_CHANGE;
+uint32_t USER_EVENT_CPI_UPDATE;
+uint32_t USER_EVENT_WPM_UPDATE;
+uint32_t USER_EVENT_ACTIVE_LAYER_CHANGE;
+uint32_t USER_EVENT_PANEL_CHANGE;
+uint32_t USER_EVENT_RGBMODE_UPDATE;
+uint32_t USER_EVENT_CAPS_WORD_UPDATE;
+uint32_t USER_EVENT_PM_STATE_CHANGE;
+uint32_t USER_EVENT_PM_SIDE_CHANGE;
+uint32_t USER_EVENT_AM_STATE_CHANGE;
+uint32_t USER_EVENT_RGBHUE_UPDATE;
+uint32_t USER_EVENT_RGBSAT_UPDATE;
+uint32_t USER_EVENT_RGBVAL_UPDATE;
+uint32_t USER_EVENT_KEYLOG_UPDATE;
+uint32_t USER_EVENT_UNICODE_MODE_UPDATE;
 
 
 
@@ -1263,9 +1263,9 @@ void ui_Screen1_screen_init(void)
     ui_Screen1 = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_Screen1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     // render_rgb_mode_status(ui_Screen1, LV_ALIGN_TOP_LEFT, 5, 57, LV_SIZE_CONTENT, LV_SIZE_CONTENT, &style_label_futura18, ui_render_rgbmode, USER_EVENT_RGBMODE_UPDATE, NULL);
-    render_panel_kb_status (ui_Screen1, LV_ALIGN_CENTER, 0, -55, (TFT_WIDTH - 20), 70, &style_label_futura22, 0, 0, 0);
-    render_panel_HSV (ui_Screen1, LV_ALIGN_CENTER, 0, 40, (TFT_WIDTH - 20) , 50, &style_label_futura18, 0, 0, 0);
-    render_panel_mods (ui_Screen1, LV_ALIGN_CENTER, 0, 118, (TFT_WIDTH - 20), 70, &style_label_futura24, 0, 0, 0);
+    render_panel_kb_status (ui_Screen1, LV_ALIGN_CENTER, 0, -55, (TFT_WIDTH - 50), 70, &style_label_futura18, 0, 0, 0);
+    render_panel_HSV (ui_Screen1, LV_ALIGN_CENTER, 0, 40, (TFT_WIDTH - 50) , 50, &style_label_futura18, 0, 0, 0);
+    render_panel_mods (ui_Screen1, LV_ALIGN_CENTER, 0, 118, (TFT_WIDTH - 50), 70, &style_label_futura18, 0, 0, 0);
 
 //for conversion and laying out properly
 #ifdef UI_RENDER_WPM

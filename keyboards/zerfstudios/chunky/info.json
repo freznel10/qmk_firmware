@@ -46,8 +46,8 @@
     "encoder": {
         "enabled": true,
         "rotary": [
-            { "pin_a": "GP11", "pin_b": "GP12", "resolution": 2},
-            { "pin_a": "GP27", "pin_b": "GP26", "resolution": 2}
+            { "pin_a": "GP27", "pin_b": "GP26", "resolution": 2},
+            { "pin_a": "GP11", "pin_b": "GP12", "resolution": 2}
         ]
 
     },
@@ -70,8 +70,8 @@
         "encoder": {
             "right": {
                 "rotary": [
-                    { "pin_a": "GP11", "pin_b": "GP12", "resolution": 2},
-                    { "pin_a": "GP26", "pin_b": "GP27", "resolution": 2}
+                    { "pin_a": "GP26", "pin_b": "GP27", "resolution": 2},
+                    { "pin_a": "GP11", "pin_b": "GP12", "resolution": 2}
                 ]
             }
         }
@@ -158,10 +158,10 @@
                 { "label": "LVGL_CLOCWISE", "matrix": [2, 2], "x": 2.0, "y": 5.5 },
                 { "label": "LVGL_ENCODER_BUTTON", "matrix": [2, 3], "x": 1.0, "y": 5.5 },
                 { "label": "KC_DN", "matrix": [8, 6], "x": 16.0, "y": 5.5 },
-                { "label": "KC_DN", "matrix": [8, 3], "x": 15.0, "y": 5.5 },
+                { "label": "KC_DN", "matrix": [8, 3], "x":   15.0, "y": 5.5 },
                 { "label": "KC_TRNS", "matrix": [8, 2], "x": 16.0, "y": 6.5 },
                 { "label": "LVGL_ENCODER_BUTTON", "matrix": [8, 4], "x": 16.0, "y": 4.5 },
-                { "label": "KC_UP", "matrix": [8, 5], "x": 17.0, "y": 5.5 },
+                { "label": "KC_UP", "matrix": [8, 5], "x"  : 17.0, "y": 5.5 },
                 { "label": "KC_TRNS", "matrix": [0, 5], "x": 0.0, "y": 8.0 },
                 { "label": "KC_TRNS", "matrix": [0, 4], "x": 1.0, "y": 8.0 },
                 { "label": "DPI-", "matrix": [0, 2], "x": 2.0, "y": 8.0 },
@@ -172,7 +172,7 @@
                 { "label": "KC_TRNS", "matrix": [0, 7], "x": 7.0, "y": 8.0 },
                 { "label": "KC_TRNS", "matrix": [6, 7], "x": 10.0, "y": 8.0 },
                 { "label": "KC_TRNS", "matrix": [6, 6], "x": 11.0, "y": 8.0 },
-                { "label": "KC_TRNS", "matrix": [6, 32], "x": 12.0, "y": 8.0 },
+                { "label": "KC_TRNS", "matrix": [6, 3], "x": 12.0, "y": 8.0 },
                 { "label": "KC_TRNS", "matrix": [6, 4], "x": 13.0, "y": 8.0 },
                 { "label": "KC_TRNS", "matrix": [6, 0], "x": 14.0, "y": 8.0 },
                 { "label": "KC_TRNS", "matrix": [6, 5], "x": 15.0, "y": 8.0 },

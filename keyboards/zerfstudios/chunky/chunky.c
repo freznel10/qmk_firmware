@@ -526,7 +526,7 @@ void keyboard_post_init_kb(void) {
             qp_rect(qp_display, 0, 0, 240, 240, 0, 0, 0, true);
         } else {
             qp_display = qp_gc9a01_make_spi_device(240, 240, DISPLAY_CS_PIN_RIGHT, DISPLAY_DC_PIN_RIGHT, DISPLAY_RST_PIN_RIGHT, 8, 0);
-            qp_init(qp_display, QP_ROTATION_0);
+            qp_init(qp_display, QP_ROTATION_90);
             qp_rect(qp_display, 0, 0, 240, 240, 0, 0, 0, true);
         }
     qp_lvgl_attach(qp_display);
