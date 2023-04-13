@@ -120,17 +120,17 @@ static uint16_t get_pointer_sniping_dpi(chunky_config_t* config) { return (uint1
 /** \brief Set the appropriate DPI for the input config. */
 static void maybe_update_pointing_device_cpi(chunky_config_t* config) {
     // if (is_keyboard_left()) {
-    //     if (user_state.split_pointing_mode == PM_DRAG) {
-    //         pointing_device_set_cpi_on_side(true, CHUNKY_DRAGSCROLL_DPI);
-    //         pointing_device_set_cpi_on_side(false, CHUNKY_DRAGSCROLL_DPI);
-    //     } else if (user_state.split_pointing_mode == PM_PRECISION) {
-    //         pointing_device_set_cpi_on_side(true,get_pointer_sniping_dpi(config));
-    //         pointing_device_set_cpi_on_side(false,get_pointer_sniping_dpi(config));
-    //         dprintf("testing");
-    //     } else {
-    //         pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
-    //         pointing_device_set_cpi_on_side(false, get_pointer_default_dpi(config));
-    //     }
+        if (user_state.split_pointing_mode == PM_DRAG) {
+            pointing_device_set_cpi_by_index(CHUNKY_DRAGSCROLL_DPI, 0);
+            pointing_device_set_cpi_by_index(CHUNKY_DRAGSCROLL_DPI, 1);
+        } else if (user_state.split_pointing_mode == PM_PRECISION) {
+            pointing_device_set_cpi_by_index(get_pointer_sniping_dpi(config), 0);
+            pointing_device_set_cpi_by_index(get_pointer_sniping_dpi(config), 1);
+            dprintf("testing");
+        } else {
+            pointing_device_set_cpi_by_index(get_pointer_default_dpi(config), 0);
+            pointing_device_set_cpi_by_index(get_pointer_default_dpi(config), 1);
+        }
     // } else {
     //     if (user_state.split_pointing_mode == PM_DRAG) {
     //         pointing_device_set_cpi_on_side(true, CHUNKY_DRAGSCROLL_DPI);
@@ -145,15 +145,6 @@ static void maybe_update_pointing_device_cpi(chunky_config_t* config) {
     // }
 }
 
-// static void maybe_update_pointing_device_cpi(chunky_config_t* config) {
-//     if (config->is_dragscroll_enabled) {
-//         pointing_device_set_cpi(CHUNKY_DRAGSCROLL_DPI);
-//     } else if (config->is_sniping_enabled) {
-//         pointing_device_set_cpi(get_pointer_sniping_dpi(config));;
-//     } else {
-//         pointing_device_set_cpi(get_pointer_default_dpi(config));
-//     }
-// }
 
 /**
  * \brief Update the pointer's default DPI to the next or previous step.

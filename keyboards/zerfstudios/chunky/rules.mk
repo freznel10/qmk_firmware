@@ -49,6 +49,7 @@ SRC +=  ui/ui.c \
 		ui/assets/ui_img_2120736529.c \
 		ui/assets/ui_img_bk80_png.c \
 		ui/assets/ui_img_logo_test_png.c \
+		ui/assets/ui_img_logo_png.c \
 		ui/assets/ui_img_city_png.c \
 		ui/assets/ui_img_emblem_80_png.c \
 		ui/assets/ui_img_numpad_80_png.c \
@@ -56,6 +57,7 @@ SRC +=  ui/ui.c \
 		ui/assets/ui_img_toolbox_80_png.c \
 		ui/assets/ui_img_lower_80_png.c \
 		ui/assets/ui_img_raise_80_png.c \
+		ui/assets/ui_img_ui_image_adjust_png.c\
 		ui/assets/monitormund.c \
 		ui/bindings/bindings.c \
 		ui/fonts/ui_font_Futura12.c \

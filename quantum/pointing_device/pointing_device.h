@@ -61,6 +61,12 @@ typedef struct {
 } pointing_device_i2c_config_t;
 
 typedef struct {
+    pin_t data_pin;
+    pin_t clock_pin;
+} pointing_device_ps2_config_t;
+
+
+typedef struct {
     pin_t sdio;
     pin_t sclk;
     pin_t cs;
@@ -142,6 +148,10 @@ typedef struct {
 #if defined(POINTING_DEVICE_DRIVER_PMW3389)
 #    include "pmw3389.h"
 #endif
+#if defined(POINTING_DEVICE_DRIVER_PS2_TRACKPOINT)
+#    include "ps2_trackpoint.h"
+#    include "ps2.h"
+#endif
 
 #ifdef MOUSE_EXTENDED_REPORT
 #    define XY_REPORT_MIN INT16_MIN
@@ -194,12 +204,4 @@ pointing_device_shared_cpi_t    *pointing_device_get_shared_cpi(void);
 void                             pointing_device_reset_shared_cpi_update_flags(void);
 bool                             pointing_device_check_shared_cpi_update_flags(void);
 
-#if defined(POINTING_DEVICE_DRIVER_PS2_TRACKPOINT)
-#    include "ps2_trackpoint.h"
-#    include "ps2.h"
-#endif
 
-typedef struct {
-    pin_t data_pin;
-    pin_t clock_pin;
-} pointing_device_ps2_config_t;

@@ -16,6 +16,9 @@
 #include "os_detection.h"
 #endif
 #include <stdio.h>
+#include <stdint.h>
+#include "math.h"
+#include "lv_math.h"
 
 // #include "menu.h"
 // #include "dial_menu/dial_menu.h"
@@ -54,6 +57,10 @@ lv_obj_t * ui_Screen1_Label_CTRL;
 lv_obj_t * ui_Screen1_Label_ALT;
 lv_obj_t * ui_Screen1_Label_GUI;
 lv_obj_t * ui_Screen1_Label_SHIFT;
+lv_obj_t * ui_Screen1_Label_CTRL_1;
+lv_obj_t * ui_Screen1_Label_ALT_1;
+lv_obj_t * ui_Screen1_Label_GUI_1;
+lv_obj_t * ui_Screen1_Label_SHIFT_1;
 lv_obj_t * ui_Screen1_Panel_Status;
 #ifdef CUSTOM_KEYLOGGER
 lv_obj_t * ui_Screen1_Label_KL;
@@ -74,6 +81,8 @@ lv_obj_t * ui_PM_led2;
 lv_obj_t * ui_PM_led3;
 lv_obj_t * ui_Label_Unicode_Mode;
 lv_obj_t * monitormund_test;
+
+
 
 
 
@@ -796,7 +805,7 @@ void ui_active_layer_change(lv_event_t * e) {
     if(event_code == USER_EVENT_ACTIVE_LAYER_CHANGE) {
         switch (get_highest_layer(layer_state | default_layer_state )) {
             case _COLEMAK_DH:
-                lv_img_set_src(ui_Layer_Indicator, &ui_img_bk80_png);
+                lv_img_set_src(ui_Layer_Indicator, &ui_img_logo_png);
                 // &ui_img_emblem_80_png
                 lv_label_set_text(ui_Label_Layer_Name, "LAYER");
                 break;
@@ -825,7 +834,7 @@ void ui_active_layer_change(lv_event_t * e) {
                 lv_label_set_text(ui_Label_Layer_Name, "RAISE");
                 break;
             case _ADJUST:
-                // lv_img_set_src(ui_Layer_Indicator, &ui_img_toolbox_80_png);
+                lv_img_set_src(ui_Layer_Indicator, &ui_img_ui_image_adjust_png);
                 lv_label_set_text(ui_Label_Layer_Name, "ADJUST");
                 break;
             case _KEYPAD:
@@ -1071,10 +1080,11 @@ void render_panel_kb_status (lv_obj_t *scr, lv_align_t align, lv_coord_t x, lv_c
     // lv_style_set_flex_track_place(&style_test, LV_FLEX_ALIGN_SPACE_EVENLY);
 
     static lv_style_t style_test;
-    static lv_coord_t column_dsc[] = {42, 42, 42, LV_GRID_TEMPLATE_LAST};   /*2 columns with 100 and 400 ps width*/
+    static lv_coord_t column_dsc[] = {((TFT_WIDTH - 80)/3), ((TFT_WIDTH - 80)/3), ((TFT_WIDTH - 80)/3), LV_GRID_TEMPLATE_LAST};   /*2 columns with 100 and 400 ps width*/
     static lv_coord_t row_dsc[] = {30, 30, LV_GRID_TEMPLATE_LAST}; /*3 100 px tall rows*/
     lv_style_init(&style_test);
     lv_style_set_layout(&style_test, LV_LAYOUT_GRID);
+    lv_style_set_grid_column_align(&style_test, LV_GRID_ALIGN_CENTER);
     lv_style_set_grid_row_dsc_array(&style_test, row_dsc);
     lv_style_set_grid_column_dsc_array(&style_test, column_dsc);
     lv_style_set_pad_all(&style_test, 0);
@@ -1240,6 +1250,55 @@ void render_panel_mods (lv_obj_t *scr, lv_align_t align, lv_coord_t x, lv_coord_
     lv_obj_add_event_cb(ui_Screen1_Panel_Status, event_cb, filter, user_data);
 }
 
+
+#define NUM_ICONS 12
+#define CIRCLE_RADIUS 110
+#define X_OFFSET 5
+#define Y_OFFSET 5
+
+char *label_text[NUM_ICONS] = {
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+};
+
+
+
+// Calculate the x coordinate of the icon based on the angle
+int get_icon_x_coordinate(int angle_degrees) {
+    float angle_radians = (angle_degrees * M_PI) / 180.0;
+    return (int)(CIRCLE_RADIUS * cos(angle_radians) + TFT_WIDTH / 2);
+}
+
+// Calculate the y coordinate of the icon based on the angle
+int get_icon_y_coordinate(int angle_degrees) {
+    float angle_radians = (angle_degrees * M_PI) / 180.0;
+    return (int)(CIRCLE_RADIUS * sin(angle_radians) + TFT_HEIGHT / 2);
+}
+
+// void render_mods_circular(lv_obj_t *scr){
+//     // Create the circular display container
+
+//     // Create the icons and place them around the circl
+//     lv_obj_t *labels[NUM_ICONS];
+//     for (int i = 0; i < NUM_ICONS; i++) {
+//         int16_t angle_degrees = i * (360 / NUM_ICONS);
+//         labels[i] =  lv_obj_create(scr);
+//     lv_label_set_text(labels[i], label_text[i]);
+//     lv_obj_set_pos(labels[i], get_icon_x_coordinate(angle_degrees), get_icon_y_coordinate(angle_degrees));
+//     }
+
+// }
+
 bool process_record_painter(uint16_t keycode, keyrecord_t *record) {
 #ifdef CUSTOM_KEYLOGGER
     if (record->event.pressed) {
@@ -1254,7 +1313,7 @@ bool process_record_painter(uint16_t keycode, keyrecord_t *record) {
 void ui_Screen1_screen_init(void)
 {
 #ifdef CUSTOM_KEYLOGGER
-    if (timer != NULL) {
+    if (timer != NULL) {/
         lv_timer_del(timer);
         timer = NULL;
     }
@@ -1263,9 +1322,19 @@ void ui_Screen1_screen_init(void)
     ui_Screen1 = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_Screen1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     // render_rgb_mode_status(ui_Screen1, LV_ALIGN_TOP_LEFT, 5, 57, LV_SIZE_CONTENT, LV_SIZE_CONTENT, &style_label_futura18, ui_render_rgbmode, USER_EVENT_RGBMODE_UPDATE, NULL);
-    render_panel_kb_status (ui_Screen1, LV_ALIGN_CENTER, 0, -55, (TFT_WIDTH - 50), 70, &style_label_futura18, 0, 0, 0);
-    render_panel_HSV (ui_Screen1, LV_ALIGN_CENTER, 0, 40, (TFT_WIDTH - 50) , 50, &style_label_futura18, 0, 0, 0);
-    render_panel_mods (ui_Screen1, LV_ALIGN_CENTER, 0, 118, (TFT_WIDTH - 50), 70, &style_label_futura18, 0, 0, 0);
+    render_panel_kb_status (ui_Screen1, LV_ALIGN_CENTER, 0, -55, (TFT_WIDTH - 80), 70, &style_label_futura22, 0, 0, 0);
+    render_panel_HSV (ui_Screen1, LV_ALIGN_CENTER, 0, 40, (TFT_WIDTH - 80) , 50, &style_label_futura18, 0, 0, 0);
+    render_panel_mods (ui_Screen1, LV_ALIGN_CENTER, 0, 118, (TFT_WIDTH - 80), 70, &style_label_futura18, 0, 0, 0);
+
+    lv_obj_t *labels[NUM_ICONS] = {NULL};
+    // lv_obj_t *labels[NUM_ICONS];
+    for (int i = 0; i < NUM_ICONS; i++) {
+        int angle_degrees = i * (360 / NUM_ICONS);
+        labels[i] = lv_label_create(ui_Screen1);
+        lv_label_set_text(labels[i], label_text[i]);
+        lv_obj_set_align(labels[i], LV_ALIGN_TOP_LEFT);
+        lv_obj_set_pos(labels[i], get_icon_x_coordinate(angle_degrees) - X_OFFSET, get_icon_y_coordinate(angle_degrees) - Y_OFFSET);
+    }
 
 //for conversion and laying out properly
 #ifdef UI_RENDER_WPM
@@ -1301,6 +1370,7 @@ void ui_Screen1_screen_init(void)
 #ifdef UI_RENDER_WPM
     lv_obj_add_event_cb(ui_Screen1_Label_WPM, ui_render_wpm, USER_EVENT_WPM_UPDATE, NULL);
 #endif
+
 }
 
 void ui_Screen2_screen_init(void)
@@ -1314,7 +1384,7 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_style_bg_grad_stop(ui_Screen2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_dir(ui_Screen2, LV_GRAD_DIR_HOR, LV_PART_MAIN | LV_STATE_DEFAULT);
     render_panel_layer(ui_Screen2, LV_ALIGN_CENTER, 0, 30, (TFT_WIDTH - 60), 100, LV_SIZE_CONTENT, LV_SIZE_CONTENT, &style_label_futura22, &style_label_futura18, ui_active_layer_change, USER_EVENT_ACTIVE_LAYER_CHANGE, NULL);
-    render_panel_pointing (ui_Screen2, LV_ALIGN_CENTER, 0, -95, (TFT_WIDTH - 60), 100, &style_label_futura22, &style_label_futura18, ui_pm_state_change, USER_EVENT_PM_STATE_CHANGE, NULL);
+    render_panel_pointing (ui_Screen2, LV_ALIGN_CENTER, 0, -90, (TFT_WIDTH - 60), 100, &style_label_futura18, &style_label_futura18, ui_pm_state_change, USER_EVENT_PM_STATE_CHANGE, NULL);
     render_panel_deflayer (ui_Screen2, LV_ALIGN_CENTER, 0, 130, &ui_font_Futura22, ui_event_dflayer_dropdown, LV_EVENT_ALL, NULL);
 
 
@@ -1332,7 +1402,7 @@ void lvgl_event_triggers(void) {
         lv_event_send(ui_Screen2_deflayer, USER_EVENT_DF_LAYER_CHANGE, NULL);
     }
     static uint16_t last_cpi   = 0xFFFF;
-    uint16_t curr_cpi   = user_state.split_pointing_mode == 2 ? chunky_get_pointer_sniping_dpi() : chunky_get_pointer_default_dpi();
+    uint16_t curr_cpi   =  pointing_device_get_cpi_by_index(0);
     bool cpi_redraw = false;
     if (last_cpi != curr_cpi) {
         last_cpi   = curr_cpi;

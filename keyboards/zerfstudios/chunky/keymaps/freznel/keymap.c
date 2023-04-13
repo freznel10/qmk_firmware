@@ -73,8 +73,8 @@ enum custom_keycodes {
     CTLGRVE,        K01,        K02,        K03,        K04,        K05,                                                    K06,        K07,        K08,        K09,        K0A,        BSP_KEY, \
     OS_LSFT,        LGUI_T(K11),LALT_T(K12),LCTL_T(K13),LSFT_T(K14),K15,                                                    K16,        RSFT_T(K17),RCTL_T(K18),RALT_T(K19),RGUI_T(K1A),RALT_T(K1B), \
     LALT_T(KC_DEL), LCTL_T(K21),K22,        K23,        K24,        K25,                                                    K26,        K27,        K28,        K29,        RCTL_T(K2A),KC_BSLS, \
-                                PM_TG(0),   TAB_RSE,    SPC_LSH,    ENT_LWR,    KC_BTN1,                        KC_BTN1,    ESC_LWR,    BSP_KEY,    DEL_RSE,    PMR_CYD, \
-                                LVGL_BTN,   PM_TG(2),   PM_TG(3),   KC_BTN3,    KC_BTN2,                        KC_BTN2,    PM_TG(3),   PM_TG(2),   PM_TG(3),   PM_TG(1), \
+                                A(KC_F4),   TAB_RSE,    SPC_LSH,    ENT_LWR,    KC_BTN1,                        KC_BTN1,    ESC_LWR,    BSP_KEY,    DEL_RSE,    SELWORD, \
+                                LVGL_BTN,   PM_TG(2),   PM_TG(3),   KC_BTN3,    KC_BTN2,                        KC_BTN2,    PM_TG(3),   PM_TG(2),   PM_TG(3),   KC_MUTE, \
                                 DPI_RMOD,   KC_PGDN,    KC_PGUP,    DPI_MOD,    KC_MUTE,                        RGB_TOG1,   KC_RGB_T,   KC_PGDN,    KC_PGUP,    DPI_MOD,\
     RGB_RMOD,       RGB_MOD,    RGB_SAD,   RGB_SAI,   KC_A,      KC_RGB_T,      KC_F7,      KC_F8,      KC_9,   KC_F10,     KC_F11,     KC_F12,     KC_F13,     KC_F14,     KC_F15,     KC_F16\
     )
@@ -94,13 +94,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_DEFAULT_LAYER_3] = LAYOUT_base_wrapper(
         _________________QWERTY_L1_________________, _________________QWERTY_R1_________________,
-        _________________QWERTY_L2_________________, __aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_______________QWERTY_R2_________________,
+        _________________QWERTY_L2_________________, _________________QWERTY_R2_________________,
         _________________QWERTY_L3_________________, _________________QWERTY_R3_________________
     ),
 
     [_DEFAULT_LAYER_4] = LAYOUT_base_wrapper(
         _________________DVORAK_L1_________________, _________________DVORAK_R1_________________,
-        _________________DVORAK_L2_________________, _________________DVORAK_R2_________________,
+        _________________DVORAK_L2_________________, _________________DVORAK_R2_________________,-
         _________________DVORAK_L3_________________, _________________DVORAK_R3_________________
     ),
 
@@ -119,7 +119,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,                _________________FUNC_LEFT_________________,                                                        _________________FUNC_RIGHT________________,    _______,
         _______,                _________________LOWER_L1__________________,                                                        _________________LOWER_R1_ALT______________,    _______,
         _______,                _________________LOWER_L2__________________,                                                        _________________LOWER_R2_ALT______________,    _______,
-        _______,                _________________LOWER_L2__________________,                                                        _________________LOWER_R3__________________,    _______,
+        _______,                _________________LOWER_L3__________________,                                                        _________________LOWER_R3__________________,    _______,
                                             _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
                                             _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
                                             _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
@@ -130,7 +130,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,                _________________FUNC_LEFT_________________,                                                        _________________FUNC_RIGHT________________,    _______,
         KC_CAPS,                _________________RAISE_L1__________________,                                                        _________________RAISE_R1__________________,    _______,
         _______,                _________________RAISE_L2__________________,                                                        _________________RAISE_R2__________________,    _______,
-        _______,                _________________RAISE_L2__________________,                                                        _________________RAISE_R3__________________,    _______,
+        _______,                _________________RAISE_L3__________________,                                                        _________________RAISE_R3__________________,    _______,
                                             _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
                                             _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
                                             _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
@@ -139,9 +139,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_ADJUST] = LAYOUT_4x6_wrapper(
         QK_BOOT,                _________________UNICO_L1__________________,                                                        _________________UNICO_R1__________________,    QK_BOOT,
-        EE_CLR,                 _________________ADJUST_L1_________________,                                                        _________________ADJUST_R1_________________,    EE_CLR,
+        EE_CLR,                 _________________ADJUST_L1_________________,                                                        _________________ADJUST_R1_________________,    QK_MAKE,
         KEYLOCK,                _________________ADJUST_L2_________________,                                                        _________________ADJUST_R2_________________,    TG_MODS,
-        DQT,                    _________________ADJUST_L2_________________,                                                        _________________ADJUST_R3_________________,    AM_TOGGLE,
+        DQT,                    _________________ADJUST_L3_________________,                                                        _________________ADJUST_R3_________________,    AM_TOGGLE,
                                             _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
                                             _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
                                             _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
@@ -179,7 +179,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
-  // If console is enabled, it will print the matrix position and status of each key pressed
+  // If console is enabled, it will print the matrix position and status of each key pressed=
 #ifdef CONSOLE_ENABLE
     uprintf("KL: kc: %u, col: %u, row: %u, pressed: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed);
 #endif
@@ -446,7 +446,7 @@ void keyboard_post_init_keymap(void) {
 // }
 
 layer_state_t layer_state_set_keymap(layer_state_t state) {
-    adps9660_wake();
+    // adps9660_wake();
     switch (get_highest_layer(state)) {
         case _LOWER:
 #ifdef HAPTIC_ENABLE

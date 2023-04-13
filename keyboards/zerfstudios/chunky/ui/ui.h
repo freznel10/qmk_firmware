@@ -54,6 +54,11 @@ extern lv_obj_t * ui_Screen1_Label_CTRL;
 extern lv_obj_t * ui_Screen1_Label_ALT;
 extern lv_obj_t * ui_Screen1_Label_GUI;
 extern lv_obj_t * ui_Screen1_Label_SHIFT;
+extern lv_obj_t * ui_Screen1_Label_CTRL_1;
+extern lv_obj_t * ui_Screen1_Label_ALT_1;
+extern lv_obj_t * ui_Screen1_Label_GUI_1;
+extern lv_obj_t * ui_Screen1_Label_SHIFT_1;
+extern lv_obj_t * labels[];
 
 extern lv_obj_t * ui_Layer_Indicator;
 extern lv_obj_t * ui_Screen2;
@@ -120,6 +125,10 @@ void ui_render_rgbsat_redraw(lv_event_t * e);
 void ui_render_caps_word(lv_event_t * e);
 void lvgl_event_triggers(void);
 void lv_anim_2 (lv_obj_t * TargetObject);
+void render_mods_circular(lv_obj_t *scr);
+
+int get_icon_x_coordinate(int angle_degrees);
+int get_icon_y_coordinate(int angle_degrees);
 
 // void lvgl_control_led_indicators(void);
 // void ui_event_Settings1(lv_event_t * e);
@@ -150,6 +159,7 @@ LV_FONT_DECLARE(eleganticons);
 LV_IMG_DECLARE(ui_img_2120736529);
 LV_IMG_DECLARE(ui_img_bk80_png);
 LV_IMG_DECLARE(ui_img_logo_test_png);
+LV_IMG_DECLARE(ui_img_logo_png);
 LV_IMG_DECLARE(ui_img_city_png);
 LV_IMG_DECLARE(ui_img_emblem_80_png);    // assets\emblem_80.png
 LV_IMG_DECLARE(ui_img_trackball_png);
@@ -157,6 +167,7 @@ LV_IMG_DECLARE(ui_img_toolbox_80_png);
 LV_IMG_DECLARE(ui_img_lower_80_png);
 LV_IMG_DECLARE(ui_img_raise_80_png);
 LV_IMG_DECLARE(ui_img_numpad_80_png);
+LV_IMG_DECLARE(ui_img_ui_image_adjust_png);
 LV_IMG_DECLARE(monitormund);
 
 // //////////////////////////////////////////////////////////////
