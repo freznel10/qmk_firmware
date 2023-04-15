@@ -83,12 +83,6 @@ lv_obj_t * ui_Label_Dpi;
 lv_obj_t * ui_DpiTitle;
 
 lv_obj_t * ui_Colorwheel1;
-lv_obj_t * ui_Colorwheel2;
-lv_obj_t * ui_Colorwheel3;
-
-
-
-
 
 // lv_obj_t * ui_Main1;
 // lv_obj_t * ui_Image1;
@@ -126,9 +120,9 @@ lv_obj_t * mbox2_text;
 
 lv_timer_t* timer;
 
-#define NUM_ICONS 12
+#define NUM_ICONS 10
 #define CIRCLE_RADIUS 100
-#define X_OFFSET 15
+#define X_OFFSET 20
 #define Y_OFFSET 5
 
 char *label_text[NUM_ICONS] = {
@@ -142,8 +136,6 @@ char *label_text[NUM_ICONS] = {
     "AUD",
     "CLCK",
     "ACRT",
-    "11",
-    "12",
 };
 
 lv_obj_t *labels[NUM_ICONS] = {NULL};
@@ -502,10 +494,8 @@ void ui_render_rgbhue_redraw(lv_event_t * e) {
             lv_obj_set_style_outline_color(ui_Panel_Pointing_Mode, trial_2, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_outline_color(ui_Screen2_deflayer, trial_2, LV_PART_MAIN | LV_STATE_DEFAULT);
         }
-        if(target == ui_Colorwheel1 || ui_Colorwheel2 || ui_Colorwheel3 ) {
+        if(target == ui_Colorwheel1 ) {
             lv_colorwheel_set_hsv(ui_Colorwheel1, wheel_color);
-            lv_colorwheel_set_hsv(ui_Colorwheel2, wheel_color);
-            lv_colorwheel_set_hsv(ui_Colorwheel3, wheel_color);
         }
         if(target == ui_Screen1) {
             // lv_obj_set_style_outline_color(ui_Screen1_Panel_Status, trial_3, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -541,11 +531,8 @@ void ui_render_rgbval_redraw(lv_event_t * e) {
             snprintf(buf, sizeof(buf), "V:%d", rgb_matrix_get_val());
             lv_label_set_text(ui_Screen1_Label_V, buf);
         }
-        if(target == ui_Colorwheel1 || ui_Colorwheel2 || ui_Colorwheel3) {
+        if(target == ui_Colorwheel1) {
             lv_colorwheel_set_hsv(ui_Colorwheel1, wheel_color);
-            lv_colorwheel_set_hsv(ui_Colorwheel2, wheel_color);
-            lv_colorwheel_set_hsv(ui_Colorwheel3, wheel_color);
-
         }
     }
 }
@@ -560,11 +547,8 @@ void ui_render_rgbsat_redraw(lv_event_t * e) {
             snprintf(buf, sizeof(buf), "S:%d", rgb_matrix_get_sat());
             lv_label_set_text(ui_Screen1_Label_S, buf);
         }
-        if(target == ui_Colorwheel1 || ui_Colorwheel2 || ui_Colorwheel3) {
+        if(target == ui_Colorwheel1) {
             lv_colorwheel_set_hsv(ui_Colorwheel1, wheel_color);
-            lv_colorwheel_set_hsv(ui_Colorwheel2, wheel_color);
-            lv_colorwheel_set_hsv(ui_Colorwheel3, wheel_color);
-
         }
     }
 }
@@ -1321,19 +1305,18 @@ int get_icon_y_coordinate(int angle_degrees) {
     return (int)(CIRCLE_RADIUS * sin(angle_radians) + TFT_HEIGHT / 2);
 }
 
-// void render_mods_circular(lv_obj_t *scr){
-//     // Create the circular display container
+    // for (int i = 0; i < NUM_ICONS; i++) {
+    //     int angle_degrees = i * (360 / NUM_ICONS);
+    //     labels[i] = lv_label_create(ui_Screen1);
+    //     lv_label_set_text(labels[i], label_text[i]);
+    //     lv_obj_set_align(labels[i], LV_ALIGN_TOP_LEFT);
+    //     lv_obj_set_pos(labels[i], get_icon_x_coordinate(angle_degrees) - X_OFFSET, get_icon_y_coordinate(angle_degrees) - Y_OFFSET);
+    //     lv_obj_set_style_text_font(labels[i], &ui_font_Futura18, LV_PART_MAIN);
+    // }
 
-//     // Create the icons and place them around the circl
-//     lv_obj_t *labels[NUM_ICONS];
-//     for (int i = 0; i < NUM_ICONS; i++) {
-//         int16_t angle_degrees = i * (360 / NUM_ICONS);
-//         labels[i] =  lv_obj_create(scr);
-//     lv_label_set_text(labels[i], label_text[i]);
-//     lv_obj_set_pos(labels[i], get_icon_x_coordinate(angle_degrees), get_icon_y_coordinate(angle_degrees));
-//     }
-
-// }
+void animate_panels(void) {
+    // Define animations here
+}
 
 bool process_record_painter(uint16_t keycode, keyrecord_t *record) {
 #ifdef CUSTOM_KEYLOGGER
@@ -1398,8 +1381,6 @@ void render_rgb (lv_obj_t *scr) {
     lv_obj_set_width(ui_Colorwheel1, 160);
     lv_obj_set_height(ui_Colorwheel1, 160);
     lv_obj_set_align(ui_Colorwheel1, LV_ALIGN_CENTER);
-    lv_colorwheel_set_mode(ui_Colorwheel1, LV_COLORWHEEL_MODE_HUE);
-    lv_colorwheel_set_mode_fixed(ui_Colorwheel1, true);
 
     lv_obj_set_style_pad_left(ui_Colorwheel1, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui_Colorwheel1, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
@@ -1416,60 +1397,13 @@ void render_rgb (lv_obj_t *scr) {
     lv_obj_set_style_pad_row(ui_Colorwheel1, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_column(ui_Colorwheel1, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
 
-    ui_Colorwheel2 = lv_colorwheel_create(scr, true);
-    lv_colorwheel_set_mode(ui_Colorwheel2, LV_COLORWHEEL_MODE_SATURATION);
-    lv_colorwheel_set_mode_fixed(ui_Colorwheel2, true);
-    lv_obj_set_width(ui_Colorwheel2, 140);
-    lv_obj_set_height(ui_Colorwheel2, 140);
-    lv_obj_set_align(ui_Colorwheel2, LV_ALIGN_CENTER);
-
-    lv_obj_set_style_pad_left(ui_Colorwheel2, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui_Colorwheel2, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_Colorwheel2, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui_Colorwheel2, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_row(ui_Colorwheel2, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_column(ui_Colorwheel2, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-
-    lv_obj_set_style_pad_left(ui_Colorwheel2, 3, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui_Colorwheel2, 3, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_Colorwheel2, 3, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui_Colorwheel2, 3, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_row(ui_Colorwheel2, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_column(ui_Colorwheel2, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_colorwheel_set_hsv(ui_Colorwheel2, color);
-
-    ui_Colorwheel3 = lv_colorwheel_create(scr, true);
-    lv_colorwheel_set_mode(ui_Colorwheel3, LV_COLORWHEEL_MODE_VALUE);
-    lv_colorwheel_set_mode_fixed(ui_Colorwheel3, true);
-    lv_obj_set_width(ui_Colorwheel3, 110);
-    lv_obj_set_height(ui_Colorwheel3, 110);
-    lv_obj_set_align(ui_Colorwheel3, LV_ALIGN_CENTER);
-
-    lv_obj_set_style_pad_left(ui_Colorwheel3, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui_Colorwheel3, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_Colorwheel3, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui_Colorwheel3, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_row(ui_Colorwheel3, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_column(ui_Colorwheel3, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-
-    lv_obj_set_style_pad_left(ui_Colorwheel3, 3, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui_Colorwheel3, 3, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_Colorwheel3, 3, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui_Colorwheel3, 3, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_row(ui_Colorwheel3, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_column(ui_Colorwheel3, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_colorwheel_set_hsv(ui_Colorwheel3, color);
-
     lv_obj_add_event_cb(ui_Colorwheel1, ui_render_rgbhue_redraw, USER_EVENT_RGBHUE_UPDATE, NULL);
-    lv_obj_add_event_cb(ui_Colorwheel2, ui_render_rgbhue_redraw, USER_EVENT_RGBHUE_UPDATE, NULL);
-    lv_obj_add_event_cb(ui_Colorwheel3, ui_render_rgbhue_redraw, USER_EVENT_RGBHUE_UPDATE, NULL);
     lv_obj_add_event_cb(ui_Colorwheel1, ui_render_rgbsat_redraw, USER_EVENT_RGBSAT_UPDATE, NULL);
-    lv_obj_add_event_cb(ui_Colorwheel2, ui_render_rgbsat_redraw, USER_EVENT_RGBSAT_UPDATE, NULL);
-    lv_obj_add_event_cb(ui_Colorwheel3, ui_render_rgbsat_redraw, USER_EVENT_RGBSAT_UPDATE, NULL);
     lv_obj_add_event_cb(ui_Colorwheel1, ui_render_rgbval_redraw, USER_EVENT_RGBVAL_UPDATE, NULL);
-    lv_obj_add_event_cb(ui_Colorwheel2, ui_render_rgbval_redraw, USER_EVENT_RGBVAL_UPDATE, NULL);
-    lv_obj_add_event_cb(ui_Colorwheel3, ui_render_rgbval_redraw, USER_EVENT_RGBVAL_UPDATE, NULL);
 }
+
+#define LABEL_HEIGHT 20
+#define LABEL_MARGIN 5
 
 ///////////////////// SCREENS ////////////////////
 void ui_Screen1_screen_init(void)
@@ -1496,9 +1430,9 @@ void ui_Screen1_screen_init(void)
         lv_label_set_text(labels[i], label_text[i]);
         lv_obj_set_align(labels[i], LV_ALIGN_TOP_LEFT);
         lv_obj_set_pos(labels[i], get_icon_x_coordinate(angle_degrees) - X_OFFSET, get_icon_y_coordinate(angle_degrees) - Y_OFFSET);
-        lv_obj_set_style_text_font(labels[i], &ui_font_Futura18, LV_PART_MAIN);
+        lv_obj_set_style_text_font(labels[i], &ui_font_GaretHeavy18, LV_PART_MAIN);
     }
-    render_rgb (ui_Screen1);
+    // render_rgb (ui_Screen1);
 
 //for conversion and laying out properly
 #ifdef UI_RENDER_WPM
@@ -1613,8 +1547,6 @@ void lvgl_event_triggers(void) {
         lv_event_send(ui_Screen1, USER_EVENT_RGBHUE_UPDATE, NULL);
         lv_event_send(ui_Screen1_Label_H, USER_EVENT_RGBHUE_UPDATE, NULL);
         lv_event_send(ui_Colorwheel1, USER_EVENT_RGBHUE_UPDATE, NULL);
-        lv_event_send(ui_Colorwheel2, USER_EVENT_RGBHUE_UPDATE, NULL);
-        lv_event_send(ui_Colorwheel3, USER_EVENT_RGBHUE_UPDATE, NULL);
     }
     bool          sat_redraw = false;
     static uint16_t last_sat      = 0;
@@ -1626,8 +1558,6 @@ void lvgl_event_triggers(void) {
     if (sat_redraw) {
         lv_event_send(ui_Screen1_Label_S, USER_EVENT_RGBSAT_UPDATE, NULL);
         lv_event_send(ui_Colorwheel1, USER_EVENT_RGBSAT_UPDATE, NULL);
-        lv_event_send(ui_Colorwheel2, USER_EVENT_RGBSAT_UPDATE, NULL);
-        lv_event_send(ui_Colorwheel3, USER_EVENT_RGBSAT_UPDATE, NULL);
     }
     bool          val_redraw = false;
     static uint16_t last_val       = 0;
@@ -1639,8 +1569,6 @@ void lvgl_event_triggers(void) {
     if (val_redraw) {
         lv_event_send(ui_Screen1_Label_V, USER_EVENT_RGBVAL_UPDATE, NULL);
         lv_event_send(ui_Colorwheel1, USER_EVENT_RGBVAL_UPDATE, NULL);
-        lv_event_send(ui_Colorwheel2, USER_EVENT_RGBVAL_UPDATE, NULL);
-        lv_event_send(ui_Colorwheel3, USER_EVENT_RGBVAL_UPDATE, NULL);
     }
     bool            layer_state_redraw = false;
     static uint32_t last_layer_state   = 0;

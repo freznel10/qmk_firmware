@@ -81,9 +81,6 @@ extern lv_obj_t * ui_Label_Dpi;
 extern lv_obj_t * ui_DpiTitle;
 
 extern lv_obj_t * ui_Colorwheel1;
-extern lv_obj_t * ui_Colorwheel2;
-extern lv_obj_t * ui_Colorwheel3;
-
 
 // extern lv_obj_t * ui_Screen1;
 // extern lv_obj_t * ui_Main1;

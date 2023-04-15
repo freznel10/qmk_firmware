@@ -27,10 +27,10 @@
 #endif
 #include  "g/keymap_combo.h"
 
-#    include "pointing_device_modes.h"
+#include "pointing_device_modes.h"
 #include "pointing_device.h"
 #ifdef HAPTIC_ENABLE
-#include "drivers/haptic/DRV2605L.h"
+#   include "drivers/haptic/DRV2605L.h"
 #endif
 #include "spi_master.h"
 #include "adps9660.h"
@@ -74,7 +74,7 @@ enum custom_keycodes {
     OS_LSFT,        LGUI_T(K11),LALT_T(K12),LCTL_T(K13),LSFT_T(K14),K15,                                                    K16,        RSFT_T(K17),RCTL_T(K18),RALT_T(K19),RGUI_T(K1A),RALT_T(K1B), \
     LALT_T(KC_DEL), LCTL_T(K21),K22,        K23,        K24,        K25,                                                    K26,        K27,        K28,        K29,        RCTL_T(K2A),KC_BSLS, \
                                 A(KC_F4),   TAB_RSE,    SPC_LSH,    ENT_LWR,    KC_BTN1,                        KC_BTN1,    ESC_LWR,    BSP_KEY,    DEL_RSE,    SELWORD, \
-                                LVGL_BTN,   PM_TG(2),   PM_TG(3),   KC_BTN3,    KC_BTN2,                        KC_BTN2,    PM_TG(3),   PM_TG(2),   PM_TG(3),   KC_MUTE, \
+                                LVGL_BTN,   PM_TG(2),   PM_TG(3),   KC_BTN3,    KC_BTN2,                        KC_BTN2,    PM_TG(3),   PM_TG(2),   PM_TG(3),   LVGL_ENCODER_BUTTON, \
                                 DPI_RMOD,   KC_PGDN,    KC_PGUP,    DPI_MOD,    KC_MUTE,                        RGB_TOG1,   KC_RGB_T,   KC_PGDN,    KC_PGUP,    DPI_MOD,\
     RGB_RMOD,       RGB_MOD,    RGB_SAD,   RGB_SAI,   KC_A,      KC_RGB_T,      KC_F7,      KC_F8,      KC_9,   KC_F10,     KC_F11,     KC_F12,     KC_F13,     KC_F14,     KC_F15,     KC_F16\
     )
@@ -149,9 +149,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_KEYPAD] = LAYOUT_4x6_wrapper(
-        _______,                _________________FUNC_LEFT_________________,                                                        _________________FUNC_RIGHT________________,    _______,
-        _______,                ________________NUMPAD1_LEFT_______________,                                                        _________________ADJUST_R1_________________,    _______,
-        _______,                ________________NUMPAD2_LEFT_______________,                                                        _________________ADJUST_R2_________________,    _______,
+        KC_NUM_LOCK,            _________________FUNC_LEFT_________________,                                                        _________________FUNC_RIGHT________________,    _______,
+        KC_SCROLL_LOCK,         ________________NUMPAD1_LEFT_______________,                                                        _________________ADJUST_R1_________________,    _______,
+        KC_PRINT_SCREEN,        ________________NUMPAD2_LEFT_______________,                                                        _________________ADJUST_R2_________________,    _______,
         _______,                ________________NUMPAD3_LEFT_______________,                                                        _________________ADJUST_R3_________________,    _______,
                                             _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
                                             _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
@@ -289,7 +289,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-#define BASE_ENCODERS { ENCODER_CCW_CW(ALTTABB, ALTTABF), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) }
+#define BASE_ENCODERS { ENCODER_CCW_CW(ALTTABB, ALTTABF), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE) }
 #ifdef ENCODER_MAP_ENABLE
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [_DEFAULT_LAYER_1] = BASE_ENCODERS,
