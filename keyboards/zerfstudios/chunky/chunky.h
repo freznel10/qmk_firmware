@@ -66,7 +66,18 @@ enum chunky_keycodes {
     LVGL_CONTROL_PREV,
     LVGL_CONTROL_LEFT,
     LVGL_CONTROL_RIGHT,
-    LVGL_CONTROL_ENTER
+    LVGL_CONTROL_ENTER,
+    ALTTABF, // ALT-TAB forward
+	ALTTABB, // ALT-TAB backwards
+	ALTTABC, // For alt-tab-click
+    SWITCH_1,
+    SWITCH_2,
+    SWITCH_3,
+    SWITCH_4,
+    SWITCH_5,
+    SWITCH_6
+
+
 };
 #        define CHUNKY_SAFE_RANGE KEYMAP_SAFE_RANGE
 #        define DPI_MOD POINTER_DEFAULT_DPI_FORWARD

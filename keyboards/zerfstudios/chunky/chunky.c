@@ -266,14 +266,15 @@ static int8_t rotations = 0;
 bool lvgl_encoder = false;
 static lv_group_t *g;
 static uint32_t act_key = 0;
-
+bool is_alt_tab_active_2 = false; // Flag to check if alt tab is active
+uint32_t alt_tab_timer_2 = 0;
+bool is_lalt_pressed = false;
 float pm_song[][2] = SONG(VIOLIN_SOUND);
 
 bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
     if (!process_record_user(keycode, record)) {
         return false;
     }
-#    ifndef NO_chunky_KEYCODES
     switch (keycode) {
         case POINTER_DEFAULT_DPI_FORWARD:
             if (record->event.pressed) {
@@ -384,10 +385,53 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
                 act_key = 0;
             }
             break;
+         }
+	    case KC_LALT: // If this is not defined, if the encoder is activated in the alt-tab mode while the LALT key is pressed, the menu goes away.
+            if (record->event.pressed) is_lalt_pressed = true;
+            else is_lalt_pressed = false;
+		return true;
+        case ALTTABF:
+        case ALTTABB:
+		if (record->event.pressed) {
+			if (!is_alt_tab_active_2) {
+				is_alt_tab_active_2 = true;
+				register_code(KC_LALT);
+
+			}
+			tap_code16(keycode == ALTTABF ? KC_TAB : S(KC_TAB)); // Due to S(KC_TAB), the 16-bit tap_code16 is needed.
+			alt_tab_timer_2 = timer_read32();
+            break;
         }
+        case ALTTABC: {
+            if (record->event.pressed) {
+                if (is_alt_tab_active_2) {
+                    if (!is_lalt_pressed) unregister_code(KC_LALT);
+                    is_alt_tab_active_2 = false;
+                }
+            break;
+            }
+        }
+        case SWITCH_1: {
+        }
+        break;
+        case SWITCH_2: {
+        }
+        break;
+        case SWITCH_3: {
+        }
+        break;
+        case SWITCH_4: {
+        }
+        break;
+        case SWITCH_5: {
+        }
+        break;
+        case SWITCH_6: {
+        }
+        break;
     }
-#    endif
     return true;
+
 }
 
 void rgb_matrix_increase_flags(void)
@@ -551,7 +595,16 @@ void keyboard_post_init_kb(void) {
 
 }
 
+#define ALT_TAB_DELAY 1000
+
 void housekeeping_task_kb(void) {
+    	if (is_alt_tab_active_2) {
+		if (is_lalt_pressed) alt_tab_timer_2 = timer_read32();
+		else if (timer_elapsed32(alt_tab_timer_2) > ALT_TAB_DELAY) {
+			unregister_code(KC_LALT);
+			is_alt_tab_active_2 = false;
+		}
+	}
 
     // static int prev_prox_state = 0;
     // static uint32_t prev_prox_time = 0;

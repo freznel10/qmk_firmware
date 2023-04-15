@@ -47,6 +47,9 @@ QUANTUM_PAINTER_DRIVERS += gc9a01_spi
 SRC +=  ui/ui.c \
 		ui/ui_helpers.c \
 		ui/assets/ui_img_2120736529.c \
+		ui/assets/ui_img_2040_png.c \
+		ui/assets/ui_img_chunky_lower_png.c \
+		ui/assets/ui_img_chunky_upper_png.c \
 		ui/assets/ui_img_bk80_png.c \
 		ui/assets/ui_img_logo_test_png.c \
 		ui/assets/ui_img_logo_png.c \
@@ -65,6 +68,9 @@ SRC +=  ui/ui.c \
 		ui/fonts/ui_font_Futura20.c \
 		ui/fonts/ui_font_Futura22.c \
 		ui/fonts/ui_font_Futura24.c \
+		ui/fonts/ui_font_GaretHeavy14.c \
+		ui/fonts/ui_font_GaretHeavy18.c \
+		ui/fonts/ui_font_GaretHeavy48.c \
 		ui/fonts/eleganticons.c \
 		adps9660.c  \
 

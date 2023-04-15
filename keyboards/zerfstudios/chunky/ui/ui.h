@@ -38,26 +38,26 @@ extern lv_obj_t * ui_Screen1_Label_OS;
 extern lv_obj_t * ui_Screen1_Label_KL;
 #endif
 extern lv_obj_t * ui_Screen1_Image1;
-extern lv_obj_t * ui_Screen1_Panel_KB_Status;
-extern lv_obj_t * ui_Screen1_Label_CAPS;
-extern lv_obj_t * ui_Screen1_Label_SCLK;
-extern lv_obj_t * ui_Screen1_Label_NMLK;
-extern lv_obj_t * ui_Screen1_Label_AUDIO;
-extern lv_obj_t * ui_Screen1_Label_CLICKY;
-extern lv_obj_t * ui_Screen1_Label_ACRT;
-extern lv_obj_t * ui_Screen1_Panel_Status;
+// extern lv_obj_t * ui_Screen1_Panel_KB_Status;
+// extern lv_obj_t * ui_Screen1_Label_CAPS;
+// extern lv_obj_t * ui_Screen1_Label_SCLK;
+// extern lv_obj_t * ui_Screen1_Label_NMLK;
+// extern lv_obj_t * ui_Screen1_Label_AUDIO;
+// extern lv_obj_t * ui_Screen1_Label_CLICKY;
+// extern lv_obj_t * ui_Screen1_Label_ACRT;
+// extern lv_obj_t * ui_Screen1_Panel_Status;
 extern lv_obj_t * ui_Screen1_Label_H;
 extern lv_obj_t * ui_Screen1_Label_S;
 extern lv_obj_t * ui_Screen1_Label_V;
 extern lv_obj_t * ui_Screen1_Panel_HSV;
-extern lv_obj_t * ui_Screen1_Label_CTRL;
-extern lv_obj_t * ui_Screen1_Label_ALT;
-extern lv_obj_t * ui_Screen1_Label_GUI;
-extern lv_obj_t * ui_Screen1_Label_SHIFT;
-extern lv_obj_t * ui_Screen1_Label_CTRL_1;
-extern lv_obj_t * ui_Screen1_Label_ALT_1;
-extern lv_obj_t * ui_Screen1_Label_GUI_1;
-extern lv_obj_t * ui_Screen1_Label_SHIFT_1;
+// extern lv_obj_t * ui_Screen1_Label_CTRL;
+// extern lv_obj_t * ui_Screen1_Label_ALT;
+// extern lv_obj_t * ui_Screen1_Label_GUI;
+// extern lv_obj_t * ui_Screen1_Label_SHIFT;
+// extern lv_obj_t * ui_Screen1_Label_CTRL_1;
+// extern lv_obj_t * ui_Screen1_Label_ALT_1;
+// extern lv_obj_t * ui_Screen1_Label_GUI_1;
+// extern lv_obj_t * ui_Screen1_Label_SHIFT_1;
 extern lv_obj_t * labels[];
 
 extern lv_obj_t * ui_Layer_Indicator;
@@ -75,6 +75,14 @@ extern lv_obj_t * ui_PM_led1;
 extern lv_obj_t * ui_PM_led2;
 extern lv_obj_t * ui_PM_led3;
 extern lv_obj_t * ui_Label_Unicode_Mode;
+
+extern lv_obj_t * ui_Arc1;
+extern lv_obj_t * ui_Label_Dpi;
+extern lv_obj_t * ui_DpiTitle;
+
+extern lv_obj_t * ui_Colorwheel1;
+extern lv_obj_t * ui_Colorwheel2;
+extern lv_obj_t * ui_Colorwheel3;
 
 
 // extern lv_obj_t * ui_Screen1;
@@ -130,6 +138,8 @@ void render_mods_circular(lv_obj_t *scr);
 int get_icon_x_coordinate(int angle_degrees);
 int get_icon_y_coordinate(int angle_degrees);
 
+void render_pointing (lv_obj_t *scr, lv_coord_t x, lv_coord_t y );
+
 // void lvgl_control_led_indicators(void);
 // void ui_event_Settings1(lv_event_t * e);
 // void ui_event_SettingsAux(lv_event_t * e);
@@ -155,6 +165,10 @@ LV_FONT_DECLARE(ui_font_Futura20);
 LV_FONT_DECLARE(ui_font_Futura22);
 LV_FONT_DECLARE(ui_font_Futura24);
 LV_FONT_DECLARE(eleganticons);
+LV_FONT_DECLARE(ui_font_GaretHeavy14);
+LV_FONT_DECLARE(ui_font_GaretHeavy16);
+LV_FONT_DECLARE(ui_font_GaretHeavy18);
+LV_FONT_DECLARE(ui_font_GaretHeavy48);
 
 LV_IMG_DECLARE(ui_img_2120736529);
 LV_IMG_DECLARE(ui_img_bk80_png);
@@ -169,6 +183,9 @@ LV_IMG_DECLARE(ui_img_raise_80_png);
 LV_IMG_DECLARE(ui_img_numpad_80_png);
 LV_IMG_DECLARE(ui_img_ui_image_adjust_png);
 LV_IMG_DECLARE(monitormund);
+LV_IMG_DECLARE(ui_img_2040_png);    // assets\2040.png
+LV_IMG_DECLARE(ui_img_chunky_lower_png);    // assets\Chunky_Lower.png
+LV_IMG_DECLARE(ui_img_chunky_upper_png);    // assets\Chunky_Upper.png
 
 // //////////////////////////////////////////////////////////////
 // // User Defines

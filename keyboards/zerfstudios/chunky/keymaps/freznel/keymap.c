@@ -156,7 +156,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
                                             _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
                                             _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
-        _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______
+        SWITCH_1,    SWITCH_2,    SWITCH_3,    SWITCH_4,    SWITCH_5,    SWITCH_6,    _______,    _______,        _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______
     ),
 
     [_GAMEPAD] = LAYOUT_4x6_wrapper(
@@ -289,7 +289,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-#define BASE_ENCODERS { ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) }
+#define BASE_ENCODERS { ENCODER_CCW_CW(ALTTABB, ALTTABF), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) }
 #ifdef ENCODER_MAP_ENABLE
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [_DEFAULT_LAYER_1] = BASE_ENCODERS,
@@ -305,24 +305,6 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [_KEYPAD]          = { ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE) }
 };
 
-
-// #define BASE_ENCODERS {ENCODER_CCW_CW(KC_A, KC_B), ENCODER_CCW_CW(KC_WH_D, KC_WH_U) }
-// #ifdef ENCODER_MAP_ENABLE
-// const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
-//     [_DEFAULT_LAYER_1] = BASE_ENCODERS,
-//     [_DEFAULT_LAYER_2] = BASE_ENCODERS,
-//     [_DEFAULT_LAYER_3] = BASE_ENCODERS,
-//     [_DEFAULT_LAYER_4] = BASE_ENCODERS,
-//     [_MOUSE] = BASE_ENCODERS,
-//     [_GAMEPAD]         = BASE_ENCODERS,
-//     [_MEDIA]           = BASE_ENCODERS,
-//     [_RAISE]           = BASE_ENCODERS,
-//     [_LOWER]           = BASE_ENCODERS,
-//     [_ADJUST]          = BASE_ENCODERS,
-//     [_KEYPAD]          = BASE_ENCODERS
-// };
-
-// clang-format on
 #else
 
 deferred_token encoder_token  = INVALID_DEFERRED_TOKEN;
