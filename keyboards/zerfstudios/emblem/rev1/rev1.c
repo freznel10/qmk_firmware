@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:keyboards/zerfstudios/emblem/rev1/rev1.c
 /* Copyright 2022 Freznel B. Sta. Ana (Freznel10)
+========
+/* Copyright 2021 Jessica Sullivan and Don Kjer
+>>>>>>>> upstream/develop:keyboards/durgod/dgk6x/hades_iso/config.h
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,4 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+<<<<<<<< HEAD:keyboards/zerfstudios/emblem/rev1/rev1.c
 #include "rev1.h"
+========
+#pragma once
+
+#define DRIVER_1_LED_TOTAL 59
+#define DRIVER_2_LED_TOTAL 10   
+
+#define CAPS_LED 29
+>>>>>>>> upstream/develop:keyboards/durgod/dgk6x/hades_iso/config.h

@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:keyboards/zerfpoint/zerfpoint.h
 /* Copyright 2022 Freznel B. Sta. Ana (@freznel10) <freznel@gmail.com>
+========
+/* Copyright 2022 JasonRen(biu)
+>>>>>>>> upstream/develop:keyboards/ymdk/id75/board.h
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,5 +20,10 @@
 
 #pragma once
 
-#include "quantum.h"
+#include_next <board.h>
 
+<<<<<<<< HEAD:keyboards/zerfpoint/zerfpoint.h
+========
+#undef STM32_HSECLK
+#define STM32_HSECLK 16000000
+>>>>>>>> upstream/develop:keyboards/ymdk/id75/board.h

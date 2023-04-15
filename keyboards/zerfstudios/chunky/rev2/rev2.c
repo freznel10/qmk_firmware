@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:keyboards/zerfstudios/chunky/rev2/rev2.c
 /* Copyright 2022 Freznel B. Sta. Ana (Freznel10)
+========
+/* Copyright 2022 PHSC138
+>>>>>>>> upstream/develop:keyboards/evyd13/atom47/keymaps/phsc138/config.h
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,6 +17,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+<<<<<<<< HEAD:keyboards/zerfstudios/chunky/rev2/rev2.c
 
 
 #include "rev2.h"
+========
+#pragma once
+#define TAPPING_TERM 150 // Tap dance time limit
+>>>>>>>> upstream/develop:keyboards/evyd13/atom47/keymaps/phsc138/config.h
