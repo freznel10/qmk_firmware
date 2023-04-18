@@ -76,7 +76,7 @@ enum custom_keycodes {
                                 A(KC_F4),   TAB_RSE,    SPC_LSH,    ENT_LWR,    KC_BTN1,                        KC_BTN1,    ESC_LWR,    BSP_KEY,    DEL_RSE,    SELWORD, \
                                 LVGL_BTN,   PM_TG(2),   PM_TG(3),   KC_BTN3,    KC_BTN2,                        KC_BTN2,    PM_TG(3),   PM_TG(2),   PM_TG(3),   LVGL_ENCODER_BUTTON, \
                                 DPI_RMOD,   KC_PGDN,    KC_PGUP,    DPI_MOD,    KC_MUTE,                        RGB_TOG1,   KC_RGB_T,   KC_PGDN,    KC_PGUP,    DPI_MOD,\
-    RGB_RMOD,       RGB_MOD,    RGB_SAD,   RGB_SAI,   KC_A,      KC_RGB_T,      KC_F7,      KC_F8,      KC_9,   KC_F10,     KC_F11,     KC_F12,     KC_F13,     KC_F14,     KC_F15,     KC_F16\
+    RGB_RMOD,       RGB_MOD,    RGB_SAD,   RGB_SAI,     RGB_VAI,   KC_RGB_T,      KC_F7,      KC_F8,      KC_9,   KC_F10,     KC_F11,     KC_F12,     KC_F13,     KC_F14,     KC_F15,     KC_F16\
     )
 
 #define LAYOUT_base_wrapper(...) LAYOUT_4x6_base(__VA_ARGS__)
@@ -86,9 +86,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ______________COLEMAK_MOD_DH_L2____________, ______________COLEMAK_MOD_DH_R2____________,
         ______________COLEMAK_MOD_DH_L3____________, ______________COLEMAK_MOD_DH_R3____________
     ),
-
+``
     [_DEFAULT_LAYER_2] = LAYOUT_base_wrapper(
-        ______________COLEMAK_MOD_DH_L1____________, ______________COLEMAK_MOD_DH_R1____________,
+        ______________COLEMAK_MOD_DH_L1____________, ______________COLEMAK_MOD_DH_R1____________,```
         ______________COLEMAK_MOD_DH_L2____________, ______________COLEMAK_MOD_DH_R2____________,
         ______________COLEMAK_MOD_DH_L3____________, ______________COLEMAK_MOD_DH_R3____________
     ),
@@ -299,8 +299,8 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [_MOUSE] = BASE_ENCODERS,
     [_GAMEPAD]         = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(ENC_ALT_TAB_REV, ENC_ALT_TAB), ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(ENC_ALT_TAB_REV, ENC_ALT_TAB), },
     [_MEDIA]           = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(KC_WH_D, KC_WH_U) },
-    [_RAISE]           = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI),  ENCODER_CCW_CW(KC_WH_L, KC_WH_R), ENCODER_CCW_CW(RGB_VAD, RGB_VAI),  ENCODER_CCW_CW(KC_WH_L, KC_WH_R) },
-    [_LOWER]           = { ENCODER_CCW_CW(RGB_HUD, RGB_HUI), ENCODER_CCW_CW(RGB_SAI, RGB_SAD), ENCODER_CCW_CW(RGB_HUD, RGB_HUI), ENCODER_CCW_CW(RGB_SAI, RGB_SAD) },
+    [_RAISE]           = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI),  ENCODER_CCW_CW(KC_WH_L, KC_WH_R), ENCODER_CCW_CW(RGB_HUD, RGB_HUI),  ENCODER_CCW_CW(RGB_SAD, RGB_SAI) },
+    [_LOWER]           = { ENCODER_CCW_CW(RGB_HUD, RGB_HUI), ENCODER_CCW_CW(RGB_SAI, RGB_SAD), ENCODER_CCW_CW(RGB_SPD, RGB_SPI), ENCODER_CCW_CW(RGB_VAD, RGB_VAI) },
     [_ADJUST]          = { ENCODER_CCW_CW(RGB_RMOD, RGB_MOD), ENCODER_CCW_CW(RGB_SPI, RGB_SPD), ENCODER_CCW_CW(RGB_RMOD, RGB_MOD), ENCODER_CCW_CW(RGB_SPI, RGB_SPD) },
     [_KEYPAD]          = { ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE) }
 };

@@ -594,17 +594,7 @@ void keyboard_post_init_kb(void) {
     ui_init();
 
 }
-
-#define ALT_TAB_DELAY 1000
-
-void housekeeping_task_kb(void) {
-    	if (is_alt_tab_active_2) {
-		if (is_lalt_pressed) alt_tab_timer_2 = timer_read32();
-		else if (timer_elapsed32(alt_tab_timer_2) > ALT_TAB_DELAY) {
-			unregister_code(KC_LALT);
-			is_alt_tab_active_2 = false;
-		}
-	}
+ui
 
     // static int prev_prox_state = 0;
     // static uint32_t prev_prox_time = 0;

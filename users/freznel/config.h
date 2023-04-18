@@ -10,7 +10,7 @@
 #ifdef IS_COMMAND
 #undef IS_COMMAND
 #endif
-#define IS_COMMAND() (((get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT) == MOD_MASK_SHIFT)
+#define IS_COMMAND() (((get_mods() | get_oneshot_mods()) & MOD_MASK_CTRL) == MOD_MASK_CTRL)
 
 /* Set Polling rate to 1000Hz */
 // #define USB_POLLING_INTERVAL_MS 1
@@ -33,7 +33,7 @@
 #    define AUDIO_CLICKY
 #    define AUDIO_CLICKY_FREQ_RANDOMNESS 1.5f
 
-#    ifdef USER_SONG_LIST
+#    ifdef USER_SONG_LIST 
 // #        define STARTUP_SONG SONG(IMPERIAL_MARCH)
 #        define GOODBYE_SONG SONG(SONIC_RING)
 #        define DEFAULT_LAYER_SONGS \

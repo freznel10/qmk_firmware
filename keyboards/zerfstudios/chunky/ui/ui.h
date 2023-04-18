@@ -46,9 +46,9 @@ extern lv_obj_t * ui_Screen1_Image1;
 // extern lv_obj_t * ui_Screen1_Label_CLICKY;
 // extern lv_obj_t * ui_Screen1_Label_ACRT;
 // extern lv_obj_t * ui_Screen1_Panel_Status;
-extern lv_obj_t * ui_Screen1_Label_H;
-extern lv_obj_t * ui_Screen1_Label_S;
-extern lv_obj_t * ui_Screen1_Label_V;
+// extern lv_obj_t * ui_Screen1_Label_H;
+// extern lv_obj_t * ui_Screen1_Label_S;
+// extern lv_obj_t * ui_Screen1_Label_V;
 extern lv_obj_t * ui_Screen1_Panel_HSV;
 // extern lv_obj_t * ui_Screen1_Label_CTRL;
 // extern lv_obj_t * ui_Screen1_Label_ALT;
@@ -81,6 +81,30 @@ extern lv_obj_t * ui_Label_Dpi;
 extern lv_obj_t * ui_DpiTitle;
 
 extern lv_obj_t * ui_Colorwheel1;
+
+extern lv_obj_t * ui_Mods;
+extern lv_obj_t * ui_Label1;
+extern lv_obj_t * ui_Label2;
+extern lv_obj_t * ui_Label3;
+extern lv_obj_t * ui_Label4;
+
+extern lv_obj_t * ui_Status;
+extern lv_obj_t * ui_CapsLock;
+extern lv_obj_t * ui_Clicky;
+extern lv_obj_t * ui_ScrollLock;
+extern lv_obj_t * ui_Audio;
+extern lv_obj_t * ui_NumLock;
+extern lv_obj_t * ui_Autocorrect;
+
+extern lv_obj_t * ui_wpmPanel;
+extern lv_obj_t * ui_wpmCount;
+extern lv_obj_t * ui_wpmLabel;
+
+extern lv_obj_t * ui_HueArc;
+
+extern lv_obj_t * ui_HSVPanel;
+extern lv_obj_t * ui_HSVLabel;
+extern lv_obj_t * ui_RGBLabel;
 
 // extern lv_obj_t * ui_Screen1;
 // extern lv_obj_t * ui_Main1;
@@ -136,6 +160,11 @@ int get_icon_x_coordinate(int angle_degrees);
 int get_icon_y_coordinate(int angle_degrees);
 
 void render_pointing (lv_obj_t *scr, lv_coord_t x, lv_coord_t y );
+void render_mods (lv_obj_t *scr, lv_coord_t x, lv_coord_t y );
+void render_status (lv_obj_t *scr, lv_coord_t x, lv_coord_t y );
+void render_wpm (lv_obj_t *scr, lv_coord_t x, lv_coord_t y );
+void render_Hue (lv_obj_t *scr);
+void render_rgb_mode (lv_obj_t *scr, lv_coord_t x, lv_coord_t y );
 
 // void lvgl_control_led_indicators(void);
 // void ui_event_Settings1(lv_event_t * e);
@@ -166,6 +195,9 @@ LV_FONT_DECLARE(ui_font_GaretHeavy14);
 LV_FONT_DECLARE(ui_font_GaretHeavy16);
 LV_FONT_DECLARE(ui_font_GaretHeavy18);
 LV_FONT_DECLARE(ui_font_GaretHeavy48);
+LV_FONT_DECLARE(ui_font_SpaceGrotesk50);
+LV_FONT_DECLARE(ui_font_SpaceGrotesk18);
+LV_FONT_DECLARE(ui_font_Space11);
 
 LV_IMG_DECLARE(ui_img_2120736529);
 LV_IMG_DECLARE(ui_img_bk80_png);
@@ -183,6 +215,15 @@ LV_IMG_DECLARE(monitormund);
 LV_IMG_DECLARE(ui_img_2040_png);    // assets\2040.png
 LV_IMG_DECLARE(ui_img_chunky_lower_png);    // assets\Chunky_Lower.png
 LV_IMG_DECLARE(ui_img_chunky_upper_png);    // assets\Chunky_Upper.png
+LV_IMG_DECLARE(ui_img_chunky2040_v3_png);
+
+LV_IMG_DECLARE(ui_img_caps_lock_32_png);    // assets\caps_lock_32.png
+LV_IMG_DECLARE(ui_img_clicky_32_png);    // assets\clicky_32.png
+LV_IMG_DECLARE(ui_img_scroll_lock_32_png);    // assets\scroll_lock_32.png
+LV_IMG_DECLARE(ui_img_audio_32_png);    // assets\audio_32.png
+LV_IMG_DECLARE(ui_img_num_lock_32_png);    // assets\num_lock_32.png
+LV_IMG_DECLARE(ui_img_autocorrect_32_png);    // assets\autocorrect_32.png
+
 
 // //////////////////////////////////////////////////////////////
 // // User Defines

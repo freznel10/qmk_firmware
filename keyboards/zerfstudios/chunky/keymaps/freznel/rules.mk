@@ -1,6 +1,3 @@
-RGBLIGHT_ENABLE              = no
-RGBLIGHT_STARTUP_ANIMATION   = no
-COMMAND_ENABLE               = yes
 TAP_DANCE_ENABLE             = yes
 OLED_ENABLE                  = no
 WPM_ENABLE                   = yes
@@ -24,6 +21,6 @@ QUANTUM_PAINTER_ENABLE = yes
 CUSTOM_KEYLOGGER = no
 CUSTOM_UNICODE_ENABLE = yes
 CUSTOM_SPLIT_TRANSPORT_SYNC = yes
-UI_RENDER_WPM = no
+UI_RENDER_WPM = yes
 OS_DETECTION_ENABLE = no
 

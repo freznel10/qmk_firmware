@@ -28,9 +28,9 @@ uint8_t qmk_lv_get_bpm(void) {
 
 lv_color_hsv_t qmk_lv_rgb_matrix_get_hsv(void) {
     lv_color_hsv_t col_hsv = {0, 0, 0};
-    col_hsv.h = rgb_matrix_get_hue();
-    col_hsv.s = rgb_matrix_get_sat();
-    col_hsv.v = (uint8_t)(((float)(rgb_matrix_get_val() / 150.0)) * 255.0); // Scale up brightness
+    col_hsv.h = (rgb_matrix_get_hue() * 360) / 255;
+    col_hsv.s = (rgb_matrix_get_sat() * 100) / 255;
+    col_hsv.v = (rgb_matrix_get_val() * 100) / 255; // Scale up brightness
     return col_hsv;
 }
 

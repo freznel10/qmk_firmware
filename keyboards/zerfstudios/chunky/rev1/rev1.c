@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:keyboards/zerfstudios/chunky/rev1/rev1.c
 /* Copyright 2022 Freznel B. Sta. Ana (Freznel10)
-========
-/* Copyright 2020 QMK
->>>>>>>> upstream/develop:keyboards/ymdk/id75/halconf.h
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,12 +14,4 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-<<<<<<<< HEAD:keyboards/zerfstudios/chunky/rev1/rev1.c
 #include "rev1.h"
-========
-#pragma once
-
-#define HAL_USE_PWM TRUE
-
-#include_next <halconf.h>
->>>>>>>> upstream/develop:keyboards/ymdk/id75/halconf.h

@@ -50,6 +50,7 @@ SRC +=  ui/ui.c \
 		ui/assets/ui_img_2040_png.c \
 		ui/assets/ui_img_chunky_lower_png.c \
 		ui/assets/ui_img_chunky_upper_png.c \
+		ui/assets/ui_img_chunky2040_v3_png.c \
 		ui/assets/ui_img_bk80_png.c \
 		ui/assets/ui_img_logo_test_png.c \
 		ui/assets/ui_img_logo_png.c \
@@ -60,7 +61,15 @@ SRC +=  ui/ui.c \
 		ui/assets/ui_img_toolbox_80_png.c \
 		ui/assets/ui_img_lower_80_png.c \
 		ui/assets/ui_img_raise_80_png.c \
-		ui/assets/ui_img_ui_image_adjust_png.c\
+		ui/assets/ui_img_ui_image_adjust_png.c \
+		ui/assets/ui_img_audio_32_png.c \
+		ui/assets/ui_img_clicky_32_png.c \
+		ui/assets/ui_img_autocorrect_32_png.c \
+		ui/assets/ui_img_caps_lock_32_png.c \
+		ui/assets/ui_img_num_lock_32_png.c \
+		ui/assets/ui_img_scroll_lock_32_png.c \
+		ui/assets/ui_img_autocorrect_32_png.c \
+		ui/assets/ui_img_autocorrect_32_png.c \
 		ui/assets/monitormund.c \
 		ui/bindings/bindings.c \
 		ui/fonts/ui_font_Futura12.c \
@@ -71,9 +80,13 @@ SRC +=  ui/ui.c \
 		ui/fonts/ui_font_GaretHeavy14.c \
 		ui/fonts/ui_font_GaretHeavy18.c \
 		ui/fonts/ui_font_GaretHeavy48.c \
+		ui/fonts/ui_font_SpaceGrotesk18.c \
+		ui/fonts/ui_font_SpaceGrotesk50.c \
+		ui/fonts/ui_font_Space11.c \
 		ui/fonts/eleganticons.c \
 		adps9660.c  \
 
 QUANTUM_PAINTER_LVGL_USE_CUSTOM_CONF = yes
 CIE1931_CURVE = yes
 CUSTOM_KEYLOGGER = no
+UI_RENDER_WPM = yes
