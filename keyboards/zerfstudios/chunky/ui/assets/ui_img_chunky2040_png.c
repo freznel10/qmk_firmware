@@ -3,7 +3,7 @@
 // LVGL version: 8.2.0
 // Project name: chunky
 
-#include "../zerfstudios/chunky/ui/ui.h"
+
 
 
 #ifndef LV_ATTRIBUTE_MEM_ALIGN

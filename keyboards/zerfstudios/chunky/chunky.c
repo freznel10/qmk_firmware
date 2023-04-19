@@ -26,6 +26,7 @@
 #include "ui/ui.h"
 #include "color.h"
 #include "adps9660.h"
+#include "spi_master.h"
 
 #include <qp.h>
 #include <qp_lvgl.h>
@@ -267,8 +268,10 @@ bool lvgl_encoder = false;
 static lv_group_t *g;
 static uint32_t act_key = 0;
 bool is_alt_tab_active_2 = false; // Flag to check if alt tab is active
-uint32_t alt_tab_timer_2 = 0;
+bool is_ctrl_tab_active = false;
+uint16_t alt_tab_timer_2 = 0;
 bool is_lalt_pressed = false;
+bool is_lctl_pressed = false;
 float pm_song[][2] = SONG(VIOLIN_SOUND);
 
 bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
@@ -279,7 +282,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
         case POINTER_DEFAULT_DPI_FORWARD:
             if (record->event.pressed) {
                 // Step backward if shifted, forward otherwise.
-                chunky_cycle_pointer_default_dpi(/* forward= */ !has_shift_mod());
+                chunky_cycle_pointer_default_dpi(/* for/ward= */ !has_shift_mod());
             }
             break;
         case POINTER_DEFAULT_DPI_REVERSE:
@@ -389,6 +392,9 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
 	    case KC_LALT: // If this is not defined, if the encoder is activated in the alt-tab mode while the LALT key is pressed, the menu goes away.
             if (record->event.pressed) is_lalt_pressed = true;
             else is_lalt_pressed = false;
+        case KC_LCTL:
+            if (record->event.pressed) is_lctl_pressed = true;
+            else is_lctl_pressed = false;
 		return true;
         case ALTTABF:
         case ALTTABB:
@@ -399,7 +405,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
 
 			}
 			tap_code16(keycode == ALTTABF ? KC_TAB : S(KC_TAB)); // Due to S(KC_TAB), the 16-bit tap_code16 is needed.
-			alt_tab_timer_2 = timer_read32();
+			alt_tab_timer_2 = timer_read();
             break;
         }
         case ALTTABC: {
@@ -407,6 +413,27 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
                 if (is_alt_tab_active_2) {
                     if (!is_lalt_pressed) unregister_code(KC_LALT);
                     is_alt_tab_active_2 = false;
+                }
+            break;
+            }
+        }
+        case CTLTABF:
+        case CTLTABB:
+		if (record->event.pressed) {
+			if (!is_ctrl_tab_active) {
+				is_ctrl_tab_active = true;
+				register_code(KC_LCTL);
+
+			}
+			tap_code16(keycode == CTLTABF ? KC_TAB : S(KC_TAB)); // Due to S(KC_TAB), the 16-bit tap_code16 is needed.
+			alt_tab_timer_2 = timer_read();
+            break;
+        }
+        case CTLTABC: {
+            if (record->event.pressed) {
+                if (is_ctrl_tab_active) {
+                    if (!is_lctl_pressed) unregister_code(KC_LCTL);
+                    is_ctrl_tab_active = false;
                 }
             break;
             }
@@ -594,8 +621,26 @@ void keyboard_post_init_kb(void) {
     ui_init();
 
 }
-ui
 
+#define ALT_TAB_DELAY 1000
+
+void housekeeping_task_kb(void) {
+    	if (is_alt_tab_active_2 || is_ctrl_tab_active ) {
+		    if (is_lalt_pressed || is_lctl_pressed) alt_tab_timer_2 = timer_read();
+		    else if (timer_elapsed32(alt_tab_timer_2) > ALT_TAB_DELAY) {
+			unregister_code(KC_LALT);
+            unregister_code(KC_LCTL);
+			is_alt_tab_active_2 = false;
+            is_ctrl_tab_active = false;
+		    }
+        }
+        // if (is_ctrl_tab_active) {
+		//     if (is_lctl_pressed) alt_tab_timer_2 = timer_read32();
+		//     else if (timer_elapsed32(alt_tab_timer_2) > ALT_TAB_DELAY) {
+		// 	unregister_code(KC_LCTL);
+		// 	is_ctrl_tab_active = false;
+		//     }
+	    // }
     // static int prev_prox_state = 0;
     // static uint32_t prev_prox_time = 0;
 
@@ -695,3 +740,41 @@ const pointing_device_config_t pointing_device_configs[POINTING_DEVICE_COUNT] = 
     // {.driver = &ps2_trackpoint_driver_ps2_default, .config = &ps2_trackpoint_config_ps2_default, .throttle = 10, .side = RIGHT}
 
 };
+
+void matrix_io_delay(void) {
+    __asm__ volatile("nop\nnop\nnop\n");
+}
+
+void matrix_output_unselect_delay(uint8_t line, bool key_pressed) {
+    for (int32_t i = 0; i < 40; i++) {
+        __asm__ volatile("nop" ::: "memory");
+    }
+}
+
+
+void matrix_init_custom(void) {
+    // SPI Matrix
+    setPinOutput(SPI_MATRIX_CHIP_SELECT_PIN);
+    writePinHigh(SPI_MATRIX_CHIP_SELECT_PIN);
+    spi_init();
+
+}
+
+bool matrix_scan_custom(matrix_row_t current_matrix[]) {
+    static matrix_row_t temp_matrix[MATRIX_ROWS] = {0};
+
+    // Read from SPI the matrix
+    spi_start(SPI_MATRIX_CHIP_SELECT_PIN, false, 0, SPI_MATRIX_DIVISOR);
+    spi_receive((uint8_t*)temp_matrix, MATRIX_SHIFT_REGISTER_COUNT * sizeof(matrix_row_t));
+    spi_stop();
+
+    // Read from the encoder pushbutton
+    // temp_matrix[5] = readPin(ENCODER_PUSHBUTTON_PIN) ? 1 : 0;
+
+    // Check if we've changed, return the last-read data
+    bool changed = memcmp(current_matrix, temp_matrix, sizeof(temp_matrix)) != 0;
+    if (changed) {
+        memcpy(current_matrix, temp_matrix, sizeof(temp_matrix));
+    }
+    return changed;
+}

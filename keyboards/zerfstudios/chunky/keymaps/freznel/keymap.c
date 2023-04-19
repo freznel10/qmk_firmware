@@ -32,7 +32,7 @@
 #ifdef HAPTIC_ENABLE
 #   include "drivers/haptic/DRV2605L.h"
 #endif
-#include "spi_master.h"
+
 #include "adps9660.h"
 
 #define DQT QK_DEBUG_TOGGLE
@@ -74,7 +74,7 @@ enum custom_keycodes {
     OS_LSFT,        LGUI_T(K11),LALT_T(K12),LCTL_T(K13),LSFT_T(K14),K15,                                                    K16,        RSFT_T(K17),RCTL_T(K18),RALT_T(K19),RGUI_T(K1A),RALT_T(K1B), \
     LALT_T(KC_DEL), LCTL_T(K21),K22,        K23,        K24,        K25,                                                    K26,        K27,        K28,        K29,        RCTL_T(K2A),KC_BSLS, \
                                 A(KC_F4),   TAB_RSE,    SPC_LSH,    ENT_LWR,    KC_BTN1,                        KC_BTN1,    ESC_LWR,    BSP_KEY,    DEL_RSE,    SELWORD, \
-                                LVGL_BTN,   PM_TG(2),   PM_TG(3),   KC_BTN3,    KC_BTN2,                        KC_BTN2,    PM_TG(3),   PM_TG(2),   PM_TG(3),   LVGL_ENCODER_BUTTON, \
+                                LVGL_BTN,   PM_TG(2),   PM_TG(3),   KC_BTN3,    KC_BTN2,                        KC_BTN2,    C_L,        C_R,        PM_TG(3),   LVGL_ENCODER_BUTTON, \
                                 DPI_RMOD,   KC_PGDN,    KC_PGUP,    DPI_MOD,    KC_MUTE,                        RGB_TOG1,   KC_RGB_T,   KC_PGDN,    KC_PGUP,    DPI_MOD,\
     RGB_RMOD,       RGB_MOD,    RGB_SAD,   RGB_SAI,     RGB_VAI,   KC_RGB_T,      KC_F7,      KC_F8,      KC_9,   KC_F10,     KC_F11,     KC_F12,     KC_F13,     KC_F14,     KC_F15,     KC_F16\
     )
@@ -86,9 +86,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ______________COLEMAK_MOD_DH_L2____________, ______________COLEMAK_MOD_DH_R2____________,
         ______________COLEMAK_MOD_DH_L3____________, ______________COLEMAK_MOD_DH_R3____________
     ),
-``
+
     [_DEFAULT_LAYER_2] = LAYOUT_base_wrapper(
-        ______________COLEMAK_MOD_DH_L1____________, ______________COLEMAK_MOD_DH_R1____________,```
+        ______________COLEMAK_MOD_DH_L1____________, ______________COLEMAK_MOD_DH_R1____________,
         ______________COLEMAK_MOD_DH_L2____________, ______________COLEMAK_MOD_DH_R2____________,
         ______________COLEMAK_MOD_DH_L3____________, ______________COLEMAK_MOD_DH_R3____________
     ),
@@ -289,7 +289,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-#define BASE_ENCODERS { ENCODER_CCW_CW(ALTTABB, ALTTABF), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE) }
+#define BASE_ENCODERS { ENCODER_CCW_CW(ALTTABB, ALTTABF), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(CTLTABB, CTLTABF) }
 #ifdef ENCODER_MAP_ENABLE
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [_DEFAULT_LAYER_1] = BASE_ENCODERS,
@@ -479,40 +479,3 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
 
 // #include "combos.c"
 
-void matrix_io_delay(void) {
-    __asm__ volatile("nop\nnop\nnop\n");
-}
-
-void matrix_output_unselect_delay(uint8_t line, bool key_pressed) {
-    for (int32_t i = 0; i < 40; i++) {
-        __asm__ volatile("nop" ::: "memory");
-    }
-}
-
-
-void matrix_init_custom(void) {
-    // SPI Matrix
-    setPinOutput(SPI_MATRIX_CHIP_SELECT_PIN);
-    writePinHigh(SPI_MATRIX_CHIP_SELECT_PIN);
-    spi_init();
-
-}
-
-bool matrix_scan_custom(matrix_row_t current_matrix[]) {
-    static matrix_row_t temp_matrix[MATRIX_ROWS] = {0};
-
-    // Read from SPI the matrix
-    spi_start(SPI_MATRIX_CHIP_SELECT_PIN, false, 0, SPI_MATRIX_DIVISOR);
-    spi_receive((uint8_t*)temp_matrix, MATRIX_SHIFT_REGISTER_COUNT * sizeof(matrix_row_t));
-    spi_stop();
-
-    // Read from the encoder pushbutton
-    // temp_matrix[5] = readPin(ENCODER_PUSHBUTTON_PIN) ? 1 : 0;
-
-    // Check if we've changed, return the last-read data
-    bool changed = memcmp(current_matrix, temp_matrix, sizeof(temp_matrix)) != 0;
-    if (changed) {
-        memcpy(current_matrix, temp_matrix, sizeof(temp_matrix));
-    }
-    return changed;
-}

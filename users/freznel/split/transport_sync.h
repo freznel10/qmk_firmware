@@ -8,12 +8,12 @@
 #include "freznel.h"
 #ifdef OLED_ENABLE
 #    include "oled/oled_stuff.h"
-extern char keylog_str[OLED_KEYLOGGER_LENGTH];
+extern char painter_keylog_str[OLED_KEYLOGGER_LENGTH];
 #endif
 
 #ifdef CUSTOM_KEYLOGGER
-#define KEYLOGGER_LENGTH 5
-extern char keylog_str[KEYLOGGER_LENGTH];
+#define KEYLOGGER_LENGTH 8
+extern char painter_keylog_str[KEYLOGGER_LENGTH];
 #endif
 
 typedef union {

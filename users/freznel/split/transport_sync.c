@@ -52,10 +52,10 @@ void user_config_sync(uint8_t initiator2target_buffer_size, const void* initiato
 }
 
 #ifdef CUSTOM_KEYLOGGER
-#    include "oled/oled_stuff.h"
+// #    include "./oled/oled_stuff.h"
 void keylogger_string_sync(uint8_t initiator2target_buffer_size, const void* initiator2target_buffer, uint8_t target2initiator_buffer_size, void* target2initiator_buffer) {
     if (initiator2target_buffer_size == KEYLOGGER_LENGTH) {
-        memcpy(&keylog_str, initiator2target_buffer, initiator2target_buffer_size);
+        memcpy(&painter_keylog_str, initiator2target_buffer, initiator2target_buffer_size);
     }
 }
 #endif
@@ -192,9 +192,9 @@ void user_transport_sync(void) {
 
 #ifdef CUSTOM_KEYLOGGER
         // Check if the state values are different
-        if (memcmp(&keylog_str, &keylog_temp, KEYLOGGER_LENGTH)) {
+        if (memcmp(&painter_keylog_str, &keylog_temp, KEYLOGGER_LENGTH)) {
             needs_sync = true;
-            memcpy(&keylog_temp, &keylog_str, KEYLOGGER_LENGTH);
+            memcpy(&keylog_temp, &painter_keylog_str, KEYLOGGER_LENGTH);
         }
         if (timer_elapsed32(last_sync[3]) > 250) {
             needs_sync = true;
@@ -202,7 +202,7 @@ void user_transport_sync(void) {
 
         // Perform the sync if requested
         if (needs_sync) {
-            if (transaction_rpc_send(RPC_ID_USER_KEYLOG_STR, KEYLOGGER_LENGTH, &keylog_str)) {
+            if (transaction_rpc_send(RPC_ID_USER_KEYLOG_STR, KEYLOGGER_LENGTH, &painter_keylog_str)) {
                 last_sync[3] = timer_read32();
             }
             needs_sync = false;

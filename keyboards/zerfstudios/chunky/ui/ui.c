@@ -949,37 +949,38 @@ static const char PROGMEM code_to_name[256] = {
 };
 
 
-#define KEYLOGGER_LENGTH 5
-uint32_t        display_timer                     = 0;
-char            keylog_str[KEYLOGGER_LENGTH] = {0};
-static uint16_t log_timer                         = 0;
 
+// #    define KEYLOGGER_LENGTH 8
+char        painter_keylog_str[KEYLOGGER_LENGTH] = {0};
+static bool klog_redraw                          = false;
 
-void add_keylog(uint16_t keycode, keyrecord_t *record) {
-    if ((keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX) || (keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX) || (keycode >= QK_MODS && keycode <= QK_MODS_MAX)) {
-        if (((keycode & 0xFF) == KC_BSPC) && mod_config(get_mods() | get_oneshot_mods()) & MOD_MASK_CTRL) {
-            memset(keylog_str, ' ', KEYLOGGER_LENGTH);
-            return;
-        }
-        if (record->tap.count) {
-            keycode &= 0xFF;
-        } else if (keycode > 0xFF) {
-            return;
-        }
+void add_keylog(uint16_t keycode, keyrecord_t* record) {
+    if (keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX) {
+        keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+    } else if (keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX) {
+        keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+    } else if (keycode >= QK_MODS && keycode <= QK_MODS_MAX) {
+        keycode = QK_MODS_GET_BASIC_KEYCODE(keycode);
     }
-    if (keycode > 0xFF) {
+
+    if ((keycode == KC_BSPC) && mod_config(get_mods() | get_oneshot_mods()) & MOD_MASK_CTRL) {
+        memset(painter_keylog_str, ' ', KEYLOGGER_LENGTH);
+        painter_keylog_str[KEYLOGGER_LENGTH - 1] = 0x00;
+        return;
+    }
+    if (record->tap.count) {
+        keycode &= 0xFF;
+    } else if (keycode > 0xFF) {
         return;
     }
 
-    memmove(keylog_str, keylog_str + 1, KEYLOGGER_LENGTH - 1);
+    memmove(painter_keylog_str, painter_keylog_str + 1, KEYLOGGER_LENGTH - 2);
 
-    if (keycode < (sizeof(code_to_name) / sizeof(char))) {
-        keylog_str[(KEYLOGGER_LENGTH - 1)] = pgm_read_byte(&code_to_name[keycode]);
+    if (keycode < ARRAY_SIZE(code_to_name)) {
+        painter_keylog_str[(KEYLOGGER_LENGTH - 2)] = pgm_read_byte(&code_to_name[keycode]);
+        klog_redraw                                = true;
     }
-
-    log_timer = timer_read();
 }
-
 
 // void set_keylogger(const char keylogger, lv_obj_t* ui_Screen1_Label_KL) {
 //     if (lv_obj_is_valid(ui_Label1)) {
@@ -994,8 +995,8 @@ static void ui_render_keylogger(lv_timer_t* timer) {
     LV_UNUSED(timer);
     lv_obj_t* ui_Screen1_Label_KL = timer->user_data;;
     if(lv_obj_is_valid(ui_Screen1_Label_KL)) {
-        char buf[5];
-        snprintf(buf, sizeof(buf), "%s", keylog_str);
+        char buf[10];
+        snprintf(buf, sizeof(buf), "%s", painter_keylog_str);
         lv_label_set_text(ui_Screen1_Label_KL, buf);
     }
 }
@@ -1667,6 +1668,10 @@ void render_rgb_mode (lv_obj_t *scr, lv_coord_t x, lv_coord_t y) {
     lv_obj_set_flex_flow(ui_HSVPanel, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(ui_HSVPanel, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
     lv_obj_clear_flag(ui_HSVPanel, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_HSVPanel, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_HSVPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_HSVPanel, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_HSVPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_HSVLabel = lv_label_create(ui_HSVPanel);
     lv_obj_set_width(ui_HSVLabel, LV_SIZE_CONTENT);   /// 1
@@ -1695,14 +1700,6 @@ void render_rgb_mode (lv_obj_t *scr, lv_coord_t x, lv_coord_t y) {
 ///////////////////// SCREENS ////////////////////
 void ui_Screen1_screen_init(void)
 {
-#ifdef CUSTOM_KEYLOGGER
-    if (timer != NULL) {/
-        lv_timer_del(timer);
-
-        timer = NULL;
-    }
-#endif
-
     ui_Screen1 = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_Screen1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     // render_rgb_mode_status(ui_Screen1, LV_ALIGN_TOP_LEFT, 5, 57, LV_SIZE_CONTENT, LV_SIZE_CONTENT, &style_label_futura18, ui_render_rgbmode, USER_EVENT_RGBMODE_UPDATE, NULL);
@@ -1746,15 +1743,15 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_text_font(ui_Screen1_Label_OS, &ui_font_Futura24, LV_PART_MAIN | LV_STATE_DEFAULT);
 #endif
 
-#ifdef CUSTOM_KEYLOGGER
-    ui_Screen1_Label_KL = lv_label_create(ui_Screen1);
-    lv_obj_set_width(ui_Screen1_Label_KL, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Screen1_Label_KL, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_Screen1_Label_KL, 9);
-    lv_obj_set_y(ui_Screen1_Label_KL, 200);
-    lv_obj_set_style_text_font(ui_Screen1_Label_KL, &ui_font_Futura24, LV_PART_MAIN | LV_STATE_DEFAULT);
-    timer = lv_timer_create(ui_render_keylogger, 1000, ui_Screen1_Label_KL);
-#endif
+// #ifdef CUSTOM_KEYLOGGER
+//     ui_Screen1_Label_KL = lv_label_create(ui_Screen1);
+//     lv_obj_set_width(ui_Screen1_Label_KL, LV_SIZE_CONTENT);   /// 1
+//     lv_obj_set_height(ui_Screen1_Label_KL, LV_SIZE_CONTENT);    /// 1
+//     lv_obj_set_x(ui_Screen1_Label_KL, 9);
+//     lv_obj_set_y(ui_Screen1_Label_KL, 200);
+//     lv_obj_set_style_text_font(ui_Screen1_Label_KL, &ui_font_Futura24, LV_PART_MAIN | LV_STATE_DEFAULT);
+//     timer = lv_timer_create(ui_render_keylogger, 1000, ui_Screen1_Label_KL);
+// #endif
 
     lv_obj_add_event_cb(ui_Screen1, ui_render_rgbhue_redraw, USER_EVENT_RGBHUE_UPDATE, NULL);
 
@@ -1762,6 +1759,14 @@ void ui_Screen1_screen_init(void)
 
 void ui_Screen2_screen_init(void)
 {
+
+#ifdef CUSTOM_KEYLOGGER
+    if (timer != NULL) {
+        lv_timer_del(timer);
+
+        timer = NULL;
+    }
+#endif
     ui_Screen2 = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_Screen2, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     // lv_obj_set_style_bg_color(ui_Screen2, lv_color_hex(0xE30303), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -1775,6 +1780,18 @@ void ui_Screen2_screen_init(void)
     render_cpi_arc(ui_Screen2);
     render_pointing(ui_Screen2, 0, -59);
     render_panel_deflayer (ui_Screen2, LV_ALIGN_CENTER, 0, 100, &ui_font_GaretHeavy14, ui_event_dflayer_dropdown, LV_EVENT_ALL, NULL);
+
+ #ifdef CUSTOM_KEYLOGGER
+    ui_Screen1_Label_KL = lv_label_create(ui_Screen2);
+    lv_obj_set_width(ui_Screen1_Label_KL, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Screen1_Label_KL, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Screen1_Label_KL, LV_ALIGN_CENTER);
+    lv_obj_set_x(ui_Screen1_Label_KL, -100);
+    lv_obj_set_y(ui_Screen1_Label_KL, 0);
+    lv_obj_set_style_text_font(ui_Screen1_Label_KL, &ui_font_Futura24, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_label_set_text(ui_Screen1_Label_KL, "new");
+    timer = lv_timer_create(ui_render_keylogger, 125, ui_Screen1_Label_KL);
+#endif
 
     // lv_obj_add_event_cb(ui_Screen2, ui_render_rgbhue_redraw, USER_EVENT_RGBHUE_UPDATE, NULL);
     // lv_obj_add_event_cb(ui_Arc1, ui_render_cpi, USER_EVENT_CPI_UPDATE, NULL);
