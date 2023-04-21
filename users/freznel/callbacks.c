@@ -106,7 +106,7 @@ void                       suspend_wakeup_init_user(void) {
 // scan function
 __attribute__((weak)) void matrix_scan_keymap(void) {}
 void                       matrix_scan_user(void) {
-    matrix_scan_super_alt_tab();
+    // matrix_scan_super_alt_tab();
     matrix_scan_keymap();
 }
 

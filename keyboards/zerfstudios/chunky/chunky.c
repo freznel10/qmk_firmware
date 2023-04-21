@@ -120,7 +120,7 @@ static uint16_t get_pointer_sniping_dpi(chunky_config_t* config) { return (uint1
 
 /** \brief Set the appropriate DPI for the input config. */
 static void maybe_update_pointing_device_cpi(chunky_config_t* config) {
-    // if (is_keyboard_left()) {
+    if (is_keyboard_master()) {
         if (user_state.split_pointing_mode == PM_DRAG) {
             pointing_device_set_cpi_by_index(CHUNKY_DRAGSCROLL_DPI, 0);
             pointing_device_set_cpi_by_index(CHUNKY_DRAGSCROLL_DPI, 1);
@@ -143,7 +143,7 @@ static void maybe_update_pointing_device_cpi(chunky_config_t* config) {
     //         pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
     //         pointing_device_set_cpi(get_pointer_default_dpi(config));
     //     }
-    // }
+    }
 }
 
 

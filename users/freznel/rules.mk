@@ -132,7 +132,7 @@ ifeq ($(strip $(AUTOCORRECTION_ENABLE)), yes)
    AUTOCORRECT_ENABLE = yes
 endif
 
-SUPER_ALT_TAB_ENABLE ?= yes
+SUPER_ALT_TAB_ENABLE ?= no
 ifeq ($(strip $(SUPER_ALT_TAB_ENABLE)), yes)
 	SRC +=super_alt_tab.c
     OPT_DEFS += -DSUPER_ALT_TAB_ENABLE
