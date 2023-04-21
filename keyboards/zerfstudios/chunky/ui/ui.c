@@ -660,6 +660,7 @@ void set_unicode_mode_text_value(lv_obj_t* lbl) {
                 unicode_mode_display = " ";
                 break;
         }
+
         snprintf(buf, sizeof(buf), "UM: %s", unicode_mode_display);
         lv_label_set_text(lbl, buf);
     }
@@ -680,8 +681,9 @@ void ui_unicode_mode_change(lv_event_t * e) {
 /*PM RENDER*/
 void set_pm_text_value(lv_obj_t* lbl) {
     if (lv_obj_is_valid(lbl)) {
-        char buf[32];
+        char buf[34];
         const char *pm_name = "-----";
+        const char *pm_side = "-";
         switch (user_state.split_pointing_mode) {
             case PM_PRECISION:
                 pm_name = "PRECISION";
@@ -734,7 +736,15 @@ void set_pm_text_value(lv_obj_t* lbl) {
                 pm_name = "PM: NONE";
                 break;
         }
-        snprintf(buf, sizeof(buf), "%s", pm_name);
+        switch (user_state.pointing_side) {
+             case 0:
+                pm_side = "P";
+                break;
+            case 1:
+                pm_side = "S";
+                break;
+        }
+        snprintf(buf, sizeof(buf), "%s %s", pm_name, pm_side);
         lv_label_set_text(lbl, buf);
     }
 }
@@ -1021,17 +1031,6 @@ static void ui_render_keylogger(lv_timer_t* timer) {
 //     lv_obj_set_style_outline_width(ui_Panel_Pointing_Mode, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
 //     lv_obj_set_style_outline_pad(ui_Panel_Pointing_Mode, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-//     ui_PM_led1 = lv_led_create(ui_Panel_Pointing_Mode);
-//     lv_obj_set_size(ui_PM_led1, 10, 10);
-//     lv_obj_align(ui_PM_led1, LV_ALIGN_CENTER, (((w/2)-10) * (-1)), (((h/2)-15) * (-1)));
-//     lv_led_set_brightness(ui_PM_led1, 255);
-//     lv_led_set_color(ui_PM_led1, lv_palette_main(LV_PALETTE_RED));
-
-//     ui_PM_led2  = lv_led_create(ui_Panel_Pointing_Mode);
-//     lv_obj_set_size(ui_PM_led2, 10, 10);
-//     lv_obj_align(ui_PM_led2, LV_ALIGN_CENTER, (((w/2)-30) * (-1)), (((h/2)-15) * (-1)));
-//     lv_led_set_brightness(ui_PM_led2, 255);
-//     lv_led_set_color(ui_PM_led2, lv_palette_main(LV_PALETTE_RED));
 
 //     ui_PM_led3  = lv_led_create(ui_Panel_Pointing_Mode);
 //     lv_obj_set_size(ui_PM_led3, 10, 10);
@@ -1781,6 +1780,23 @@ void ui_Screen2_screen_init(void)
     render_pointing(ui_Screen2, 0, -59);
     render_panel_deflayer (ui_Screen2, LV_ALIGN_CENTER, 0, 100, &ui_font_GaretHeavy14, ui_event_dflayer_dropdown, LV_EVENT_ALL, NULL);
 
+
+    // ui_PM_led1 = lv_led_create(ui_Screen2);
+    // lv_obj_set_size(ui_PM_led1, 10, 10);
+    // lv_obj_align(ui_PM_led1, LV_ALIGN_CENTER, 100, 0);
+    // lv_led_set_brightness(ui_PM_led1, 255);
+    // lv_led_set_color(ui_PM_led1, lv_palette_main(LV_PALETTE_RED));
+
+    // ui_PM_led2  = lv_led_create(ui_Screen2);
+    // lv_obj_set_size(ui_PM_led2, 10, 10);
+    // lv_obj_align(ui_PM_led2, LV_ALIGN_CENTER, 120, 0);
+    // lv_led_set_brightness(ui_PM_led2, 255);
+    // lv_led_set_color(ui_PM_led2, lv_palette_main(LV_PALETTE_RED));
+
+    //     lv_obj_add_event_cb(ui_PM_led1, ui_pm_state_change, USER_EVENT_PM_SIDE_CHANGE, NULL);
+    // lv_obj_add_event_cb(ui_PM_led2, ui_pm_state_change, USER_EVENT_PM_SIDE_CHANGE, NULL);
+
+
  #ifdef CUSTOM_KEYLOGGER
     ui_Screen1_Label_KL = lv_label_create(ui_Screen2);
     lv_obj_set_width(ui_Screen1_Label_KL, LV_SIZE_CONTENT);   /// 1
@@ -1799,54 +1815,34 @@ void ui_Screen2_screen_init(void)
 
 void lvgl_event_triggers(void) {
     static uint32_t last_dl_state   = 0;
-    bool dl_state_redraw = false;
     if (last_dl_state != default_layer_state) {
         last_dl_state   = default_layer_state;
-        dl_state_redraw = true;
-    }
-    if (dl_state_redraw) {
         lv_event_send(ui_Screen2_deflayer, USER_EVENT_DF_LAYER_CHANGE, NULL);
     }
     static uint16_t last_cpi   = 0xFFFF;
     uint16_t curr_cpi   =  pointing_device_get_cpi_by_index(0);
-    bool cpi_redraw = false;
     if (last_cpi != curr_cpi) {
         last_cpi   = curr_cpi;
-        cpi_redraw = true;
-    }
-    if (cpi_redraw) {
         lv_event_send(ui_Label_Dpi, USER_EVENT_CPI_UPDATE, NULL);
         lv_event_send(ui_Arc1, USER_EVENT_CPI_UPDATE, NULL);
     }
 #ifdef WPM_ENABLE
-    bool            wpm_redraw      = false;
     static uint32_t last_wpm_update = 0;
     if (timer_elapsed32(last_wpm_update) > 500) {
         last_wpm_update = timer_read32();
-        wpm_redraw      = true;
-    }
-    if (wpm_redraw) {
         lv_event_send(ui_wpmCount, USER_EVENT_WPM_UPDATE, NULL);
     }
 #endif
-    bool            rgb_effect_redraw = false;
     static uint16_t last_effect       = 0xFFFF;
     uint8_t         curr_effect       = rgb_matrix_config.mode;
     if (last_effect != curr_effect) {
         last_effect       = curr_effect;
-        rgb_effect_redraw = true;
+       lv_event_send(ui_RGBLabel, USER_EVENT_RGBMODE_UPDATE, NULL);
     }
-    if (rgb_effect_redraw) {
-        lv_event_send(ui_RGBLabel, USER_EVENT_RGBMODE_UPDATE, NULL);
-    }
-    bool          hue_redraw = false;
     static uint16_t last_hue       = 0xFFFF;
     uint16_t         curr_hue       = rgb_matrix_get_hue();
     if (last_hue != curr_hue) {
         last_hue       = curr_hue;
-        hue_redraw = true;
-    }
-    if (hue_redraw) {
         lv_event_send(ui_Screen2, USER_EVENT_RGBHUE_UPDATE, NULL);
         // lv_event_send(ui_Panel_Layer, USER_EVENT_RGBHUE_UPDATE, NULL);
         // lv_event_send(ui_Panel_Pointing_Mode, USER_EVENT_RGBHUE_UPDATE, NULL);
@@ -1855,68 +1851,57 @@ void lvgl_event_triggers(void) {
         lv_event_send(ui_Colorwheel1, USER_EVENT_RGBHUE_UPDATE, NULL);
         lv_event_send(ui_HueArc, USER_EVENT_RGBHUE_UPDATE, NULL);
     }
-    bool          sat_redraw = false;
     static uint16_t last_sat      = 0;
     uint16_t        curr_sat      = rgb_matrix_get_sat();
+
     if (last_sat != curr_sat) {
         last_sat  = curr_sat;
-        sat_redraw = true;
-    }
-    if (sat_redraw) {
         lv_event_send(ui_HSVLabel, USER_EVENT_RGBSAT_UPDATE, NULL);
         lv_event_send(ui_Colorwheel1, USER_EVENT_RGBSAT_UPDATE, NULL);
         lv_event_send(ui_HueArc, USER_EVENT_RGBSAT_UPDATE, NULL);
     }
-    bool          val_redraw = false;
+
     static uint16_t last_val       = 0;
     uint16_t        curr_val       = rgb_matrix_get_val();
     if (last_val != curr_val) {
         last_val  = curr_val;
-        val_redraw = true;
-    }
-    if (val_redraw) {
         lv_event_send(ui_HSVLabel, USER_EVENT_RGBVAL_UPDATE, NULL);
         lv_event_send(ui_Colorwheel1, USER_EVENT_RGBVAL_UPDATE, NULL);
         lv_event_send(ui_HueArc, USER_EVENT_RGBVAL_UPDATE, NULL);
     }
-    bool            layer_state_redraw = false;
+
     static uint32_t last_layer_state   = 0;
     if (last_layer_state != layer_state) {
         last_layer_state   = layer_state;
-        layer_state_redraw = true;
-    }
-    if (layer_state_redraw) {
         lv_event_send(ui_Layer_Indicator, USER_EVENT_ACTIVE_LAYER_CHANGE, NULL);
         lv_event_send(ui_Label_Layer_Name, USER_EVENT_ACTIVE_LAYER_CHANGE, NULL);
     }
-    bool            pm_state_redraw = false;
+
     static uint8_t last_pm_state   = 0;
     if (last_pm_state != user_state.split_pointing_mode) {
         last_pm_state  = user_state.split_pointing_mode;
-        pm_state_redraw = true;
-    }
-    if (pm_state_redraw ) {
         lv_event_send(ui_Label_PM_mode, USER_EVENT_PM_STATE_CHANGE, NULL);
-        // lv_event_send(ui_Panel_Pointing_Mode, USER_EVENT_PM_STATE_CHANGE, NULL);
-        // lv_event_send(ui_Panel_Pointing_Mode, USER_EVENT_PM_STATE_CHANGE, NULL);
     }
-    static bool pm_side_redraw = false;
-    bool            last_pm_side   = 1;
-    if (last_pm_side != user_state.pointing_side) {
-        last_pm_side  = user_state.pointing_side;
-        pm_side_redraw = true;
-    }
-    if (pm_side_redraw) {
-        lv_event_send(ui_PM_led1, USER_EVENT_PM_SIDE_CHANGE, NULL);
-        lv_event_send(ui_PM_led2, USER_EVENT_PM_SIDE_CHANGE, NULL);
-    }
-    static bool am_state_redraw = false;
+    // bool pm_side_redraw = false;
+    // bool            last_pm_side   = 1;
+    // if (last_pm_side != user_state.pointing_side) {
+    //     last_pm_side  = user_state.pointing_side;
+    //     pm_side_redraw = true;
+    // }
+    // if (pm_state_redraw) {
+
+    //     // lv_event_send(ui_Panel_Pointing_Mode, USER_EVENT_PM_STATE_CHANGE, NULL);
+    //     // lv_event_send(ui_Panel_Pointing_Mode, USER_EVENT_PM_STATE_CHANGE, NULL);
+    // }
+
+    // if (pm_side_redraw) {
+    //     // lv_event_send(ui_PM_led1, USER_EVENT_PM_SIDE_CHANGE, NULL);
+    //     // lv_event_send(ui_PM_led2, USER_EVENT_PM_SIDE_CHANGE, NULL);
+    // }
+
     bool            last_am_state   = 0;
     if (last_am_state != get_auto_mouse_toggle()) {
         last_am_state  = get_auto_mouse_toggle();
-        am_state_redraw = true;
-    }
-    if (am_state_redraw) {
         lv_event_send(ui_PM_led3, USER_EVENT_AM_STATE_CHANGE, NULL);
     }
 
@@ -1945,13 +1930,10 @@ void lvgl_event_triggers(void) {
     } else {
         _ui_state_modify(ui_Autocorrect, LV_STATE_FOCUSED, _UI_MODIFY_STATE_ADD);
     }
-    static bool led_state_redraw = false;
+
     static led_t last_led_state = {0};
     if (last_led_state.raw != host_keyboard_led_state().raw) {
         last_led_state.raw = host_keyboard_led_state().raw;
-        led_state_redraw = true;
-    }
-    if (led_state_redraw) {
         if (host_keyboard_led_state().caps_lock) {
             _ui_state_modify(ui_CapsLock, LV_STATE_FOCUSED, _UI_MODIFY_STATE_ADD);
         } else {
@@ -1968,13 +1950,10 @@ void lvgl_event_triggers(void) {
             _ui_state_modify(ui_ScrollLock, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
         }
     }
-    static bool user_state_redraw = false;
+
     static user_runtime_config_t last_user_state = {0};
     if (last_user_state.raw != user_state.raw) {
         last_user_state.raw  = user_state.raw;
-        user_state_redraw = true;
-    }
-    if (user_state_redraw) {
         if (user_state.audio_enable) {
             _ui_state_modify(ui_Clicky, LV_STATE_FOCUSED, _UI_MODIFY_STATE_ADD);
         } else {
@@ -1985,21 +1964,18 @@ void lvgl_event_triggers(void) {
         } else {
             _ui_state_modify(ui_Audio, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
         }
+
     }
-    static bool unicode_mode_redraw = false;
+
     static uint8_t last_unicode_mode = {0};
     if (last_unicode_mode != user_state.unicode_typing_mode) {
         last_unicode_mode  = user_state.unicode_typing_mode;
-        unicode_mode_redraw = true;
-    }
-    if (unicode_mode_redraw) {
         lv_event_send(ui_Label_Unicode_Mode, USER_EVENT_UNICODE_MODE_UPDATE, NULL);
-    }
     // if (get_auto_mouse_toggle()) {
     //         lv_led_on(ui_PM_led3);
     //     } else {
     //         lv_led_off(ui_PM_led3);
-    // }
+    }
 
 }
 

@@ -80,6 +80,10 @@ bool pointing_device_task_handle_shared_report(report_mouse_t* local_report, boo
                 pd_dprintf("POINTING DEVICE: Missed shared report - last report: %d, new report: %d\n", counter, shared_report.counter);
             }
 #    endif
+            uint8_t current_device = get_pointing_mode_device();
+            if (current_device == 1) {
+                shared_report.report = pointing_device_modes_task(shared_report.report);
+            }
             pointing_device_add_and_clamp_report(local_report, &shared_report.report);
             counter           = shared_report.counter;
             *device_was_ready = true;
@@ -274,6 +278,11 @@ bool pointing_deivce_task_get_pointing_reports(report_mouse_t* report) {
             device_was_ready = true;
             loop_report      = pointing_device_configs[i].driver->get_report(pointing_device_configs[i].config);
             pointing_device_adjust_report(&loop_report, i);
+
+            uint8_t current_device = get_pointing_mode_device();
+            if (current_device == 0) {
+                loop_report = pointing_device_modes_task(loop_report);
+            }
             loop_report = pointing_device_task_kb_by_index(loop_report, i); // Maybe simpler to not pass pointer to user?
             buttons[i]  = loop_report.buttons;
             pointing_device_add_and_clamp_report(report, &loop_report);
@@ -292,9 +301,9 @@ __attribute__((weak)) bool pointing_device_task(void) {
 #if defined(SPLIT_KEYBOARD)
     report_is_different = pointing_device_task_handle_shared_report(&local_report, &device_was_ready);
 #endif
-#ifdef POINTING_DEVICE_MODES_ENABLE
-        local_report = pointing_device_modes_task(local_report);
-#endif
+// #ifdef POINTING_DEVICE_MODES_ENABLE
+//         local_report = pointing_device_modes_task(local_report);
+// #endif
 
     local_report = pointing_device_task_kb(local_report);
 

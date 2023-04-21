@@ -778,3 +778,14 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     }
     return changed;
 }
+extern user_runtime_config_t user_state;
+
+// report_mouse_t pointing_device_task_kb_by_index(report_mouse_t mouse_report, uint8_t index) {
+//     // report_mouse_t loop_report = {0};
+//     uint8_t current_device = get_pointing_mode_device();
+//     if (current_device == POINTING_DEVICE_THIS_SIDE(index)) {
+//         dprintf("Current device: %d", POINTING_DEVICE_THIS_SIDE(index));
+//         mouse_report = pointing_device_modes_task(mouse_report);
+//     }
+//     return pointing_device_task_user_by_index(mouse_report, index);
+// }
