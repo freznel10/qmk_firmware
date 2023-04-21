@@ -185,7 +185,6 @@ void           pointing_device_set_cpi(uint16_t cpi);
 uint16_t pointing_device_get_cpi_by_index(uint8_t index);
 void     pointing_device_set_cpi_by_index(uint16_t cpi, uint8_t index);
 
-
 void           pointing_device_init_kb_by_index(uint8_t index);
 void           pointing_device_init_user_by_index(uint8_t index);
 void           pointing_device_init_kb(void);
@@ -199,16 +198,6 @@ void           pointing_device_keycode_handler(uint16_t keycode, bool pressed);
 bool           pointing_deivce_task_get_pointing_reports(report_mouse_t *report);
 void pointing_device_add_and_clamp_report(report_mouse_t* report, report_mouse_t* additional_report);
 bool pointing_device_report_ready(report_mouse_t* last_report, report_mouse_t* new_report, bool* device_was_ready);
-
-
-void                             pointing_device_set_shared_report(pointing_device_shared_report_t report);
-pointing_device_shared_report_t  pointing_device_get_shared_report(void);
-void                             pointing_device_set_shared_cpi(pointing_device_shared_cpi_t *cpi);
-pointing_device_shared_cpi_t    *pointing_device_get_shared_cpi(void);
-void                             pointing_device_reset_shared_cpi_update_flags(void);
-bool                             pointing_device_check_shared_cpi_update_flags(void);
-
-
 
 void                             pointing_device_set_shared_report(pointing_device_shared_report_t report);
 pointing_device_shared_report_t  pointing_device_get_shared_report(void);
