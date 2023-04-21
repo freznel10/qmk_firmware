@@ -75,15 +75,11 @@ bool pointing_device_task_handle_shared_report(report_mouse_t* local_report, boo
     static uint8_t counter = 0;
     if (is_keyboard_master()) {
         if (counter != shared_report.counter) {
-#    if defined(POINTING_DEVICE_DEBUG)
+#if defined(POINTING_DEVICE_DEBUG)
             if (shared_report.counter != (((uint16_t)counter + 1) & UINT8_MAX)) {
                 pd_dprintf("POINTING DEVICE: Missed shared report - last report: %d, new report: %d\n", counter, shared_report.counter);
             }
-#    endif
-            uint8_t current_device = get_pointing_mode_device();
-            if (current_device == 1) {
-                shared_report.report = pointing_device_modes_task(shared_report.report);
-            }
+#endif
             pointing_device_add_and_clamp_report(local_report, &shared_report.report);
             counter           = shared_report.counter;
             *device_was_ready = true;
@@ -199,9 +195,7 @@ __attribute__((weak)) void pointing_device_init(void) {
 }
 
 __attribute__((weak)) void pointing_device_send(report_mouse_t* sending_report) {
-    if (is_keyboard_master()){
-        host_mouse_send(sending_report);
-    }
+    host_mouse_send(sending_report);
     memset(sending_report, 0, sizeof(report_mouse_t));
 }
 
@@ -251,15 +245,13 @@ __attribute__((weak)) bool pointing_device_is_ready(pointing_device_config_t dev
     static fast_timer_t last_check[POINTING_DEVICE_COUNT] = {0};
     bool                ready                             = false;
 
-    if (timer_elapsed_fast(last_check[index]) >= device_config.throttle) {
-        last_check[index] = timer_read_fast();
-        if (device_config.motion.pin) { // FIX ME
-            if (readPin(device_config.motion.pin) != device_config.motion.active_low) {
-                ready = true;
-            }
-        } else {
+    if (device_config.motion.pin) { // check pin assigned
+        if (readPin(device_config.motion.pin) != device_config.motion.active_low) {
             ready = true;
         }
+    } else if (timer_elapsed_fast(last_check[index]) >= device_config.throttle) {
+        last_check[index] = timer_read_fast();
+        ready             = true;
     }
 
     return ready;
@@ -278,17 +270,13 @@ bool pointing_deivce_task_get_pointing_reports(report_mouse_t* report) {
             device_was_ready = true;
             loop_report      = pointing_device_configs[i].driver->get_report(pointing_device_configs[i].config);
             pointing_device_adjust_report(&loop_report, i);
-
-            uint8_t current_device = get_pointing_mode_device();
-            if (current_device == 0) {
-                loop_report = pointing_device_modes_task(loop_report);
-            }
             loop_report = pointing_device_task_kb_by_index(loop_report, i); // Maybe simpler to not pass pointer to user?
             buttons[i]  = loop_report.buttons;
             pointing_device_add_and_clamp_report(report, &loop_report);
         } else {
             if (buttons[i]) {
                 report->buttons |= buttons[i];
+                device_was_ready = true;
             }
         }
     }
@@ -301,16 +289,14 @@ __attribute__((weak)) bool pointing_device_task(void) {
 #if defined(SPLIT_KEYBOARD)
     report_is_different = pointing_device_task_handle_shared_report(&local_report, &device_was_ready);
 #endif
-// #ifdef POINTING_DEVICE_MODES_ENABLE
-//         local_report = pointing_device_modes_task(local_report);
-// #endif
 
     local_report = pointing_device_task_kb(local_report);
 
-    // automatic mouse layer function
+        // automatic mouse layer function
 #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
-    pointing_device_task_auto_mouse(local_report);
+        pointing_device_task_auto_mouse(local_report);
 #endif
+
 
     // combine with mouse report to ensure that the combined is sent correctly
 #ifdef MOUSEKEY_ENABLE

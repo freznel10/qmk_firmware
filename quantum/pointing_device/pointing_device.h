@@ -22,11 +22,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "report.h"
 #include "gpio.h"
 #include "pointing_device_internal.h"
+#include "gpio.h"
+#include "pointing_device_internal.h"
 
 #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
 #    include "pointing_device_auto_mouse.h"
 #endif
 
+#ifndef POINTING_DEVICE_COUNT
+#    define POINTING_DEVICE_COUNT 1
 #ifndef POINTING_DEVICE_COUNT
 #    define POINTING_DEVICE_COUNT 1
 #endif
@@ -205,3 +209,10 @@ void                             pointing_device_reset_shared_cpi_update_flags(v
 bool                             pointing_device_check_shared_cpi_update_flags(void);
 
 
+
+void                             pointing_device_set_shared_report(pointing_device_shared_report_t report);
+pointing_device_shared_report_t  pointing_device_get_shared_report(void);
+void                             pointing_device_set_shared_cpi(pointing_device_shared_cpi_t *cpi);
+pointing_device_shared_cpi_t    *pointing_device_get_shared_cpi(void);
+void                             pointing_device_reset_shared_cpi_update_flags(void);
+bool                             pointing_device_check_shared_cpi_update_flags(void);
