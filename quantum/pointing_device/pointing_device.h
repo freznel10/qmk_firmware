@@ -31,8 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef POINTING_DEVICE_COUNT
 #    define POINTING_DEVICE_COUNT 1
-#ifndef POINTING_DEVICE_COUNT
-#    define POINTING_DEVICE_COUNT 1
 #endif
 
 typedef enum {
