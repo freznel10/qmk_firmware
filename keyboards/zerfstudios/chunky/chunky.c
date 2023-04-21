@@ -691,7 +691,7 @@ void housekeeping_task_kb(void) {
 
     //         if (prox > prox_threshold ) {
     //             if (prev_prox_state == 0) {
-    //                 measurement_interval = 10;
+    //                 measurement_interval = 10;cir
     //                 prev_prox_state = 1;
     //                 prev_prox_time = timer_read32();
     //         } else if (timer_elapsed32(prev_prox_time) > 200) {
