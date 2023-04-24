@@ -27,6 +27,7 @@
 #include "color.h"
 #include "adps9660.h"
 #include "spi_master.h"
+#include "i2c_master.h"
 
 #include <qp.h>
 #include <qp_lvgl.h>
@@ -267,11 +268,13 @@ static int8_t rotations = 0;
 bool lvgl_encoder = false;
 static lv_group_t *g;
 static uint32_t act_key = 0;
-bool is_alt_tab_active_2 = false; // Flag to check if alt tab is active
-bool is_ctrl_tab_active = false;
-uint16_t alt_tab_timer_2 = 0;
-bool is_lalt_pressed = false;
-bool is_lctl_pressed = false;
+
+// bool is_alt_tab_active_2 = false; // Flag to check if alt tab is active
+// bool is_ctrl_tab_active = false;
+// uint32_t alt_tab_timer_2 = 0;
+// bool is_lalt_pressed = false;
+// bool is_lctl_pressed = false;
+
 float pm_song[][2] = SONG(VIOLIN_SOUND);
 
 bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
@@ -389,55 +392,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
             }
             break;
          }
-	    case KC_LALT: // If this is not defined, if the encoder is activated in the alt-tab mode while the LALT key is pressed, the menu goes away.
-            if (record->event.pressed) is_lalt_pressed = true;
-            else is_lalt_pressed = false;
-        case KC_LCTL:
-            if (record->event.pressed) is_lctl_pressed = true;
-            else is_lctl_pressed = false;
-		return true;
-        case ALTTABF:
-        case ALTTABB:
-		if (record->event.pressed) {
-			if (!is_alt_tab_active_2) {
-				is_alt_tab_active_2 = true;
-				register_code(KC_LALT);
 
-			}
-			tap_code16(keycode == ALTTABF ? KC_TAB : S(KC_TAB)); // Due to S(KC_TAB), the 16-bit tap_code16 is needed.
-			alt_tab_timer_2 = timer_read();
-            break;
-        }
-        case ALTTABC: {
-            if (record->event.pressed) {
-                if (is_alt_tab_active_2) {
-                    if (!is_lalt_pressed) unregister_code(KC_LALT);
-                    is_alt_tab_active_2 = false;
-                }
-            break;
-            }
-        }
-        case CTLTABF:
-        case CTLTABB:
-		if (record->event.pressed) {
-			if (!is_ctrl_tab_active) {
-				is_ctrl_tab_active = true;
-				register_code(KC_LCTL);
-
-			}
-			tap_code16(keycode == CTLTABF ? KC_TAB : S(KC_TAB)); // Due to S(KC_TAB), the 16-bit tap_code16 is needed.
-			alt_tab_timer_2 = timer_read();
-            break;
-        }
-        case CTLTABC: {
-            if (record->event.pressed) {
-                if (is_ctrl_tab_active) {
-                    if (!is_lctl_pressed) unregister_code(KC_LCTL);
-                    is_ctrl_tab_active = false;
-                }
-            break;
-            }
-        }
         case SWITCH_1: {
         }
         break;
@@ -615,8 +570,6 @@ void keyboard_post_init_kb(void) {
             lv_indev_set_group(cur_drv, g);
         }
     }
-    wait_ms(50);
-
     keyboard_post_init_user();
     ui_init();
 
@@ -625,15 +578,29 @@ void keyboard_post_init_kb(void) {
 #define ALT_TAB_DELAY 1000
 
 void housekeeping_task_kb(void) {
-    	if (is_alt_tab_active_2 || is_ctrl_tab_active ) {
-		    if (is_lalt_pressed || is_lctl_pressed) alt_tab_timer_2 = timer_read();
-		    else if (timer_elapsed32(alt_tab_timer_2) > ALT_TAB_DELAY) {
-			unregister_code(KC_LALT);
-            unregister_code(KC_LCTL);
-			is_alt_tab_active_2 = false;
-            is_ctrl_tab_active = false;
-		    }
-        }
+    	// if (is_alt_tab_active_2 || is_ctrl_tab_active ) {
+		//     if (is_lalt_pressed || is_lctl_pressed) alt_tab_timer_2 = timer_read();
+		//     else if (timer_elapsed32(alt_tab_timer_2) > ALT_TAB_DELAY) {
+		// 	unregister_code(KC_LALT);
+        //     unregister_code(KC_LCTL);
+		// 	is_alt_tab_active_2 = false;
+        //     is_ctrl_tab_active = false;
+		//     }
+        // }
+//         if (is_alt_tab_active_2 || is_ctrl_tab_active) {
+//             if (!(is_lalt_pressed || is_lctl_pressed)) {
+//                 uint32_t elapsed_time = timer_elapsed32(alt_tab_timer_2);
+//                 elapsed_time > ALT_TAB_DELAY ? (unregister_code(KC_LALT), unregister_code(KC_LCTL), is_alt_tab_active_2 = false, is_ctrl_tab_active = false) : 0;
+//         return;
+//         }
+
+//     alt_tab_timer_2 = timer_read32();
+// }
+
+    unregister_super_tab();
+    unregister_super_ctrl_tab();
+
+
         // if (is_ctrl_tab_active) {
 		//     if (is_lctl_pressed) alt_tab_timer_2 = timer_read32();
 		//     else if (timer_elapsed32(alt_tab_timer_2) > ALT_TAB_DELAY) {
@@ -729,17 +696,30 @@ void housekeeping_task_kb(void) {
 //     matrix_scan_user();
 // }
 
+// const cirque_init_config_t cirque_init_config_default = {
+//     .position_mode  = CIRQUE_PINNACLE_ABSOLUTE_MODE,
+//     .attenuation    = attenuate_2x,
+//     .default_scale  = 1024,
+//     .scroll_enable  = true,
+//     .ranges         = &cirque_ranges_position_default,
+//     .curved_overlay = true,
+//     .taps           = CIRQUE_SINGLE_TAP,
+//     .diameter_mm    = 40,
+// };
 
-const pointing_device_spi_config_t cirque_config_spi_left = {.cs = CIRQUE_PINNACLE_SPI_CS_PIN, .mode = CIRQUE_PINNACLE_SPI_MODE, .divisor = CIRQUE_PINNACLE_SPI_DIVISOR};
-const pointing_device_spi_config_t cirque_config_spi_right = {.cs = CIRQUE_PINNACLE_SPI_CS_PIN, .mode = CIRQUE_PINNACLE_SPI_MODE, .divisor = CIRQUE_PINNACLE_SPI_DIVISOR};
+// const pointing_device_spi_config_t cirque_config_spi_left = {.cs = CIRQUE_PINNACLE_SPI_CS_PIN, .mode = CIRQUE_PINNACLE_SPI_MODE, .divisor = CIRQUE_PINNACLE_SPI_DIVISOR};
+// const pointing_device_spi_config_t cirque_config_spi_right = {.cs = CIRQUE_PINNACLE_SPI_CS_PIN, .mode = CIRQUE_PINNACLE_SPI_MODE, .divisor = CIRQUE_PINNACLE_SPI_DIVISOR};
 
 const pointing_device_config_t pointing_device_configs[POINTING_DEVICE_COUNT] = {
-    {.driver = &cirque_driver_spi_default, .config = &cirque_config_spi_left, .throttle = 10, .side = LEFT},
-    {.driver = &cirque_driver_spi_default, .config = &cirque_config_spi_right, .throttle = 10, .side = RIGHT},
+    // {.driver = &cirque_driver_spi_default, .config = &cirque_config_spi_left, .throttle = 10, .side = LEFT},
+    // {.driver = &cirque_driver_spi_default, .config = &cirque_config_spi_right, .throttle = 10, .side = RIGHT}
     // {.driver = &ps2_trackpoint_driver_ps2_default, .config = &ps2_trackpoint_config_ps2_default, .throttle = 10, .side = LEFT},
-    // {.driver = &ps2_trackpoint_driver_ps2_default, .config = &ps2_trackpoint_config_ps2_default, .throttle = 10, .side = RIGHT}
+    {.driver = &pmw3360_driver_spi_default, .config = &pmw3360_config_spi_default, .throttle = 10, .invert = INVERT_X, .side = LEFT},
+      {.driver = &pmw3360_driver_spi_default, .config = &pmw3360_config_spi_default, .throttle = 10, .invert = INVERT_X, .side = RIGHT},
+    // {.driver = &ps2_trackpoint_driver_ps2_default, .config = &ps2_trackpoint_config_ps2_default, .side = LEFT}
 
 };
+
 
 void matrix_io_delay(void) {
     __asm__ volatile("nop\nnop\nnop\n");
@@ -750,7 +730,6 @@ void matrix_output_unselect_delay(uint8_t line, bool key_pressed) {
         __asm__ volatile("nop" ::: "memory");
     }
 }
-
 
 void matrix_init_custom(void) {
     // SPI Matrix
@@ -778,14 +757,3 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     }
     return changed;
 }
-extern user_runtime_config_t user_state;
-
-// report_mouse_t pointing_device_task_kb_by_index(report_mouse_t mouse_report, uint8_t index) {
-//     // report_mouse_t loop_report = {0};
-//     uint8_t current_device = get_pointing_mode_device();
-//     if (current_device == POINTING_DEVICE_THIS_SIDE(index)) {
-//         dprintf("Current device: %d", POINTING_DEVICE_THIS_SIDE(index));
-//         mouse_report = pointing_device_modes_task(mouse_report);
-//     }
-//     return pointing_device_task_user_by_index(mouse_report, index);
-// }

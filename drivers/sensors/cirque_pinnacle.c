@@ -31,8 +31,8 @@ const cirque_init_config_t cirque_init_config_default = {
     .default_scale  = 1024,
     .scroll_enable  = true,
     .ranges         = &cirque_ranges_relative_default,
-    .curved_overlay = true,
-    .taps           = CIRQUE_SINGLE_TAP,
+    .curved_overlay = false,
+    .taps           = CIRQUE_DOUBLE_TAP,
     .diameter_mm    = 40,
 };
 

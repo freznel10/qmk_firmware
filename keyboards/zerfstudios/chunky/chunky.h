@@ -67,12 +67,6 @@ enum chunky_keycodes {
     LVGL_CONTROL_LEFT,
     LVGL_CONTROL_RIGHT,
     LVGL_CONTROL_ENTER,
-    ALTTABF, // ALT-TAB forward
-	ALTTABB, // ALT-TAB backwards
-	ALTTABC, // For alt-tab-click
-    CTLTABF, // 
-	CTLTABB, //
-	CTLTABC, //
     SWITCH_1,
     SWITCH_2,
     SWITCH_3,

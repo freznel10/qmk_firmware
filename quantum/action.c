@@ -327,7 +327,7 @@ void register_mouse(uint8_t mouse_keycode, bool pressed) {
     }
     // should mousekeys send report, or does something else handle this?
     switch (mouse_keycode) {
-#    if defined(PS2_MOUSE_ENABLE) || defined(POINTING_DEVICE_ENABLE)
+#    if defined(POINTING_DEVICE_DRIVER_PS2_TRACKPOINT) || defined(POINTING_DEVICE_ENABLE)
         case KC_MS_BTN1 ... KC_MS_BTN8:
             // let pointing device handle the buttons
             // expand if/when it handles more of the code

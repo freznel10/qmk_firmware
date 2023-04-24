@@ -105,7 +105,9 @@ typedef union {
 
 extern userspace_config_t userspace_config;
 
-
-
+void press_super_tab (bool shift);
+void press_super_ctrl_tab (bool shift);
+void unregister_super_tab(void);
+void unregister_super_ctrl_tab(void);
 
 

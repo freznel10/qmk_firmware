@@ -38,6 +38,83 @@ __attribute__((weak)) bool process_record_painter(uint16_t keycode, keyrecord_t 
     return true;
 }
 
+
+#ifndef SUPER_TAB_TIMEOUT
+#   define SUPER_TAB_TIMEOUT 500
+#endif
+#ifndef SUPER_CTRL_TAB_TIMEOUT
+#   define SUPER_CTRL_TAB_TIMEOUT 750
+#endif
+
+bool is_super_tab_active = false;
+bool is_super_ctrl_tab_active = false;
+// Note that super tab and super control tab share the same timer! Shouldn't matter, but in case there are issues, note this.
+uint16_t super_tab_timer = 0;
+
+void press_super_tab(bool shift) {
+    if (shift) {
+        register_code(KC_LSFT);
+    } else {
+        unregister_code(KC_LSFT);
+    }
+    if (!is_super_tab_active) {
+        is_super_tab_active = true;
+#ifdef MAC_PREFERRED
+        register_code(KC_LGUI);
+#else
+        register_code(KC_LALT);
+#endif
+    }
+
+    super_tab_timer = timer_read();
+    tap_code(KC_TAB);
+}
+
+void unregister_super_tab(void) {
+    if (is_super_tab_active) {
+        if (timer_elapsed(super_tab_timer) > SUPER_TAB_TIMEOUT) {
+#ifdef FP_MAC_PREFERRED
+            unregister_code(KC_LGUI);
+#else
+            unregister_code(KC_LALT);
+#endif
+            is_super_tab_active = false;
+
+            if (get_mods() & MOD_MASK_SHIFT) {
+                unregister_code(KC_LSFT);
+            }
+        }
+    }
+}
+
+void press_super_ctrl_tab(bool shift) {
+    if (shift) {
+        register_code(KC_LSFT);
+    } else {
+        unregister_code(KC_LSFT);
+    }
+    if (!is_super_ctrl_tab_active) {
+        is_super_ctrl_tab_active = true;
+        register_code(KC_LCTL);
+    }
+
+    super_tab_timer = timer_read();
+    tap_code(KC_TAB);
+}
+
+void unregister_super_ctrl_tab(void) {
+    if (is_super_ctrl_tab_active) {
+        if (timer_elapsed(super_tab_timer) > SUPER_CTRL_TAB_TIMEOUT) {
+            unregister_code(KC_LCTL);
+            is_super_ctrl_tab_active = false;
+
+            if (get_mods() & MOD_MASK_SHIFT) {
+                unregister_code(KC_LSFT);
+            }
+        }
+    }
+}
+
 /**
  * @brief Main user keycode handler
  *
@@ -327,6 +404,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 set_auto_mouse_enable((AUTO_MOUSE_ENABLED) ^ 1);
                 auto_mouse_tg_off = !get_auto_mouse_enable();
             }
+        case ALTTABF:
+            if (record->event.pressed) {
+                press_super_tab (false);
+            }
+            break;
+        case ALTTABB:
+            if (record->event.pressed) {
+                press_super_tab (true);
+            }
+            break;
+        case CTLTABF:
+            if (record->event.pressed) {
+                press_super_ctrl_tab (false);
+            }
+            break;
+        case CTLTABB:
+            if (record->event.pressed) {
+                press_super_ctrl_tab (true);
+            }
+            break;
     }
     return true;
 }

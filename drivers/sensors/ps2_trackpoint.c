@@ -209,7 +209,7 @@ report_mouse_t ps2_trackpoint_get_report(const void *config)  {
 
     mouse_report.buttons |= tp_buttons;
     /* if mouse moves or buttons state changes */
-    if (mouse_report.x || mouse_report.y) { // || mouse_report.v || ((mouse_report.buttons ^ buttons_prev) & PS2_MOUSE_BTN_MASK)) {
+    if (mouse_report.x || mouse_report.y)  // || mouse_report.v || ((mouse_report.buttons ^ buttons_prev) & PS2_MOUSE_BTN_MASK)) {
 #ifdef PS2_MOUSE_DEBUG_RAW
         // Used to debug raw ps2 bytes from mouse
         // ps2_mouse_print_report(&mouse_report);

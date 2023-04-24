@@ -96,8 +96,13 @@ enum userspace_custom_keycodes {
     WFWD,
     NEXTSEN,
     NEGATIVEPASTE,
+    
     ENC_ALT_TAB,
     ENC_ALT_TAB_REV,
+    ALTTABF, // ALT-TAB forward
+	ALTTABB, // ALT-TAB backwards
+    CTLTABF, //
+	CTLTABB, //
 
     ROUTE,
     ROTATE,
