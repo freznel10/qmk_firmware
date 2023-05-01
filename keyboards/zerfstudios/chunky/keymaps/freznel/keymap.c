@@ -16,7 +16,7 @@
  */
 
 #include "freznel.h"
-#include "autocorrect_data.h"
+// #include "autocorrect_data.h"
 #include <math.h>
 #include <stdio.h>
 #include "ctype.h"
@@ -173,9 +173,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
-// bool auto_mouse_activation(report_mouse_t mouse_report) {
-//     return mouse_report.x != 0 || mouse_report.y != 0 || mouse_report.h != 0 || mouse_report.v != 0 || mouse_report.buttons || (get_toggled_pointing_mode_id() == 3);
-// }
+bool auto_mouse_activation(report_mouse_t mouse_report) {
+    return mouse_report.x > 3 || mouse_report.y > 3 || mouse_report.h > 3|| mouse_report.v > 3 || mouse_report.buttons || (get_toggled_pointing_mode_id() == 3);
+}
 
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {

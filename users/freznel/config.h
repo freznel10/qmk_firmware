@@ -33,7 +33,7 @@
 #    define AUDIO_CLICKY
 #    define AUDIO_CLICKY_FREQ_RANDOMNESS 1.5f
 
-#    ifdef USER_SONG_LIST 
+#    ifdef USER_SONG_LIST
 // #        define STARTUP_SONG SONG(IMPERIAL_MARCH)
 #        define GOODBYE_SONG SONG(SONIC_RING)
 #        define DEFAULT_LAYER_SONGS \
@@ -191,6 +191,6 @@
 
 #define ENABLE_COMPILE_KEYCODE
 
-#define AUTOCORRECT_DATA_H "users/freznel/keyrecords/autocorrection/autocorrection_data.h"
+#define AUTOCORRECT_DATA_H "users/freznel/autocorrect_dictionary.h"
 
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD

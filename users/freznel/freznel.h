@@ -10,6 +10,7 @@
 #include "keyrecords/process_records.h"
 #include "callbacks.h"
 #include "super_alt_tab.h"
+#include "autocorrect_data.h"
 
 #ifdef TAP_DANCE_ENABLE
 #    include "keyrecords/tap_dances.h"

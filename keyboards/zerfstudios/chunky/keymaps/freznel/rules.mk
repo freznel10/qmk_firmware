@@ -1,6 +1,5 @@
 TAP_DANCE_ENABLE             = yes
 OLED_ENABLE                  = no
-WPM_ENABLE                   = yes
 ENCODER_ENABLE               = yes
 ENCODER_MAP_ENABLE           = yes
 # DEBOUNCE_TYPE = sym_eager_pk
@@ -9,7 +8,6 @@ LTO_SUPPORTED = yes
 OLED_DRIVER = custom
 
 AUTOCORRECT_ENABLE = yes
-
 
 HAPTIC_ENABLE = yes			# Enable Pimoroni Haptic Bzzz LRA (+1192)
 HAPTIC_DRIVER += DRV2605L
