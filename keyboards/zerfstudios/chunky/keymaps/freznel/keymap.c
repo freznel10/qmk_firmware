@@ -74,7 +74,7 @@ enum custom_keycodes {
     OS_LSFT,        LGUI_T(K11),LALT_T(K12),LCTL_T(K13),LSFT_T(K14),K15,                                                    K16,        RSFT_T(K17),RCTL_T(K18),RALT_T(K19),RGUI_T(K1A),RALT_T(K1B), \
     LALT_T(KC_DEL), LCTL_T(K21),K22,        K23,        K24,        K25,                                                    K26,        K27,        K28,        K29,        RCTL_T(K2A),KC_BSLS, \
                                 A(KC_F4),   TAB_RSE,    SPC_LSH,    ENT_LWR,    KC_BTN1,                        KC_BTN1,    ESC_LWR,    BSP_KEY,    DEL_RSE,    SELWORD, \
-                                LVGL_BTN,   C(KC_B),   PM_TG(3),   KC_BTN3,    KC_BTN2,                        KC_BTN2,    C_L,        C_R,        PM_TG(3),   PMR_CYD, \
+                                LVGL_BTN,   C(KC_B),   PM_TG(2),   KC_BTN3,    KC_BTN2,                        KC_BTN2,    C_L,        C_R,        PM_TG(3),   PMR_CYD, \
                                 DPI_RMOD,   KC_PGDN,    KC_PGUP,    DPI_MOD,    KC_MUTE,                        RGB_TOG1,   PMR_LEFT,   KC_PGDN,    KC_PGUP,    PMR_RGHT,\
     RGB_RMOD,       RGB_MOD,    RGB_SAD,   RGB_SAI,     RGB_VAI,   KC_RGB_T,      KC_F7,      KC_F8,      KC_9,   KC_F10,     KC_F11,     KC_F12,     KC_F13,     KC_F14,     KC_F15,     KC_F16\
     )
@@ -174,7 +174,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 bool auto_mouse_activation(report_mouse_t mouse_report) {
-    return mouse_report.x > 3 || mouse_report.y > 3 || mouse_report.h > 3|| mouse_report.v > 3 || mouse_report.buttons || (get_toggled_pointing_mode_id() == 3);
+    return mouse_report.x != 0|| mouse_report.y != 0 || mouse_report.h != 0|| mouse_report.v != 0 || mouse_report.buttons || (get_toggled_pointing_mode_id() == 3);
 }
 
 
@@ -302,7 +302,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [_RAISE]           = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI),  ENCODER_CCW_CW(KC_WH_L, KC_WH_R), ENCODER_CCW_CW(RGB_HUD, RGB_HUI),  ENCODER_CCW_CW(RGB_SAD, RGB_SAI) },
     [_LOWER]           = { ENCODER_CCW_CW(RGB_HUD, RGB_HUI), ENCODER_CCW_CW(RGB_SAI, RGB_SAD), ENCODER_CCW_CW(RGB_SPD, RGB_SPI), ENCODER_CCW_CW(RGB_VAD, RGB_VAI) },
     [_ADJUST]          = { ENCODER_CCW_CW(RGB_RMOD, RGB_MOD), ENCODER_CCW_CW(RGB_SPI, RGB_SPD), ENCODER_CCW_CW(RGB_RMOD, RGB_MOD), ENCODER_CCW_CW(RGB_SPI, RGB_SPD) },
-    [_KEYPAD]          = { ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE) }
+    [_KEYPAD]          = { ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(DPI_RMOD, DPI_MOD), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE) }
 };
 
 #else

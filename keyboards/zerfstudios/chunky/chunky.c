@@ -637,7 +637,7 @@ void housekeeping_task_kb(void) {
         //     }
         // }
     }
-    bool peripherals_on = last_input_activity_elapsed() < LCD_ACTIVITY_TIMEOUT;
+    bool peripherals_on = last_matrix_activity_elapsed() < LCD_ACTIVITY_TIMEOUT;
     if (peripherals_on) {
         backlight_level_noeeprom(3);
         rgb_matrix_enable_noeeprom();
