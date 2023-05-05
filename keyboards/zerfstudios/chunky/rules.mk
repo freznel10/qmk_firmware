@@ -1,8 +1,6 @@
 KEYBOARD_SHARED_EP = no  # Free up some extra endpoints - needed if console+mouse
 MIDI_ENABLE = yes
 POINTING_DEVICE_ENABLE = yes
-POINTING_DEVICE_DRIVERS += pmw3360
-# POINTING_DEVICE_DRIVERS += cirque_pinnacle_spi
 # POINTING_DEVICE_DRIVERS += ps2_trackpoint
 
 MOUSE_SHARED_EP    = no

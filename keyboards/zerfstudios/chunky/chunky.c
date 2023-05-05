@@ -707,18 +707,7 @@ void housekeeping_task_kb(void) {
 //     .diameter_mm    = 40,
 // };
 
-// const pointing_device_spi_config_t cirque_config_spi_left = {.cs = CIRQUE_PINNACLE_SPI_CS_PIN, .mode = CIRQUE_PINNACLE_SPI_MODE, .divisor = CIRQUE_PINNACLE_SPI_DIVISOR};
-// const pointing_device_spi_config_t cirque_config_spi_right = {.cs = CIRQUE_PINNACLE_SPI_CS_PIN, .mode = CIRQUE_PINNACLE_SPI_MODE, .divisor = CIRQUE_PINNACLE_SPI_DIVISOR};
-
-const pointing_device_config_t pointing_device_configs[POINTING_DEVICE_COUNT] = {
-    // {.driver = &cirque_driver_spi_default, .config = &cirque_config_spi_left, .throttle = 10, .side = LEFT},
-    // {.driver = &cirque_driver_spi_default, .config = &cirque_config_spi_right, .throttle = 10, .side = RIGHT}
-    {.driver = &pmw3360_driver_spi_default, .config = &pmw3360_config_spi_default, .throttle = 10, .invert = INVERT_X, .side = LEFT},
-      {.driver = &pmw3360_driver_spi_default, .config = &pmw3360_config_spi_default, .throttle = 10, .invert = INVERT_X, .side = RIGHT},
-    // {.driver = &ps2_trackpoint_driver_ps2_default, .config = &ps2_trackpoint_config_ps2_default, .side = LEFT}
-
-};
-
+/*  */
 
 void matrix_io_delay(void) {
     __asm__ volatile("nop\nnop\nnop\n");

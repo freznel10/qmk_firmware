@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:keyboards/zerfstudios/chunky/rev2/rev2.c
 /* Copyright 2022 Freznel B. Sta. Ana (Freznel10)
-========
-/* Copyright 2022 PHSC138
->>>>>>>> upstream/develop:keyboards/evyd13/atom47/keymaps/phsc138/config.h
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,11 +13,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-<<<<<<<< HEAD:keyboards/zerfstudios/chunky/rev2/rev2.c
 
 
 #include "rev2.h"
-========
-#pragma once
-#define TAPPING_TERM 150 // Tap dance time limit
->>>>>>>> upstream/develop:keyboards/evyd13/atom47/keymaps/phsc138/config.h
+
+const pointing_device_spi_config_t cirque_config_spi_left = {.cs = CIRQUE_PINNACLE_SPI_CS_PIN, .mode = CIRQUE_PINNACLE_SPI_MODE, .divisor = CIRQUE_PINNACLE_SPI_DIVISOR};
+const pointing_device_spi_config_t cirque_config_spi_right = {.cs = CIRQUE_PINNACLE_SPI_CS_PIN, .mode = CIRQUE_PINNACLE_SPI_MODE, .divisor = CIRQUE_PINNACLE_SPI_DIVISOR};
+
+const pointing_device_config_t pointing_device_configs[POINTING_DEVICE_COUNT] = {
+    {.driver = &cirque_driver_spi_default, .config = &cirque_config_spi_left, .throttle = 10, .side = LEFT},
+    {.driver = &cirque_driver_spi_default, .config = &cirque_config_spi_right, .throttle = 10, .side = RIGHT}
+};

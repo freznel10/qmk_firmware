@@ -76,7 +76,7 @@ enum custom_keycodes {
                                 A(KC_F4),   TAB_RSE,    SPC_LSH,    ENT_LWR,    KC_BTN1,                        KC_BTN1,    ESC_LWR,    BSP_KEY,    DEL_RSE,    SELWORD, \
                                 LVGL_BTN,   C(KC_B),   PM_TG(2),   KC_BTN3,    KC_BTN2,                        KC_BTN2,    C_L,        C_R,        PM_TG(3),   PMR_CYD, \
                                 DPI_RMOD,   KC_PGDN,    KC_PGUP,    DPI_MOD,    KC_MUTE,                        RGB_TOG1,   PMR_LEFT,   KC_PGDN,    KC_PGUP,    PMR_RGHT,\
-    RGB_RMOD,       RGB_MOD,    RGB_SAD,   RGB_SAI,     RGB_VAI,   KC_RGB_T,      KC_F7,      KC_F8,      KC_9,   KC_F10,     KC_F11,     KC_F12,     KC_F13,     KC_F14,     KC_F15,     KC_F16\
+    RGB_RMOD,       RGB_MOD,    RGB_SAD,   RGB_SAI,     TT(_GAMEPAD),   KC_RGB_T,      KC_F7,      KC_F8,      KC_9,   KC_F10,     KC_F11,     KC_F12,     KC_F13,     KC_F14,     KC_F15,     KC_F16\
     )
 
 #define LAYOUT_base_wrapper(...) LAYOUT_4x6_base(__VA_ARGS__)
@@ -172,10 +172,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 };
-
-bool auto_mouse_activation(report_mouse_t mouse_report) {
-    return mouse_report.x != 0|| mouse_report.y != 0 || mouse_report.h != 0|| mouse_report.v != 0 || mouse_report.buttons || (get_toggled_pointing_mode_id() == 3);
-}
 
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
