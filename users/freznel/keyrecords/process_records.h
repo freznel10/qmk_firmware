@@ -4,23 +4,23 @@
 #pragma once
 #include "freznel.h"
 
-#if defined(KEYBOARD_zerf9) && defined(POINTING_DEVICE_ENABLE)
-#    define PLACEHOLDER_SAFE_RANGE QK_USER
-#elif defined(KEYBOARD_zerfstudios)
-#    define PLACEHOLDER_SAFE_RANGE KEYMAP_SAFE_RANGE
-#elif defined(KEYBOARD_bastardkb_charybdis)
-#    define PLACEHOLDER_SAFE_RANGE CHARYBDIS_SAFE_RANGE
-#elif defined(KEYBOARD_rocksolid)
-#    define PLACEHOLDER_SAFE_RANGE ROCKSOLID_SAFE_RANGE
-#elif defined(KEYBOARD_unichunky)
-#    define PLACEHOLDER_SAFE_RANGE UNICHUNKY_SAFE_RANGE
-#elif defined(KEYBOARD_chunkx)
-#    define PLACEHOLDER_SAFE_RANGE CHARYBDIS_SAFE_RANGE
-#elif defined(KEYBOARD_zerfstudios_emblem)
-#    define PLACEHOLDER_SAFE_RANGE KEYMAP_SAFE_RANGE
-#else
-#    define PLACEHOLDER_SAFE_RANGE SAFE_RANGE
-#endif
+// #if defined(KEYBOARD_zerf9) && defined(POINTING_DEVICE_ENABLE)
+// #    define PLACEHOLDER_SAFE_RANGE QK_USER
+// #elif defined(KEYBOARD_zerfstudios)
+// #    define PLACEHOLDER_SAFE_RANGE KEYMAP_SAFE_RANGE
+// #elif defined(KEYBOARD_bastardkb_charybdis)
+// #    define PLACEHOLDER_SAFE_RANGE CHARYBDIS_SAFE_RANGE
+// #elif defined(KEYBOARD_rocksolid)
+// #    define PLACEHOLDER_SAFE_RANGE ROCKSOLID_SAFE_RANGE
+// #elif defined(KEYBOARD_unichunky)
+// #    define PLACEHOLDER_SAFE_RANGE UNICHUNKY_SAFE_RANGE
+// #elif defined(KEYBOARD_chunkx)
+// #    define PLACEHOLDER_SAFE_RANGE CHARYBDIS_SAFE_RANGE
+// #elif defined(KEYBOARD_zerfstudios_emblem)
+// #    define PLACEHOLDER_SAFE_RANGE KEYMAP_SAFE_RANGE
+// #else
+// #    define PLACEHOLDER_SAFE_RANGE SAFE_RANGE
+// #endif
 
 enum userspace_custom_keycodes {
     VRSN = QK_USER,                           // Prints QMK Firmware and board info
@@ -96,7 +96,7 @@ enum userspace_custom_keycodes {
     WFWD,
     NEXTSEN,
     NEGATIVEPASTE,
-    
+
     ENC_ALT_TAB,
     ENC_ALT_TAB_REV,
     ALTTABF, // ALT-TAB forward
@@ -132,7 +132,7 @@ enum userspace_custom_keycodes {
     DYN_MACRO_KEY15,
     ST_MACRO_6,
 
-    NEW_SAFE_RANGE // use "NEWPLACEHOLDER for keymap specific codes
+    USER_SAFE_RANGE // use "NEWPLACEHOLDER for keymap specific codes
 };
 
 bool process_record_secrets(uint16_t keycode, keyrecord_t *record);

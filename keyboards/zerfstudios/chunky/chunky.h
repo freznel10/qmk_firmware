@@ -49,8 +49,7 @@ typedef union {
 extern keyboard_config_t keyboard_config;
 
 enum chunky_keycodes {
-    POINTER_DEFAULT_DPI_FORWARD  = QK_KB,
-    RGB_TOG1,
+    POINTER_DEFAULT_DPI_FORWARD  = QK_KB_0,
     POINTER_DEFAULT_DPI_REVERSE,
     POINTER_SNIPING_DPI_FORWARD,
     POINTER_SNIPING_DPI_REVERSE,
@@ -59,6 +58,7 @@ enum chunky_keycodes {
     DRAGSCROLL_MODE,
     DRAGSCROLL_MODE_TOGGLE,
     AUTO_MOUSE_LAYER_TOGGLE,
+    RGB_TOG1,
     LVGL_CLOCKWISE,
     LVGL_COUNTER_CLOCKWISE,
     LVGL_ENCODER_BUTTON,
