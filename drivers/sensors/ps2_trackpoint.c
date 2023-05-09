@@ -203,6 +203,7 @@ static inline void ps2_mouse_scroll_button_task(report_mouse_t *mouse_report) {
 report_mouse_t ps2_trackpoint_get_report(const void *config)  {
     static uint8_t buttons_prev = 0;
     extern int     tp_buttons;
+    report_mouse_t   mouse_report = {0};
 
     /* receives packet from mouse */
 #ifdef PS2_MOUSE_USE_REMOTE_MODE
@@ -243,9 +244,9 @@ report_mouse_t ps2_trackpoint_get_report(const void *config)  {
 #if PS2_MOUSE_SCROLL_BTN_MASK
         ps2_mouse_scroll_button_task(&mouse_report);
 #endif
-        if (mouse_report.x || mouse_report.y || mouse_report.v) {
-            ps2_mouse_moved_user(&mouse_report);
-        }
+        // if (mouse_report.x || mouse_report.y || mouse_report.v) {
+        //     ps2_mouse_moved_user(&mouse_report);
+        // }
 #ifdef PS2_MOUSE_DEBUG_HID
         // Used to debug the bytes sent to the host
         ps2_mouse_print_report(&mouse_report);

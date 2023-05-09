@@ -23,6 +23,8 @@
 #    include "rev1.h"
 #elif defined(KEYBOARD_zerfstudios_chunky_rev2)
 #    include "rev2.h"
+#elif defined(KEYBOARD_zerfstudios_chunky_rev3)
+#    include "rev3.h"
 #else
 #    error "Unsuported format"
 #endif
