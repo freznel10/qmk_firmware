@@ -160,7 +160,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_GAMEPAD] = LAYOUT_4x6_wrapper(
-        KC_ESC,                 ________________NUMBER_LEFT________________,                                                        ________________NUMBER_RIGHT_______________,    _______,
+        KC_ESC,                 _________________GAMING_L0_________________,                                                        ________________NUMBER_RIGHT_______________,    _______,
         KC_CAPS,                _________________GAMING_L1_________________,                                                        _________________GAMING_R1_________________,    _______,
         KC_RSFT,                _________________GAMING_L2_________________,                                                        _________________GAMING_R2_________________,    KC_QUOT,
         KC_RCTL,                _________________GAMING_L3_________________,                                                        _________________GAMING_R3_________________,    _______,
@@ -184,7 +184,6 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     case ST_MACRO_0:
     if (record->event.pressed) {
       SEND_STRING(SS_RGUI(SS_TAP(X_2)));
-
     }
     break;
     case ST_MACRO_1:

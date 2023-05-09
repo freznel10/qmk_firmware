@@ -50,7 +50,6 @@ enum userspace_layers {
     _GAMEPAD
 };
 
-//#define _MACROS _MOUSE
 #define _DEFAULT_LAYER_1 FIRST_DEFAULT_LAYER
 #define _DEFAULT_LAYER_2 (FIRST_DEFAULT_LAYER + 1)
 #define _DEFAULT_LAYER_3 (FIRST_DEFAULT_LAYER + 2)
@@ -82,6 +81,14 @@ enum userspace_layers {
 #define MODS_CTRL  ((get_mods() | get_oneshot_mods()) & MOD_MASK_CTRL)
 #define MODS_ALT   ((get_mods() | get_oneshot_mods()) & MOD_MASK_ALT)
 #define MODS_GUI   ((get_mods() | get_oneshot_mods()) & MOD_MASK_GUI)
+#define MODS_LSHIFT ((get_mods() | get_oneshot_mods()) & MOD_BIT(KC_LSFT))
+#define MODS_LCTRL  ((get_mods() | get_oneshot_mods()) & MOD_BIT(KC_LCTL))
+#define MODS_LALT   ((get_mods() | get_oneshot_mods()) & MOD_BIT(KC_LALT))
+#define MODS_LGUI   ((get_mods() | get_oneshot_mods()) & MOD_BIT(KC_LGUI))
+#define MODS_RSHIFT ((get_mods() | get_oneshot_mods()) & MOD_BIT(KC_LRFT))
+#define MODS_RCTRL  ((get_mods() | get_oneshot_mods()) & MOD_BIT(KC_RCTL))
+#define MODS_RALT   ((get_mods() | get_oneshot_mods()) & MOD_BIT(KC_RALT))
+#define MODS_RGUI   ((get_mods() | get_oneshot_mods()) & MOD_BIT(KC_RGUI))
 
 #define OSMLFT OSM(MOD_LSFT)
 
