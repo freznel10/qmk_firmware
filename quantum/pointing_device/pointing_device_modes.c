@@ -269,7 +269,7 @@ __attribute__((weak)) report_mouse_t pointing_modes_axes_conv(pointing_mode_t po
  * @brief Modifies divisor after
  *
  * @params pointing_modes[in] uint8_t
- * @params direction[in] uint8_t
+ * @params direction[in] uint8_tz
  *
  * @return divisor uint8_t
  */
