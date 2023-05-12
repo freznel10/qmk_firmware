@@ -65,7 +65,6 @@
 	#define FB_ERM_LRA 1
 	#define FB_BRAKEFACTOR 2
 	#define FB_LOOPGAIN 3
-
 	// Refer to datasheet for the optimal setting for specific motors.
 	#define RATED_VOLTAGE 3
 	#define V_PEAK 3.3
@@ -121,8 +120,6 @@
     #define AUTO_MOUSE_DEFAULT_LAYER 4
     #define AUTO_MOUSE_TIME 650
     #define AUTO_MOUSE_DEBOUNCE 25
-
-
 
 #endif //POINTING_DEVICE_ENABLE
 // #define CIRQUE_PINNACLE_POSITION_MODE CIRQUE_PINNACLE_ABSOLUTE_MODE
