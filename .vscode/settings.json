@@ -46,5 +46,10 @@
     "clangd.arguments": [
         "--header-insertion=never"
     ]
+        "editor.formatOnSave": false
+    },
+    "clangd.arguments": [
+        "--header-insertion=never"
+    ]
 }
 
