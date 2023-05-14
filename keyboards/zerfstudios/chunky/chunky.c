@@ -33,12 +33,9 @@
 #include <qp_lvgl.h>
 
 #ifdef QUANTUM_PAINTER_ENABLE
-
 painter_device_t qp_display;
-extern uint8_t prox_threshold;
-
 __attribute__((weak)) void draw_ui_user(void) {}
-#endif
+#endif //QUANTUM_PAINTER_ENABLE
 
 #ifdef CONSOLE_ENABLE
 #    include "print.h"
@@ -133,17 +130,6 @@ static void maybe_update_pointing_device_cpi(chunky_config_t* config) {
             pointing_device_set_cpi_by_index(get_pointer_default_dpi(config), 0);
             pointing_device_set_cpi_by_index(get_pointer_default_dpi(config), 1);
         }
-    // } else {
-    //     if (user_state.split_pointing_mode == PM_DRAG) {
-    //         pointing_device_set_cpi_on_side(true, CHUNKY_DRAGSCROLL_DPI);
-    //         pointing_device_set_cpi(CHUNKY_DRAGSCROLL_DPI);
-    //     } else if (user_state.split_pointing_mode == PM_PRECISION) {
-    //         pointing_device_set_cpi_on_side(true,get_pointer_sniping_dpi(config));
-    //         pointing_device_set_cpi(get_pointer_sniping_dpi(config));
-    //     } else {
-    //         pointing_device_set_cpi_on_side(true, get_pointer_default_dpi(config));
-    //         pointing_device_set_cpi(get_pointer_default_dpi(config));
-    //     }
     }
 }
 
@@ -208,16 +194,6 @@ void pointing_device_init_kb(void) {
     maybe_update_pointing_device_cpi(&g_chunky_config);
 }
 
-/**
- * \brief Augment the pointing device behavior.
- *
- * Implement the Charybdis-specific features for pointing devices:
- *   - Drag-scroll
- *   - Sniping
- *   - Acceleration
- *    -Auto mouse layer
- */
-
 #    ifdef TAPPING_TERM_PER_KEY
 #        define TAP_CHECK get_tapping_term(KC_BTN1, NULL)
 #    else
@@ -227,7 +203,7 @@ void pointing_device_init_kb(void) {
 #        define TAP_CHECK TAPPING_TERM
 #    endif
 
-#    if defined(POINTING_DEVICE_ENABLE) && !defined(NO_chunky_KEYCODES)
+#    if defined(POINTING_DEVICE_ENABLE) && !defined(NO_CHUNKY_KEYCODES)
 /** \brief Whether SHIFT mod is enabled. */
 static bool has_shift_mod(void) {
 #        ifdef NO_ACTION_ONESHOT
@@ -236,44 +212,14 @@ static bool has_shift_mod(void) {
     return mod_config(get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT;
 #        endif  // NO_ACTION_ONESHOT
 }
-#    endif  // POINTING_DEVICE_ENABLE && !NO_chunky_KEYCODES
+#    endif  // POINTING_DEVICE_ENABLE && !NO_CHUNKY_KEYCODES
 
-/**
- * \brief Outputs the Charybdis configuration to console.
- *
- * Prints the in-memory configuration structure to console, for debugging.
- * Includes:
- *   - raw value
- *   - drag-scroll: on/off
- *   - sniping: on/off
- *   - default DPI: internal table index/actual DPI
- *   - sniping DPI: internal table index/actual DPI
- */
-// void debug_chunky_config_to_console(chunky_config_t* config) {
-// #    ifdef CONSOLE_ENABLE
-//     dprintf("(charybdis) process_record_kb: config = {\n"
-//             "\traw = 0x%04X,\n"
-//             "\t{\n"
-//             "\t\tis_dragscroll_enabled=%b\n"
-//             "\t\tis_sniping_enabled=%b\n"
-//             "\t\tdefault_dpi=0x%02X (%ld)\n"
-//             "\t\tsniping_dpi=0x%01X (%ld)\n"
-//             "\t}\n"
-//             "}\n",
-//             config->raw, config->is_dragscroll_enabled, config->is_sniping_enabled, config->pointer_default_dpi, get_pointer_default_dpi(config), config->pointer_sniping_dpi, get_pointer_sniping_dpi(config));
-// #    endif  // CONSOLE_ENABLE
-// }
 
 static int8_t rotations = 0;
 bool lvgl_encoder = false;
 static lv_group_t *g;
 static uint32_t act_key = 0;
 
-// bool is_alt_tab_active_2 = false; // Flag to check if alt tab is active
-// bool is_ctrl_tab_active = false;
-// uint32_t alt_tab_timer_2 = 0;
-// bool is_lalt_pressed = false;
-// bool is_lctl_pressed = false;
 
 float pm_song[][2] = SONG(VIOLIN_SOUND);
 
@@ -442,14 +388,6 @@ void rgb_matrix_increase_flags(void)
     }
 }
 
-#ifdef QUANTUM_PAINTER_ENABLE
-// void kb_state_update(void) {
-//     if (is_keyboard_master()) {
-//         // Turn off the LCD if there's been no matrix activity
-//         g_chunky_config.lcd_power = (last_input_activity_elapsed() < 30000) ? 1 : 0;
-//     }
-// }
-
 void eeconfig_init_kb(void) {
     g_chunky_config.raw = 0;
     write_chunky_config_to_eeprom(&g_chunky_config);
@@ -578,42 +516,8 @@ void keyboard_post_init_kb(void) {
 #define ALT_TAB_DELAY 1000
 
 void housekeeping_task_kb(void) {
-    	// if (is_alt_tab_active_2 || is_ctrl_tab_active ) {
-		//     if (is_lalt_pressed || is_lctl_pressed) alt_tab_timer_2 = timer_read();
-		//     else if (timer_elapsed32(alt_tab_timer_2) > ALT_TAB_DELAY) {
-		// 	unregister_code(KC_LALT);
-        //     unregister_code(KC_LCTL);
-		// 	is_alt_tab_active_2 = false;
-        //     is_ctrl_tab_active = false;
-		//     }
-        // }
-//         if (is_alt_tab_active_2 || is_ctrl_tab_active) {
-//             if (!(is_lalt_pressed || is_lctl_pressed)) {
-//                 uint32_t elapsed_time = timer_elapsed32(alt_tab_timer_2);
-//                 elapsed_time > ALT_TAB_DELAY ? (unregister_code(KC_LALT), unregister_code(KC_LCTL), is_alt_tab_active_2 = false, is_ctrl_tab_active = false) : 0;
-//         return;
-//         }
-
-//     alt_tab_timer_2 = timer_read32();
-// }
-
     unregister_super_tab();
     unregister_super_ctrl_tab();
-
-
-        // if (is_ctrl_tab_active) {
-		//     if (is_lctl_pressed) alt_tab_timer_2 = timer_read32();
-		//     else if (timer_elapsed32(alt_tab_timer_2) > ALT_TAB_DELAY) {
-		// 	unregister_code(KC_LCTL);
-		// 	is_ctrl_tab_active = false;
-		//     }
-	    // }
-    // static int prev_prox_state = 0;
-    // static uint32_t prev_prox_time = 0;
-
-    // static uint32_t last_measurement = 0u;
-    // static uint32_t measurement_interval = 10u;
-
     if (is_keyboard_master()) {
         // Keep track of the last state, so that we can tell if we need to propagate to slave
         // static chunky_config_t last_chunky_config = {0};
@@ -646,40 +550,7 @@ void housekeeping_task_kb(void) {
         backlight_level_noeeprom(0);
         rgb_matrix_disable_noeeprom();
     }
-    // uint8_t prox;
-    // adps9660_proximity(&prox);
-    // dprintf("Proximity: %d (%d)\n", prox, prox_threshold);
-
-    // if (timer_elapsed32(last_measurement) > measurement_interval) {
-    //         last_measurement = timer_read32();
-    //         uint8_t prox;
-    //         adps9660_proximity(&prox);
-    //         dprintf("Proximity: %d (%d)\n", prox, prox_threshold);
-
-    //         if (prox > prox_threshold ) {
-    //             if (prev_prox_state == 0) {
-    //                 measurement_interval = 10;cir
-    //                 prev_prox_state = 1;
-    //                 prev_prox_time = timer_read32();
-    //         } else if (timer_elapsed32(prev_prox_time) > 200) {
-    //             measurement_interval = 100;
-    //             rgb_matrix_disable_noeeprom();
-    //         }
-    //     } else {
-    //         if (prev_prox_state == 1) {
-    //             measurement_interval = 10;
-    //             prev_prox_state = 0;
-    //             prev_prox_time = timer_read32();
-    //         } else if (timer_elapsed32(prev_prox_time) > 200) {
-    //             measurement_interval = 100;
-    //             rgb_matrix_enable_noeeprom();
-    //         }
-    //     }
-    // }
-    // no need for user function, is called already
 }
-
-#endif  // POINTING_DEVICE_ENABLE
 
 // __attribute__((weak)) void matrix_init_sub_kb(void) {}
 // void                       matrix_init_kb(void) {

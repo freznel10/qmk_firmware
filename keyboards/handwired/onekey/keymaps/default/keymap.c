@@ -1,7 +1,6 @@
 // Copyright 2020 QMK
 // SPDX-License-Identifier: GPL-2.0-or-later
 #include QMK_KEYBOARD_H
-#include "pmw3360.h"
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LAYOUT_ortho_1x1(KC_A)
@@ -15,8 +14,8 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
 
 void keyboard_post_init_user(void) {
     debug_enable = true;
-    // debug_matrix = true;
-    // debug_keyboard=true;
+    debug_matrix = true;
+    debug_keyboard=true;
     debug_mouse =true;
 
 }

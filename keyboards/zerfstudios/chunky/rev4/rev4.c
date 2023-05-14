@@ -15,15 +15,15 @@
  */
 
 
-#include "rev3.h"
-
-const pointing_device_spi_config_t cirque_config_spi_left = {.cs = CIRQUE_PINNACLE_SPI_CS_PIN, .mode = CIRQUE_PINNACLE_SPI_MODE, .divisor = CIRQUE_PINNACLE_SPI_DIVISOR};
-const pointing_device_spi_config_t cirque_config_spi_right = {.cs = CIRQUE_PINNACLE_SPI_CS_PIN, .mode = CIRQUE_PINNACLE_SPI_MODE, .divisor = CIRQUE_PINNACLE_SPI_DIVISOR};
-
+#include "rev4.h"
 
 const pointing_device_config_t pointing_device_configs[POINTING_DEVICE_COUNT] = {
-    {.driver = &cirque_driver_spi_default, .config = &cirque_config_spi_left, .throttle = 1, .side = LEFT},
-    {.driver = &cirque_driver_spi_default, .config = &cirque_config_spi_right, .throttle = 1, .side = RIGHT},
+    {.driver = &pmw3360_driver_spi_default, .config = &pmw3360_config_spi_default, .throttle = 10, .invert = INVERT_X, .side = LEFT},
+    {.driver = &pmw3360_driver_spi_default, .config = &pmw3360_config_spi_default, .throttle = 10, .invert = INVERT_X, .side = RIGHT},
     {.driver = &ps2_trackpoint_driver_ps2_default, .config = &ps2_trackpoint_config_ps2_default, .side = RIGHT}
 
 };
+
+bool auto_mouse_activation(report_mouse_t mouse_report) {
+    return mouse_report.x != 0|| mouse_report.y != 0 || mouse_report.h != 0|| mouse_report.v != 0 || mouse_report.buttons || (get_toggled_pointing_mode_id() == 3);
+}

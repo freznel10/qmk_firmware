@@ -42,5 +42,9 @@
     },
 
     "terminal.integrated.cursorStyle": "line",
-    "cmake.sourceDirectory": "${workspaceFolder}/lib/googletest"
+    "cmake.sourceDirectory": "${workspaceFolder}/lib/googletest",
+    "clangd.arguments": [
+        "--header-insertion=never"
+    ]
 }
+
