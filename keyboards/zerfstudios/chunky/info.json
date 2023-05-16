@@ -28,13 +28,6 @@
         "enabled": true,
         "both_shifts_turns_on": true
     },
-    "ps2": {
-        "enabled": true,
-        // "mouse_enabled": true,
-        "driver": "vendor",
-        "data_pin": "GP5",
-        "clock_pin": "GP6"
-    },
     "eeprom": {
         "driver": "i2c"
     },

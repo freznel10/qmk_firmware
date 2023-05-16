@@ -200,6 +200,9 @@ void DRG_SNP_reset(tap_dance_state_t *state, void *user_data) {
                 unichunky_set_pointer_dragscroll_enabled(0);
             #endif
             #if defined(KEYBOARD_zerf9) || defined(KEYBOARD_zerfstudios) || defined(KEYBOARD_chunkx)
+                if (is_keyboard_master()) {
+                    set_pointing_mode_device(is_keyboard_left() ? 1 : 0); //set to the peripheral side
+                }
                 set_pointing_mode_id(PM_NONE);
             #endif
             break;

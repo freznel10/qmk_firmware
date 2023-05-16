@@ -3,9 +3,6 @@
 
 #pragma once
 
-
-// #define PS2_MOUSE_REMOTE_MODE
-
 #define MATRIX_SHIFT_REGISTER_COUNT 12
 #define SPI_MATRIX_CHIP_SELECT_PIN GP21
 #define SPI_MATRIX_DIVISOR 8
@@ -30,20 +27,19 @@
     #define BACKLIGHT_PWM_CHANNEL 2
 #endif //BACKLIGHT_ENABLE
 
-/* serial.c configuration for split keyboard */
+/* Split comms */
 #define SERIAL_USART_FULL_DUPLEX  // Enable full duplex operation mode.
-#define SERIAL_USART_TX_PIN      GP0
-#define SERIAL_USART_RX_PIN      GP1
+#define SERIAL_USART_TX_PIN     GP0
+#define SERIAL_USART_RX_PIN     GP1
 #define SERIAL_PIO_USE_PIO0
-#define SERIAL_USART_TIMEOUT     100  // USART driver timeout. default 100
-#define SERIAL_USART_SPEED 806400 //460800
-
+#define SERIAL_USART_TIMEOUT    100  // USART driver timeout. default 100
+#define SERIAL_USART_SPEED      806400 //460800
 #define SERIAL_USART_PIN_SWAP
+
 #define CRC8_USE_TABLE
 #define CRC8_OPTIMIZE_SPEED
 
 #define SPLIT_ACTIVITY_ENABLE
-
 #define SPLIT_TRANSACTION_IDS_KB RPC_ID_KB_CONFIG_SYNC
 #define SPLIT_MAX_CONNECTION_ERRORS 10
 
@@ -162,7 +158,5 @@
 #define TRI_LAYER_LOWER_LAYER 5
 #define TRI_LAYER_UPPER_LAYER  6
 #define TRI_LAYER_ADJUST_LAYER 7
-
-
 
 // #define ENCODER_DIRECTION_FLIP
