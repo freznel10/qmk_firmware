@@ -16,11 +16,8 @@
 
 #pragma once
 
-<<<<<<<< HEAD:keyboards/zerf9/chunky2040/chunky2040.h
-#include "zerf9.h"
-========
-#define HAL_USE_SPI TRUE
+#include_next <mcuconf.h>
 
-#include_next <halconf.h>
 
->>>>>>>> origin/develop:keyboards/mechlovin/zed65/rev1/halconf.h
+#undef STM32_SPI_USE_SPI1
+#define STM32_SPI_USE_SPI1 TRUE
