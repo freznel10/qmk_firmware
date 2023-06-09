@@ -19,7 +19,7 @@
 const pointing_device_config_t pointing_device_configs[POINTING_DEVICE_COUNT] = {
     {.driver = &pmw3360_driver_spi_default, .config = &pmw3360_config_spi_default, .throttle = 10, .invert = INVERT_X, .side = LEFT},
     {.driver = &pmw3360_driver_spi_default, .config = &pmw3360_config_spi_default, .throttle = 10, .invert = INVERT_X, .side = RIGHT},
-    // {.driver = &ps2_trackpoint_driver_ps2_default, .config = &ps2_trackpoint_config_ps2_default, .side = LEFT}
+    {.driver = &ps2_trackpoint_driver_ps2_default, .config = &ps2_trackpoint_config_ps2_default, .side = LEFT}
 
 };
 
