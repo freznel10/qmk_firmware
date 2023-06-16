@@ -12,7 +12,7 @@
         #define PMW33XX_CS_PIN GP14
     #endif //POINTING_DEVICE_DRIVER_PMW3360
 #define MOUSE_SCROLL_EXTENDED_REPORT
-#define MOUSE_SCROLL_HIRES_ENABLE
+// #define MOUSE_SCROLL_HIRES_ENABLE
 
 /* Trackpoint configuration. */
 #define PS2_PIO_USE_PIO1
