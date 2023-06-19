@@ -1,0 +1,13 @@
+{
+    "bootloader": "rp2040",
+    "processor": "RP2040",
+    "usb": {
+        "device_version": "0.4.0"
+    },
+    "ps2": {
+        "enabled": true,
+        "driver": "vendor",
+        "data_pin": "GP5",
+        "clock_pin": "GP6"
+    },
+}

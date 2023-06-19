@@ -331,7 +331,7 @@ uint8_t matrix_scan(void) {
     // Set col, read rows
     matrix_row_t row_shifter = MATRIX_ROW_SHIFTER;
     for (uint8_t current_col = 0; current_col < MATRIX_COLS; current_col++, row_shifter <<= 1) {
-        matrix_read_rows_on_col(curr_matrix, current_col, row_shifter);
+        matrix_read_rows_on_col(curr_matrix, current_col, row_shifter);\
     }
 #endif
 

@@ -63,10 +63,11 @@ extern keymap_config_t keymap_config;
 #    define usb_lld_disconnect_bus(usbp)
 #endif
 
-uint8_t                keyboard_idle __attribute__((aligned(2)))     = 0;
-uint8_t                keyboard_protocol __attribute__((aligned(2))) = 1;
-uint8_t                keyboard_led_state                            = 0;
-volatile uint16_t      keyboard_idle_count                           = 0;
+uint8_t keyboard_idle __attribute__((aligned(2)))     = 0;
+uint8_t keyboard_protocol __attribute__((aligned(2))) = 1;
+uint8_t keyboard_led_state                            = 0;
+
+volatile uint16_t      keyboard_idle_count = 0;
 static virtual_timer_t keyboard_idle_timer;
 
 static void keyboard_idle_timer_cb(struct ch_virtual_timer *, void *arg);
@@ -122,7 +123,7 @@ static const USBDescriptor *usb_get_descriptor_cb(USBDriver *usbp, uint8_t dtype
     uint16_t             wValue  = ((uint16_t)dtype << 8) | dindex;
     uint16_t             wLength = ((uint16_t)usbp->setup[7] << 8) | usbp->setup[6];
     desc.ud_string               = NULL;
-    desc.ud_size                 = get_usb_descriptor(wValue, wIndex, wLength, (const void **const) & desc.ud_string);
+    desc.ud_size                 = get_usb_descriptor(wValue, wIndex, wLength, (const void **const) &desc.ud_string);
     if (desc.ud_string == NULL)
         return NULL;
     else
@@ -552,6 +553,10 @@ static void usb_event_cb(USBDriver *usbp, usbevent_t event) {
                 qmkusbSuspendHookI(&drivers.array[i].driver);
                 chSysUnlockFromISR();
             }
+#ifdef MOUSE_SCROLL_HIRES_ENABLE
+            /* Reset multiplier on reset */
+            resolution_multiplier_reset();
+#endif
             return;
 
         case USB_EVENT_WAKEUP:
@@ -606,6 +611,14 @@ static void set_led_transfer_cb(USBDriver *usbp) {
     }
 }
 
+#ifdef MOUSE_SCROLL_HIRES_ENABLE
+static void set_multiplier_cb(USBDriver *usbp) {
+    if (usbp->setup[6] == 2 && set_report_buf[0] == REPORT_ID_MULTIPLIER) {
+        mouse_scroll_res_report.data = set_report_buf[1];
+    }
+}
+#endif
+
 /* Callback for SETUP request on the endpoint 0 (control) */
 static bool usb_request_hook_cb(USBDriver *usbp) {
     const USBDescriptor *dp;
@@ -632,26 +645,45 @@ static bool usb_request_hook_cb(USBDriver *usbp) {
 #endif
 #if defined(MOUSE_ENABLE) && !defined(MOUSE_SHARED_EP)
                             case MOUSE_INTERFACE:
+#    ifndef MOUSE_SCROLL_HIRES_ENABLE
                                 usbSetupTransfer(usbp, (uint8_t *)&mouse_report_sent, sizeof(mouse_report_sent), NULL);
                                 return TRUE;
                                 break;
-#endif
+#    else
+                                switch (usbp->setup[2]) {
+                                    case REPORT_ID_MOUSE:
+                                        usbSetupTransfer(usbp, (uint8_t *)&mouse_report_sent, sizeof(mouse_report_sent), NULL);
+                                        return TRUE;
+                                        break;
+                                    case REPORT_ID_MULTIPLIER:
+                                        usbSetupTransfer(usbp, (uint8_t *)&mouse_scroll_res_report, sizeof(report_mouse_scroll_res_t), NULL);
+                                        return TRUE;
+                                        break;
+                                }
+#    endif
+#endif // defined(MOUSE_ENABLE) && !defined(MOUSE_SHARED_EP)
 #ifdef SHARED_EP_ENABLE
                             case SHARED_INTERFACE:
+                                switch (usbp->setup[2]) {
 #    ifdef KEYBOARD_SHARED_EP
-                                if (usbp->setup[2] == REPORT_ID_KEYBOARD) {
-                                    usbSetupTransfer(usbp, (uint8_t *)&keyboard_report_sent, KEYBOARD_REPORT_SIZE, NULL);
-                                    return TRUE;
-                                    break;
-                                }
+                                    case REPORT_ID_KEYBOARD:
+                                        usbSetupTransfer(usbp, (uint8_t *)&keyboard_report_sent, KEYBOARD_REPORT_SIZE, NULL);
+                                        return TRUE;
+                                        break;
 #    endif
 #    ifdef MOUSE_SHARED_EP
-                                if (usbp->setup[2] == REPORT_ID_MOUSE) {
-                                    usbSetupTransfer(usbp, (uint8_t *)&mouse_report_sent, sizeof(mouse_report_sent), NULL);
-                                    return TRUE;
-                                    break;
-                                }
+                                    case REPORT_ID_MOUSE:
+                                        usbSetupTransfer(usbp, (uint8_t *)&mouse_report_sent, sizeof(mouse_report_sent), NULL);
+                                        return TRUE;
+                                        break;
+#        ifdef MOUSE_SCROLL_HIRES_ENABLE
+                                    case REPORT_ID_MULTIPLIER:
+                                        usbSetupTransfer(usbp, (uint8_t *)&mouse_scroll_res_report, sizeof(report_mouse_scroll_res_t), NULL);
+                                        return TRUE;
+                                        break;
+#        endif
 #    endif
+                                }
 #endif /* SHARED_EP_ENABLE */
                             default:
                                 universal_report_blank.report_id = usbp->setup[2];
@@ -683,20 +715,40 @@ static bool usb_request_hook_cb(USBDriver *usbp) {
 #if defined(SHARED_EP_ENABLE) && !defined(KEYBOARD_SHARED_EP)
                             case SHARED_INTERFACE:
 #endif
+#if defined(MOUSE_ENABLE) && !defined(MOUSE_SHARED_EP)
+                            case MOUSE_INTERFACE:
+#endif
+#ifndef MOUSE_SCROLL_HIRES_ENABLE
                                 usbSetupTransfer(usbp, set_report_buf, sizeof(set_report_buf), set_led_transfer_cb);
                                 return TRUE;
                                 break;
+#else
+                                switch (usbp->setup[2]) {
+                                    case REPORT_ID_KEYBOARD:
+                                        usbSetupTransfer(usbp, set_report_buf, sizeof(set_report_buf), set_led_transfer_cb);
+                                        return TRUE;
+                                        break;
+                                    case REPORT_ID_MULTIPLIER:
+                                        // check for feature variable type
+                                        if (usbp->setup[3] == 0x03) {
+                                            usbSetupTransfer(usbp, set_report_buf, sizeof(set_report_buf), set_multiplier_cb);
+                                            return TRUE;
+                                        }
+                                        break;
+                                }
+                                break;
+#endif
                         }
                         break;
 
                     case HID_SET_PROTOCOL:
                         if ((usbp->setup[4] == KEYBOARD_INTERFACE) && (usbp->setup[5] == 0)) { /* wIndex */
                             keyboard_protocol = ((usbp->setup[2]) != 0x00);                    /* LSB(wValue) */
-#ifdef NKRO_ENABLE
+#    ifdef NKRO_ENABLE
                             if (!keyboard_protocol && keyboard_idle) {
-#else  /* NKRO_ENABLE */
+#    else  /* NKRO_ENABLE */
                             if (keyboard_idle) {
-#endif /* NKRO_ENABLE */
+#    endif /* NKRO_ENABLE */
                                 /* arm the idle timer if boot protocol & idle */
                                 osalSysLockFromISR();
                                 chVTSetI(&keyboard_idle_timer, 4 * TIME_MS2I(keyboard_idle), keyboard_idle_timer_cb, (void *)usbp);
@@ -710,11 +762,11 @@ static bool usb_request_hook_cb(USBDriver *usbp) {
                     case HID_SET_IDLE:
                         keyboard_idle = usbp->setup[3]; /* MSB(wValue) */
                                                         /* arm the timer */
-#ifdef NKRO_ENABLE
+#    ifdef NKRO_ENABLE
                         if (!keymap_config.nkro && keyboard_idle) {
-#else  /* NKRO_ENABLE */
+#    else  /* NKRO_ENABLE */
                         if (keyboard_idle) {
-#endif /* NKRO_ENABLE */
+#    endif /* NKRO_ENABLE */
                             osalSysLockFromISR();
                             chVTSetI(&keyboard_idle_timer, 4 * TIME_MS2I(keyboard_idle), keyboard_idle_timer_cb, (void *)usbp);
                             osalSysUnlockFromISR();
@@ -767,21 +819,21 @@ static const USBConfig usbcfg = {
  */
 void init_usb_driver(USBDriver *usbp) {
     for (int i = 0; i < NUM_USB_DRIVERS; i++) {
-#ifdef USB_ENDPOINTS_ARE_REORDERABLE
+#    ifdef USB_ENDPOINTS_ARE_REORDERABLE
         QMKUSBDriver *driver                       = &drivers.array[i].driver;
         drivers.array[i].inout_ep_config.in_state  = &drivers.array[i].in_ep_state;
         drivers.array[i].inout_ep_config.out_state = &drivers.array[i].out_ep_state;
         drivers.array[i].int_ep_config.in_state    = &drivers.array[i].int_ep_state;
         qmkusbObjectInit(driver, &drivers.array[i].config);
         qmkusbStart(driver, &drivers.array[i].config);
-#else
-        QMKUSBDriver *driver                     = &drivers.array[i].driver;
-        drivers.array[i].in_ep_config.in_state   = &drivers.array[i].in_ep_state;
+#    else
+        QMKUSBDriver *driver = &drivers.array[i].driver;
+        drivers.array[i].in_ep_config.in_state = &drivers.array[i].in_ep_state;
         drivers.array[i].out_ep_config.out_state = &drivers.array[i].out_ep_state;
-        drivers.array[i].int_ep_config.in_state  = &drivers.array[i].int_ep_state;
+        drivers.array[i].int_ep_config.in_state = &drivers.array[i].int_ep_state;
         qmkusbObjectInit(driver, &drivers.array[i].config);
         qmkusbStart(driver, &drivers.array[i].config);
-#endif
+#    endif
     }
 
     /*
@@ -802,7 +854,7 @@ __attribute__((weak)) void restart_usb_driver(USBDriver *usbp) {
     usbDisconnectBus(usbp);
     usbStop(usbp);
 
-#if USB_SUSPEND_WAKEUP_DELAY > 0
+#    if USB_SUSPEND_WAKEUP_DELAY > 0
     // Some hubs, kvm switches, and monitors do
     // weird things, with USB device state bouncing
     // around wildly on wakeup, yielding race
@@ -810,7 +862,7 @@ __attribute__((weak)) void restart_usb_driver(USBDriver *usbp) {
     //
     // Pause for a while to let things settle...
     wait_ms(USB_SUSPEND_WAKEUP_DELAY);
-#endif
+#    endif
 
     usbStart(usbp, &usbcfg);
     usbConnectBus(usbp);
@@ -836,11 +888,11 @@ static void keyboard_idle_timer_cb(struct ch_virtual_timer *timer, void *arg) {
         return;
     }
 
-#ifdef NKRO_ENABLE
+#    ifdef NKRO_ENABLE
     if (!keymap_config.nkro && keyboard_idle && keyboard_protocol) {
-#else  /* NKRO_ENABLE */
+#    else  /* NKRO_ENABLE */
     if (keyboard_idle && keyboard_protocol) {
-#endif /* NKRO_ENABLE */
+#    endif /* NKRO_ENABLE */
         /* TODO: are we sure we want the KBD_ENDPOINT? */
         if (!usbGetTransmitStatusI(usbp, KEYBOARD_IN_EPNUM)) {
             usbStartTransmitI(usbp, KEYBOARD_IN_EPNUM, (uint8_t *)&keyboard_report_sent, KEYBOARD_EPSIZE);
@@ -890,12 +942,12 @@ void send_keyboard(report_keyboard_t *report) {
     if (!keyboard_protocol) {
         send_report(ep, &report->mods, 8);
     } else {
-#ifdef NKRO_ENABLE
+#    ifdef NKRO_ENABLE
         if (keymap_config.nkro) {
             ep   = SHARED_IN_EPNUM;
             size = sizeof(struct nkro_report);
         }
-#endif
+#    endif
 
         send_report(ep, report, size);
     }
@@ -909,9 +961,10 @@ void send_keyboard(report_keyboard_t *report) {
  */
 
 void send_mouse(report_mouse_t *report) {
-#ifdef MOUSE_ENABLE
+#    ifdef MOUSE_ENABLE
     send_report(MOUSE_IN_EPNUM, report, sizeof(report_mouse_t));
     mouse_report_sent = *report;
+    osalSysUnlock();
 #endif
 }
 
@@ -921,27 +974,27 @@ void send_mouse(report_mouse_t *report) {
  */
 
 void send_extra(report_extra_t *report) {
-#ifdef EXTRAKEY_ENABLE
+#    ifdef EXTRAKEY_ENABLE
     send_report(SHARED_IN_EPNUM, report, sizeof(report_extra_t));
-#endif
+#    endif
 }
 
 void send_programmable_button(report_programmable_button_t *report) {
-#ifdef PROGRAMMABLE_BUTTON_ENABLE
+#    ifdef PROGRAMMABLE_BUTTON_ENABLE
     send_report(SHARED_IN_EPNUM, report, sizeof(report_programmable_button_t));
-#endif
+#    endif
 }
 
 void send_joystick(report_joystick_t *report) {
-#ifdef JOYSTICK_ENABLE
+#    ifdef JOYSTICK_ENABLE
     send_report(JOYSTICK_IN_EPNUM, report, sizeof(report_joystick_t));
-#endif
+#    endif
 }
 
 void send_digitizer(report_digitizer_t *report) {
-#ifdef DIGITIZER_ENABLE
+#    ifdef DIGITIZER_ENABLE
     send_report(DIGITIZER_IN_EPNUM, report, sizeof(report_digitizer_t));
-#endif
+#    endif
 }
 
 /* ---------------------------------------------------------
@@ -949,7 +1002,7 @@ void send_digitizer(report_digitizer_t *report) {
  * ---------------------------------------------------------
  */
 
-#ifdef CONSOLE_ENABLE
+#    ifdef CONSOLE_ENABLE
 
 int8_t sendchar(uint8_t c) {
     static bool timed_out = false;
@@ -998,9 +1051,9 @@ void console_task(void) {
     } while (size > 0);
 }
 
-#endif /* CONSOLE_ENABLE */
+#    endif /* CONSOLE_ENABLE */
 
-#ifdef RAW_ENABLE
+#    ifdef RAW_ENABLE
 void raw_hid_send(uint8_t *data, uint8_t length) {
     // TODO: implement variable size packet
     if (length != RAW_EPSIZE) {
@@ -1026,9 +1079,9 @@ void raw_hid_task(void) {
     } while (size > 0);
 }
 
-#endif
+#    endif
 
-#ifdef MIDI_ENABLE
+#    ifdef MIDI_ENABLE
 
 void send_midi_packet(MIDI_EventPacket_t *event) {
     chnWrite(&drivers.midi_driver.driver, (uint8_t *)event, sizeof(MIDI_EventPacket_t));
@@ -1049,9 +1102,9 @@ void midi_ep_task(void) {
         }
     } while (size > 0);
 }
-#endif
+#    endif
 
-#ifdef VIRTSER_ENABLE
+#    ifdef VIRTSER_ENABLE
 
 void virtser_init(void) {}
 
@@ -1074,4 +1127,4 @@ void virtser_task(void) {
     } while (numBytesReceived > 0);
 }
 
-#endif
+#    endif

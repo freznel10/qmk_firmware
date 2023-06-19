@@ -1,0 +1,7 @@
+{
+    "bootloader": "rp2040",
+    "processor": "RP2040",
+    "usb": {
+        "device_version": "0.2.0"
+    }
+}
