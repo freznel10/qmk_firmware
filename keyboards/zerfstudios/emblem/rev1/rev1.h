@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:keyboards/zerfstudios/emblem/rev1/rev1.h
 /* Copyright 2022 Freznel B. Sta. Ana (Freznel10)
-========
-/* Copyright (C) 2022 jonylee@hfd
->>>>>>>> upstream/develop:keyboards/akko/5108/halconf.h
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,15 +15,14 @@
  */
 #pragma once
 
-<<<<<<<< HEAD:keyboards/zerfstudios/emblem/rev1/rev1.h
+
 #include "emblem.h"
 #include "quantum.h"
 
-========
 #define HAL_USE_I2C TRUE
 #define HAL_USE_SPI TRUE
 #define SPI_USE_WAIT TRUE
 #define SPI_SELECT_MODE SPI_SELECT_MODE_PAD
 
 #include_next <halconf.h>
->>>>>>>> upstream/develop:keyboards/akko/5108/halconf.h
+
