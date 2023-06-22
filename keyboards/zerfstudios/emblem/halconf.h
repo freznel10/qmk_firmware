@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:keyboards/zerfstudios/emblem/halconf.h
 /* Copyright 2022 QMK
+========
+/* Copyright 2023 nacly (https://github.com/Na-Cly)
+>>>>>>>> upstream/develop:keyboards/nacly/bigsmoothknob/config.h
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,9 +19,14 @@
  */
 
 #pragma once
+<<<<<<<< HEAD:keyboards/zerfstudios/emblem/halconf.h
 
 #define HAL_USE_I2C     TRUE
 #define HAL_USE_SPI     TRUE
 #define HAL_USE_PWM     TRUE
 
 #include_next <halconf.h>
+========
+#define RP2040_BOOTLOADER_DOUBLE_TAP_RESET
+#define RP2040_BOOTLOADER_DOUBLE_TAP_RESET_TIMEOUT 500U
+>>>>>>>> upstream/develop:keyboards/nacly/bigsmoothknob/config.h

@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:keyboards/zerfstudios/chunky/ui/widgets/bpm.h
 ﻿/* Copyright 2022 Jose Pablo Ramirez <jp.ramangulo@gmail.com>
+========
+/* Copyright 2023 @ Keychron(https://www.keychron.com)
+>>>>>>>> upstream/develop:keyboards/keychron/c1_pro/config.h
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +20,7 @@
 
 #pragma once
 
+<<<<<<<< HEAD:keyboards/zerfstudios/chunky/ui/widgets/bpm.h
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -32,3 +37,24 @@ void toggle_bpm(void);
 } /*extern "C"*/
 #endif
 
+========
+/* DIP switch */
+#define DIP_SWITCH_MATRIX_GRID { { 5, 4 } }
+
+/* Disable DIP switch in matrix data */
+#define MATRIX_MASKED
+
+/* EEPROM Driver Configuration */
+#define WEAR_LEVELING_LOGICAL_SIZE 2048
+#define WEAR_LEVELING_BACKING_SIZE (WEAR_LEVELING_LOGICAL_SIZE * 2)
+
+/* Increase I2C speed to 1000 KHz */
+#define I2C1_TIMINGR_PRESC 0U
+#define I2C1_TIMINGR_SCLDEL 3U
+#define I2C1_TIMINGR_SDADEL 0U
+#define I2C1_TIMINGR_SCLH 15U
+#define I2C1_TIMINGR_SCLL 51U
+
+/* Old default behavior of mod-taps */
+#define HOLD_ON_OTHER_KEY_PRESS
+>>>>>>>> upstream/develop:keyboards/keychron/c1_pro/config.h

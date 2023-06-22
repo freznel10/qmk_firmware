@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:keyboards/zerfstudios/chunky/rev2/rev2.h
 /* Copyright 2022 Freznel B. Sta. Ana (Freznel10)
+========
+/* Copyright 2020 QMK
+>>>>>>>> upstream/develop:keyboards/keychron/c2_pro/mcuconf.h
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +19,13 @@
  */
 #pragma once
 
+<<<<<<<< HEAD:keyboards/zerfstudios/chunky/rev2/rev2.h
 #include "chunky.h"
 
 
+========
+#include_next <mcuconf.h>
+
+#undef STM32_I2C_USE_I2C1
+#define STM32_I2C_USE_I2C1 TRUE
+>>>>>>>> upstream/develop:keyboards/keychron/c2_pro/mcuconf.h
