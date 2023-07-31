@@ -30,7 +30,7 @@
 #include "pointing_device_modes.h"
 #include "pointing_device.h"
 #ifdef HAPTIC_ENABLE
-#   include "drivers/haptic/DRV2605L.h"
+#   include "drivers/haptic/drv2605l.h"
 #endif
 
 #include "adps9660.h"
@@ -423,44 +423,43 @@ void keyboard_post_init_keymap(void) {
 // }
 
 layer_state_t layer_state_set_keymap(layer_state_t state) {
-    // adps9660_wake();
-    switch (get_highest_layer(state)) {
+     switch (get_highest_layer(state)) {
         case _LOWER:
 #ifdef HAPTIC_ENABLE
-            DRV_pulse(soft_bump);
+            drv2605l_pulse(soft_bump);
 #endif
             set_pointing_mode_id(PM_VOL);
             break;
         case _RAISE:
 #ifdef HAPTIC_ENABLE
-            DRV_pulse(transition_rampup_short_sharp1_50);
+            drv2605l_pulse(transition_rampup_short_sharp1_50);
 #endif
             set_pointing_mode_id(PM_CARET);
             break;
         case _ADJUST:
 #ifdef HAPTIC_ENABLE
-            DRV_pulse(lg_dblclick_str);
+            drv2605l_pulse(lg_dblclick_str);
 #endif
             break;
         case _KEYPAD:
 #ifdef HAPTIC_ENABLE
-            DRV_pulse(transition_rampup_short_sharp1_50);
+            drv2605l_pulse(transition_rampup_short_sharp1_50);
 #endif
             set_pointing_mode_id(6);
             break;
         case _MOUSE:
 #ifdef HAPTIC_ENABLE
-            DRV_pulse(sharp_click);
+            drv2605l_pulse(sharp_click);
 #endif
             break;
         case _MEDIA:
 #ifdef HAPTIC_ENABLE
-            DRV_pulse(pulsing_sharp);
+            drv2605l_pulse(pulsing_sharp);
 #endif
             break;
         case _GAMEPAD:
 #ifdef HAPTIC_ENABLE
-            DRV_pulse(pulsing_sharp);
+            drv2605l_pulse(pulsing_sharp);
 #endif
             break;
         default:

@@ -120,7 +120,7 @@
 #endif
 
 #ifndef TAPPING_TERM
-#    define TAPPING_TERM 200
+#    define TAPPING_TERM 250
 #endif
 
 #ifndef SECURE_UNLOCK_SEQUENCE

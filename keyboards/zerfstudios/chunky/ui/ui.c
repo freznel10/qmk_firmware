@@ -416,7 +416,7 @@ float autocorrect_song[][2] = SONG(MARIO_GAMEOVER);
 #    else
 float autocorrect_song[][2] = SONG(PLOVER_GOODBYE_SOUND);
 #    endif
-bool apply_autocorrect(uint8_t backspaces, const char *str) {
+bool apply_autocorrect(uint8_t backspaces, const char* str, char *typo, char *correct) {
     PLAY_SONG(autocorrect_song);
     return true;
 }

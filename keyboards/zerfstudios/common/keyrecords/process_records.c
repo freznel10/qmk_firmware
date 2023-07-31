@@ -8,7 +8,7 @@
 #    include "keyrecords/dynamic_macros.h"
 #endif
 #ifdef HAPTIC_ENABLE
-#include "drivers/haptic/DRV2605L.h"
+#include "drivers/haptic/drv2605l.h"
 #endif
 
 #include "select_word.h"
@@ -217,13 +217,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case NX_TAB:
             if (record->event.pressed) {
                 tap_code16(C(KC_TAB));
-                DRV_pulse(medium_click1);
+                drv2605l_pulse(medium_click1);
             }
             break;
         case BK_TAB:
             if (record->event.pressed) {
                 tap_code16(S(C(KC_TAB)));
-                DRV_pulse(medium_click1);
+                drv2605l_pulse(medium_click1);
             }
             break;
         case RAISE_TOGGLE:

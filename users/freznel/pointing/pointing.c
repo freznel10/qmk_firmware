@@ -4,9 +4,7 @@
 
 
 #include "pointing.h"
-#ifdef HAPTIC_ENABLE
-#include "drivers/haptic/DRV2605L.h"
-#endif
+#include "drivers/haptic/drv2605l.h"
 #include "pointing_device_modes.h"
 
 // static uint16_t mouse_debounce_timer = 0;
@@ -217,14 +215,12 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t* record) {
         case KC_ACCEL:
             enable_acceleration = record->event.pressed;
             break;
-#ifdef HAPTIC_ENABLE
         case TD_DRGS:
-            DRV_pulse(medium_click1);
+            drv2605l_pulse(medium_click1);
             break;
         case KC_BTN1:
-            DRV_pulse(medium_click1);
+            drv2605l_pulse(medium_click1);
             break;
-#endif
         case KB_MO_APP:
         // toggle Alt key off on key release and reset flag
             if(!record->event.pressed && APP_ALT) {
@@ -252,76 +248,76 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t* record) {
         break;
         case ROUTE:
             if (record->event.pressed) {
-    	        DRV_pulse(medium_click1);
+    	        drv2605l_pulse(medium_click1);
                 tap_code(KC_X);
             }
         break;
         case ROTATE:
             if (record->event.pressed) {
-    	        DRV_pulse(medium_click1);
+    	        drv2605l_pulse(medium_click1);
                 tap_code(KC_R);
             }
         break;
         case DRAG_TRACKS:
             if (record->event.pressed) {
-    	        DRV_pulse(medium_click1);
+    	        drv2605l_pulse(medium_click1);
                 tap_code(KC_D);
             }
         break;
         case PLACE_VIA:
             if (record->event.pressed) {
-    	        DRV_pulse(medium_click1);
+    	        drv2605l_pulse(medium_click1);
                 tap_code(KC_V);
             }
         break;
         case TRACK_WIDTH:
             if (record->event.pressed) {
-    	        DRV_pulse(medium_click1);
+    	        drv2605l_pulse(medium_click1);
                 tap_code(KC_W);
             }
         break;
         case VIA_WIDTH:
             if (record->event.pressed) {
-    	        DRV_pulse(medium_click1);
+    	        drv2605l_pulse(medium_click1);
                 tap_code(KC_BACKSLASH);
             }
         break;
         case TRACK_POSTURE:
             if (record->event.pressed) {
-    	        DRV_pulse(medium_click1);
+    	        drv2605l_pulse(medium_click1);
                 tap_code(KC_SLASH);
             }
         break;
         case TRACK_CORNER_MODE:
             if (record->event.pressed) {
-    	        DRV_pulse(medium_click1);
+    	        drv2605l_pulse(medium_click1);
                 tap_code16(C(KC_SLASH));
             }
         break;
         case PMR_DRAG:
             if (record->event.pressed) {
-    	        DRV_pulse(medium_click1);
+    	        drv2605l_pulse(medium_click1);
                 set_pointing_mode_device(1);
                 toggle_pointing_mode_id(2);
             }
         break;
         case PMR_LEFT:
             if (record->event.pressed) {
-    	        DRV_pulse(medium_click1);
+    	        drv2605l_pulse(medium_click1);
                 set_pointing_mode_device(0);
                 toggle_pointing_mode_id(2);
             }
         break;
         case PMR_VOL:
             if (record->event.pressed) {
-    	        DRV_pulse(medium_click1);
+    	        drv2605l_pulse(medium_click1);
                 set_pointing_mode_device(1);
                 toggle_pointing_mode_id(5);
             }
         break;
         case PML_VOL:
             if (record->event.pressed) {
-    	        DRV_pulse(medium_click1);
+    	        drv2605l_pulse(medium_click1);
                 set_pointing_mode_device(0);
                 toggle_pointing_mode_id(5);
             }

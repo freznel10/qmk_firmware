@@ -31,6 +31,10 @@
 #    include "pointing/pointing.h"
 #endif
 
+#ifdef HAPTIC_ENABLE
+#include "drivers/haptic/drv2605l.h"
+#endif
+
 
 /* Define layer names */
 enum userspace_layers {

@@ -44,6 +44,7 @@
 #define SPLIT_MAX_CONNECTION_ERRORS 10
 
 #define SPLIT_HAND_PIN  GP4
+#define DRV2605L_LIBRARY 6
 
 /* i2c configuration */
 #define I2C_DRIVER I2CD1
@@ -82,8 +83,8 @@
 	#define NO_HAPTIC_ALPHA
 	// #define NO_HAPTIC_MOD
     // #define NO_HAPTIC_FN
-    #define DRV_GREETING       alert_750ms
-    #define DRV_MODE_DEFAULT   sharp_tick1
+    #define DRV2605L_GREETING       alert_750ms
+    #define DRV2605L_MODE_DEFAULT   sharp_tick1
 	// #define NO_HAPTIC_NUMERIC
 	// #define NO_HAPTIC_NAV
 #endif //HAPTIC_ENABLE

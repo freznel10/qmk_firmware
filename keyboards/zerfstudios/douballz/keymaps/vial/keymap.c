@@ -30,7 +30,7 @@ static painter_font_handle_t futurabold;
 
 #ifdef HAPTIC_ENABLE
 //#include "keyboards/zerf9/mx_track/haptic_utils.h"
-#include "drivers/haptic/DRV2605L.h"
+#include "drivers/haptic/drv2605l.h"
 #endif
 
 #define DRAGSCROLL_PADDING 6
@@ -805,32 +805,32 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
     switch (get_highest_layer(state)) {
         case _LOWER:
 #ifdef HAPTIC_ENABLE
-            DRV_pulse(soft_bump);
+            drv2605l_pulse(soft_bump);
 #endif
             break;
         case _RAISE:
 #ifdef HAPTIC_ENABLE
-            DRV_pulse(transition_rampup_short_sharp1_50);
+            drv2605l_pulse(transition_rampup_short_sharp1_50);
 #endif
             break;
         case _ADJUST:
 #ifdef HAPTIC_ENABLE
-            DRV_pulse(lg_dblclick_str);
+            drv2605l_pulse(lg_dblclick_str);
 #endif
             break;
         case _KEYPAD:
 #ifdef HAPTIC_ENABLE
-            DRV_pulse(transition_rampup_short_sharp1_50);
+            drv2605l_pulse(transition_rampup_short_sharp1_50);
 #endif
             break;
         case _MOUSE:
 #ifdef HAPTIC_ENABLE
-            DRV_pulse(soft_bump);
+            drv2605l_pulse(soft_bump);
 #endif
             break;
         case _MEDIA:
 #ifdef HAPTIC_ENABLE
-            DRV_pulse(pulsing_sharp);
+            drv2605l_pulse(pulsing_sharp);
 #endif
             break;
     }

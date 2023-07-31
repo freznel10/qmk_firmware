@@ -42,7 +42,7 @@ CUSTOM_SPLIT_TRANSPORT_SYNC = no
 PER_KEY_TAPPING  = yes
 
 # HAPTIC_ENABLE = yes			# Enable Pimoroni Haptic Bzzz LRA (+1192)
-HAPTIC_DRIVER += DRV2605L
+HAPTIC_DRIVER += drv2605l
 USE_VL91022_LRA = no
 
 ifeq ($(strip $(USE_VL91022)), yes)

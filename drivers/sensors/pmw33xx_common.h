@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "keyboard.h"
+#include "quantum.h"
 #include <stdint.h>
 #include "spi_master.h"
 #include "util.h"

@@ -5,7 +5,7 @@
 
 #include "pointing.h"
 #ifdef HAPTIC_ENABLE
-#include "drivers/haptic/DRV2605L.h"
+#include "drivers/haptic/drv2605l.h"
 #endif
 #include "pointing_device_modes.h"
 
@@ -215,10 +215,10 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t* record) {
             break;
 #ifdef HAPTIC_ENABLE
         case TD_DRGS:
-            DRV_pulse(medium_click1);
+            drv2605l_pulse(medium_click1);
             break;
         case KC_BTN1:
-            DRV_pulse(medium_click1);
+            drv2605l_pulse(medium_click1);
             break;
 #endif
         case KB_MO_APP:

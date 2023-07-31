@@ -25,7 +25,7 @@ SWAP_HANDS_ENABLE                = no
 
 CUSTOM_SPLIT_TRANSPORT_SYNC = yes
 
-HAPTIC_DRIVER += DRV2605L
+HAPTIC_DRIVER = drv2605l
 USE_VL91022_LRA = no
 
 ifeq ($(strip $(USE_VL91022)), yes)
