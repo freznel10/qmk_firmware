@@ -25,7 +25,6 @@ __attribute__((weak)) void pointing_device_init_keymap(void) {}
 
 void pointing_device_init_user(void) {
 #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
-    set_auto_mouse_layer(AUTO_MOUSE_DEFAULT_LAYER);
     set_auto_mouse_enable(true);
 #endif
     pointing_device_init_keymap();
@@ -216,10 +215,10 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t* record) {
             enable_acceleration = record->event.pressed;
             break;
         case TD_DRGS:
-            drv2605l_pulse(medium_click1);
+            drv2605l_pulse(DRV2605L_EFFECT_MEDIUM_CLICK_1_100);
             break;
         case KC_BTN1:
-            drv2605l_pulse(medium_click1);
+            drv2605l_pulse(DRV2605L_EFFECT_MEDIUM_CLICK_1_100);
             break;
         case KB_MO_APP:
         // toggle Alt key off on key release and reset flag
@@ -248,76 +247,76 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t* record) {
         break;
         case ROUTE:
             if (record->event.pressed) {
-    	        drv2605l_pulse(medium_click1);
+    	        drv2605l_pulse(DRV2605L_EFFECT_MEDIUM_CLICK_1_100);
                 tap_code(KC_X);
             }
         break;
         case ROTATE:
             if (record->event.pressed) {
-    	        drv2605l_pulse(medium_click1);
+    	        drv2605l_pulse(DRV2605L_EFFECT_MEDIUM_CLICK_1_100);
                 tap_code(KC_R);
             }
         break;
         case DRAG_TRACKS:
             if (record->event.pressed) {
-    	        drv2605l_pulse(medium_click1);
+    	        drv2605l_pulse(DRV2605L_EFFECT_MEDIUM_CLICK_1_100);
                 tap_code(KC_D);
             }
         break;
         case PLACE_VIA:
             if (record->event.pressed) {
-    	        drv2605l_pulse(medium_click1);
+    	        drv2605l_pulse(DRV2605L_EFFECT_MEDIUM_CLICK_1_100);
                 tap_code(KC_V);
             }
         break;
         case TRACK_WIDTH:
             if (record->event.pressed) {
-    	        drv2605l_pulse(medium_click1);
+    	        drv2605l_pulse(DRV2605L_EFFECT_MEDIUM_CLICK_1_100);
                 tap_code(KC_W);
             }
         break;
         case VIA_WIDTH:
             if (record->event.pressed) {
-    	        drv2605l_pulse(medium_click1);
+    	        drv2605l_pulse(DRV2605L_EFFECT_MEDIUM_CLICK_1_100);
                 tap_code(KC_BACKSLASH);
             }
         break;
         case TRACK_POSTURE:
             if (record->event.pressed) {
-    	        drv2605l_pulse(medium_click1);
+    	        drv2605l_pulse(DRV2605L_EFFECT_MEDIUM_CLICK_1_100);
                 tap_code(KC_SLASH);
             }
         break;
         case TRACK_CORNER_MODE:
             if (record->event.pressed) {
-    	        drv2605l_pulse(medium_click1);
+    	        drv2605l_pulse(DRV2605L_EFFECT_MEDIUM_CLICK_1_100);
                 tap_code16(C(KC_SLASH));
             }
         break;
         case PMR_DRAG:
             if (record->event.pressed) {
-    	        drv2605l_pulse(medium_click1);
+    	        drv2605l_pulse(DRV2605L_EFFECT_MEDIUM_CLICK_1_100);
                 set_pointing_mode_device(1);
                 toggle_pointing_mode_id(2);
             }
         break;
         case PMR_LEFT:
             if (record->event.pressed) {
-    	        drv2605l_pulse(medium_click1);
+    	        drv2605l_pulse(DRV2605L_EFFECT_MEDIUM_CLICK_1_100);
                 set_pointing_mode_device(0);
                 toggle_pointing_mode_id(2);
             }
         break;
         case PMR_VOL:
             if (record->event.pressed) {
-    	        drv2605l_pulse(medium_click1);
+    	        drv2605l_pulse(DRV2605L_EFFECT_MEDIUM_CLICK_1_100);
                 set_pointing_mode_device(1);
                 toggle_pointing_mode_id(5);
             }
         break;
         case PML_VOL:
             if (record->event.pressed) {
-    	        drv2605l_pulse(medium_click1);
+    	        drv2605l_pulse(DRV2605L_EFFECT_MEDIUM_CLICK_1_100);
                 set_pointing_mode_device(0);
                 toggle_pointing_mode_id(5);
             }

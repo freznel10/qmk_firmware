@@ -51,7 +51,8 @@ enum userspace_layers {
     _RAISE,
     _ADJUST,
     _KEYPAD,
-    _GAMEPAD
+    _GAMEPAD,
+    _BG
 };
 
 #define _DEFAULT_LAYER_1 FIRST_DEFAULT_LAYER

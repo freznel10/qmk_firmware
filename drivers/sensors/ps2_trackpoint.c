@@ -16,7 +16,7 @@ static inline void ps2_mouse_enable_scrolling(void);
 __attribute__((unused)) static inline void ps2_mouse_scroll_button_task(report_mouse_t *mouse_report);
 
 const pointing_device_driver_t     ps2_trackpoint_driver_ps2_default = {.init = ps2_mouse_init, .get_report = ps2_trackpoint_get_report, .set_cpi = NULL, .get_cpi = NULL};
-const pointing_device_ps2_config_t ps2_trackpoint_config_ps2_default = {.data_pin = PS2_DATA_PIN, .clock_pin = PS2_CLOCK_PIN};
+const pointing_device_ps2_config_t ps2_trackpoint_config_ps2_default = {.data_pin = 5, .clock_pin = 6};
 
 
 #define X_IS_NEG (mouse_report->buttons & (1 << PS2_MOUSE_X_SIGN))

@@ -76,7 +76,7 @@ enum custom_keycodes {
                                 A(KC_F4),   TAB_RSE,    SPC_LSH,    ENT_LWR,    KC_BTN1,                        KC_BTN1,    ESC_LWR,    BSP_KEY,    DEL_RSE,    SELWORD, \
                                 LVGL_BTN,   C(KC_B),   PM_TG(2),   KC_BTN3,    KC_BTN2,                        KC_BTN2,    C_L,        C_R,        PM_TG(3),   PMR_CYD, \
                                 DPI_RMOD,   KC_PGDN,    KC_PGUP,    DPI_MOD,    KC_MUTE,                        RGB_TOG1,   PMR_LEFT,   KC_PGDN,    KC_PGUP,    PMR_RGHT,\
-    RGB_RMOD,       RGB_MOD,    RGB_SAD,   RGB_SAI,     TT(_GAMEPAD),   KC_RGB_T,      KC_F7,      KC_F8,      KC_9,   KC_F10,     KC_F11,     KC_F12,     KC_F13,     KC_F14,     KC_F15,     KC_F16\
+    RGB_RMOD,       RGB_MOD,    RGB_SAD,   RGB_SAI,     TT(_BG),   KC_RGB_T,      KC_F7,      KC_F8,      KC_9,   KC_F10,     KC_F11,     KC_F12,     KC_F13,     KC_F14,     KC_F15,     KC_F16\
     )
 
 #define LAYOUT_base_wrapper(...) LAYOUT_4x6_base(__VA_ARGS__)
@@ -100,7 +100,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_DEFAULT_LAYER_4] = LAYOUT_base_wrapper(
         _________________DVORAK_L1_________________, _________________DVORAK_R1_________________,
-        _________________DVORAK_L2_________________, _________________DVORAK_R2_________________,-
+        _________________DVORAK_L2_________________, _________________DVORAK_R2_________________,
         _________________DVORAK_L3_________________, _________________DVORAK_R3_________________
     ),
 
@@ -170,7 +170,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______
     ),
 
-
+    [_BG] = LAYOUT_4x6_wrapper(
+        KC_GRAVE,               ________________NUMBER_LEFT________________,                                                        ________________NUMBER_RIGHT_______________,    _______,
+        KC_TAB,                 ______________COLEMAK_MOD_DH_L1____________,                                                        ______________COLEMAK_MOD_DH_R1____________,    _______,
+        KC_LSFT,                ______________COLEMAK_MOD_DH_L2____________,                                                        ______________COLEMAK_MOD_DH_R2____________,    
+        KC_LCTL,                ______________COLEMAK_MOD_DH_L1____________,                                                        ______________COLEMAK_MOD_DH_R3____________,    _______,
+                                            KC_E,       KC_LALT,   KC_SPACE,     KC_TAB,    _______,        _______,    _______,    _______,    _______,    _______,
+                                            KC_K,          KC_I,       KC_J,       KC_M,    _______,        _______,    _______,    _______,    _______,    _______,
+                                            KC_LEFT,    KC_DOWN,      KC_UP,   KC_RIGHT,    _______,        _______,    _______,    _______,    _______,    _______,
+        _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______
+    ),
 };
 
 
@@ -292,7 +301,8 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [_DEFAULT_LAYER_3] = BASE_ENCODERS,
     [_DEFAULT_LAYER_4] = BASE_ENCODERS,
     [_MOUSE] = BASE_ENCODERS,
-    [_GAMEPAD]         = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(ENC_ALT_TAB_REV, ENC_ALT_TAB), ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(ENC_ALT_TAB_REV, ENC_ALT_TAB), },
+    [_GAMEPAD]         = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(ENC_ALT_TAB_REV, ENC_ALT_TAB), ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(ENC_ALT_TAB_REV, ENC_ALT_TAB) },
+    [_BG]              = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(ENC_ALT_TAB_REV, ENC_ALT_TAB), ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(ENC_ALT_TAB_REV, ENC_ALT_TAB) },
     [_MEDIA]           = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(KC_WH_D, KC_WH_U) },
     [_RAISE]           = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI),  ENCODER_CCW_CW(KC_WH_L, KC_WH_R), ENCODER_CCW_CW(RGB_HUD, RGB_HUI),  ENCODER_CCW_CW(RGB_SAD, RGB_SAI) },
     [_LOWER]           = { ENCODER_CCW_CW(RGB_HUD, RGB_HUI), ENCODER_CCW_CW(RGB_SAI, RGB_SAD), ENCODER_CCW_CW(RGB_SPD, RGB_SPI), ENCODER_CCW_CW(RGB_VAD, RGB_VAI) },
@@ -426,40 +436,40 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
      switch (get_highest_layer(state)) {
         case _LOWER:
 #ifdef HAPTIC_ENABLE
-            drv2605l_pulse(soft_bump);
+            drv2605l_pulse(DRV2605L_EFFECT_SOFT_BUMP_100);
 #endif
             set_pointing_mode_id(PM_VOL);
             break;
         case _RAISE:
 #ifdef HAPTIC_ENABLE
-            drv2605l_pulse(transition_rampup_short_sharp1_50);
+            drv2605l_pulse(DRV2605L_EFFECT_TRANSITION_RAMP_DOWN_LONG_SHARP_1_100);
 #endif
             set_pointing_mode_id(PM_CARET);
             break;
         case _ADJUST:
 #ifdef HAPTIC_ENABLE
-            drv2605l_pulse(lg_dblclick_str);
+            drv2605l_pulse(DRV2605L_EFFECT_SHORT_DOUBLE_CLICK_STRONG_1_100);
 #endif
             break;
         case _KEYPAD:
 #ifdef HAPTIC_ENABLE
-            drv2605l_pulse(transition_rampup_short_sharp1_50);
+            drv2605l_pulse(DRV2605L_EFFECT_TRANSITION_RAMP_DOWN_LONG_SHARP_1_100);
 #endif
             set_pointing_mode_id(6);
             break;
         case _MOUSE:
 #ifdef HAPTIC_ENABLE
-            drv2605l_pulse(sharp_click);
+            drv2605l_pulse(DRV2605L_EFFECT_SHARP_TICK_1_100);
 #endif
             break;
         case _MEDIA:
 #ifdef HAPTIC_ENABLE
-            drv2605l_pulse(pulsing_sharp);
+            drv2605l_pulse(DRV2605L_EFFECT_PULSING_SHARP_1_100);
 #endif
             break;
         case _GAMEPAD:
 #ifdef HAPTIC_ENABLE
-            drv2605l_pulse(pulsing_sharp);
+            drv2605l_pulse(DRV2605L_EFFECT_PULSING_SHARP_1_100);
 #endif
             break;
         default:

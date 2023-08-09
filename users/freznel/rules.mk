@@ -146,4 +146,7 @@ endif
 
 CUSTOM_KEYLOGGER ?= no
 
+HAPTIC_ENABLE = yes
+HAPTIC_DRIVER = drv2605l
+
 SRC += keyrecords/select_word.c
