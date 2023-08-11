@@ -59,24 +59,24 @@
 #ifdef HAPTIC_ENABLE
     #define SPLIT_HAPTIC_ENABLE
 #   if defined(USE_VL91022_LRA)
-	#define FB_ERM_LRA 1
-	#define FB_BRAKEFACTOR 2
-	#define FB_LOOPGAIN 3
+	#define DRV2605L_FB_ERM_LRA 1
+	#define DRV2605L_FB_BRAKEFACTOR 2
+	#define DRV2605L_FB_LOOPGAIN 3
 	// Refer to datasheet for the optimal setting for specific motors.
-	#define RATED_VOLTAGE 3
-	#define V_PEAK 3.3
-	#define V_RMS 1.65
-	#define F_LRA 160
+	#define RV2605L_RATED_VOLTAGE 3
+	#define DRV2605L_V_PEAK 3.3
+	#define DRV2605L_V_RMS 1.65
+	#define DRV2605L_F_LRA 160
 #else
-	#define FB_ERM_LRA 1
-	#define FB_BRAKEFACTOR 2
-	#define FB_LOOPGAIN 3
+	#define DRV2605L_FB_ERM_LRA 1
+	#define DRV2605L_FB_BRAKEFACTOR 2
+	#define DRV2605L_FB_LOOPGAIN 3
 
 	// Refer to datasheet for the optimal setting for specific motors.
-	#define RATED_VOLTAGE 2
-	#define V_PEAK 2.0
-	#define V_RMS 2.05
-	#define F_LRA 200
+	#define RV2605L_RATED_VOLTAGE 2
+	#define DRV2605L_V_PEAK 2.0
+	#define DRV2605L_V_RMS 2.05
+	#define DRV2605L_F_LRA 200
 #endif
 	//#define HAPTIC_OFF_IN_LOW_POWER 1 //Turn off haptic feedback while sleeping (+54).
 	// #define NO_HAPTIC_PUNCTUATION
