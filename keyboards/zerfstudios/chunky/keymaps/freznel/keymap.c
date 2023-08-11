@@ -148,17 +148,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______
     ),
 
-    [_KEYPAD] = LAYOUT_4x6_wrapper(
-        KC_NUM_LOCK,            _________________FUNC_LEFT_________________,                                                        _________________FUNC_RIGHT________________,    _______,
-        KC_SCROLL_LOCK,         ________________NUMPAD1_LEFT_______________,                                                        _________________ADJUST_R1_________________,    _______,
-        KC_PRINT_SCREEN,        ________________NUMPAD2_LEFT_______________,                                                        _________________ADJUST_R2_________________,    _______,
-        _______,                ________________NUMPAD3_LEFT_______________,                                                        _________________ADJUST_R3_________________,    _______,
-                                            _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
-                                            _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
-                                            _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
-        SWITCH_1,    SWITCH_2,    SWITCH_3,    SWITCH_4,    SWITCH_5,    SWITCH_6,    _______,    _______,        _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______
-    ),
-
     [_GAMEPAD] = LAYOUT_4x6_wrapper(
         KC_ESC,                 _________________GAMING_L0_________________,                                                        ________________NUMBER_RIGHT_______________,    _______,
         KC_CAPS,                _________________GAMING_L1_________________,                                                        _________________GAMING_R1_________________,    _______,
@@ -174,12 +163,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_GRAVE,               ________________NUMBER_LEFT________________,                                                        ________________NUMBER_RIGHT_______________,    _______,
         KC_TAB,                 ______________COLEMAK_MOD_DH_L1____________,                                                        ______________COLEMAK_MOD_DH_R1____________,    _______,
         KC_LSFT,                ______________COLEMAK_MOD_DH_L2____________,                                                        ______________COLEMAK_MOD_DH_R2____________,    
-        KC_LCTL,                ______________COLEMAK_MOD_DH_L1____________,                                                        ______________COLEMAK_MOD_DH_R3____________,    _______,
-                                            KC_E,       KC_LALT,   KC_SPACE,     KC_TAB,    _______,        _______,    _______,    _______,    _______,    _______,
-                                            KC_K,          KC_I,       KC_J,       KC_M,    _______,        _______,    _______,    _______,    _______,    _______,
-                                            KC_LEFT,    KC_DOWN,      KC_UP,   KC_RIGHT,    _______,        _______,    _______,    _______,    _______,    _______,
+        KC_LCTL,                ______________COLEMAK_MOD_DH_L3____________,                                                        ______________COLEMAK_MOD_DH_R3____________,    _______,
+                                            KC_E,       KC_LALT,   KC_SPACE,     KC_TAB,    _______,        KC_BTN1,    KC_BTN3,    _______,    _______,    _______,
+                                            KC_K,          KC_I,       KC_J,       KC_M,    _______,        KC_BTN2,    KC_PGDN,    KC_PGUP,    _______,    _______,
+                                            KC_HOME,    KC_DOWN,      KC_UP,     KC_END,    _______,        _______,    _______,    _______,    _______,    _______,
         _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______
     ),
+
+    [_KEYPAD] = LAYOUT_4x6_wrapper(
+        KC_NUM_LOCK,            _________________FUNC_LEFT_________________,                                                        _________________FUNC_RIGHT________________,    _______,
+        KC_SCROLL_LOCK,         ________________NUMPAD1_LEFT_______________,                                                        _________________ADJUST_R1_________________,    _______,
+        KC_PRINT_SCREEN,        ________________NUMPAD2_LEFT_______________,                                                        _________________ADJUST_R2_________________,    _______,
+        _______,                ________________NUMPAD3_LEFT_______________,                                                        _________________ADJUST_R3_________________,    _______,
+                                            _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
+                                            _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
+                                            _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
+        SWITCH_1,    SWITCH_2,    SWITCH_3,    SWITCH_4,    SWITCH_5,    SWITCH_6,    _______,    _______,        _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______
+    ),
+
+
 };
 
 
@@ -301,12 +303,12 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [_DEFAULT_LAYER_3] = BASE_ENCODERS,
     [_DEFAULT_LAYER_4] = BASE_ENCODERS,
     [_MOUSE] = BASE_ENCODERS,
-    [_GAMEPAD]         = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(ENC_ALT_TAB_REV, ENC_ALT_TAB), ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(ENC_ALT_TAB_REV, ENC_ALT_TAB) },
-    [_BG]              = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(ENC_ALT_TAB_REV, ENC_ALT_TAB), ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(ENC_ALT_TAB_REV, ENC_ALT_TAB) },
-    [_MEDIA]           = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(KC_WH_D, KC_WH_U) },
+    // [_MEDIA]           = { ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(_______, _______ ), ENCODER_CCW_CW(KC_WH_D, KC_WH_U) },
     [_RAISE]           = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI),  ENCODER_CCW_CW(KC_WH_L, KC_WH_R), ENCODER_CCW_CW(RGB_HUD, RGB_HUI),  ENCODER_CCW_CW(RGB_SAD, RGB_SAI) },
     [_LOWER]           = { ENCODER_CCW_CW(RGB_HUD, RGB_HUI), ENCODER_CCW_CW(RGB_SAI, RGB_SAD), ENCODER_CCW_CW(RGB_SPD, RGB_SPI), ENCODER_CCW_CW(RGB_VAD, RGB_VAI) },
     [_ADJUST]          = { ENCODER_CCW_CW(RGB_RMOD, RGB_MOD), ENCODER_CCW_CW(RGB_SPI, RGB_SPD), ENCODER_CCW_CW(RGB_RMOD, RGB_MOD), ENCODER_CCW_CW(RGB_SPI, RGB_SPD) },
+    [_GAMEPAD]         = { ENCODER_CCW_CW(ALTTABB, ALTTABF), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(CTLTABB, CTLTABF) },
+    [_BG]              = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU ), ENCODER_CCW_CW(KC_LBRC, KC_RBRC), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_DEL, KC_END) },
     [_KEYPAD]          = { ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(DPI_RMOD, DPI_MOD), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE) }
 };
 
@@ -462,7 +464,7 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
             drv2605l_pulse(DRV2605L_EFFECT_SHARP_TICK_1_100);
 #endif
             break;
-        case _MEDIA:
+        case _BG:
 #ifdef HAPTIC_ENABLE
             drv2605l_pulse(DRV2605L_EFFECT_PULSING_SHARP_1_100);
 #endif

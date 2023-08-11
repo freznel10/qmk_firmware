@@ -224,6 +224,8 @@ LV_IMG_DECLARE(ui_img_audio_32_png);    // assets\audio_32.png
 LV_IMG_DECLARE(ui_img_num_lock_32_png);    // assets\num_lock_32.png
 LV_IMG_DECLARE(ui_img_autocorrect_32_png);    // assets\autocorrect_32.png
 
+LV_IMG_DECLARE(ui_img_20466782); //baldur's gate logo
+
 
 // //////////////////////////////////////////////////////////////
 // // User Defines

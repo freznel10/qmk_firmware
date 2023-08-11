@@ -406,6 +406,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 set_auto_mouse_enable((AUTO_MOUSE_ENABLED) ^ 1);
                 auto_mouse_tg_off = !get_auto_mouse_enable();
             }
+            break;
         case ALTTABF:
             if (record->event.pressed) {
                 press_super_tab (false);

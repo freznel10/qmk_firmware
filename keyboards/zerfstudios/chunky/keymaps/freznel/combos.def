@@ -57,6 +57,16 @@ COMB(game_combo, GAMEPAD_TOGGLE, LGUI_T(KC_A), LALT_T(KC_R), LCTL_T(KC_S), LSFT_
 COMB(osmlsft_combo, OSM(MOD_LSFT), LSFT_T(KC_T), KC_D )
 COMB(osmrsft_combo, OSM(MOD_RGUI), RSFT_T(KC_N), KC_H )
 
+COMB(rbrckt_combo, KC_RBRC, LALT_T(KC_DEL), KC_X )
+COMB(lrbrckt_combo, KC_LBRC, LALT_T(KC_DEL), LCTL_T(KC_Z))
+
+COMB(fone_combo, KC_F1, KC_1, KC_Q)
+COMB(ftwo_combo, KC_F2, KC_2, KC_W)
+COMB(fthree_combo, KC_F3, KC_3, KC_F)
+COMB(ffour_combo, KC_F4, KC_4, KC_P)
+COMB(ffive_combo, KC_F5, KC_5, KC_B)
+COMB(feight_combo, KC_F8, KC_5, KC_B, KC_3, KC_F)
+
 SUBS(aml_combo, "AML/CFT", LGUI_T(KC_A), KC_C )
 SUBS(tks_combo, "Thanks", LSFT_T(KC_T), LCTL_T(KC_S), KC_K )
 SUBS(tkyk_combo, "Thank you", LSFT_T(KC_T), RSFT_T(KC_N), KC_Y)

@@ -60,8 +60,7 @@ SRC +=  ui/ui.c \
 		ui/assets/ui_img_caps_lock_32_png.c \
 		ui/assets/ui_img_num_lock_32_png.c \
 		ui/assets/ui_img_scroll_lock_32_png.c \
-		ui/assets/ui_img_autocorrect_32_png.c \
-		ui/assets/ui_img_autocorrect_32_png.c \
+		ui/assets/ui_img_20466782.c \
 		ui/assets/monitormund.c \
 		ui/bindings/bindings.c \
 		ui/fonts/ui_font_Futura12.c \

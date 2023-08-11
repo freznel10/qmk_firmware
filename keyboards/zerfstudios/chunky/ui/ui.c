@@ -925,12 +925,16 @@ void ui_active_layer_change(lv_event_t * e) {
                 lv_img_set_src(ui_Layer_Indicator, &ui_img_numpad_80_png);
                 lv_label_set_text(ui_Label_Layer_Name, "KEYPAD");
                 break;
-            case _MEDIA:
-                lv_img_set_src(ui_Layer_Indicator, &ui_img_emblem_80_png);
-                lv_label_set_text(ui_Label_Layer_Name, "MEDIA");
+            // case _MEDIA:
+            //     lv_img_set_src(ui_Layer_Indicator, &ui_img_emblem_80_png);
+            //     lv_label_set_text(ui_Label_Layer_Name, "MEDIA");
             case _GAMEPAD:
                 lv_img_set_src(ui_Layer_Indicator, &ui_img_emblem_80_png);
                 lv_label_set_text(ui_Label_Layer_Name, "GAMEPAD");
+                break;
+            case _BG:
+                lv_img_set_src(ui_Layer_Indicator, &ui_img_20466782);
+                lv_label_set_text(ui_Label_Layer_Name, "BALDUR");
                 break;
         }
         // lv_anim_2(ui_Layer_Indicator);

@@ -46,13 +46,13 @@ enum userspace_layers {
     _DVORAK,
     LAST_DEFAULT_LAYER = _DVORAK,
     _MOUSE,
-    _MEDIA,
+    // _MEDIA,
     _LOWER,
     _RAISE,
     _ADJUST,
-    _KEYPAD,
     _GAMEPAD,
-    _BG
+    _BG,
+    _KEYPAD
 };
 
 #define _DEFAULT_LAYER_1 FIRST_DEFAULT_LAYER
