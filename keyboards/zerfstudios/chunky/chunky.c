@@ -189,7 +189,7 @@ void chunky_set_pointer_dragscroll_enabled(bool enable) {
 }
 
 void pointing_device_init_kb(void) {
-    set_auto_mouse_layer(4);
+    set_auto_mouse_layer(_MOUSE);
     set_auto_mouse_enable(true);
     maybe_update_pointing_device_cpi(&g_chunky_config);
 }

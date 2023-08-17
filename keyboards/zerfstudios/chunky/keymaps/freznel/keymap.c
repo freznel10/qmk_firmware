@@ -46,6 +46,7 @@
 #define VIA_WTH VIA_WIDTH
 #define TCK_PRE TRACK_POSTURE
 #define TCK_CME TRACK_CORNER_MODE
+#define NUM_TAB LT(_KEYPAD, KC_TAB)
 
 static bool     MIDI_ARM = false;
 extern MidiDevice midi_device;
@@ -76,7 +77,7 @@ enum custom_keycodes {
                                 A(KC_F4),   TAB_RSE,    SPC_LSH,    ENT_LWR,    KC_BTN1,                        KC_BTN1,    ESC_LWR,    BSP_KEY,    DEL_RSE,    SELWORD, \
                                 LVGL_BTN,   C(KC_B),   PM_TG(2),   KC_BTN3,    KC_BTN2,                        KC_BTN2,    C_L,        C_R,        PM_TG(3),   PMR_CYD, \
                                 DPI_RMOD,   KC_PGDN,    KC_PGUP,    DPI_MOD,    KC_MUTE,                        RGB_TOG1,   PMR_LEFT,   KC_PGDN,    KC_PGUP,    PMR_RGHT,\
-    RGB_RMOD,       RGB_MOD,    RGB_SAD,   RGB_SAI,     TT(_BG),   KC_RGB_T,      KC_F7,      KC_F8,      KC_9,   KC_F10,     KC_F11,     KC_F12,     KC_F13,     KC_F14,     KC_F15,     KC_F16\
+    RGB_RMOD,       RGB_MOD,    RGB_SAD,   RGB_SAI,     TG(_BG),   KC_RGB_T,      KC_F7,      KC_F8,      KC_9,   KC_F10,     KC_F11,     KC_F12,     KC_F13,     KC_F14,     KC_F15,     KC_F16\
     )
 
 #define LAYOUT_base_wrapper(...) LAYOUT_4x6_base(__VA_ARGS__)
@@ -164,7 +165,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,                 ______________COLEMAK_MOD_DH_L1____________,                                                        ______________COLEMAK_MOD_DH_R1____________,    _______,
         KC_LSFT,                ______________COLEMAK_MOD_DH_L2____________,                                                        ______________COLEMAK_MOD_DH_R2____________,    
         KC_LCTL,                ______________COLEMAK_MOD_DH_L3____________,                                                        ______________COLEMAK_MOD_DH_R3____________,    _______,
-                                            KC_E,       KC_LALT,   KC_SPACE,     KC_TAB,    _______,        KC_BTN1,    KC_BTN3,    _______,    _______,    _______,
+                                            KC_E,       KC_LALT,   KC_SPACE,    NUM_TAB,    _______,        KC_BTN1,    KC_BTN3,    _______,    _______,    _______,
                                             KC_K,          KC_I,       KC_J,       KC_M,    _______,        KC_BTN2,    KC_PGDN,    KC_PGUP,    _______,    _______,
                                             KC_HOME,    KC_DOWN,      KC_UP,     KC_END,    _______,        _______,    _______,    _______,    _______,    _______,
         _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______
@@ -465,9 +466,9 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
 #endif
             break;
         case _BG:
-#ifdef HAPTIC_ENABLE
-            drv2605l_pulse(DRV2605L_EFFECT_PULSING_SHARP_1_100);
-#endif
+// #ifdef HAPTIC_ENABLE
+//             // drv2605l_pulse(DRV2605L_EFFECT_PULSING_SHARP_1_100);
+// #endif
             break;
         case _GAMEPAD:
 #ifdef HAPTIC_ENABLE

@@ -130,7 +130,6 @@
 #    define PERMISSIVE_HOLD
 #endif
 #define AUTO_MOUSE_DEFAULT_LAYER 4
-
 #ifndef TAPPING_TOGGLE
 #    define TAPPING_TOGGLE 1
 #endif

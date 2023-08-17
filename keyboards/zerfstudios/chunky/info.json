@@ -177,7 +177,7 @@
     "rgb_matrix": {
         "driver": "WS2812",
         "split_count": [34, 34],
-        "max_brightness": 220,
+        "max_brightness": 200,
         "hue_steps": 8,
         "sat_steps": 8,
         "val_steps": 8,

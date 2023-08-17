@@ -11,7 +11,7 @@ SWAP_HANDS_ENABLE = no
 SERIAL_DRIVER = vendor
 CUSTOM_KEYLOGGER = yes
 
-CUSTOM_MATRIX = lite
+CUSTOM_MATRIX = lite 
 
 COMBO_ENABLE = yes
 VPATH += keyboards/gboards
