@@ -32,7 +32,7 @@
 #ifdef HAPTIC_ENABLE
 #   include "drivers/haptic/drv2605l.h"
 #endif
-
+ 
 #include "adps9660.h"
 
 #define DQT QK_DEBUG_TOGGLE
