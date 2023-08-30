@@ -1,4 +1,9 @@
+<<<<<<<< HEAD:keyboards/zerfstudios/chunky/rev3/rev3.h
 /* Copyright 2022 Freznel B. Sta. Ana (Freznel10)
+========
+/* 
+ * Copyright 2023 owlab
+>>>>>>>> upstream/develop:keyboards/owlab/jelly_evolv/config.h
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +20,13 @@
  */
 #pragma once
 
+<<<<<<<< HEAD:keyboards/zerfstudios/chunky/rev3/rev3.h
 #include "chunky.h"
 
 
+========
+/* RGB Strip*/
+#    define RGBLIGHT_DEFAULT_MODE RGBLIGHT_MODE_RAINBOW_SWIRL + 5
+#    define RGBLIGHT_EFFECT_BREATHE_CENTER 1.0
+#    define RGBLIGHT_EFFECT_BREATHE_MAX    100
+>>>>>>>> upstream/develop:keyboards/owlab/jelly_evolv/config.h
