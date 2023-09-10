@@ -161,7 +161,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_BG] = LAYOUT_4x6_wrapper(
-        KC_GRAVE,               ________________NUMBER_LEFT________________,                                                        ________________NUMBER_RIGHT_______________,    G(KC_D),
+        KC_0,                   ________________NUMBER_LEFT________________,                                                        ________________NUMBER_RIGHT_______________,    G(KC_D),
         KC_TAB,                 ______________COLEMAK_MOD_DH_L1____________,                                                        ______________COLEMAK_MOD_DH_R1____________,    _______,
         KC_LSFT,                ______________COLEMAK_MOD_DH_L2____________,                                                        ______________COLEMAK_MOD_DH_R2____________,    
         KC_LCTL,                ______________COLEMAK_MOD_DH_L3____________,                                                        ______________COLEMAK_MOD_DH_R3____________,    _______,
