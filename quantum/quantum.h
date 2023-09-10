@@ -212,6 +212,10 @@ extern layer_state_t layer_state;
 #    endif
 #endif
 
+#ifdef MOUSEKEY_ENABLE
+#    include "mousekey.h"
+#endif
+
 #ifdef CAPS_WORD_ENABLE
 #    include "caps_word.h"
 #    include "process_caps_word.h"
