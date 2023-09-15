@@ -81,7 +81,7 @@
 	//#define HAPTIC_OFF_IN_LOW_POWER 1 //Turn off haptic feedback while sleeping (+54).
 	// #define NO_HAPTIC_PUNCTUATION
 	#define NO_HAPTIC_ALPHA
-	// #define NO_HAPTIC_MOD
+	#define NO_HAPTIC_MOD
     // #define NO_HAPTIC_FN
     #define DRV2605L_GREETING       DRV2605L_EFFECT_750_MS_ALERT_100
     #define DRV2605L_MODE_DEFAULT   DRV2605L_EFFECT_SHARP_CLICK_30
