@@ -24,7 +24,9 @@
 #include "color.h"
 #include "keyboard.h"
 
-#ifdef IS31FL3731
+#if defined(IS31FL3218)
+#    include "is31fl3218.h"
+#elif defined(IS31FL3731)
 #    include "is31fl3731.h"
 #elif defined(IS31FL3733)
 #    include "is31fl3733.h"
@@ -38,8 +40,8 @@
 #    include "is31flcommon.h"
 #elif defined(CKLED2001)
 #    include "ckled2001.h"
-#elif defined(AW20216)
-#    include "aw20216.h"
+#elif defined(AW20216S)
+#    include "aw20216s.h"
 #elif defined(WS2812)
 #    include "ws2812.h"
 #endif
