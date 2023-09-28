@@ -68,10 +68,6 @@
 #    include "process_unicode_common.h"
 #endif
 
-#ifdef VELOCIKEY_ENABLE
-#    include "velocikey.h"
-#endif
-
 #ifdef AUDIO_ENABLE
 #    ifndef GOODBYE_SONG
 #        define GOODBYE_SONG SONG(GOODBYE_SOUND)
@@ -280,23 +276,23 @@ bool process_record_quantum(keyrecord_t *record) {
     }
 #endif
 
-#ifdef VELOCIKEY_ENABLE
-    if (velocikey_enabled() && record->event.pressed) {
-        velocikey_accelerate();
+#ifdef TAP_DANCE_ENABLE
+    if (preprocess_tap_dance(keycode, record)) {
+        // The tap dance might have updated the layer state, therefore the
+        // result of the keycode lookup might change.
+        keycode = get_record_keycode(record, true);
+    }
+#endif
+
+#ifdef RGBLIGHT_ENABLE
+    if (record->event.pressed) {
+        preprocess_rgblight();
     }
 #endif
 
 #ifdef WPM_ENABLE
     if (record->event.pressed) {
         update_wpm(keycode);
-    }
-#endif
-
-#ifdef TAP_DANCE_ENABLE
-    if (preprocess_tap_dance(keycode, record)) {
-        // The tap dance might have updated the layer state, therefore the
-        // result of the keycode lookup might change.
-        keycode = get_record_keycode(record, true);
     }
 #endif
 
@@ -388,12 +384,8 @@ bool process_record_quantum(keyrecord_t *record) {
 #ifdef AUTOCORRECT_ENABLE
             process_autocorrect(keycode, record) &&
 #endif
-
 #ifdef TRI_LAYER_ENABLE
             process_tri_layer(keycode, record) &&
-#endif
-#if defined(POINTING_DEVICE_ENABLE) && defined(POINTING_DEVICE_MODES_ENABLE)
-            process_pointing_mode_records(keycode, record) &&
 #endif
             true)) {
         return false;
