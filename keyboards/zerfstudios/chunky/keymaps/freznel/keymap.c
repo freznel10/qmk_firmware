@@ -77,7 +77,7 @@ enum custom_keycodes {
                                 A(KC_F4),   TAB_RSE,    SPC_LSH,    ENT_LWR,    KC_BTN1,                        KC_BTN1,    ESC_LWR,    BSP_KEY,    DEL_RSE,    SELWORD, \
                                 LVGL_BTN,   C(KC_B),   PM_TG(2),   KC_BTN3,    KC_BTN2,                        KC_BTN2,    C_L,        C_R,        PM_TG(3),   PMR_CYD, \
                                 DPI_RMOD,   KC_PGDN,    KC_PGUP,    DPI_MOD,    KC_MUTE,                        RGB_TOG1,   PMR_LEFT,   KC_PGDN,    KC_PGUP,    PMR_RGHT,\
-    RGB_RMOD,       RGB_MOD,    RGB_SAD,   RGB_SAI,     TG(_BG),   KC_RGB_T,      KC_F7,      KC_F8,      KC_9,   KC_F10,     KC_F11,     KC_F12,     KC_F13,     KC_F14,     KC_F15,     KC_F16\
+    RGB_RMOD,       RGB_MOD,    RGB_SAD,   TG(_GAMEPAD),     TG(_BG),   KC_RGB_T,      KC_F7,      KC_F8,      KC_9,   KC_F10,     KC_F11,     KC_F12,     KC_F13,     KC_F14,     KC_F15,     KC_F16\
     )
 
 #define LAYOUT_base_wrapper(...) LAYOUT_4x6_base(__VA_ARGS__)
@@ -154,7 +154,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_CAPS,                _________________GAMING_L1_________________,                                                        _________________GAMING_R1_________________,    _______,
         KC_RSFT,                _________________GAMING_L2_________________,                                                        _________________GAMING_R2_________________,    KC_QUOT,
         KC_RCTL,                _________________GAMING_L3_________________,                                                        _________________GAMING_R3_________________,    _______,
-                                            KC_LGUI,    KC_LALT,   KC_SPACE,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
+                                            KC_V,          KC_G,   KC_SPACE,       KC_T,    _______,        _______,    _______,    _______,    _______,    _______,
                                             _______,       KC_T,       KC_G,       KC_B,    _______,        _______,    _______,    _______,    _______,    _______,
                                             KC_LEFT,    KC_DOWN,      KC_UP,   KC_RIGHT,    _______,        _______,    _______,    _______,    _______,    _______,
         _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______
@@ -309,7 +309,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [_LOWER]           = { ENCODER_CCW_CW(RGB_HUD, RGB_HUI), ENCODER_CCW_CW(RGB_SAI, RGB_SAD), ENCODER_CCW_CW(RGB_SPD, RGB_SPI), ENCODER_CCW_CW(RGB_VAD, RGB_VAI) },
     [_ADJUST]          = { ENCODER_CCW_CW(RGB_RMOD, RGB_MOD), ENCODER_CCW_CW(RGB_SPI, RGB_SPD), ENCODER_CCW_CW(RGB_RMOD, RGB_MOD), ENCODER_CCW_CW(RGB_SPI, RGB_SPD) },
     [_GAMEPAD]         = { ENCODER_CCW_CW(ALTTABB, ALTTABF), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(CTLTABB, CTLTABF) },
-    [_BG]              = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU ), ENCODER_CCW_CW(KC_LBRC, KC_RBRC), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_DEL, KC_END) },
+    [_BG]              = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU ), ENCODER_CCW_CW(KC_X, KC_C), ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_DEL, KC_END) },
     [_KEYPAD]          = { ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(DPI_RMOD, DPI_MOD), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE), ENCODER_CCW_CW(LVGL_CLOCKWISE, LVGL_COUNTER_CLOCKWISE) }
 };
 

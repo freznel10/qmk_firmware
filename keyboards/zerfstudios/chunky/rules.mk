@@ -28,7 +28,7 @@ CUSTOM_SPLIT_TRANSPORT_SYNC = yes
 HAPTIC_DRIVER = drv2605l
 USE_VL91022_LRA = no
 
-ifeq ($(strip $(USE_VL91022)), yes)
+ifeq ($(strip $(USE_VL91022)), yes)s
    USE_VL91022_LRA := yes
 endif
 
