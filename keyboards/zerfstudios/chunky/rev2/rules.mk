@@ -1,0 +1,5 @@
+VIA_ENABLE = yes
+WPM_ENABLE = yes
+UI_RENDER_WPM = yes
+CUSTOM_KEYLOGGER = yes
+POINTING_DEVICE_DRIVER = cirque_pinnacle_spi

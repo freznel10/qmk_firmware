@@ -1,0 +1,3 @@
+
+
+LCD_ONBOARD = no

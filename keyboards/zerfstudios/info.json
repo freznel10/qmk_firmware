@@ -1,0 +1,8 @@
+{
+  "manufacturer": "Zerf Studios",
+  "maintainer": "freznel10",
+  "url": "https://github.com/freznel10",
+  "usb": {
+    "vid": "0x2842"
+  }
+}
