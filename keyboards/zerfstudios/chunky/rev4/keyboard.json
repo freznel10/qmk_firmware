@@ -1,4 +1,7 @@
 {
     "keyboard_name": "chunky rev4",
-    "maintainer": "freznel10"
+    "maintainer": "freznel10",
+    "usb": {
+        "device_version": "0.4.0"
+    }
 }
