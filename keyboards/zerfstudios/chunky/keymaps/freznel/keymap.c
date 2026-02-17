@@ -106,7 +106,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_MOUSE] = LAYOUT_4x6(
         _______,    KC_E,       PM_MO(14),  TCK_PRE,    TCK_CME,    _______,                                                        _______,    TCK_CME,    TCK_PRE,    PM_MO(14),  KC_E,       _______,
-        _______,    S(KC_M),    TCK_WTH,    KC_BTN2,    VIA_WTH,    PM_MO(6),                                                       PM_MO(6),   VIA_WTH,    KC_BTN2,    TCK_WTH,    S(KC_M),    _______,
+        _______,    S(KC_M),    TCK_WTH,    KC_BTN2,    PM_MO(PM_DRAG),    PM_MO(6),                                                       PM_MO(6),   VIA_WTH,    KC_BTN2,    TCK_WTH,    S(KC_M),    _______,
         _______,    PM_MO(14),  ROTATE,     KC_BTN1,    KC_BTN3,    KB_MO_WINDOW,                                                   _______,    KC_BTN3,    KC_BTN1,    ROTATE,     PM_MO(14),  _______,
         KC_DEL,     KC_BTN1,    ROUTE,      TD_DRGS,    DRG_TCK,    PLC_VIA,                                                        _______,    _______,    TD_DRGS,    _______,    _______,    _______,
                                             _______,    _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,    _______,
