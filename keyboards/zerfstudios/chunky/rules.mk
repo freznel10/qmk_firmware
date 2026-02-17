@@ -1,3 +1,5 @@
+VIA_ENABLE = yes
+
 KEYBOARD_SHARED_EP = no  # Free up some extra endpoints - needed if console+mouse
 MIDI_ENABLE = yes
 POINTING_DEVICE_ENABLE = yes
