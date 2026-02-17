@@ -7,7 +7,6 @@
 #ifdef HAPTIC_ENABLE
 #include "drivers/haptic/drv2605l.h"
 #endif
-#include "pointing_device_modes.h"
 
 // static uint16_t mouse_debounce_timer = 0;
 bool            enable_acceleration = false;

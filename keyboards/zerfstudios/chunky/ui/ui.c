@@ -11,7 +11,6 @@
 #include <ctype.h>
 #include "../chunky/chunky.h"
 #include "quantum.h"
-#include "pointing_device_modes.h"
 #include "users/freznel/split/transport_sync.h"
 #ifdef OS_DETECTION_ENABLE
 #include "os_detection.h"
@@ -686,53 +685,54 @@ void set_pm_text_value(lv_obj_t* lbl) {
         const char *pm_name = "-----";
         const char *pm_side = "-";
         switch (user_state.split_pointing_mode) {
-            case PM_PRECISION:
-                pm_name = "PRECISION";
+            case PM_NONE:
+                pm_name = "PM: NONE";
                 break;
             case PM_DRAG:
                 pm_name = "PM_DRAG";
                 break;
-            case 3:
-                pm_name = "CARET";
-                break;
-            case 4:
-                pm_name = "HISTORY";
-                break;
-            case 5:
-                pm_name = "VOLUME";
-                break;
-            case 6:
+            case PM_BROW:
                 pm_name = "BROWSER";
                 break;
-            case 7:
+            case PM_RGB_MODE_VAL:
                 pm_name = "RGB_VAL";
                 break;
-            case 8:
+            case PM_RGB_HUE_SAT:
                 pm_name = "RGB_SAT";
                 break;
-            case 9:
+            case PM_RGB_SPEED:
                 pm_name = "RGB_SPEED";
                 break;
-            case 10:
+            case PM_WINDOW:
                 pm_name = "WINDOW";
                 break;
-            case 11:
-                pm_name = "WINDOW";
+            case PM_SWITCHER:
+                pm_name = "SWITCHER";
                 break;
-            case 12:
-                pm_name = "ALT_TAB";
-                break;
-            case 13:
-                pm_name = "ACCELL";
-            case 14:
+            case PM_BROWSER_CONTROL:
                 pm_name = "BACK_FWD";
                 break;
-            case 15:
+            case PM_CARET:
+                pm_name = "CARET";
+                break;
+            case PM_HISTORY:
+                pm_name = "HISTORY";
+                break;
+            case PM_VOL:
+                pm_name = "VOLUME";
+                break;
+            case PM_APP_2:
+                pm_name = "ALT_TAB";
+                break;
+            case PM_WIN_POS:
                 pm_name = "WIN_POS";
                 break;
-            // case 16:
-            //     pm_name = "ACCELL";
-            //     break;
+            case PM_CUR_ACCEL:
+                pm_name = "ACCELL";
+                break;
+            case PM_PRECISION:
+                pm_name = "PRECISION";
+                break;
             default:
                 pm_name = "PM: NONE";
                 break;

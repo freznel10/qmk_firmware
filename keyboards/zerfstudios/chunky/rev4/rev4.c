@@ -18,5 +18,5 @@
 #include "rev4.h"
 
 bool auto_mouse_activation(report_mouse_t mouse_report) {
-    return mouse_report.x != 0|| mouse_report.y != 0 || mouse_report.h != 0|| mouse_report.v != 0 || mouse_report.buttons || (get_toggled_pointing_mode_id() == 3);
+    return mouse_report.x != 0|| mouse_report.y != 0 || mouse_report.h != 0|| mouse_report.v != 0 || mouse_report.buttons || (pointing_modes_get_toggled_mode() == PM_DRAG);
 }

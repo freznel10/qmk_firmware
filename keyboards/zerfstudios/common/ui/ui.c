@@ -11,7 +11,6 @@
 #include <ctype.h>
 #include "../douballz/douballz.h"
 #include "quantum.h"
-#include "pointing_device_modes.h"
 #ifdef OS_DETECTION_ENABLE
 #include "os_detection.h"
 #endif

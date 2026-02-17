@@ -27,7 +27,6 @@
 #endif
 #include  "g/keymap_combo.h"
 
-#include "pointing_device_modes.h"
 #include "pointing_device.h"
 #ifdef HAPTIC_ENABLE
 #   include "drivers/haptic/drv2605l.h"
@@ -443,13 +442,13 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
 #ifdef HAPTIC_ENABLE
             drv2605l_pulse(DRV2605L_EFFECT_SOFT_BUMP_100);
 #endif
-            set_pointing_mode_id(PM_VOL);
+            pointing_modes_set_mode(PM_VOL);
             break;
         case _RAISE:
 #ifdef HAPTIC_ENABLE
             drv2605l_pulse(DRV2605L_EFFECT_TRANSITION_RAMP_DOWN_LONG_SHARP_1_100);
 #endif
-            set_pointing_mode_id(PM_CARET);
+            pointing_modes_set_mode(PM_CARET);
             break;
         case _ADJUST:
 #ifdef HAPTIC_ENABLE
@@ -460,7 +459,7 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
 #ifdef HAPTIC_ENABLE
             drv2605l_pulse(DRV2605L_EFFECT_TRANSITION_RAMP_DOWN_LONG_SHARP_1_100);
 #endif
-            set_pointing_mode_id(6);
+            pointing_modes_set_mode(6);
             break;
         case _MOUSE:
 #ifdef HAPTIC_ENABLE
@@ -478,8 +477,8 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
 #endif
             break;
         default:
-        if (get_toggled_pointing_mode_id() != get_pointing_mode_id()) {
-        set_pointing_mode_id(get_toggled_pointing_mode_id());
+        if (pointing_modes_get_toggled_mode() != pointing_modes_get_mode()) {
+        pointing_modes_set_mode(pointing_modes_get_toggled_mode());
          }
         break;
     }
