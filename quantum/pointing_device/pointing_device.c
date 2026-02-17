@@ -557,7 +557,7 @@ report_mouse_t pointing_device_adjust_by_defines_right(report_mouse_t mouse_repo
  * @return pointing_device_task_combined_kb(left_report, right_report) by default
  */
 report_mouse_t pointing_device_task_combined(report_mouse_t left_report, report_mouse_t right_report) {
-#    ifdef POINTING_DEVICE_MODE_ENABLE
+#    ifdef POINTING_DEVICE_MODES_ENABLE
 #        if POINTING_MODES_SINGLE_CONTROL
     // only one side controlled at any one time
     switch (pointing_modes_get_active_device()) {
