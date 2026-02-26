@@ -257,7 +257,7 @@ NOTE: These are all the same length.  If you do a search/replace
 #define _________________LOWER_R2__________________       _______, KC_HOME, KC_PGDN,  KC_PGUP, KC_END
 #define _________________LOWER_R3__________________       _______, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR
 
-#define _________________LOWER_R2_ALT______________       _______, C_L,     CS_L,    CS_R,    C_R
+#define _________________LOWER_R2_ALT______________       _______, C_L,     G_L,    G_R,    C_R
 #define _________________LOWER_R1_ALT______________       _______, KC_HOME, KC_PGDN,  KC_PGUP, KC_END
 #define _________________LOWER_R3__________________       _______, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR
 
