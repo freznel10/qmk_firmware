@@ -177,7 +177,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 
-#define BASE_ENCODERS { ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) }o
+#define BASE_ENCODERS { ENCODER_CCW_CW(KC_WH_D, KC_WH_U), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) }
 #define BASE_ENCODERS_EMBLEM { ENCODER_CCW_CW(KC_WH_U, KC_WH_D), ENCODER_CCW_CW(LVGL_COUNTER_CLOCKWISE, LVGL_CLOCKWISE), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) }
 #ifdef ENCODER_MAP_ENABLE
 #    if defined(KEYBOARD_zerfstudios_emblem)
@@ -400,21 +400,21 @@ int8_t last_v = 0;
 
 
 layer_state_t layer_state_set_keymap(layer_state_t state) {
-    if (get_toggled_pointing_mode_id() != get_pointing_mode_id()) {
-        set_pointing_mode_id(get_toggled_pointing_mode_id());
+    if (pointing_modes_get_toggled_mode() != pointing_modes_get_mode()) {
+        pointing_modes_set_mode(pointing_modes_get_toggled_mode());
     }
     switch (get_highest_layer(state)) {
         case _LOWER:
 #ifdef HAPTIC_ENABLE
             drv2605l_pulse(soft_bump);
 #endif
-            set_pointing_mode_id(PM_VOL);
+            pointing_modes_set_mode(PM_VOL);
             break;
         case _RAISE:
 #ifdef HAPTIC_ENABLE
             drv2605l_pulse(transition_rampup_short_sharp1_50);
 #endif
-            set_pointing_mode_id(PM_CARET);
+            pointing_modes_set_mode(PM_CARET);
             break;
         case _ADJUST:
 #ifdef HAPTIC_ENABLE
@@ -425,7 +425,7 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
 #ifdef HAPTIC_ENABLE
             drv2605l_pulse(transition_rampup_short_sharp1_50);
 #endif
-            set_pointing_mode_id(6);
+            pointing_modes_set_mode(6);
             break;
         case _MOUSE:
 #ifdef HAPTIC_ENABLE
@@ -509,8 +509,8 @@ void matrix_output_unselect_delay(uint8_t line, bool key_pressed) {
 
 void matrix_init_custom(void) {
     // SPI Matrix
-    setPinOutput(SPI_MATRIX_CHIP_SELECT_PIN);
-    writePinHigh(SPI_MATRIX_CHIP_SELECT_PIN);
+    gpio_set_pin_output(SPI_MATRIX_CHIP_SELECT_PIN);
+    gpio_write_pin_high(SPI_MATRIX_CHIP_SELECT_PIN);
     spi_init();
 }
 

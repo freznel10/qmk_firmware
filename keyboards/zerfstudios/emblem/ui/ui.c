@@ -8,7 +8,6 @@
 #include "bindings/bindings.h"
 #include "freznel.h"
 #include "../zerfstudios/emblem/emblem.h"
-#include "pointing_device_modes.h"
 
 #include "menu.h"
 #include "dial_menu/dial_menu.h"
@@ -359,7 +358,7 @@ void ui_event_StatusPanel(lv_event_t * e) {
     lv_event_code_t event_code = lv_event_get_code(e);
     // lv_obj_t * target = lv_event_get_target(e);
     if(event_code == USER_EVENT_PANEL_CHANGE) {
-        switch ((int)get_pointing_mode_id()) {
+        switch ((int)pointing_modes_get_mode()) {
         case 0:
             _ui_state_modify(ui_Status_Dragscroll, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
             _ui_state_modify(ui_Status_Caret, LV_STATE_FOCUSED, _UI_MODIFY_STATE_REMOVE);
@@ -863,8 +862,8 @@ void lvgl_event_triggers(void) {
     }
     bool            scroll_state_redraw = false;
     static uint8_t last_scroll_state   = 0;
-    if (last_scroll_state != get_pointing_mode_id()) {
-        last_scroll_state  = get_pointing_mode_id();
+    if (last_scroll_state != pointing_modes_get_mode()) {
+        last_scroll_state  = pointing_modes_get_mode();
         scroll_state_redraw = true;
     }
     bool            audio_state_redraw = false;

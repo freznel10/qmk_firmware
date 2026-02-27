@@ -518,8 +518,8 @@ void keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data){
 }
 
 void keyboard_post_init_kb(void) {
-    setPinOutput(LCD_POWER_ENABLE_PIN);
-    writePinHigh(LCD_POWER_ENABLE_PIN);
+    gpio_set_pin_output(LCD_POWER_ENABLE_PIN);
+    gpio_write_pin_high(LCD_POWER_ENABLE_PIN);
     qp_display = qp_gc9a01_make_spi_device(240, 240, DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, 8, 0);
     qp_init(qp_display, SCREEN_ORIENTATION);
     qp_rect(qp_display, 0, 0, 239, 239, 0, 255, 255, true);
